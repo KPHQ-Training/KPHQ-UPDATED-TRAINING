@@ -235,7 +235,7 @@
   .survey-q { margin-bottom: 25px; }
   .survey-q label { display: block; font-weight: 600; color: #DDEEE0; margin-bottom: 10px; }
   .survey-options { display: flex; flex-wrap: wrap; gap: 10px; }
-  .survey-options input[type="radio"] { display: none; }
+  .survey-options input[type="radio"], .survey-options input[type="checkbox"] { display: none; }
   .survey-options .opt {
     padding: 10px 15px; border-radius: 6px; font-size: 10pt;
     background: #060B08; color: #8CA692; border: 1px solid #1A2E22;
@@ -244,6 +244,14 @@
   .survey-options input:checked + .opt {
     background: #1A2E22; color: #438951; border-color: #438951;
   }
+  .other-specify {
+    margin-top: 10px; display: none;
+  }
+  .other-specify input {
+    width: 100%; padding: 10px; background: #060B08; color: #E0E0E0;
+    border: 1px solid #1A2E22; border-radius: 6px; font-family: 'Epilogue', sans-serif;
+  }
+  .other-specify input:focus { outline: none; border-color: #438951; }
   .survey-text {
     width: 100%; padding: 12px; background: #060B08; color: #E0E0E0;
     border: 1px solid #1A2E22; border-radius: 6px; font-family: 'Epilogue', sans-serif;
@@ -412,12 +420,22 @@
       </div>
 
       <div class="survey-q">
-        <label>4. Current Role?</label>
+        <label>4. Current Role(s)? (Select all that apply)</label>
         <div class="survey-options">
-          <input type="radio" name="q4" id="q4a" value="General VA"><label class="opt" for="q4a">General VA</label>
-          <input type="radio" name="q4" id="q4b" value="EA"><label class="opt" for="q4b">Executive Assistant</label>
-          <input type="radio" name="q4" id="q4c" value="SMM"><label class="opt" for="q4c">Social Media</label>
-          <input type="radio" name="q4" id="q4d" value="Admin"><label class="opt" for="q4d">Operations</label>
+          <input type="checkbox" name="q4" id="q4a" value="General VA"><label class="opt" for="q4a">General VA</label>
+          <input type="checkbox" name="q4" id="q4b" value="Executive Assistant"><label class="opt" for="q4b">Executive Assistant</label>
+          <input type="checkbox" name="q4" id="q4c" value="Social Media Manager"><label class="opt" for="q4c">Social Media Manager</label>
+          <input type="checkbox" name="q4" id="q4d" value="Operations/Admin"><label class="opt" for="q4d">Operations/Admin</label>
+          <input type="checkbox" name="q4" id="q4e" value="Sales/Lead Gen"><label class="opt" for="q4e">Sales/Lead Gen</label>
+          <input type="checkbox" name="q4" id="q4f" value="Customer Support"><label class="opt" for="q4f">Customer Support</label>
+          <input type="checkbox" name="q4" id="q4g" value="Bookkeeping/Finance"><label class="opt" for="q4g">Bookkeeping/Finance</label>
+          <input type="checkbox" name="q4" id="q4h" value="Project Manager"><label class="opt" for="q4h">Project Manager</label>
+          <input type="checkbox" name="q4" id="q4i" value="Content Writer"><label class="opt" for="q4i">Content Writer</label>
+          <input type="checkbox" name="q4" id="q4j" value="Web/Tech VA"><label class="opt" for="q4j">Web/Tech VA</label>
+          <input type="checkbox" name="q4" id="q4k" value="Other" onchange="toggleOther(this)"><label class="opt" for="q4k">Other</label>
+        </div>
+        <div class="other-specify" id="otherSpecify">
+          <input type="text" class="survey-text" id="q4Other" placeholder="Please specify your role(s)...">
         </div>
       </div>
 
@@ -613,6 +631,12 @@
     }
   }
 
+  // Toggle "Other" text field
+  function toggleOther(checkbox) {
+    var otherBox = document.getElementById('otherSpecify');
+    otherBox.style.display = checkbox.checked ? 'block' : 'none';
+  }
+
   // Google Script Integration for Day 1 Survey
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydga_XK3t0QOVPi7zlCLWXGMQGByxZqq77uUmRYSqE9zWvTluXXmL45yqloyy15TY/exec';
 
@@ -621,14 +645,27 @@
     var q1 = document.querySelector('input[name="q1"]:checked');
     var q2 = document.querySelector('input[name="q2"]:checked');
     var q3 = document.querySelector('input[name="q3"]:checked');
-    var q4 = document.querySelector('input[name="q4"]:checked');
+    var q4Checked = document.querySelectorAll('input[name="q4"]:checked');
     var errEl = document.getElementById('surveyError');
 
-    if (!name || !q1 || !q2 || !q3 || !q4) {
+    if (!name || !q1 || !q2 || !q3 || q4Checked.length === 0) {
       errEl.textContent = 'Please fill in all fields before submitting.';
       errEl.style.display = 'block';
       return;
     }
+
+    // Collect selected roles
+    var roles = [];
+    q4Checked.forEach(function(cb) {
+      if (cb.value === 'Other') {
+        var otherText = document.getElementById('q4Other').value.trim();
+        if (otherText) roles.push('Other: ' + otherText);
+        else roles.push('Other');
+      } else {
+        roles.push(cb.value);
+      }
+    });
+
     errEl.style.display = 'none';
 
     var btn = document.getElementById('surveyBtn');
@@ -641,7 +678,7 @@
       prompting: q1.value,
       aiKnowledge: q2.value,
       automation: q3.value,
-      role: q4.value
+      role: roles.join(', ')
     };
 
     fetch(SCRIPT_URL, {
