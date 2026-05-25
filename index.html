@@ -28,7 +28,7 @@
     letter-spacing: 1px;
   }
   .container {
-    max-width: 750px;
+    max-width: 700px;
     margin: 50px auto;
     padding: 0 20px;
   }
@@ -62,56 +62,45 @@
     padding-bottom: 8px;
     border-bottom: 1px solid #1A2E22;
   }
-  .day-block {
+  .day-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+  }
+  .day-list li {
+    margin-bottom: 12px;
+  }
+  .day-list a {
+    display: block;
     background: #111F17;
     border: 1px solid #1A2E22;
     border-radius: 8px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-  }
-  .day-header {
-    font-family: 'Fraunces', serif;
+    padding: 18px 24px;
     color: #DDEEE0;
-    font-size: 12pt;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .day-header .day-num {
-    color: #438951;
-    margin-right: 10px;
-  }
-  .session-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .session-list li {
-    margin-bottom: 8px;
-  }
-  .session-list a {
-    display: block;
-    background: #0D1A13;
-    border: 1px solid #1A2E22;
-    border-radius: 6px;
-    padding: 12px 16px;
-    color: #8CA692;
     text-decoration: none;
-    font-size: 10pt;
     transition: all 0.2s;
+    font-size: 11pt;
   }
-  .session-list a:hover {
+  .day-list a:hover {
     background: #1A2E22;
     border-color: #438951;
-    color: #DDEEE0;
   }
-  .session-list a .session-num {
+  .day-list a .day-num {
+    font-family: 'Fraunces', serif;
     color: #438951;
     font-weight: 600;
-    margin-right: 8px;
+    margin-right: 12px;
+  }
+  .day-list a .day-topic {
+    color: #8CA692;
+    font-size: 10pt;
+    display: block;
+    margin-top: 4px;
+    margin-left: 52px;
   }
   .glossary-link {
     text-align: center;
-    margin-top: 35px;
+    margin-top: 30px;
   }
   .glossary-link a {
     color: #438951;
@@ -123,7 +112,7 @@
     transition: all 0.2s;
   }
   .glossary-link a:hover {
-    background: rgba(67, 137, 81, 0.1 );
+    background: rgba(67, 137, 81, 0.1);
   }
   .footer {
     text-align: center;
@@ -146,56 +135,28 @@
   <p class="confidential">For internal use only and must be kept confidential</p>
 
   <div class="week-label">Week 1: AI Fundamentals & Prompting</div>
-
-  <div class="day-block">
-    <div class="day-header"><span class="day-num">Day 1</span> Prompting Mastery & AI Fundamentals</div>
-    <ul class="session-list">
-      <li><a href="Day01_AI_Fundamentals.html#slide1"><span class="session-num">Session 1:</span> The AI Landscape & Benchmarking</a></li>
-      <li><a href="Day01_AI_Fundamentals.html#slide2"><span class="session-num">Session 2:</span> The Anatomy of a Perfect Prompt</a></li>
-      <li><a href="Day01_AI_Fundamentals.html#slide3"><span class="session-num">Session 3:</span> Best Practices, Compliance & Security</a></li>
-      <li><a href="Day01_AI_Fundamentals.html#slide4"><span class="session-num">Session 4:</span> Advanced Constraints & Formatting</a></li>
-    </ul>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header"><span class="day-num">Day 2</span> Introduction to Claude & Free-Tier Tools</div>
-    <ul class="session-list">
-      <li><a href="Day02_Prompting_Mastery.html#slide1"><span class="session-num">Session 1:</span> Claude Overview & Interface</a></li>
-      <li><a href="Day02_Prompting_Mastery.html#slide2"><span class="session-num">Session 2:</span> Free-Tier Tool Comparisons</a></li>
-      <li><a href="Day02_Prompting_Mastery.html#slide3"><span class="session-num">Session 3:</span> Practical Applications & Case Studies</a></li>
-      <li><a href="Day02_Prompting_Mastery.html#slide4"><span class="session-num">Session 4:</span> Building Your AI Workflow</a></li>
-    </ul>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header"><span class="day-num">Day 3</span> Tool Selection & Security</div>
-    <ul class="session-list">
-      <li><a href="Day03_Tool_Selection.html#slide1"><span class="session-num">Session 1:</span> The 5 Core AI Categories</a></li>
-      <li><a href="Day03_Tool_Selection.html#slide2"><span class="session-num">Session 2:</span> Pros, Cons & Trade-offs</a></li>
-      <li><a href="Day03_Tool_Selection.html#slide3"><span class="session-num">Session 3:</span> Compliance & Data Security</a></li>
-      <li><a href="Day03_Tool_Selection.html#slide4"><span class="session-num">Session 4:</span> Role-Based Tool Mapping</a></li>
-    </ul>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header"><span class="day-num">Day 4</span> Claude Deep Dive</div>
-    <ul class="session-list">
-      <li><a href="Day04_Claude_Deep_Dive.html#slide1"><span class="session-num">Session 1:</span> Model Tiers (Haiku/Sonnet/Opus)</a></li>
-      <li><a href="Day04_Claude_Deep_Dive.html#slide2"><span class="session-num">Session 2:</span> Artifacts & Projects</a></li>
-      <li><a href="Day04_Claude_Deep_Dive.html#slide3"><span class="session-num">Session 3:</span> Context Windows & Extended Thinking</a></li>
-      <li><a href="Day04_Claude_Deep_Dive.html#slide4"><span class="session-num">Session 4:</span> MCP & Advanced Features</a></li>
-    </ul>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header"><span class="day-num">Day 5</span> Cowork & Agentic AI</div>
-    <ul class="session-list">
-      <li><a href="Day05_Cowork_Agentic_AI.html#slide1"><span class="session-num">Session 1:</span> Manus & Deep Research</a></li>
-      <li><a href="Day05_Cowork_Agentic_AI.html#slide2"><span class="session-num">Session 2:</span> Agentic Workflows</a></li>
-      <li><a href="Day05_Cowork_Agentic_AI.html#slide3"><span class="session-num">Session 3:</span> n8n & Zapier Basics</a></li>
-      <li><a href="Day05_Cowork_Agentic_AI.html#slide4"><span class="session-num">Session 4:</span> KeyCommand Introduction</a></li>
-    </ul>
-  </div>
+  <ul class="day-list">
+    <li><a href="Day01_AI_Fundamentals.html">
+      <span class="day-num">Day 1</span> Prompting Mastery & AI Fundamentals
+      <span class="day-topic">AI Landscape, Benchmarking, CLEAR Framework, Metaprompting, Cross-referencing</span>
+    </a></li>
+    <li><a href="Day02_Prompting_Mastery.html">
+      <span class="day-num">Day 2</span> Introduction to Claude & Free-Tier Tools
+      <span class="day-topic">Claude overview, tool comparisons, case studies</span>
+    </a></li>
+    <li><a href="Day03_Tool_Selection.html">
+      <span class="day-num">Day 3</span> Tool Selection & Security
+      <span class="day-topic">5 Core Categories, pros/cons, compliance, role-based mapping</span>
+    </a></li>
+    <li><a href="Day04_Claude_Deep_Dive.html">
+      <span class="day-num">Day 4</span> Claude Deep Dive
+      <span class="day-topic">Haiku/Sonnet/Opus, Artifacts, Projects, Context Windows, MCP</span>
+    </a></li>
+    <li><a href="Day05_Cowork_Agentic_AI.html">
+      <span class="day-num">Day 5</span> Cowork & Agentic AI
+      <span class="day-topic">Manus, deep research, n8n/Zapier, KeyCommand intro</span>
+    </a></li>
+  </ul>
 
   <div class="glossary-link">
     <a href="KP_AI_Glossary.html">View AI Glossary</a>
