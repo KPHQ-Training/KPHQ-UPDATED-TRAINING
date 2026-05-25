@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KP-AI Academy | KeyPlayers HQ Training Program</title>
+<title>KeyPlayers VA Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
@@ -16,16 +16,20 @@
   }
   .header {
     background: #060B08;
-    padding: 20px 40px;
+    padding: 18px 40px;
     text-align: center;
     border-bottom: 1px solid #1A2E22;
   }
-  .header img {
-    max-height: 40px;
+  .header-text {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 14pt;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
   .container {
-    max-width: 700px;
-    margin: 60px auto;
+    max-width: 750px;
+    margin: 50px auto;
     padding: 0 20px;
   }
   h1 {
@@ -33,62 +37,81 @@
     color: #DDEEE0;
     font-weight: 500;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-size: 24pt;
   }
   .subtitle {
     text-align: center;
     color: #8CA692;
-    margin-bottom: 50px;
+    margin-bottom: 8px;
     font-size: 11pt;
+  }
+  .confidential {
+    text-align: center;
+    color: #ef4444;
+    font-size: 9.5pt;
+    font-weight: 600;
+    margin-bottom: 45px;
+    letter-spacing: 0.5px;
   }
   .week-label {
     font-family: 'Fraunces', serif;
     color: #438951;
     font-size: 13pt;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding-bottom: 8px;
     border-bottom: 1px solid #1A2E22;
   }
-  .day-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
-  }
-  .day-list li {
-    margin-bottom: 12px;
-  }
-  .day-list a {
-    display: block;
+  .day-block {
     background: #111F17;
     border: 1px solid #1A2E22;
     border-radius: 8px;
-    padding: 18px 24px;
-    color: #DDEEE0;
-    text-decoration: none;
-    transition: all 0.2s;
-    font-size: 11pt;
+    padding: 20px 24px;
+    margin-bottom: 20px;
   }
-  .day-list a:hover {
+  .day-header {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 12pt;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .day-header .day-num {
+    color: #438951;
+    margin-right: 10px;
+  }
+  .session-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .session-list li {
+    margin-bottom: 8px;
+  }
+  .session-list a {
+    display: block;
+    background: #0D1A13;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #8CA692;
+    text-decoration: none;
+    font-size: 10pt;
+    transition: all 0.2s;
+  }
+  .session-list a:hover {
     background: #1A2E22;
     border-color: #438951;
+    color: #DDEEE0;
   }
-  .day-list a .day-num {
-    font-family: 'Fraunces', serif;
+  .session-list a .session-num {
     color: #438951;
     font-weight: 600;
-    margin-right: 12px;
-  }
-  .day-list a .day-topic {
-    color: #8CA692;
-    font-size: 10pt;
-    display: block;
-    margin-top: 4px;
-    margin-left: 52px;
+    margin-right: 8px;
   }
   .glossary-link {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 35px;
   }
   .glossary-link a {
     color: #438951;
@@ -100,13 +123,13 @@
     transition: all 0.2s;
   }
   .glossary-link a:hover {
-    background: rgba(67, 137, 81, 0.1);
+    background: rgba(67, 137, 81, 0.1 );
   }
   .footer {
     text-align: center;
     color: #5A7061;
     font-size: 9.5pt;
-    margin-top: 60px;
+    margin-top: 50px;
     padding-bottom: 40px;
   }
 </style>
@@ -114,46 +137,65 @@
 <body>
 
 <div class="header">
-  <img src="https://via.placeholder.com/200x40/060B08/DDEEE0?text=KEYPLAYERS+HQ" alt="Keyplayers HQ Logo">
+  <span class="header-text">KeyPlayers VA Academy</span>
 </div>
 
 <div class="container">
   <h1>KP-AI Academy</h1>
   <p class="subtitle">AI Operator Training Program | KeyPlayers HQ</p>
+  <p class="confidential">For internal use only and must be kept confidential</p>
 
   <div class="week-label">Week 1: AI Fundamentals & Prompting</div>
-  <ul class="day-list">
-    <li>
-      <a href="Day01_AI_Fundamentals.html">
-        <span class="day-num">Day 1</span> Prompting Mastery & AI Fundamentals
-        <span class="day-topic">AI Landscape, Benchmarking, CLEAR Framework, Metaprompting, Cross-referencing</span>
-      </a>
-    </li>
-    <li>
-      <a href="Day02_Prompting_Mastery.html">
-        <span class="day-num">Day 2</span> Introduction to Claude & Free-Tier Tools
-        <span class="day-topic">Claude overview, tool comparisons, case studies</span>
-      </a>
-    </li>
-    <li>
-      <a href="Day03_Tool_Selection.html">
-        <span class="day-num">Day 3</span> Tool Selection & Security
-        <span class="day-topic">5 Core Categories, pros/cons, compliance, role-based mapping</span>
-      </a>
-    </li>
-    <li>
-      <a href="Day04_Claude_Deep_Dive.html">
-        <span class="day-num">Day 4</span> Claude Deep Dive
-        <span class="day-topic">Haiku/Sonnet/Opus, Artifacts, Projects, Context Windows, MCP</span>
-      </a>
-    </li>
-    <li>
-      <a href="Day05_Cowork_Agentic_AI.html">
-        <span class="day-num">Day 5</span> Cowork & Agentic AI
-        <span class="day-topic">Manus, deep research, n8n/Zapier, KeyCommand intro</span>
-      </a>
-    </li>
-  </ul>
+
+  <div class="day-block">
+    <div class="day-header"><span class="day-num">Day 1</span> Prompting Mastery & AI Fundamentals</div>
+    <ul class="session-list">
+      <li><a href="Day01_AI_Fundamentals.html#slide1"><span class="session-num">Session 1:</span> The AI Landscape & Benchmarking</a></li>
+      <li><a href="Day01_AI_Fundamentals.html#slide2"><span class="session-num">Session 2:</span> The Anatomy of a Perfect Prompt</a></li>
+      <li><a href="Day01_AI_Fundamentals.html#slide3"><span class="session-num">Session 3:</span> Best Practices, Compliance & Security</a></li>
+      <li><a href="Day01_AI_Fundamentals.html#slide4"><span class="session-num">Session 4:</span> Advanced Constraints & Formatting</a></li>
+    </ul>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header"><span class="day-num">Day 2</span> Introduction to Claude & Free-Tier Tools</div>
+    <ul class="session-list">
+      <li><a href="Day02_Prompting_Mastery.html#slide1"><span class="session-num">Session 1:</span> Claude Overview & Interface</a></li>
+      <li><a href="Day02_Prompting_Mastery.html#slide2"><span class="session-num">Session 2:</span> Free-Tier Tool Comparisons</a></li>
+      <li><a href="Day02_Prompting_Mastery.html#slide3"><span class="session-num">Session 3:</span> Practical Applications & Case Studies</a></li>
+      <li><a href="Day02_Prompting_Mastery.html#slide4"><span class="session-num">Session 4:</span> Building Your AI Workflow</a></li>
+    </ul>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header"><span class="day-num">Day 3</span> Tool Selection & Security</div>
+    <ul class="session-list">
+      <li><a href="Day03_Tool_Selection.html#slide1"><span class="session-num">Session 1:</span> The 5 Core AI Categories</a></li>
+      <li><a href="Day03_Tool_Selection.html#slide2"><span class="session-num">Session 2:</span> Pros, Cons & Trade-offs</a></li>
+      <li><a href="Day03_Tool_Selection.html#slide3"><span class="session-num">Session 3:</span> Compliance & Data Security</a></li>
+      <li><a href="Day03_Tool_Selection.html#slide4"><span class="session-num">Session 4:</span> Role-Based Tool Mapping</a></li>
+    </ul>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header"><span class="day-num">Day 4</span> Claude Deep Dive</div>
+    <ul class="session-list">
+      <li><a href="Day04_Claude_Deep_Dive.html#slide1"><span class="session-num">Session 1:</span> Model Tiers (Haiku/Sonnet/Opus)</a></li>
+      <li><a href="Day04_Claude_Deep_Dive.html#slide2"><span class="session-num">Session 2:</span> Artifacts & Projects</a></li>
+      <li><a href="Day04_Claude_Deep_Dive.html#slide3"><span class="session-num">Session 3:</span> Context Windows & Extended Thinking</a></li>
+      <li><a href="Day04_Claude_Deep_Dive.html#slide4"><span class="session-num">Session 4:</span> MCP & Advanced Features</a></li>
+    </ul>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header"><span class="day-num">Day 5</span> Cowork & Agentic AI</div>
+    <ul class="session-list">
+      <li><a href="Day05_Cowork_Agentic_AI.html#slide1"><span class="session-num">Session 1:</span> Manus & Deep Research</a></li>
+      <li><a href="Day05_Cowork_Agentic_AI.html#slide2"><span class="session-num">Session 2:</span> Agentic Workflows</a></li>
+      <li><a href="Day05_Cowork_Agentic_AI.html#slide3"><span class="session-num">Session 3:</span> n8n & Zapier Basics</a></li>
+      <li><a href="Day05_Cowork_Agentic_AI.html#slide4"><span class="session-num">Session 4:</span> KeyCommand Introduction</a></li>
+    </ul>
+  </div>
 
   <div class="glossary-link">
     <a href="KP_AI_Glossary.html">View AI Glossary</a>
