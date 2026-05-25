@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KP AI Training — Glossary</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Epilogue', Arial, sans-serif;
+    font-size: 11pt;
+    color: #405449;
+    background: #F4F9F4;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cover {
+    background: #3B4540;
+    color: white;
+    text-align: center;
+    padding: 60px 40px 50px;
+  }
+  .cover h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 26pt;
+    margin: 0 0 10px;
+    color: #DDEEE0;
+  }
+  .cover .sub { font-size: 12pt; color: #9DB89D; margin: 0 0 6px; }
+  .cover .count { font-size: 10pt; color: #7A9A7A; margin: 0; }
+
+  .intro {
+    max-width: 780px;
+    margin: 36px auto;
+    padding: 0 40px;
+    color: #405449;
+    font-size: 11pt;
+    line-height: 1.7;
+  }
+
+  .alpha-index {
+    max-width: 780px;
+    margin: 0 auto 36px;
+    padding: 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .alpha-index a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: #438951;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 10pt;
+  }
+  .alpha-index a:hover { background: #2C5F2D; }
+  .alpha-index span {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: #D5E0D5;
+    color: #9AAA9A;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 10pt;
+  }
+
+  .section {
+    max-width: 780px;
+    margin: 0 auto 12px;
+    padding: 0 40px;
+  }
+
+  .letter-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 18pt;
+    font-weight: 500;
+    color: #438951;
+    border-bottom: 3px solid #438951;
+    padding-bottom: 4px;
+    margin: 40px 0 16px;
+  }
+
+  .term-card {
+    background: #FAFFFA;
+    border: 1px solid #D8E8D8;
+    border-left: 5px solid #438951;
+    border-radius: 0 6px 6px 0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .term-card.advanced { border-left-color: #6B4C9A; }
+  .term-card.ghl { border-left-color: #2C6B5A; }
+  .term-card.format { border-left-color: #9B7544; }
+  .term-card.security { border-left-color: #B02020; }
+  .term-card.pm { border-left-color: #0073e6; } /* New color for PM tools */
+
+  .term-name {
+    font-family: 'Fraunces', serif;
+    font-size: 13pt;
+    font-weight: 500;
+    color: #2C5F2D;
+    margin: 0 0 6px;
+  }
+  .term-card.advanced .term-name { color: #5B3A8A; }
+  .term-card.ghl .term-name { color: #2C6B5A; }
+  .term-card.format .term-name { color: #8B6020; }
+  .term-card.security .term-name { color: #B02020; }
+  .term-card.pm .term-name { color: #005bb5; } /* Darker blue for PM tools */
+
+  .term-plain {
+    font-size: 10.5pt;
+    color: #405449;
+    line-height: 1.65;
+    margin: 0 0 10px;
+  }
+
+  .metaphor {
+    background: #E8F3E8;
+    border-left: 3px solid #438951;
+    padding: 8px 12px;
+    font-size: 10pt;
+    color: #2C5F2D;
+    border-radius: 0 4px 4px 0;
+    margin: 0;
+  }
+  .metaphor::before { content: "💡 Think of it like: "; font-weight: bold; }
+
+  .code-block {
+    background: #F0F6F0;
+    border: 1px solid #C0D4C0;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+    color: #3B4540;
+    margin: 8px 0 0;
+    white-space: pre;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .tag-ai { background: #DDEEE0; color: #2C5F2D; }
+  .tag-ghl { background: #E4F0EC; color: #2C6B5A; }
+  .tag-claude { background: #F0EAF8; color: #5B3A8A; }
+  .tag-advanced { background: #EDE7F6; color: #5B3A8A; }
+  .tag-format { background: #F5EFE6; color: #8B6020; }
+  .tag-security { background: #FDEDEC; color: #B02020; }
+  .tag-automation { background: #E4F0EC; color: #2C6B5A; }
+  .tag-pm { background: #e6f2ff; color: #005bb5; } /* Tag style for PM tools */
+
+  .back-to-top {
+    text-align: right;
+    font-size: 9pt;
+    margin-top: 4px;
+  }
+  .back-to-top a { color: #438951; text-decoration: none; }
+
+  .legend {
+    max-width: 780px;
+    margin: 0 auto 30px;
+    padding: 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 9.5pt;
+    color: #405449;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  @media print {
+    body { background: white; }
+    .alpha-index { display: none; }
+    .legend { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="top">
+  <h1>KP AI Training — Glossary</h1>
+  <p class="sub">Plain-language definitions for every AI and tech term in the course.</p>
+  <p class="count">70+ terms · Week 1 &amp; 2 Reference · No jargon. Just clarity.</p>
+</div>
+
+<div class="intro">
+  <p>If a word in the course confused you, it is in here. Every definition is written the way you would explain it to a friend — no tech background required. Where a metaphor helps, we used one. You do not need to memorize these. Keep this page open and refer to it whenever you need it.</p>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#438951;"></div> Core AI / General</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#6B4C9A;"></div> Advanced / Technical</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#2C6B5A;"></div> GHL / Automation</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#0073e6;"></div> Project Management</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#9B7544;"></div> Formats / Files</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#B02020;"></div> Security / Privacy</div>
+</div>
+
+<!-- ALPHA INDEX -->
+<div class="alpha-index">
+  <a href="#A">A</a><a href="#B">B</a><a href="#C">C</a><a href="#D">D</a>
+  <a href="#E">E</a><a href="#F">F</a><a href="#G">G</a><a href="#H">H</a>
+  <a href="#I">I</a><a href="#J">J</a><a href="#K">K</a><a href="#L">L</a>
+  <a href="#M">M</a><a href="#N">N</a><a href="#O">O</a><a href="#P">P</a>
+  <span>Q</span><a href="#R">R</a><a href="#S">S</a><a href="#T">T</a>
+  <span>U</span><a href="#V">V</a><a href="#W">W</a><span>X</span>
+  <a href="#Y">Y</a><a href="#Z">Z</a>
+</div>
+
+<!-- ═══ A ═══ -->
+<div class="section">
+  <div class="letter-heading" id="A">A</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Agent / AI Agent <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">An AI that does not just answer questions — it takes actions on your behalf. You give it a goal, and it figures out the steps, uses tools, and completes the task. Example: an AI agent could receive a client email, look up their CRM record, draft a reply, and send it — all without you clicking anything. This is where AI is heading.</div>
+    <div class="metaphor">hiring a contractor who figures out the project plan themselves vs. hiring someone who needs you to give them every instruction one at a time.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Agentic AI <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A way of using AI where it works through multi-step tasks on its own, rather than waiting for you to guide each step. Think of it as the difference between an AI you prompt once versus one you give a job to. Most VA tasks today are not yet fully agentic — but the tools are moving in that direction.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">AI (Artificial Intelligence) <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">Technology that allows a computer to do things that normally require human thinking — like reading, writing, answering questions, and making decisions. The AI tools you will use as a KP VA are built on this.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">API (Application Programming Interface) <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A connection between two apps that lets them share information automatically, without a human doing it manually. When a form submission in your CRM automatically triggers an email, an API is doing that work in the background. You will not build APIs yourself, but understanding the term helps when clients or tools mention it.</div>
+    <div class="metaphor">a waiter in a restaurant — you tell the waiter your order, they take it to the kitchen, and the kitchen sends back the food. You never deal with the kitchen directly.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Artifacts <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">In Claude, an artifact is a piece of finished output — a document, code, a table, a chart — that Claude creates as a self-contained file rather than just text in the chat window. You can copy, download, and use it directly. When you ask Claude to "write a report" or "make a table," the output is often delivered as an artifact.</div>
+  </div>
+
+  <div class="term-card pm">
+    <div class="term-name">Asana <span class="tag tag-pm">Project Management</span></div>
+    <div class="term-plain">A project management tool used to organize tasks, assign work, and track deadlines. Like ClickUp or Monday.com, it provides a visual overview of what needs to be done. VAs often use the free tier to manage their own workflows or collaborate with clients.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Automation <span class="tag tag-automation">GHL / Automation</span></div>
+    <div class="term-plain">When a system completes a task on its own, based on a trigger you set up, without you doing it manually each time. Example: when a new lead fills out a form, an automation can send them a welcome email, add them to the CRM, and notify you — all without human input. In GHL, automations are built using Workflows.</div>
+    <div class="metaphor">setting up a coffee maker on a timer so it brews before you wake up — you did the setup once, it runs every day without you.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Avatar (AI) <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">A digital character that speaks on screen in AI-generated videos. Used in tools like HeyGen. You write the script, choose an avatar, and it delivers the message visually — no camera or recording required.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ B ═══ -->
+<div class="section">
+  <div class="letter-heading" id="B">B</div>
+
+  <div class="term-card">
+    <div class="term-name">Benchmarking <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">A way of testing and comparing AI models to see which performs best on specific tasks. Think of it as a standardized test for AI. Benchmarks measure things like accuracy, reasoning, and speed. When you hear that a new model "beats GPT-4 on benchmarks," it means it scored higher on those standard tests. Useful to know when choosing which model to use for a task.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Bot <span class="tag tag-automation">Automation</span></div>
+    <div class="term-plain">A program that runs automated tasks, usually repetitive ones. A chatbot responds to messages. A workflow bot might send emails or update records. Bots follow fixed rules — they are not the same as AI agents, which can reason and adapt.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ C ═══ -->
+<div class="section">
+  <div class="letter-heading" id="C">C</div>
+
+  <div class="term-card">
+    <div class="term-name">Chain of Thought <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">A prompting technique where you ask the AI to think through a problem step by step before giving the final answer. This leads to more accurate results on complex tasks. Example: instead of asking "What is the best follow-up sequence for a lead?", you ask "Walk me through the reasoning, step by step." The thinking process improves the answer.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Chatbot <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">A program that responds to typed or spoken messages. AI chatbots like Claude can hold real conversations, answer questions, write content, and assist with tasks. They are different from older rule-based chatbots that could only follow scripts.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Claude <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">Anthropic's AI assistant. Claude is the primary AI tool used in the KP stack for writing, summarizing, analyzing, and task support. You will interact with Claude through claude.ai.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Claude Pro <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">Anthropic's paid plan for Claude. This is the standard plan for KP VAs. It gives higher usage limits than the free plan and access to all of Claude's core features — enough for full-time professional work.</div>
+  </div>
+
+  <div class="term-card pm">
+    <div class="term-name">ClickUp <span class="tag tag-pm">Project Management</span></div>
+    <div class="term-plain">A powerful project management and productivity platform used by Keyplayers HQ. It allows you to organize tasks, set deadlines, and track progress. We use the Pro version to manage complex workflows and integrate with our AI tools.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">CLI (Command Line Interface) <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A way of controlling a computer by typing text commands instead of clicking buttons. Instead of opening an app, you type a command in a terminal window and press Enter. Tools like Claude Code run through a CLI. As a VA you will rarely use this directly, but you may see it when setting up tools or following technical instructions.</div>
+    <div class="metaphor">ordering at a restaurant by writing a note instead of pointing at the menu — more direct, but requires knowing exactly what to write.</div>
+  </div>
+
+  <div class="term-card security">
+    <div class="term-name">Closed Source <span class="tag tag-security">Privacy</span></div>
+    <div class="term-plain">Software where the code is private — you can use the product, but you cannot see or modify how it was built. Most commercial AI tools are closed source. Knowing this matters when clients ask about data privacy or tool reliability.</div>
+  </div>
+
+  <div class="term-card security">
+    <div class="term-name">Closed Weights <span class="tag tag-security">Privacy</span></div>
+    <div class="term-plain">A type of closed source AI where the model itself — its internal settings — is not shared publicly. You can use the AI through an app or API, but no one outside the company can study or copy how it works. Claude, GPT-4, and Gemini are closed weights models. Compare with Open Weights.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Context Engineering <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">The skill of designing and managing the information you give an AI so it does its best work. It goes beyond just writing a good prompt — it includes deciding what background to include, what to leave out, how to structure the conversation, and whether to use Projects or system prompts. Think of it as setting up the AI's workspace before asking it to do a task.</div>
+    <div class="metaphor">briefing a new employee before their first day — the better the brief, the better the work.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Context Window <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">The amount of information Claude can hold in memory during a single conversation. If a conversation gets very long, Claude may not fully recall what was said at the very beginning — because it has filled its context window. Starting fresh or using Projects keeps Claude focused and accurate. Different models have different context window sizes — bigger is generally better for long, complex tasks.</div>
+    <div class="metaphor">a whiteboard with limited space — once it fills up, you have to erase the old stuff to write new things.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Crawler / Web Crawler <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">An automated program that visits websites and reads their content systematically. Search engines like Google use crawlers to index the internet. AI companies also used crawlers to gather text from public websites when training their models. If a client asks whether their website content might be in an AI's training data, the answer is: it likely was crawled at some point.</div>
+    <div class="metaphor">a researcher who reads every book in a library, page by page, to learn everything in it — except this researcher moves at computer speed and covers the entire internet.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">CRM (Customer Relationship Management) <span class="tag tag-ghl">GHL</span></div>
+    <div class="term-plain">Software for tracking client and lead information — contacts, conversations, deals, tasks. The KP stack uses GoHighLevel (GHL) as its primary CRM, with HubSpot or Zoho depending on the client.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ D ═══ -->
+<div class="section">
+  <div class="letter-heading" id="D">D</div>
+
+  <div class="term-card">
+    <div class="term-name">DALL-E <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">OpenAI's image generation tool, available inside ChatGPT Plus. You describe an image in words and it generates one. Used when a client needs original AI-generated visuals.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Drafting <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">When Claude writes a first version of something — an email, report, summary, or message — for you to review and edit before using. Drafting is one of the most time-saving things Claude does. Always review before sending to a client.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ E ═══ -->
+<div class="section">
+  <div class="letter-heading" id="E">E</div>
+
+  <div class="term-card security">
+    <div class="term-name">E2EE (End-to-End Encryption) <span class="tag tag-security">Security</span></div>
+    <div class="term-plain">A security method where only the sender and the receiver can read a message — not even the company running the service can see it. The data is scrambled (encrypted) before it leaves your device and only unscrambled when it arrives at the other end. WhatsApp uses E2EE. Most AI tools like Claude do not — meaning Anthropic can technically see your conversations. Relevant when handling sensitive client information.</div>
+    <div class="metaphor">putting a letter in a locked box where only the recipient has the key — even the delivery person cannot read it.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Embedding <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A way of converting text into numbers so an AI can understand the meaning and similarity of words and phrases. This is the technology behind search tools that find relevant documents even when you did not use the exact keywords. When an AI understands that "lawyer" and "attorney" mean similar things, embeddings are doing that work. Used inside RAG systems and AI-powered search.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ F ═══ -->
+<div class="section">
+  <div class="letter-heading" id="F">F</div>
+
+  <div class="term-card">
+    <div class="term-name">Few-Shot Prompting <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">A prompting technique where you include a few examples in your prompt to show the AI the format or style you want. Example: "Here are two examples of how I write follow-up emails: [example 1] [example 2]. Now write one for this situation: [situation]." Giving examples produces more consistent results than describing the format in words.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Fine-Tuning <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">Training an AI model on a specific dataset so it becomes more accurate for a particular task or industry. Example: a law firm might fine-tune a model on legal documents so it writes better legal language. Fine-tuning is expensive and technical — you will not do it as a VA, but you may work with tools that have already been fine-tuned for a specific purpose.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Foundation Model <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A large AI model trained on a huge amount of general data that can be adapted for many different tasks. Claude, GPT-4, and Gemini are foundation models. Think of it as the base — everything else is built on top of it.</div>
+    <div class="metaphor">a blank notebook — it can be used for recipes, journaling, or project planning. What matters is the quality of the notebook, not what you use it for.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Free Tier <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">The unpaid version of an AI or software tool. It usually comes with limitations like fewer features, slower speeds, or usage caps. As a VA, learning how to maximize free tiers (like using smaller models for simple tasks to save tokens) is a valuable skill.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ G ═══ -->
+<div class="section">
+  <div class="letter-heading" id="G">G</div>
+
+  <div class="term-card">
+    <div class="term-name">Generative AI <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">AI that creates new content — text, images, video, code — based on a prompt. Claude, ChatGPT, DALL-E, and HeyGen are all generative AI tools. The name comes from the fact that the AI generates something new, rather than just looking it up.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">GHL (GoHighLevel) <span class="tag tag-ghl">GHL</span></div>
+    <div class="term-plain">The primary CRM and automation platform in the KP stack. GHL manages leads, pipelines, appointments, SMS/email campaigns, sub-accounts, and automations for clients.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ H ═══ -->
+<div class="section">
+  <div class="letter-heading" id="H">H</div>
+
+  <div class="term-card">
+    <div class="term-name">Hallucination <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">When an AI confidently states something that is incorrect. It is not lying — it genuinely does not know it is wrong. This is why you always verify key facts, dates, and figures that Claude produces before sending them to a client. <strong>Never skip this step.</strong></div>
+    <div class="metaphor">a confident coworker who gives you the wrong directions but sounds completely certain — you still need to double-check before you drive anywhere.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">HeyGen <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">An AI video tool that uses digital avatars to deliver spoken scripts. You write the script, choose an avatar, and HeyGen creates the video. No camera or recording required.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ I ═══ -->
+<div class="section">
+  <div class="letter-heading" id="I">I</div>
+
+  <div class="term-card">
+    <div class="term-name">Image Generation <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">Using AI to create an original image from a text description (called a prompt). Tools like DALL-E and Midjourney do this. The result is a completely new image, not a stock photo.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Image-to-Video <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">A feature in tools like Kling, Runway, and Google Veo that takes a still image and adds motion — a slow zoom, camera pan, or animation. Used to create video content from AI-generated images.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Inference <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">The moment an AI model generates a response — when it processes your prompt and produces output. "Running inference" means the model is actively working. This is different from training, which is when the model was built and learned from data. Every time you send a message to Claude, it runs inference.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Iteration <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">Going through multiple rounds of feedback and revision with an AI tool. Example: Claude gives you a draft, you ask it to shorten it, then ask it to make the tone warmer. Each change is an iteration. Good prompts often take 2–3 iterations to get right. Knowing how to refine is as important as knowing how to prompt.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ J ═══ -->
+<div class="section">
+  <div class="letter-heading" id="J">J</div>
+
+  <div class="term-card format">
+    <div class="term-name">JSON (JavaScript Object Notation) <span class="tag tag-format">Format</span></div>
+    <div class="term-plain">A common file format used to send structured data between apps and APIs. It looks like a list of labels and values inside curly brackets. You will occasionally see JSON when working with integrations or automation tools. You do not need to write it — but recognizing it helps when reading tool documentation or automation logs.</div>
+    <div class="code-block">{"client": "Acme Corp", "status": "active", "leads": 24}</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ K ═══ -->
+<div class="section">
+  <div class="letter-heading" id="K">K</div>
+
+  <div class="term-card">
+    <div class="term-name">Kimi AI <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">An alternative AI assistant (often open-source or free-tier) that can handle summarization, notifications, and API integrations. It is useful to know how to operate multiple AI tools so you can choose the right one for the job or use a free alternative when needed.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ L ═══ -->
+<div class="section">
+  <div class="letter-heading" id="L">L</div>
+
+  <div class="term-card claude">
+    <div class="term-name">Live Artifact <span class="tag tag-claude">Claude / Cowork</span></div>
+    <div class="term-plain">A special type of artifact in Claude's Cowork mode that stays updated over time. Instead of a static document, a live artifact connects to data sources and refreshes automatically — like a dashboard that shows current project status without you rebuilding it each time. Live artifacts are more advanced than regular artifacts and are useful for recurring reports or trackers.</div>
+    <div class="metaphor">a digital scoreboard that updates in real time vs. a printed leaderboard that is out of date the moment you print it.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">LLM (Large Language Model) <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">The technology behind AI tools like Claude and ChatGPT. LLMs are trained on enormous amounts of text and learn to predict and generate language that sounds natural and accurate. When you type a prompt, the LLM generates a response based on patterns it has learned. Every time you use Claude, you are using an LLM.</div>
+    <div class="metaphor">someone who has read millions of books and can write in any style, on any topic — but still needs to be given specific direction to do useful work.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ M ═══ -->
+<div class="section">
+  <div class="letter-heading" id="M">M</div>
+
+  <div class="term-card format">
+    <div class="term-name">Markdown <span class="tag tag-format">Format</span></div>
+    <div class="term-plain">A simple way of formatting plain text using symbols. Instead of clicking bold or heading buttons like in Word, you type symbols: <code>**bold**</code> becomes <strong>bold</strong>, <code># Heading</code> becomes a heading, <code>- item</code> becomes a bullet point. Claude often writes responses in Markdown. Most AI platforms, Notion, and GitHub display it automatically. Understanding Markdown helps you format documents and prompts more precisely.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">MCP (Model Context Protocol) <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A standard that allows AI tools to connect with external software — like your CRM, calendar, email, or Slack — and take actions inside those tools directly, without you switching tabs. As AI becomes more capable of doing tasks across platforms automatically, MCP is the technology making that possible.</div>
+    <div class="metaphor">a universal remote that controls every app on your computer — instead of switching between tools, one AI handles them all.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Metadata <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">Data that describes other data — information about a file or record, not the content itself. Example: a photo's metadata includes when it was taken, the device used, and the location — not what the photo shows. In a CRM, metadata about a client record might include who created it, when it was last updated, and its status. AI tools also use metadata to organize and retrieve information efficiently.</div>
+    <div class="metaphor">the label on a filing folder — it tells you what is inside without you needing to read every page.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Meta Prompting <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">Using an AI to help you write better prompts for the AI. Instead of writing a prompt yourself and hoping it works, you ask Claude: "Help me write a prompt that will get the best possible result for [task]." Meta prompting is also used to build prompt templates — asking Claude to design a reusable prompt structure for recurring tasks.</div>
+    <div class="metaphor">asking a chef how to write the recipe before you start cooking — getting the instructions right before you execute.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Model <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">The specific version of an AI you are using. Claude Sonnet and Claude Opus are different models with different strengths. Sonnet is fast and good for most tasks. Opus is more thorough for complex work. Haiku is the fastest and lightest. Choosing the right model for the task saves time and usage credits.</div>
+  </div>
+
+  <div class="term-card pm">
+    <div class="term-name">Monday.com <span class="tag tag-pm">Project Management</span></div>
+    <div class="term-plain">A customizable project management platform where teams can track tasks, projects, and workflows. Like Asana, it offers a free tier that VAs can use to organize their daily work or manage small client projects.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Multimodal <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">An AI that can handle more than one type of input — text, images, audio, or video. Claude is multimodal: you can paste an image and ask Claude to describe or analyze it, not just type questions. A multimodal model is more versatile than one that only works with text.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ N ═══ -->
+<div class="section">
+  <div class="letter-heading" id="N">N</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Node.js <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A program that lets your computer run JavaScript code outside of a browser. Required for running certain developer tools. You install it once and do not need to think about it again after setup.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ O ═══ -->
+<div class="section">
+  <div class="letter-heading" id="O">O</div>
+
+  <div class="term-card security">
+    <div class="term-name">Open Source <span class="tag tag-security">Privacy</span></div>
+    <div class="term-plain">Software where the code is made publicly available. Anyone can read it, study it, modify it, or build their own version. Open source tools are often free and community-supported. Being open source does not automatically mean the AI is better or safer — it just means it is more transparent about how it works.</div>
+  </div>
+
+  <div class="term-card security">
+    <div class="term-name">Open Weights <span class="tag tag-security">Privacy</span></div>
+    <div class="term-plain">A type of AI model where the internal settings (called weights) are publicly released. Anyone can download and run the model on their own hardware. LLaMA (by Meta) is an example. Open weights models can be run privately — no data ever leaves your machine. This matters for clients with strict data privacy requirements.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Orchestration <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">Coordinating multiple AI tools or agents so they work together on a single task. Example: one agent drafts content, another reviews it, another formats it, and another posts it — all triggered by one instruction. Orchestration is what makes complex agentic workflows possible.</div>
+    <div class="metaphor">a conductor directing an orchestra — each musician plays their part, and the conductor makes sure everything comes together at the right time.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ P ═══ -->
+<div class="section">
+  <div class="letter-heading" id="P">P</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Parameters <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">The internal settings of an AI model — billions of numbers that were adjusted during training to make the model respond the way it does. When you hear "a 70 billion parameter model," it means the model has 70 billion of these internal values. More parameters generally means more capability, but also more computing power needed. You do not adjust parameters — they are baked in when the model is trained.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Pipeline <span class="tag tag-ghl">GHL</span></div>
+    <div class="term-plain">In a CRM, a pipeline is a visual board showing where each lead or client is in the sales or service process — for example: New Lead, Contacted, Proposal Sent, Closed. Reporting on pipelines is a common VA task in GHL.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Projects (Claude) <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">A feature inside Claude that lets you create separate workspaces — one per client. Each Project stores the client's name, tone, preferences, and background context so Claude always knows who it is helping. Projects prevent cross-client confusion and remove the need to re-explain context every new conversation.</div>
+    <div class="metaphor">a dedicated folder for each client on your desk — everything you need is already in there when you sit down to work.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Prompt <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">The instruction or question you type to an AI tool. A good prompt is specific, gives context, and tells the AI what format you want. Better prompts produce better results. Prompting is a skill — it improves with practice.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Prompt Engineering <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">The practice of designing and refining prompts to get the best possible output from an AI. It involves structuring your request, providing context, specifying format, giving examples, and knowing when to break a big task into smaller steps. Prompt engineering is one of the most valuable skills for a VA working with AI tools.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Prompt Library <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">A personal collection of prompts that have worked well for recurring tasks. Building a Prompt Library saves you from rewriting instructions every time and helps maintain quality and consistency across clients. You will build and maintain one as part of this course.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ R ═══ -->
+<div class="section">
+  <div class="letter-heading" id="R">R</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">RAG (Retrieval-Augmented Generation) <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A technique where an AI retrieves relevant information from a specific source — like your company documents, client files, or a database — before generating a response. Instead of relying only on what it learned during training, it looks things up in real time. This makes answers more accurate and grounded in current, specific information. KeyBrain uses this approach.</div>
+    <div class="metaphor">an open-book exam — the AI can look up the right information before answering, rather than relying only on what it memorized.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Remotion <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">A developer tool that creates animated videos using code. Claude writes the code, Remotion renders it into an MP4 file. Used for text-based motion graphic videos. The most technical tool in the KP stack.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Render <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">The process of a computer converting code or instructions into a finished video file. When you render a video in Remotion or HeyGen, the tool is processing all the frames and producing the final MP4.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ S ═══ -->
+<div class="section">
+  <div class="letter-heading" id="S">S</div>
+
+  <div class="term-card">
+    <div class="term-name">Script (Video) <span class="tag tag-ai">AI Tool</span></div>
+    <div class="term-plain">The spoken words for a video, written before recording or generation. Claude writes video scripts optimized for AI voices — short sentences, clear language, natural phrasing.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">SDK (Software Development Kit) <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A set of tools, code libraries, and instructions that developers use to build applications that connect to a specific platform or service. Example: the Claude SDK lets developers build custom tools that use Claude's AI. You will not use SDKs directly as a VA, but knowing the term helps when reading about how AI tools are integrated or extended.</div>
+    <div class="metaphor">a starter kit for building with a particular toy brand — all the pieces, instructions, and connectors you need to build something new that works with that system.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">Skills (Claude / Cowork) <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">Reusable instruction packages that give Claude specialized capabilities for specific tasks. A Skill is like a playbook — it tells Claude how to approach a particular type of job, such as writing a report, managing a social post, or evaluating an SOP. Skills can be installed in Cowork and used on demand. They save time by removing the need to re-explain complex workflows from scratch each time.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Sub-Account (GHL) <span class="tag tag-ghl">GHL</span></div>
+    <div class="term-plain">In GoHighLevel, each client you manage has their own separate sub-account. Switching between sub-accounts is how you keep different clients' data separate. Always confirm you are in the right sub-account before working.</div>
+  </div>
+
+  <div class="term-card claude">
+    <div class="term-name">System Prompt <span class="tag tag-claude">Claude</span></div>
+    <div class="term-plain">A set of instructions given to an AI before the conversation begins. It tells the AI who it is, what rules to follow, what tone to use, and what context to keep in mind. Claude Projects use a system prompt in the background — you do not see it in the chat, but it shapes every response. Writing a good system prompt is a core part of context engineering.</div>
+    <div class="metaphor">an employee handbook given to a new hire before their first shift — it sets expectations before any work starts.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ T ═══ -->
+<div class="section">
+  <div class="letter-heading" id="T">T</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Temperature <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A setting that controls how creative or predictable an AI's responses are. Low temperature = more focused, consistent, and factual. High temperature = more creative, varied, and sometimes surprising. Most AI tools set temperature automatically depending on the task. You may come across this term when reading about AI settings or comparing model outputs.</div>
+    <div class="metaphor">a volume dial — turn it down for precise, controlled output; turn it up for looser, more creative responses.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Token <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">The unit that AI models use to process text. Roughly, one token equals about four characters or three-quarters of a word. AI plans have usage limits measured in tokens. Long conversations, large documents, and frequent use all consume more tokens. This is why Claude Pro has usage limits and why keeping context lean helps you get more done per session.</div>
+    <div class="metaphor">taxi fare by the meter — the longer the trip (conversation), the more it costs. Short, focused rides are more efficient.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Training Data <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">The text, images, and other content that an AI model was exposed to during the learning phase — before it was released. Claude was trained on a large portion of publicly available internet text, books, and other sources. The quality and range of training data largely determines what an AI knows and how it reasons. After training, the model is fixed — it does not learn from your conversations in real time.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Trigger <span class="tag tag-automation">Automation</span></div>
+    <div class="term-plain">In automation, a trigger is the event that starts an automated workflow. Example: "When a new lead fills out a form" is a trigger. Everything after that — the email, the CRM update, the notification — is what the automation does in response.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ V ═══ -->
+<div class="section">
+  <div class="letter-heading" id="V">V</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Vector Database <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A type of database that stores information in a format that makes it easy for AI to search by meaning rather than exact keywords. When you search a vector database, the AI finds results that are conceptually related — even if they use different words. This is the storage layer behind RAG systems and AI-powered search tools.</div>
+    <div class="metaphor">a librarian who finds you books on the topic you care about — even if you did not use the exact title or author name.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ W ═══ -->
+<div class="section">
+  <div class="letter-heading" id="W">W</div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Webhook <span class="tag tag-automation">Automation</span></div>
+    <div class="term-plain">A way for one app to automatically notify another app when something happens, without either app needing to constantly check in. Example: when a form is submitted in your CRM, a webhook can instantly tell your email tool to send a message. Webhooks are the connective tissue of automation — they make integrations fast and real-time.</div>
+    <div class="metaphor">a doorbell — the moment someone is at the door, you get notified instantly, instead of having to check the door every few minutes yourself.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Weights <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">The internal numbers inside an AI model that were adjusted during training. Weights determine how the model responds to any given input. Think of weights as the model's knowledge encoded in mathematical form. See also: Open Weights, Closed Weights.</div>
+  </div>
+
+  <div class="term-card ghl">
+    <div class="term-name">Workflow <span class="tag tag-ghl">GHL / Automation</span></div>
+    <div class="term-plain">A sequence of steps that gets a task done from start to finish. In GHL, a Workflow is the automation builder where you set triggers, conditions, and actions. In the broader VA context, a workflow is the combination of tools and prompts you use to complete a specific type of task — like producing a client report or posting social media content.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ Y ═══ -->
+<div class="section">
+  <div class="letter-heading" id="Y">Y</div>
+
+  <div class="term-card format">
+    <div class="term-name">YAML (Yet Another Markup Language) <span class="tag tag-format">Format</span></div>
+    <div class="term-plain">A simple format for organizing structured data using plain text. It uses spacing and colons instead of brackets. YAML is commonly used in configuration files, system prompts, and tool settings. You may encounter it when setting up AI tools or reading advanced prompt templates. It looks cleaner than JSON and is easier for humans to read.</div>
+    <div class="code-block">client: Acme Corp
+tone: professional
+tasks:
+  - CRM updates
+  - Weekly reports</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<!-- ═══ Z ═══ -->
+<div class="section">
+  <div class="letter-heading" id="Z">Z</div>
+
+  <div class="term-card">
+    <div class="term-name">Zapier <span class="tag tag-automation">Automation</span></div>
+    <div class="term-plain">An automation tool that connects different apps together. It uses a "Trigger and Action" logic similar to GHL workflows, but it can connect thousands of external apps. Knowing how to use Zapier (or its alternative, Make) allows you to automate tasks across different platforms.</div>
+  </div>
+
+  <div class="term-card">
+    <div class="term-name">Zero-Shot Prompting <span class="tag tag-claude">Prompting</span></div>
+    <div class="term-plain">Asking an AI to complete a task without giving it any examples — just the instruction. Most basic prompts are zero-shot. Example: "Write a follow-up email for a lead who went quiet." This works well for simple tasks. For more specific or formatted outputs, few-shot prompting (giving examples) tends to produce better results.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+</div>
+
+<div style="max-width:780px;margin:60px auto 40px;padding:0 40px;text-align:center;color:#999;font-size:9.5pt;">
+  KeyPlayers HQ · KP VA AI Training Program · Reference Document · Not for distribution outside the program
+</div>
+
+</body>
+</html>

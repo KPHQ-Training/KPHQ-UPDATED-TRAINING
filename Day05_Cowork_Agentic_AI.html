@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ: Day 5 - Cowork & Agentic AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Epilogue', Arial, sans-serif;
+    font-size: 11pt;
+    color: #E0E0E0;
+    background: #0A140F;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    background: #060B08;
+    padding: 20px 40px;
+    text-align: center;
+    border-bottom: 1px solid #1A2E22;
+  }
+  
+  .header img {
+    max-height: 40px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #8CA692;
+    margin-bottom: 40px;
+  }
+
+  .slide {
+    display: none;
+    background: #111F17;
+    border: 1px solid #1A2E22;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .slide.active { display: block; }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18pt;
+    color: #438951;
+    border-bottom: 2px solid #1A2E22;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    color: #DDEEE0;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+
+  p {
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  ul, ol {
+    margin-bottom: 20px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  .human-margin-box {
+    background: #0D1A13;
+    border-left: 4px solid #438951;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .human-margin-title {
+    font-family: 'Fraunces', serif;
+    color: #438951;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+
+  .qa-section {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 40px;
+  }
+
+  .qa-title {
+    color: #DDEEE0;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 13pt;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .nav-buttons.end {
+    justify-content: flex-end;
+  }
+
+  .btn {
+    background: #438951;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Epilogue', sans-serif;
+    transition: background 0.2s;
+  }
+  
+  .btn:hover { background: #367042; }
+  
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #438951;
+    color: #438951;
+  }
+  
+  .btn-outline:hover {
+    background: rgba(67, 137, 81, 0.1);
+  }
+
+  .footer {
+    text-align: center;
+    color: #5A7061;
+    font-size: 9.5pt;
+    margin-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { padding: 12px; border: 1px solid #1A2E22; text-align: left; }
+  th { background: #060B08; color: #438951; font-weight: 600; }
+
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .comp-weak {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  .comp-strong {
+    background: rgba(67, 137, 81, 0.05);
+    border: 1px solid rgba(67, 137, 81, 0.2);
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  .comp-label {
+    font-size: 9pt;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .weak-label { color: #ef4444; }
+  .strong-label { color: #438951; }
+
+  .prompt-block {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: monospace;
+    color: #8CA692;
+    white-space: pre-wrap;
+    margin: 15px 0;
+  }
+
+  .drill-box {
+    background: rgba(234,179,8,0.05);
+    border: 1px solid rgba(234,179,8,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+
+  .drill-title {
+    font-family: 'Fraunces', serif;
+    color: #EAB308;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .case-study {
+    background: rgba(167,139,250,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+
+  .case-title {
+    font-family: 'Fraunces', serif;
+    color: #A78BFA;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img src="https://via.placeholder.com/200x40/060B08/DDEEE0?text=KEYPLAYERS+HQ" alt="Keyplayers HQ Logo">
+</div>
+
+<div class="container">
+  <h1>Day 5: Cowork & Agentic AI</h1>
+  <p class="subtitle">Transitioning from AI that answers to AI that executes</p>
+
+  <!-- Session 1 -->
+  <div class="slide active" id="slide1">
+    <div class="section-title">Session 1: What is Cowork Mode?</div>
+    
+    <p>Until now, you have used AI as a Chatbot. You ask a question, it types an answer. You copy the answer and paste it into an email. <strong>Cowork mode changes this paradigm entirely.</strong></p>
+
+    <div class="comparison">
+      <div class="comp-weak">
+        <div class="comp-label weak-label">Standard Claude.ai</div>
+        You ask, it writes. You do the copying, pasting, and clicking.
+      </div>
+      <div class="comp-strong">
+        <div class="comp-label strong-label">Cowork Mode</div>
+        You assign, it does. It works directly inside your connected apps.
+      </div>
+    </div>
+
+    <h2>How Cowork Operates</h2>
+    <p>Cowork is a feature within the Claude Desktop App that utilizes MCP (Model Context Protocol) to securely connect to your local files and cloud applications.</p>
+    
+    <table>
+      <thead><tr><th>Connection</th><th>What It Does</th><th>Example Prompt</th></tr></thead>
+      <tbody>
+        <tr><td>Slack</td><td>Reads channels, sends messages</td><td>"Summarize the #marketing channel from today."</td></tr>
+        <tr><td>Gmail</td><td>Reads inbox, drafts replies</td><td>"Draft a reply to the latest email from John."</td></tr>
+        <tr><td>Files</td><td>Reads and edits local documents</td><td>"Organize the files in my Downloads folder."</td></tr>
+      </tbody>
+    </table>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Permission Control</div>
+      <p>Cowork has the ability to read your emails and send Slack messages, but it cannot do so without your permission. The Human Margin is your role as the gatekeeper. When Cowork asks, "Can I send this email to John?", you must verify the tone, check the facts, and click 'Approve'. You are the supervisor; Cowork is the intern.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">⏱️ 5-Minute Drill: The Cowork Audit</div>
+      <p>List three repetitive tasks you do every day that involve copying data from one app (like Slack) and pasting it into another (like Gmail or a Google Doc). Write down how a Cowork MCP connection could eliminate that manual copying.</p>
+    </div>
+
+    <div class="nav-buttons end">
+      <button type="button" class="btn" onclick="navSlide('slide2')">Next: Power Workflows →</button>
+    </div>
+  </div>
+
+  <!-- Session 2 -->
+  <div class="slide" id="slide2">
+    <div class="section-title">Session 2: Cowork Power Workflows</div>
+
+    <p>Let's look at how Cowork mode transforms standard 30-minute VA tasks into 3-minute operations.</p>
+
+    <h2>Workflow 1: The Morning Briefing</h2>
+    <div class="comparison">
+      <div class="comp-weak">
+        <div class="comp-label weak-label">Manual (20 mins)</div>
+        Open Slack, scroll through 5 channels. Open Gmail, scan 30 emails. Check Google Calendar. Write notes.
+      </div>
+      <div class="comp-strong">
+        <div class="comp-label strong-label">Cowork (2 mins)</div>
+        "Give me a morning briefing: unread Slack highlights, top 5 priority emails, and today's calendar conflicts."
+      </div>
+    </div>
+
+    <h2>Workflow 2: Meeting Preparation</h2>
+    <div class="comparison">
+      <div class="comp-weak">
+        <div class="comp-label weak-label">Manual (25 mins)</div>
+        Search for last week's notes. Find the email thread with the client. Draft a new agenda document.
+      </div>
+      <div class="comp-strong">
+        <div class="comp-label strong-label">Cowork (3 mins)</div>
+        "Prep for the 2pm Pacific Realty meeting. Pull context from the last 3 Slack threads and draft a 5-point agenda."
+      </div>
+    </div>
+
+    <div class="case-study">
+      <div class="case-title">Case Study: The Inbox Zero Hero</div>
+      <p>A KeyPlayers VA was managing an inbox that received 100+ customer support emails a day. Manually reading and sorting them took 2 hours. By using Cowork, the VA simply prompted: "Read all unread emails. Draft polite replies to any refund requests using the standard policy, and flag any urgent technical issues for my review." The 2-hour task became a 15-minute review and approval process.</p>
+    </div>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Contextual Blindspots</div>
+      <p>Cowork can pull the last 3 Slack threads, but it doesn't know that the client called you on your cell phone yesterday to change the project direction. The Human Margin requires you to read the Cowork-generated agenda and manually inject the "offline" context that the AI couldn't possibly know.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide1')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide3')">Next: Agentic AI →</button>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" id="slide3">
+    <div class="section-title">Session 3: The Shift to Agentic AI</div>
+
+    <p>Cowork is your first introduction to "Agentic AI." Understanding this concept is crucial for your future at KeyPlayers HQ.</p>
+
+    <h2>The Evolution of AI</h2>
+    <ul>
+      <li><strong>Level 1: Chatbot.</strong> It answers questions. (e.g., ChatGPT web interface)</li>
+      <li><strong>Level 2: Assistant.</strong> It completes specific, single-step tasks. (e.g., "Write an email")</li>
+      <li><strong>Level 3: Agent.</strong> It orchestrates multi-step workflows across systems. (e.g., "Find the lead, draft the email, check my calendar, schedule a reminder.")</li>
+    </ul>
+
+    <h2>Voice-to-Action with Wispr Flow</h2>
+    <p>Wispr Flow is a dictation tool that types what you speak. When combined with an Agentic AI like Cowork, you achieve Voice-to-Action.</p>
+    <p><em>"Hey Claude, check my inbox for anything from Sarah, draft a polite decline to her meeting request, and send me a Slack message when it's staged."</em></p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: KeyCommand Integration</div>
+      <p>KeyCommand is our proprietary orchestration system currently in development. It will take Agentic AI to the next level by deploying specialized agents (Sales Agent, Social Agent) directly from KeyBrain. Your job will transition from "doing the tasks" to "managing the agents doing the tasks." You will be the human margin overseeing the entire operation.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">⏱️ 10-Minute Drill: Agentic Mapping</div>
+      <p>Think of a complex task that currently takes you more than 30 minutes. Map out how an "Agent" would do it. What systems would it need to access? What decisions would it need to make? Where would YOU need to step in to approve the work?</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide2')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide4')">Next: Build an Agentic Prompt →</button>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" id="slide4">
+    <div class="section-title">Session 4: Build an Agentic Prompt</div>
+
+    <p>To use Agentic AI effectively, your prompts must evolve. You are no longer asking for text; you are programming a workflow.</p>
+
+    <h2>The Agentic Prompt Structure</h2>
+    <ol>
+      <li><strong>Trigger:</strong> What initiates the workflow?</li>
+      <li><strong>Sources:</strong> Where should the AI look for data?</li>
+      <li><strong>Logic:</strong> How should it prioritize or filter that data?</li>
+      <li><strong>Action:</strong> What should it actually do with the result?</li>
+    </ol>
+
+    <div class="prompt-block">Run my End-of-Day Wrap Up:
+
+1. Sources: Check Gmail for unread emails and Slack for mentions of my name.
+2. Logic: Ignore newsletters. Flag anything from the domain "@pacificrealty.com" as High Priority.
+3. Action 1: Draft short, polite "I will look into this tomorrow" replies for the High Priority items.
+4. Action 2: Create a bulleted summary of everything else and save it to my Desktop as "EOD_Summary.txt".</div>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Edge Case Handling</div>
+      <p>Agentic prompts work 90% of the time. The Human Margin is required for the 10% edge cases. If an email comes in from a new investor who doesn't use the "@pacificrealty.com" domain, the AI will miss it. You must always do a final manual scan to catch what the rigid logic of the AI missed.</p>
+    </div>
+
+    <!-- Q&A Section -->
+    <div class="qa-section">
+      <div class="qa-title">Day 5 Q&A (15 mins)</div>
+      <p style="font-size: 10pt; color: #8CA692; margin-bottom: 20px;">This concludes today's content. We now have 15 minutes dedicated to open discussion. Please ask the trainer any questions you have about Cowork mode, Agentic AI, and building agentic prompts.</p>
+      
+      <div class="nav-buttons">
+        <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
+        <button type="button" class="btn" onclick="navSlide('done')">Complete Week 1 ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  KeyPlayers HQ · KP VA AI Training Program · Day 5
+</div>
+
+<script>
+  function navSlide(slideId) {
+    document.querySelectorAll('.slide').forEach(slide => {
+      slide.classList.remove('active');
+    });
+    
+    if(slideId === 'done') {
+      alert('Week 1 Completed! You have mastered the foundations of AI. Have a great weekend!');
+      return;
+    }
+
+    document.getElementById(slideId).classList.add('active');
+    window.scrollTo(0, 0);
+    if(history.pushState) {
+      history.pushState(null, null, '#' + slideId);
+    } else {
+      location.hash = '#' + slideId;
+    }
+  }
+
+  window.onload = function() {
+    let hash = window.location.hash;
+    if (hash && document.querySelector(hash)) {
+      navSlide(hash.substring(1));
+    }
+  }
+</script>
+
+</body>
+</html>
