@@ -564,8 +564,8 @@
     otherBox.style.display = checkbox.checked ? 'block' : 'none';
   }
 
-  // Google Script Integration for Day 1 Survey
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbydga_XK3t0QOVPi7zlCLWXGMQGByxZqq77uUmRYSqE9zWvTluXXmL45yqloyy15TY/exec';
+  // Formspree Integration for Day 1 Survey
+  const FORMSPREE_URL = 'https://formspree.io/f/mdajlwrk';
 
   function submitPreSurvey() {
     var name = document.getElementById('surveyName').value.trim();
@@ -598,25 +598,34 @@
     btn.disabled = true;
 
     var payload = {
-      surveyType: 'pre',
+      _subject: 'Day 1 Pre-Training Survey',
+      surveyType: 'pre-training-baseline',
       name: name,
-      prompting: q1.value,
-      aiKnowledge: q2.value,
-      automation: q3.value,
-      role: roles.join(', ')
+      prompting_skill: q1.value,
+      ai_knowledge: q2.value,
+      automation_knowledge: q3.value,
+      roles: roles.join(', ')
     };
 
-    fetch(SCRIPT_URL, {
+    fetch(FORMSPREE_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(payload)
-    }).then(function() {
-      document.getElementById('surveyForm').style.display = 'none';
-      document.getElementById('surveyResult').style.display = 'block';
+    }).then(function(response) {
+      if (response.ok) {
+        document.getElementById('surveyForm').style.display = 'none';
+        document.getElementById('surveyResult').style.display = 'block';
+      } else {
+        errEl.textContent = 'Submission failed. Please try again.';
+        errEl.style.display = 'block';
+        btn.textContent = 'Submit Baseline Survey';
+        btn.disabled = false;
+      }
     }).catch(function() {
-      document.getElementById('surveyForm').style.display = 'none';
-      document.getElementById('surveyResult').style.display = 'block';
+      errEl.textContent = 'Network error. Please check your connection and try again.';
+      errEl.style.display = 'block';
+      btn.textContent = 'Submit Baseline Survey';
+      btn.disabled = false;
     });
   }
 </script>
