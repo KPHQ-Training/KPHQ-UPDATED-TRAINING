@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers HQ: Day 1 - Prompting Mastery & AI Fundamentals</title>
+<title>KeyPlayers VA Academy: Day 1 - Prompting Mastery & AI Fundamentals</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
@@ -15,24 +15,24 @@
     margin: 0;
     padding: 0;
   }
-
   .header {
     background: #060B08;
-    padding: 20px 40px;
+    padding: 18px 40px;
     text-align: center;
     border-bottom: 1px solid #1A2E22;
   }
-  
-  .header img {
-    max-height: 40px;
+  .header-text {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 14pt;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
-
   .container {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
   }
-
   h1 {
     font-family: 'Fraunces', serif;
     color: #DDEEE0;
@@ -40,13 +40,45 @@
     text-align: center;
     margin-bottom: 10px;
   }
-
   .subtitle {
     text-align: center;
     color: #8CA692;
     margin-bottom: 40px;
   }
-
+  .session-index {
+    margin-bottom: 30px;
+  }
+  .session-index-title {
+    font-family: 'Fraunces', serif;
+    color: #438951;
+    font-size: 13pt;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1A2E22;
+  }
+  .session-card {
+    display: block;
+    background: #111F17;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    color: #8CA692;
+    text-decoration: none;
+    font-size: 10.5pt;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .session-card:hover {
+    background: #1A2E22;
+    border-color: #438951;
+    color: #DDEEE0;
+  }
+  .session-card .snum {
+    color: #438951;
+    font-weight: 600;
+    margin-right: 8px;
+  }
   .slide {
     display: none;
     background: #111F17;
@@ -55,9 +87,7 @@
     padding: 30px;
     margin-bottom: 20px;
   }
-  
   .slide.active { display: block; }
-
   .section-title {
     font-family: 'Fraunces', serif;
     font-size: 18pt;
@@ -66,7 +96,6 @@
     padding-bottom: 10px;
     margin-bottom: 20px;
   }
-
   h2 {
     font-family: 'Fraunces', serif;
     font-size: 14pt;
@@ -74,22 +103,9 @@
     margin-top: 30px;
     margin-bottom: 15px;
   }
-
-  p {
-    line-height: 1.7;
-    margin-bottom: 16px;
-  }
-
-  ul, ol {
-    margin-bottom: 20px;
-    padding-left: 20px;
-  }
-
-  li {
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-
+  p { line-height: 1.7; margin-bottom: 16px; }
+  ul, ol { margin-bottom: 20px; padding-left: 20px; }
+  li { margin-bottom: 10px; line-height: 1.6; }
   .human-margin-box {
     background: #0D1A13;
     border-left: 4px solid #438951;
@@ -97,7 +113,6 @@
     margin: 25px 0;
     border-radius: 0 8px 8px 0;
   }
-
   .human-margin-title {
     font-family: 'Fraunces', serif;
     color: #438951;
@@ -105,7 +120,6 @@
     margin-bottom: 10px;
     font-size: 12pt;
   }
-
   .drill-box {
     background: rgba(234,179,8,0.05);
     border: 1px solid rgba(234,179,8,0.2);
@@ -113,18 +127,37 @@
     margin: 25px 0;
     border-radius: 8px;
   }
-
   .drill-title {
     font-family: 'Fraunces', serif;
     color: #EAB308;
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 12pt;
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
-
+  .case-study {
+    background: rgba(167,139,250,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+  .case-title {
+    font-family: 'Fraunces', serif;
+    color: #A78BFA;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .prompt-block {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: monospace;
+    color: #8CA692;
+    white-space: pre-wrap;
+    margin: 15px 0;
+  }
   .qa-section {
     background: #060B08;
     border: 1px solid #1A2E22;
@@ -132,24 +165,18 @@
     padding: 25px;
     margin-top: 40px;
   }
-
   .qa-title {
     color: #DDEEE0;
     font-weight: 600;
     margin-bottom: 15px;
     font-size: 13pt;
   }
-
   .nav-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
   }
-  
-  .nav-buttons.end {
-    justify-content: flex-end;
-  }
-
+  .nav-buttons.end { justify-content: flex-end; }
   .btn {
     background: #438951;
     color: white;
@@ -161,19 +188,13 @@
     font-family: 'Epilogue', sans-serif;
     transition: background 0.2s;
   }
-  
   .btn:hover { background: #367042; }
-  
   .btn-outline {
     background: transparent;
     border: 1px solid #438951;
     color: #438951;
   }
-  
-  .btn-outline:hover {
-    background: rgba(67, 137, 81, 0.1);
-  }
-
+  .btn-outline:hover { background: rgba(67, 137, 81, 0.1); }
   .footer {
     text-align: center;
     color: #5A7061;
@@ -181,57 +202,9 @@
     margin-top: 40px;
     padding-bottom: 40px;
   }
-
-  .prompt-block {
-    background: #060B08;
-    border: 1px solid #1A2E22;
-    border-radius: 6px;
-    padding: 15px;
-    font-family: monospace;
-    color: #8CA692;
-    white-space: pre-wrap;
-    margin: 15px 0;
-  }
-
-  .case-study {
-    background: rgba(167,139,250,0.05);
-    border: 1px solid rgba(167,139,250,0.2);
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 8px;
-  }
-
-  .case-title {
-    font-family: 'Fraunces', serif;
-    color: #A78BFA;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-  }
-
-  .comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 30px 0;
-    background: #060B08;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .comparison-table th, .comparison-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #1A2E22;
-  }
-
-  .comparison-table th {
-    background: #0D1A13;
-    color: #438951;
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-  }
-  
-  /* Form Styles for Day 1 Survey */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { padding: 12px; border: 1px solid #1A2E22; text-align: left; }
+  th { background: #060B08; color: #438951; font-weight: 600; }
   .survey-q { margin-bottom: 25px; }
   .survey-q label { display: block; font-weight: 600; color: #DDEEE0; margin-bottom: 10px; }
   .survey-options { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -244,9 +217,7 @@
   .survey-options input:checked + .opt {
     background: #1A2E22; color: #438951; border-color: #438951;
   }
-  .other-specify {
-    margin-top: 10px; display: none;
-  }
+  .other-specify { margin-top: 10px; display: none; }
   .other-specify input {
     width: 100%; padding: 10px; background: #060B08; color: #E0E0E0;
     border: 1px solid #1A2E22; border-radius: 6px; font-family: 'Epilogue', sans-serif;
@@ -262,130 +233,23 @@
 <body>
 
 <div class="header">
-  <span style="font-family:'Fraunces',serif;color:#DDEEE0;font-size:14pt;font-weight:500;letter-spacing:1px;">KeyPlayers VA Academy</span>
+  <span class="header-text">KeyPlayers VA Academy</span>
 </div>
 
 <div class="container">
   <h1>Day 1: Prompting Mastery & AI Fundamentals</h1>
   <p class="subtitle">The foundational skill of the modern AI Operator. Learn to communicate with machines to achieve precise, reliable results.</p>
 
-  <!-- Session 1 -->
-  <div class="slide active" id="slide1">
-    <div class="section-title">Session 1: The AI Landscape & Benchmarking</div>
-    
-    <p>Welcome to the KeyPlayers HQ AI Training Program. Over the next 10 days, you will transition from a standard Virtual Assistant to an elite <strong>AI Operator</strong>.</p>
-    
-    <p>Our goal isn't just to teach you how to use ChatGPT. Our goal is to teach you how to operate a business's Command Center using AI agents, workflow automations, and the most critical skill of all: <strong>The Human Margin</strong>.</p>
-
-    <div class="human-margin-box">
-      <div class="human-margin-title">The Human Margin: Our Moat</div>
-      <p>AI generates, drafts, and analyzes. But AI hallucinates, lacks context, and has no real-world experience. <strong>The Human Margin</strong> is where you step in. You bridge the gap between the business owner and the AI. You verify, you judge, and you execute. You are the pilot; AI is the engine.</p>
-    </div>
-
-    <h2>Benchmarking the Big Four (Free Tiers) - Updated May 2026</h2>
-    <p>As an operator, you must know which tool to reach for. The AI landscape moves fast. Here is the current benchmark for the free tiers of the major LLMs as of today:</p>
-
-    <table class="comparison-table">
-      <tr>
-        <th>Tool</th>
-        <th>Current Model (Free)</th>
-        <th>Best For</th>
-        <th>Pros</th>
-        <th>Cons (Free Tier)</th>
-      </tr>
-      <tr>
-        <td><strong>Claude</strong></td>
-        <td>Sonnet 4.6 (free tier access with limits)</td>
-        <td>Nuanced writing, long documents, coding, deep analysis, agentic workflows.</td>
-        <td>Most human-like tone, 1M token context window, Artifacts UI, Projects, Extended Thinking, Adaptive Thinking.</td>
-        <td>Strict daily message limits on free tier, cuts off quickly during heavy use. Pro ($20/mo) or Max ($100+/mo) for more.</td>
-      </tr>
-      <tr>
-        <td><strong>ChatGPT</strong></td>
-        <td>GPT-5.5 Instant (free tier default since May 5, 2026)</td>
-        <td>Quick tasks, data formatting, brainstorming, voice mode, image generation (GPT Image 2).</td>
-        <td>Fast, 52% fewer hallucinations than previous models, massive ecosystem (GPTs, voice, Codex), native image generation with GPT Image 2, strong at structured data.</td>
-        <td>Can sound generic, tends to use filler phrases. Free tier has usage caps during peak hours.</td>
-      </tr>
-      <tr>
-        <td><strong>Gemini</strong></td>
-        <td>Gemini 3.5 Flash (free tier default since May 19, 2026 I/O launch)</td>
-        <td>Google Workspace integration, rapid web search, multimodal tasks, agentic workflows.</td>
-        <td>4x faster output than other frontier models, deep Docs/Drive/Sheets integration, 1M token context, Gemini Omni for combined reasoning + image/video/audio creation.</td>
-        <td>Can be overly cautious with sensitive topics, not yet available in all regions, Gemini Omni features still rolling out.</td>
-      </tr>
-      <tr>
-        <td><strong>Kimi AI</strong></td>
-        <td>Kimi K2.6 (free tier)</td>
-        <td>Massive document processing, agentic coding, parallel task execution.</td>
-        <td>262K token context window for free, open-source model (1T parameters), can orchestrate up to 300 parallel sub-agents, excellent for summarizing entire books or codebases.</td>
-        <td>Less polished UI than Claude, creative writing quality is lower, newer ecosystem with fewer integrations.</td>
-      </tr>
-      <tr>
-        <td><strong>Manus</strong></td>
-        <td>Free tier available</td>
-        <td>Autonomous task execution, web browsing, file creation, research.</td>
-        <td>True agentic AI that can browse the web, write code, create documents, and execute multi-step tasks without supervision.</td>
-        <td>Credit-based system on free tier, tasks can take longer for complex operations, less conversational than chat-based tools.</td>
-      </tr>
-    </table>
-
-    <h2>Flagship vs. Free Tier: What's the Difference?</h2>
-    <p>While we focus on free-tier tools for this training, you will likely encounter the premium/flagship versions when working with your clients. Here is the current flagship landscape (May 2026):</p>
-    <ul>
-      <li><strong>Claude Opus 4.7:</strong> The undisputed king of deep reasoning, coding, and complex logic. The standard for enterprise use. Launched April 16, 2026.</li>
-      <li><strong>GPT-5.5 Instant:</strong> Now the default for all ChatGPT users (May 5, 2026). Plus users get GPT-5.4 Pro for heavier tasks. GPT Image 2 replaced DALL-E entirely.</li>
-      <li><strong>Gemini 2.5 Pro / 3.5 Flash:</strong> 3.5 Flash is the new default (May 19, 2026). 2.5 Pro remains available for deep reasoning. Gemini Omni combines reasoning with image/video/audio creation.</li>
-      <li><strong>Kimi K2.6:</strong> Open-source (1T parameters, April 2026). Can orchestrate 300 parallel sub-agents. Free tier with 262K context.</li>
-    </ul>
-
-    <h2>Context Windows Explained (Why This Matters)</h2>
-    <p>A context window is how much text the AI can "see" at once. Think of it as the AI's short-term memory. If you paste a 50-page document into a tool with a small context window, it will forget the beginning by the time it reaches the end.</p>
-    <table class="comparison-table">
-      <tr>
-        <th>Tool</th>
-        <th>Context Window</th>
-        <th>What That Means</th>
-      </tr>
-      <tr>
-        <td>Claude (Sonnet 4.6)</td>
-        <td>1,000,000 tokens (~750,000 words)</td>
-        <td>Can process an entire novel or a full quarter's worth of meeting transcripts in one go.</td>
-      </tr>
-      <tr>
-        <td>ChatGPT (GPT-5.5 Instant)</td>
-        <td>128,000 tokens (~96,000 words)</td>
-        <td>Good for most documents, but will struggle with very large files.</td>
-      </tr>
-      <tr>
-        <td>Gemini 3.5 Flash</td>
-        <td>1,000,000 tokens (~750,000 words)</td>
-        <td>Matches Claude for large document processing, especially when combined with Google Drive.</td>
-      </tr>
-      <tr>
-        <td>Kimi K2.6</td>
-        <td>262,000 tokens (~196,000 words)</td>
-        <td>Strong for long documents, especially technical papers and codebases.</td>
-      </tr>
-    </table>
-
-    <h2>Tool Selection by VA Role</h2>
-    <p>Different roles require different AI stacks. Here is how we map tools to tasks at KeyPlayers:</p>
-    <ul>
-      <li><strong>Executive Assistant (EA):</strong> Claude (for drafting sensitive emails/SOPs), Kimi AI (for summarizing massive reports).</li>
-      <li><strong>Social Media VA:</strong> ChatGPT (for rapid content ideation), Claude (for refining brand voice).</li>
-      <li><strong>Sales/Lead Gen VA:</strong> Perplexity (for deep prospect research), Gemini (for scraping web data).</li>
-    </ul>
-
-    <h2>Pre-Training Survey</h2>
-    <p>Before we dive into the mechanics of AI, we need to establish your baseline. Please complete this survey honestly. There are no wrong answers.</p>
+  <!-- PRE-TRAINING SURVEY -->
+  <div id="surveySection">
+    <h2 style="color:#438951; margin-top:0;">Pre-Training Baseline Survey</h2>
+    <p>Before we begin, please complete this survey honestly. There are no wrong answers. This helps your trainer understand where you're starting from.</p>
 
     <div id="surveyForm" style="background: #0D1A13; padding: 25px; border-radius: 8px; border: 1px solid #1A2E22; margin-top: 20px;">
       <div class="survey-q">
         <label>Your Name</label>
         <input type="text" class="survey-text" id="surveyName" placeholder="First and last name">
       </div>
-
       <div class="survey-q">
         <label>1. How would you rate your prompting skills?</label>
         <div class="survey-options">
@@ -396,7 +260,6 @@
           <input type="radio" name="q1" id="q1e" value="5"><label class="opt" for="q1e">5. Advanced/Templates</label>
         </div>
       </div>
-
       <div class="survey-q">
         <label>2. How would you rate your knowledge of AI?</label>
         <div class="survey-options">
@@ -407,7 +270,6 @@
           <input type="radio" name="q2" id="q2e" value="5"><label class="opt" for="q2e">5. Deep understanding</label>
         </div>
       </div>
-
       <div class="survey-q">
         <label>3. Automation & Coding Knowledge?</label>
         <div class="survey-options">
@@ -418,7 +280,6 @@
           <input type="radio" name="q3" id="q3e" value="5"><label class="opt" for="q3e">5. Can code/script</label>
         </div>
       </div>
-
       <div class="survey-q">
         <label>4. Current Role(s)? (Select all that apply)</label>
         <div class="survey-options">
@@ -438,25 +299,82 @@
           <input type="text" class="survey-text" id="q4Other" placeholder="Please specify your role(s)...">
         </div>
       </div>
-
       <div id="surveyError" style="display:none;color:#ef4444;font-size:10pt;margin-bottom:15px;"></div>
       <button class="btn" id="surveyBtn" onclick="submitPreSurvey()" style="width: 100%;">Submit Baseline Survey</button>
     </div>
 
     <div id="surveyResult" style="display:none; text-align:center; padding: 30px; background: #1A2E22; border-radius: 8px; margin-top: 20px;">
       <h2 style="margin-top: 0; color: #438951;">Survey Submitted!</h2>
-      <p>Your trainer has received your baseline data. You are ready to proceed.</p>
+      <p>Your trainer has received your baseline data. You are ready to proceed to the sessions below.</p>
+    </div>
+  </div>
+
+  <!-- SESSION INDEX -->
+  <div class="session-index" id="sessionIndex">
+    <div class="session-index-title">Day 1 Sessions</div>
+    <a class="session-card" onclick="navSlide('slide1')"><span class="snum">Session 1:</span> The AI Landscape & Benchmarking</a>
+    <a class="session-card" onclick="navSlide('slide2')"><span class="snum">Session 2:</span> The Anatomy of a Perfect Prompt</a>
+    <a class="session-card" onclick="navSlide('slide3')"><span class="snum">Session 3:</span> Best Practices, Compliance & Security</a>
+    <a class="session-card" onclick="navSlide('slide4')"><span class="snum">Session 4:</span> Advanced Constraints & Formatting</a>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="slide" id="slide1">
+    <div class="section-title">Session 1: The AI Landscape & Benchmarking</div>
+    <p>Welcome to the KeyPlayers HQ AI Training Program. Over the next 10 days, you will transition from a standard Virtual Assistant to an elite <strong>AI Operator</strong>.</p>
+    <p>Our goal isn't just to teach you how to use ChatGPT. Our goal is to teach you how to operate a business's Command Center using AI agents, workflow automations, and the most critical skill of all: <strong>The Human Margin</strong>.</p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Our Moat</div>
+      <p>AI generates, drafts, and analyzes. But AI hallucinates, lacks context, and has no real-world experience. <strong>The Human Margin</strong> is where you step in. You bridge the gap between the business owner and the AI. You verify, you judge, and you execute. You are the pilot; AI is the engine.</p>
     </div>
 
-    <div class="nav-buttons end">
+    <h2>Benchmarking the Big Four (Free Tiers) - Updated May 2026</h2>
+    <p>As an operator, you must know which tool to reach for. The AI landscape moves fast. Here is the current benchmark for the free tiers of the major LLMs as of today:</p>
+    <table>
+      <tr><th>Tool</th><th>Current Model (Free)</th><th>Best For</th><th>Pros</th><th>Cons (Free Tier)</th></tr>
+      <tr><td><strong>Claude</strong></td><td>Sonnet 4.6 (free tier access with limits)</td><td>Nuanced writing, long documents, coding, deep analysis, agentic workflows.</td><td>Most human-like tone, 1M token context window, Artifacts UI, Projects, Extended Thinking, Adaptive Thinking.</td><td>Strict daily message limits on free tier, cuts off quickly during heavy use. Pro ($20/mo) or Max ($100+/mo) for more.</td></tr>
+      <tr><td><strong>ChatGPT</strong></td><td>GPT-5.5 Instant (free tier default since May 5, 2026)</td><td>Quick tasks, data formatting, brainstorming, voice mode, image generation (GPT Image 2).</td><td>Fast, 52% fewer hallucinations than previous models, massive ecosystem (GPTs, voice, Codex), native image generation with GPT Image 2, strong at structured data.</td><td>Can sound generic, tends to use filler phrases. Free tier has usage caps during peak hours.</td></tr>
+      <tr><td><strong>Gemini</strong></td><td>Gemini 3.5 Flash (free tier default since May 19, 2026 I/O launch)</td><td>Google Workspace integration, rapid web search, multimodal tasks, agentic workflows.</td><td>4x faster output than other frontier models, deep Docs/Drive/Sheets integration, 1M token context, Gemini Omni for combined reasoning + image/video/audio creation.</td><td>Can be overly cautious with sensitive topics, not yet available in all regions, Gemini Omni features still rolling out.</td></tr>
+      <tr><td><strong>Kimi AI</strong></td><td>Kimi K2.6 (free tier)</td><td>Massive document processing, agentic coding, parallel task execution.</td><td>262K token context window for free, open-source model (1T parameters), can orchestrate up to 300 parallel sub-agents, excellent for summarizing entire books or codebases.</td><td>Less polished UI than Claude, creative writing quality is lower, newer ecosystem with fewer integrations.</td></tr>
+      <tr><td><strong>Manus</strong></td><td>Free tier available</td><td>Autonomous task execution, web browsing, file creation, research.</td><td>True agentic AI that can browse the web, write code, create documents, and execute multi-step tasks without supervision.</td><td>Credit-based system on free tier, tasks can take longer for complex operations, less conversational than chat-based tools.</td></tr>
+    </table>
+
+    <h2>Flagship vs. Free Tier: What's the Difference?</h2>
+    <p>While we focus on free-tier tools for this training, you will likely encounter the premium/flagship versions when working with your clients. Here is the current flagship landscape (May 2026):</p>
+    <ul>
+      <li><strong>Claude Opus 4.7:</strong> The undisputed king of deep reasoning, coding, and complex logic. The standard for enterprise use. Launched April 16, 2026.</li>
+      <li><strong>GPT-5.5 Instant:</strong> Now the default for all ChatGPT users (May 5, 2026). Plus users get GPT-5.4 Pro for heavier tasks. GPT Image 2 replaced DALL-E entirely.</li>
+      <li><strong>Gemini 2.5 Pro / 3.5 Flash:</strong> 3.5 Flash is the new default (May 19, 2026). 2.5 Pro remains available for deep reasoning. Gemini Omni combines reasoning with image/video/audio creation.</li>
+      <li><strong>Kimi K2.6:</strong> Open-source (1T parameters, April 2026). Can orchestrate 300 parallel sub-agents. Free tier with 262K context.</li>
+    </ul>
+
+    <h2>Context Windows Explained (Why This Matters)</h2>
+    <p>A context window is how much text the AI can "see" at once. Think of it as the AI's short-term memory.</p>
+    <table>
+      <tr><th>Tool</th><th>Context Window</th><th>What That Means</th></tr>
+      <tr><td>Claude (Sonnet 4.6)</td><td>1,000,000 tokens (~750,000 words)</td><td>Can process an entire novel or a full quarter's worth of meeting transcripts in one go.</td></tr>
+      <tr><td>ChatGPT (GPT-5.5 Instant)</td><td>128,000 tokens (~96,000 words)</td><td>Good for most documents, but will struggle with very large files.</td></tr>
+      <tr><td>Gemini 3.5 Flash</td><td>1,000,000 tokens (~750,000 words)</td><td>Matches Claude for large document processing, especially when combined with Google Drive.</td></tr>
+      <tr><td>Kimi K2.6</td><td>262,000 tokens (~196,000 words)</td><td>Strong for long documents, especially technical papers and codebases.</td></tr>
+    </table>
+
+    <h2>Tool Selection by VA Role</h2>
+    <ul>
+      <li><strong>Executive Assistant (EA):</strong> Claude (for drafting sensitive emails/SOPs), Kimi AI (for summarizing massive reports).</li>
+      <li><strong>Social Media VA:</strong> ChatGPT (for rapid content ideation), Claude (for refining brand voice).</li>
+      <li><strong>Sales/Lead Gen VA:</strong> Perplexity (for deep prospect research), Gemini (for scraping web data).</li>
+    </ul>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('index')">← Back to Sessions</button>
       <button type="button" class="btn" onclick="navSlide('slide2')">Next: The Anatomy of a Perfect Prompt →</button>
     </div>
   </div>
 
-  <!-- Session 2 -->
+  <!-- SESSION 2 -->
   <div class="slide" id="slide2">
     <div class="section-title">Session 2: The Anatomy of a Perfect Prompt</div>
-    
     <p>Prompting is not about "talking to a computer." It is about providing a highly constrained set of instructions to a reasoning engine. The difference between an amateur and an elite KeyPlayers VA is the precision of their prompts.</p>
 
     <h2>The CLEAR Framework</h2>
@@ -471,19 +389,17 @@
 
     <div class="case-study">
       <div class="case-title">Case Study: The Vague vs. The CLEAR Prompt</div>
-      <p><strong>Vague (Amateur):</strong> "Write an email to my team about the new vacation policy."<br>
-      <em>Result:</em> A generic, robotic, 5-paragraph essay that sounds like a corporate textbook.</p>
-      <p><strong>CLEAR (Professional):</strong> "Act as the Operations Manager for a 20-person remote team (Context). We are updating our vacation policy to unlimited PTO starting next month. Write an announcement email (Action). It needs to be upbeat but clear that 'unlimited' still requires 2 weeks notice for approval (Logic). Keep it under 150 words and do not use bullet points (Restrictions). Tone should be similar to: 'Hey team, great news about how we take time off...' (Examples)."<br>
-      <em>Result:</em> A perfectly formatted, ready-to-send email that requires zero editing.</p>
+      <p><strong>Vague (Amateur):</strong> "Write an email to my team about the new vacation policy."<br><em>Result:</em> A generic, robotic, 5-paragraph essay that sounds like a corporate textbook.</p>
+      <p><strong>CLEAR (Professional):</strong> "Act as the Operations Manager for a 20-person remote team (Context). We are updating our vacation policy to unlimited PTO starting next month. Write an announcement email (Action). It needs to be upbeat but clear that 'unlimited' still requires 2 weeks notice for approval (Logic). Keep it under 150 words and do not use bullet points (Restrictions). Tone should be similar to: 'Hey team, great news about how we take time off...' (Examples)."<br><em>Result:</em> A perfectly formatted, ready-to-send email that requires zero editing.</p>
     </div>
 
     <div class="human-margin-box">
       <div class="human-margin-title">The Human Margin: Intent Translation</div>
-      <p>Your client will often give you vague instructions like "Draft a reply to John." The AI cannot read your client's mind. The Human Margin is your ability to translate the client's vague intent into a CLEAR prompt. You must inject the context (Who is John?), the logic (Why are we replying?), and the restrictions (What can't we say?) before the AI can do its job.</p>
+      <p>Your client will often give you vague instructions like "Draft a reply to John." The AI cannot read your client's mind. The Human Margin is your ability to translate the client's vague intent into a CLEAR prompt.</p>
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">⏱️ 10-Minute Drill: Fix the Prompt</div>
+      <div class="drill-title">10-Minute Drill: Fix the Prompt</div>
       <p>Take this amateur prompt and rewrite it using the CLEAR framework.</p>
       <p><em>Amateur Prompt:</em> "Summarize this meeting transcript."</p>
       <p>Write your CLEAR prompt now. Think about who the summary is for, what specific action items need to be extracted, and how it should be formatted.</p>
@@ -495,16 +411,15 @@
     </div>
   </div>
 
-  <!-- Session 3 -->
+  <!-- SESSION 3 -->
   <div class="slide" id="slide3">
     <div class="section-title">Session 3: Best Practices, Compliance & Security</div>
-
     <p>As a KeyPlayers VA, you will handle sensitive client data. When using free-tier AI tools, you must assume that <strong>everything you type can be used to train future models</strong> by the AI companies.</p>
 
     <h2>The Zero-Trust Policy & Data Sanitization</h2>
     <p>Before pasting any client document into Claude, ChatGPT, or Kimi, you must sanitize it:</p>
     <ul>
-      <li><strong>Remove PII:</strong> Names, phone numbers, addresses.</li>
+      <li><strong>Remove PII (Personally Identifiable Information):</strong> Names, phone numbers, addresses.</li>
       <li><strong>Remove Financials:</strong> Exact revenue numbers, bank accounts, passwords.</li>
       <li><strong>Remove Proprietary IP:</strong> Secret formulas, unreleased product codes.</li>
     </ul>
@@ -515,7 +430,7 @@
     <ol>
       <li><strong>Prompt:</strong> Submit your CLEAR prompt.</li>
       <li><strong>Review:</strong> Read the output critically.</li>
-      <li><strong>Refine:</strong> Tell the AI exactly what to fix. (e.g., "Make paragraph 2 punchier. Remove the bullet points. Adopt a more urgent tone.")</li>
+      <li><strong>Refine:</strong> Tell the AI exactly what to fix.</li>
       <li><strong>Final Polish:</strong> Move the text to a Word doc and manually edit the final 10%.</li>
     </ol>
 
@@ -525,7 +440,7 @@
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">⏱️ 5-Minute Drill: The Sanitization Exercise</div>
+      <div class="drill-title">5-Minute Drill: The Sanitization Exercise</div>
       <p><strong>Scenario:</strong> Your client asks you to summarize this email: "Hi team, Q3 revenue was $4.2M, up from $3.8M. John Smith (jsmith@email.com) led the charge. Let's discuss Project Phoenix tomorrow."</p>
       <p><strong>Task:</strong> Rewrite this text to be 100% sanitized before pasting it into a free-tier LLM.</p>
     </div>
@@ -536,15 +451,12 @@
     </div>
   </div>
 
-  <!-- Session 4 -->
+  <!-- SESSION 4 -->
   <div class="slide" id="slide4">
     <div class="section-title">Session 4: Advanced Constraints & Formatting</div>
-
     <p>Once you master the CLEAR framework, the next step is controlling the AI's output format. If you have to spend 10 minutes reformatting the AI's response, the prompt failed.</p>
 
     <h2>Controlling Output Formats</h2>
-    <p>You can force the AI to output data in specific structures. This is crucial when moving data between systems (like from an email into a CRM).</p>
-    
     <div class="prompt-block">"Output the results EXACTLY in this JSON format:
 {
   "client_name": "[Name]",
@@ -555,19 +467,16 @@
 
     <h2>Metaprompting: Let the AI Write the Prompt</h2>
     <p>One of the most advanced skills an AI Operator can develop is <strong>Metaprompting</strong>. This means using the AI to write a better prompt for you.</p>
-    <p>If you aren't sure how to structure a CLEAR prompt for a complex task, ask the AI to do it. For example:</p>
     <div class="prompt-block">"I need to write a prompt that will take a 30-page PDF report and extract all the financial projections, formatting them into a specific table. I want the tone to be highly analytical. Can you write the perfect prompt for me to achieve this?"</div>
     <p>The AI will generate a highly structured, constraint-heavy prompt that you can then copy, fill in with your specific details, and use. This is how you level up from a user to an architect.</p>
 
     <h2>Cross-Referencing: The Ultimate Human Margin</h2>
-    <p>AI hallucinates. It makes things up. The most dangerous AI Operator is one who blindly trusts a single output. The best operators use <strong>Cross-Referencing</strong>.</p>
-    <p>If Claude gives you a complex legal summary or a critical data point, copy that output and paste it into Gemini or ChatGPT with this prompt:</p>
+    <p>AI hallucinates. The best operators use <strong>Cross-Referencing</strong>. If Claude gives you a complex legal summary or a critical data point, copy that output and paste it into Gemini or ChatGPT with this prompt:</p>
     <div class="prompt-block">"Review this summary for factual accuracy. Identify any logical leaps, missing context, or potential hallucinations."</div>
     <p>This is the Human Margin in action: using one AI to verify another, and making the final judgment yourself.</p>
 
     <h2>The Power of Negative Constraints</h2>
-    <p>AI models are trained to be helpful, which often makes them verbose. They love to start with "Sure, here is the summary you requested!" and end with "Let me know if you need anything else!"</p>
-    <p>To eliminate this, use strong negative constraints:</p>
+    <p>AI models are trained to be helpful, which often makes them verbose. To eliminate this, use strong negative constraints:</p>
     <ul>
       <li>"Do not include any conversational filler."</li>
       <li>"Output ONLY the requested table, nothing else."</li>
@@ -582,15 +491,13 @@
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">⏱️ 10-Minute Drill: The Strict Formatter</div>
+      <div class="drill-title">10-Minute Drill: The Strict Formatter</div>
       <p>Imagine you have a messy transcript of a client discovery call. Write a prompt that forces the AI to extract the client's pain points, budget, and timeline, and output them STRICTLY as a comma-separated values (CSV) list with no other text.</p>
     </div>
 
-    <!-- Q&A Section -->
     <div class="qa-section">
       <div class="qa-title">Day 1 Q&A (15 mins)</div>
-      <p style="font-size: 10pt; color: #8CA692; margin-bottom: 20px;">This concludes today's content. We now have 15 minutes dedicated to open discussion. Please ask the trainer any questions you have about the CLEAR framework, constraints, Chain of Thought, or building your prompt library.</p>
-      
+      <p style="font-size: 10pt; color: #8CA692;">This concludes today's content. Please ask the trainer any questions about the CLEAR framework, constraints, or building your prompt library.</p>
       <div class="nav-buttons">
         <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
         <button type="button" class="btn" onclick="navSlide('done')">Complete Day 1 ✓</button>
@@ -606,26 +513,46 @@
 
 <script>
   function navSlide(slideId) {
-    document.querySelectorAll('.slide').forEach(slide => {
+    document.querySelectorAll('.slide').forEach(function(slide) {
       slide.classList.remove('active');
     });
-    
-    if(slideId === 'done') {
+
+    if (slideId === 'done') {
       alert('Day 1 Completed! You have mastered the foundation of prompting. See you tomorrow for the Claude Introduction.');
       return;
     }
 
+    if (slideId === 'index') {
+      document.getElementById('surveySection').style.display = 'block';
+      document.getElementById('sessionIndex').style.display = 'block';
+      window.scrollTo(0, document.getElementById('sessionIndex').offsetTop - 20);
+      return;
+    }
+
+    // Hide survey and session index when viewing a session
+    document.getElementById('surveySection').style.display = 'none';
+    document.getElementById('sessionIndex').style.display = 'none';
     document.getElementById(slideId).classList.add('active');
-    window.scrollTo(0, 0);
-    if(history.pushState) {
+    window.scrollTo(0, document.getElementById(slideId).offsetTop - 20);
+
+    if (history.pushState) {
       history.pushState(null, null, '#' + slideId);
     } else {
       location.hash = '#' + slideId;
     }
   }
 
+  // Handle hash on page load (for GHL embedding)
   window.onload = function() {
-    let hash = window.location.hash;
+    var hash = window.location.hash;
+    if (hash && document.querySelector(hash)) {
+      navSlide(hash.substring(1));
+    }
+  }
+
+  // Handle browser back/forward
+  window.onhashchange = function() {
+    var hash = window.location.hash;
     if (hash && document.querySelector(hash)) {
       navSlide(hash.substring(1));
     }
@@ -654,7 +581,6 @@
       return;
     }
 
-    // Collect selected roles
     var roles = [];
     q4Checked.forEach(function(cb) {
       if (cb.value === 'Other') {
@@ -667,7 +593,6 @@
     });
 
     errEl.style.display = 'none';
-
     var btn = document.getElementById('surveyBtn');
     btn.textContent = 'Submitting...';
     btn.disabled = true;
