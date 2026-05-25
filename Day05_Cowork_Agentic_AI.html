@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers HQ: Day 5 - Cowork & Agentic AI</title>
+<title>KeyPlayers VA Academy: Day 5 - Cowork & Agentic AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; }
@@ -15,24 +15,24 @@
     margin: 0;
     padding: 0;
   }
-
   .header {
     background: #060B08;
-    padding: 20px 40px;
+    padding: 18px 40px;
     text-align: center;
     border-bottom: 1px solid #1A2E22;
   }
-  
-  .header img {
-    max-height: 40px;
+  .header-text {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 14pt;
+    font-weight: 500;
+    letter-spacing: 1px;
   }
-
   .container {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
   }
-
   h1 {
     font-family: 'Fraunces', serif;
     color: #DDEEE0;
@@ -40,13 +40,45 @@
     text-align: center;
     margin-bottom: 10px;
   }
-
   .subtitle {
     text-align: center;
     color: #8CA692;
     margin-bottom: 40px;
   }
-
+  .session-index {
+    margin-bottom: 30px;
+  }
+  .session-index-title {
+    font-family: 'Fraunces', serif;
+    color: #438951;
+    font-size: 13pt;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1A2E22;
+  }
+  .session-card {
+    display: block;
+    background: #111F17;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    color: #8CA692;
+    text-decoration: none;
+    font-size: 10.5pt;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .session-card:hover {
+    background: #1A2E22;
+    border-color: #438951;
+    color: #DDEEE0;
+  }
+  .session-card .snum {
+    color: #438951;
+    font-weight: 600;
+    margin-right: 8px;
+  }
   .slide {
     display: none;
     background: #111F17;
@@ -55,9 +87,7 @@
     padding: 30px;
     margin-bottom: 20px;
   }
-  
   .slide.active { display: block; }
-
   .section-title {
     font-family: 'Fraunces', serif;
     font-size: 18pt;
@@ -66,7 +96,6 @@
     padding-bottom: 10px;
     margin-bottom: 20px;
   }
-
   h2 {
     font-family: 'Fraunces', serif;
     font-size: 14pt;
@@ -74,22 +103,10 @@
     margin-top: 30px;
     margin-bottom: 15px;
   }
-
-  p {
-    line-height: 1.7;
-    margin-bottom: 16px;
-  }
-
-  ul, ol {
-    margin-bottom: 20px;
-    padding-left: 20px;
-  }
-
-  li {
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-
+  h3 { color: #8CA692; margin-top: 25px; }
+  p { line-height: 1.7; margin-bottom: 16px; }
+  ul, ol { margin-bottom: 20px; padding-left: 20px; }
+  li { margin-bottom: 10px; line-height: 1.6; }
   .human-margin-box {
     background: #0D1A13;
     border-left: 4px solid #438951;
@@ -97,7 +114,6 @@
     margin: 25px 0;
     border-radius: 0 8px 8px 0;
   }
-
   .human-margin-title {
     font-family: 'Fraunces', serif;
     color: #438951;
@@ -105,7 +121,73 @@
     margin-bottom: 10px;
     font-size: 12pt;
   }
-
+  .drill-box {
+    background: rgba(234,179,8,0.05);
+    border: 1px solid rgba(234,179,8,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+  .drill-title {
+    font-family: 'Fraunces', serif;
+    color: #EAB308;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .case-study {
+    background: rgba(167,139,250,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+  .case-title {
+    font-family: 'Fraunces', serif;
+    color: #A78BFA;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .prompt-block {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: monospace;
+    color: #8CA692;
+    white-space: pre-wrap;
+    margin: 15px 0;
+  }
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  .comp-weak, .comp-strong {
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 10pt;
+    line-height: 1.6;
+  }
+  .comp-weak {
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+  .comp-strong {
+    background: rgba(67,137,81,0.05);
+    border: 1px solid rgba(67,137,81,0.3);
+  }
+  .comp-label {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 9.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .weak-label { color: #ef4444; }
+  .strong-label { color: #438951; }
   .qa-section {
     background: #060B08;
     border: 1px solid #1A2E22;
@@ -113,24 +195,18 @@
     padding: 25px;
     margin-top: 40px;
   }
-
   .qa-title {
     color: #DDEEE0;
     font-weight: 600;
     margin-bottom: 15px;
     font-size: 13pt;
   }
-
   .nav-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
   }
-  
-  .nav-buttons.end {
-    justify-content: flex-end;
-  }
-
+  .nav-buttons.end { justify-content: flex-end; }
   .btn {
     background: #438951;
     color: white;
@@ -142,19 +218,13 @@
     font-family: 'Epilogue', sans-serif;
     transition: background 0.2s;
   }
-  
   .btn:hover { background: #367042; }
-  
   .btn-outline {
     background: transparent;
     border: 1px solid #438951;
     color: #438951;
   }
-  
-  .btn-outline:hover {
-    background: rgba(67, 137, 81, 0.1);
-  }
-
+  .btn-outline:hover { background: rgba(67, 137, 81, 0.1); }
   .footer {
     text-align: center;
     color: #5A7061;
@@ -162,103 +232,33 @@
     margin-top: 40px;
     padding-bottom: 40px;
   }
-
   table { width: 100%; border-collapse: collapse; margin: 20px 0; }
   th, td { padding: 12px; border: 1px solid #1A2E22; text-align: left; }
   th { background: #060B08; color: #438951; font-weight: 600; }
-
-  .comparison {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin: 20px 0;
-  }
-
-  .comp-weak {
-    background: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    padding: 15px;
-    border-radius: 6px;
-  }
-
-  .comp-strong {
-    background: rgba(67, 137, 81, 0.05);
-    border: 1px solid rgba(67, 137, 81, 0.2);
-    padding: 15px;
-    border-radius: 6px;
-  }
-
-  .comp-label {
-    font-size: 9pt;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .weak-label { color: #ef4444; }
-  .strong-label { color: #438951; }
-
-  .prompt-block {
-    background: #060B08;
-    border: 1px solid #1A2E22;
-    border-radius: 6px;
-    padding: 15px;
-    font-family: monospace;
-    color: #8CA692;
-    white-space: pre-wrap;
-    margin: 15px 0;
-  }
-
-  .drill-box {
-    background: rgba(234,179,8,0.05);
-    border: 1px solid rgba(234,179,8,0.2);
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 8px;
-  }
-
-  .drill-title {
-    font-family: 'Fraunces', serif;
-    color: #EAB308;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .case-study {
-    background: rgba(167,139,250,0.05);
-    border: 1px solid rgba(167,139,250,0.2);
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 8px;
-  }
-
-  .case-title {
-    font-family: 'Fraunces', serif;
-    color: #A78BFA;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-  }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="https://via.placeholder.com/200x40/060B08/DDEEE0?text=KEYPLAYERS+HQ" alt="Keyplayers HQ Logo">
+  <span class="header-text">KeyPlayers VA Academy</span>
 </div>
 
 <div class="container">
   <h1>Day 5: Cowork & Agentic AI</h1>
   <p class="subtitle">Transitioning from AI that answers to AI that executes</p>
 
-  <!-- Session 1 -->
-  <div class="slide active" id="slide1">
+  <!-- SESSION INDEX -->
+  <div class="session-index" id="sessionIndex">
+    <div class="session-index-title">Day 5 Sessions</div>
+    <a class="session-card" onclick="navSlide('slide1')"><span class="snum">Session 1:</span> What is Cowork Mode?</a>
+    <a class="session-card" onclick="navSlide('slide2')"><span class="snum">Session 2:</span> Cowork Power Workflows</a>
+    <a class="session-card" onclick="navSlide('slide3')"><span class="snum">Session 3:</span> The Shift to Agentic AI</a>
+    <a class="session-card" onclick="navSlide('slide4')"><span class="snum">Session 4:</span> Build an Agentic Prompt</a>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="slide" id="slide1">
     <div class="section-title">Session 1: What is Cowork Mode?</div>
-    
     <p>Until now, you have used AI as a Chatbot. You ask a question, it types an answer. You copy the answer and paste it into an email. <strong>Cowork mode changes this paradigm entirely.</strong></p>
 
     <div class="comparison">
@@ -274,7 +274,7 @@
 
     <h2>How Cowork Operates</h2>
     <p>Cowork is a feature within the Claude Desktop App that utilizes MCP (Model Context Protocol) to securely connect to your local files and cloud applications.</p>
-    
+
     <table>
       <thead><tr><th>Connection</th><th>What It Does</th><th>Example Prompt</th></tr></thead>
       <tbody>
@@ -290,19 +290,19 @@
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">⏱️ 5-Minute Drill: The Cowork Audit</div>
+      <div class="drill-title">5-Minute Drill: The Cowork Audit</div>
       <p>List three repetitive tasks you do every day that involve copying data from one app (like Slack) and pasting it into another (like Gmail or a Google Doc). Write down how a Cowork MCP connection could eliminate that manual copying.</p>
     </div>
 
-    <div class="nav-buttons end">
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('index')">← Back to Sessions</button>
       <button type="button" class="btn" onclick="navSlide('slide2')">Next: Power Workflows →</button>
     </div>
   </div>
 
-  <!-- Session 2 -->
+  <!-- SESSION 2 -->
   <div class="slide" id="slide2">
     <div class="section-title">Session 2: Cowork Power Workflows</div>
-
     <p>Let's look at how Cowork mode transforms standard 30-minute VA tasks into 3-minute operations.</p>
 
     <h2>Workflow 1: The Morning Briefing</h2>
@@ -345,10 +345,9 @@
     </div>
   </div>
 
-  <!-- Slide 3 -->
+  <!-- SESSION 3 -->
   <div class="slide" id="slide3">
     <div class="section-title">Session 3: The Shift to Agentic AI</div>
-
     <p>Cowork is your first introduction to "Agentic AI." Understanding this concept is crucial for your future at KeyPlayers HQ.</p>
 
     <h2>The Evolution of AI</h2>
@@ -368,7 +367,7 @@
     </div>
 
     <div class="drill-box">
-      <div class="drill-title">⏱️ 10-Minute Drill: Agentic Mapping</div>
+      <div class="drill-title">10-Minute Drill: Agentic Mapping</div>
       <p>Think of a complex task that currently takes you more than 30 minutes. Map out how an "Agent" would do it. What systems would it need to access? What decisions would it need to make? Where would YOU need to step in to approve the work?</p>
     </div>
 
@@ -378,10 +377,9 @@
     </div>
   </div>
 
-  <!-- Slide 4 -->
+  <!-- SESSION 4 -->
   <div class="slide" id="slide4">
     <div class="section-title">Session 4: Build an Agentic Prompt</div>
-
     <p>To use Agentic AI effectively, your prompts must evolve. You are no longer asking for text; you are programming a workflow.</p>
 
     <h2>The Agentic Prompt Structure</h2>
@@ -404,11 +402,9 @@
       <p>Agentic prompts work 90% of the time. The Human Margin is required for the 10% edge cases. If an email comes in from a new investor who doesn't use the "@pacificrealty.com" domain, the AI will miss it. You must always do a final manual scan to catch what the rigid logic of the AI missed.</p>
     </div>
 
-    <!-- Q&A Section -->
     <div class="qa-section">
       <div class="qa-title">Day 5 Q&A (15 mins)</div>
-      <p style="font-size: 10pt; color: #8CA692; margin-bottom: 20px;">This concludes today's content. We now have 15 minutes dedicated to open discussion. Please ask the trainer any questions you have about Cowork mode, Agentic AI, and building agentic prompts.</p>
-      
+      <p style="font-size: 10pt; color: #8CA692;">This concludes Week 1. Please ask the trainer any questions about Cowork mode, Agentic AI, and building agentic prompts.</p>
       <div class="nav-buttons">
         <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
         <button type="button" class="btn" onclick="navSlide('done')">Complete Week 1 ✓</button>
@@ -424,18 +420,26 @@
 
 <script>
   function navSlide(slideId) {
-    document.querySelectorAll('.slide').forEach(slide => {
+    document.querySelectorAll('.slide').forEach(function(slide) {
       slide.classList.remove('active');
     });
-    
-    if(slideId === 'done') {
+
+    if (slideId === 'done') {
       alert('Week 1 Completed! You have mastered the foundations of AI. Have a great weekend!');
       return;
     }
 
+    if (slideId === 'index') {
+      document.getElementById('sessionIndex').style.display = 'block';
+      window.scrollTo(0, document.getElementById('sessionIndex').offsetTop - 20);
+      return;
+    }
+
+    document.getElementById('sessionIndex').style.display = 'none';
     document.getElementById(slideId).classList.add('active');
-    window.scrollTo(0, 0);
-    if(history.pushState) {
+    window.scrollTo(0, document.getElementById(slideId).offsetTop - 20);
+
+    if (history.pushState) {
       history.pushState(null, null, '#' + slideId);
     } else {
       location.hash = '#' + slideId;
@@ -443,7 +447,14 @@
   }
 
   window.onload = function() {
-    let hash = window.location.hash;
+    var hash = window.location.hash;
+    if (hash && document.querySelector(hash)) {
+      navSlide(hash.substring(1));
+    }
+  }
+
+  window.onhashchange = function() {
+    var hash = window.location.hash;
     if (hash && document.querySelector(hash)) {
       navSlide(hash.substring(1));
     }
