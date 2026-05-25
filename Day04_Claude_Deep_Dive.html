@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy: Day 4 - Claude Deep Dive</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Epilogue', Arial, sans-serif;
+    font-size: 11pt;
+    color: #E0E0E0;
+    background: #0A140F;
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    background: #060B08;
+    padding: 18px 40px;
+    text-align: center;
+    border-bottom: 1px solid #1A2E22;
+  }
+  .header-text {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 14pt;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #8CA692;
+    margin-bottom: 40px;
+  }
+  .session-index {
+    margin-bottom: 30px;
+  }
+  .session-index-title {
+    font-family: 'Fraunces', serif;
+    color: #438951;
+    font-size: 13pt;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1A2E22;
+  }
+  .session-card {
+    display: block;
+    background: #111F17;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 10px;
+    color: #8CA692;
+    text-decoration: none;
+    font-size: 10.5pt;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .session-card:hover {
+    background: #1A2E22;
+    border-color: #438951;
+    color: #DDEEE0;
+  }
+  .session-card .snum {
+    color: #438951;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+  .slide {
+    display: none;
+    background: #111F17;
+    border: 1px solid #1A2E22;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;
+  }
+  .slide.active { display: block; }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18pt;
+    color: #438951;
+    border-bottom: 2px solid #1A2E22;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    color: #DDEEE0;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  h3 { color: #8CA692; margin-top: 25px; }
+  p { line-height: 1.7; margin-bottom: 16px; }
+  ul, ol { margin-bottom: 20px; padding-left: 20px; }
+  li { margin-bottom: 10px; line-height: 1.6; }
+  .human-margin-box {
+    background: #0D1A13;
+    border-left: 4px solid #438951;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .human-margin-title {
+    font-family: 'Fraunces', serif;
+    color: #438951;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .drill-box {
+    background: rgba(234,179,8,0.05);
+    border: 1px solid rgba(234,179,8,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+  .drill-title {
+    font-family: 'Fraunces', serif;
+    color: #EAB308;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .case-study {
+    background: rgba(167,139,250,0.05);
+    border: 1px solid rgba(167,139,250,0.2);
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 8px;
+  }
+  .case-title {
+    font-family: 'Fraunces', serif;
+    color: #A78BFA;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+  }
+  .prompt-block {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: monospace;
+    color: #8CA692;
+    white-space: pre-wrap;
+    margin: 15px 0;
+  }
+  .qa-section {
+    background: #060B08;
+    border: 1px solid #1A2E22;
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 40px;
+  }
+  .qa-title {
+    color: #DDEEE0;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 13pt;
+  }
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  .nav-buttons.end { justify-content: flex-end; }
+  .btn {
+    background: #438951;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Epilogue', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: #367042; }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid #438951;
+    color: #438951;
+  }
+  .btn-outline:hover { background: rgba(67, 137, 81, 0.1); }
+  .footer {
+    text-align: center;
+    color: #5A7061;
+    font-size: 9.5pt;
+    margin-top: 40px;
+    padding-bottom: 40px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { padding: 12px; border: 1px solid #1A2E22; text-align: left; }
+  th { background: #060B08; color: #438951; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-text">KeyPlayers VA Academy</span>
+</div>
+
+<div class="container">
+  <h1>Day 4: Claude Deep Dive & Secret Weapons</h1>
+  <p class="subtitle">Mastering the primary AI engine of the KeyPlayers HQ stack</p>
+
+  <!-- SESSION INDEX -->
+  <div class="session-index" id="sessionIndex">
+    <div class="session-index-title">Day 4 Sessions</div>
+    <a class="session-card" onclick="navSlide('slide1')"><span class="snum">Session 1:</span> The Claude Model Family & Capabilities</a>
+    <a class="session-card" onclick="navSlide('slide2')"><span class="snum">Session 2:</span> Projects & Context Engineering</a>
+    <a class="session-card" onclick="navSlide('slide3')"><span class="snum">Session 3:</span> Artifacts & Advanced Features</a>
+    <a class="session-card" onclick="navSlide('slide4')"><span class="snum">Session 4:</span> MCP & Practical Workflows</a>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="slide" id="slide1">
+    <div class="section-title">Session 1: The Claude Model Family & Capabilities</div>
+    <p>Claude is not just one AI; it is a family of models. As an Operator, you must know which model to deploy based on the task's requirements for speed versus intelligence.</p>
+
+    <table>
+      <thead><tr><th>Model</th><th>Speed</th><th>Intelligence</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>Haiku</td><td>Fastest</td><td>Good</td><td>Quick tasks, simple rewrites, bulk data formatting</td></tr>
+        <tr><td>Sonnet</td><td>Fast</td><td>Very Good</td><td>Daily work, emails, content creation, most VA tasks</td></tr>
+        <tr><td>Opus</td><td>Slowest</td><td>Best</td><td>Complex strategy, massive document analysis, nuanced reasoning</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Why Claude is our Primary Tool</h2>
+    <ul>
+      <li><strong>Precision:</strong> It follows multi-step instructions better than competitors.</li>
+      <li><strong>Context Window:</strong> It can process entire books or hundreds of pages of transcripts without forgetting details.</li>
+      <li><strong>Safety & Nuance:</strong> It rarely hallucinates when given proper context and defaults to a professional tone.</li>
+    </ul>
+
+    <div class="case-study">
+      <div class="case-title">Case Study: The 100-Page Contract</div>
+      <p>A client needed to find all instances where "liability" was mentioned in a 100-page vendor contract, and summarize the risk. Using ChatGPT, the VA hit a token limit and the system crashed. Using Claude (Sonnet 3.5), the VA uploaded the PDF and had a comprehensive, bulleted risk analysis in 45 seconds.</p>
+    </div>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Model Selection</div>
+      <p>Using Opus to write a 2-sentence email is like using a sledgehammer to crack a nut—it wastes time and expensive tokens. The Human Margin is knowing that Sonnet is your daily driver, and reserving Opus only for when the client hands you a 50-page Q3 financial report that needs deep analysis.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">5-Minute Drill: Model Matchmaker</div>
+      <p>Which Claude model (Haiku, Sonnet, or Opus) would you use for:</p>
+      <ol>
+        <li>Reformatting a list of 50 names from "Last, First" to "First Last".</li>
+        <li>Drafting a standard weekly update email to the team.</li>
+        <li>Analyzing three different competitor pricing strategies to recommend a new tier structure for your client.</li>
+      </ol>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('index')">← Back to Sessions</button>
+      <button type="button" class="btn" onclick="navSlide('slide2')">Next: Projects & Context Engineering →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="slide" id="slide2">
+    <div class="section-title">Session 2: Projects & Context Engineering</div>
+    <p>A standard Claude chat forgets everything when you close the window. A <strong>Claude Project</strong> acts as a persistent workspace with a permanent memory of your client.</p>
+
+    <h2>Setting up a Client Project</h2>
+    <p>When you onboard a new client, your first step is creating their KeyBrain profile, and your second step is mirroring that into a Claude Project.</p>
+    <ol>
+      <li><strong>Project Knowledge:</strong> Upload brand guidelines, past successful emails, SOPs, and company info.</li>
+      <li><strong>Custom Instructions:</strong> Write a permanent system prompt that governs every interaction in that project.</li>
+    </ol>
+
+    <div class="prompt-block">System Prompt Example:
+You are an Executive Assistant to Sarah Chen, CEO of Pacific Realty.
+Tone: Direct, professional, no corporate fluff.
+Output Rules: Always use bullet points for summaries. Never commit Sarah's time without asking.</div>
+
+    <h2>Context Maintenance & The Feedback Loop</h2>
+    <p>A Claude Project is only as good as the information inside it. If the information is outdated, the AI's output will be outdated. Every time your client corrects an email draft or changes a process, you must update the Project Knowledge.</p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Active Maintenance</div>
+      <p>AI doesn't know when a client changes their mind. If Sarah decides she wants her emails to sound more casual, Claude won't know. The Human Margin is the active maintenance of the Project Instructions. You must constantly update the system prompt as you learn more about the client's evolving preferences.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">10-Minute Drill: Build a System Prompt</div>
+      <p>Imagine you are the EA for a fitness influencer who is highly energetic, uses emojis, but is very strict about not giving medical advice. Write a 4-sentence System Prompt for their Claude Project.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide1')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide3')">Next: Artifacts & Advanced Features →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="slide" id="slide3">
+    <div class="section-title">Session 3: Artifacts & Advanced Features</div>
+
+    <h2>Claude Artifacts</h2>
+    <p>When Claude generates a long document, a complex table, or code, it creates an <strong>Artifact</strong>—a dedicated window separate from the chat interface. This allows you to view, copy, and iterate on the final product without losing your chat history.</p>
+    <p>Artifacts are essential for creating SOPs, long-form content, or HTML snippets. You can ask Claude to "update the third section of the Artifact" without it having to rewrite the entire document in the chat log.</p>
+
+    <h2>Vision Capabilities</h2>
+    <p>Claude can "see." You can upload images, screenshots, or charts, and ask Claude to analyze them.</p>
+    <p><em>Use Case:</em> Take a screenshot of a messy whiteboard from a client meeting, upload it to Claude, and say: "Transcribe this whiteboard and organize the notes into Action Items, Ideas, and Deadlines."</p>
+
+    <h2>File Uploads & Batch Processing</h2>
+    <p>You can upload up to 5 files at once in the free tier. This is perfect for cross-referencing data.</p>
+    <p><em>Use Case:</em> Upload last month's financial PDF and this month's financial PDF. Prompt: "Compare these two documents and list the top 3 areas where expenses increased."</p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Vision Verification</div>
+      <p>Claude's vision is good, but not perfect. If you upload a whiteboard screenshot with messy handwriting, Claude might misread a number or a name. The Human Margin requires you to look at the original image and verify the AI's transcription before taking action.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">10-Minute Drill: The Artifact Request</div>
+      <p>Write a prompt that asks Claude to create a weekly schedule for a CEO, and explicitly instruct it to output the result as an Artifact so you can easily copy it into KeyBrain.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide2')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide4')">Next: MCP & Practical Workflows →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="slide" id="slide4">
+    <div class="section-title">Session 4: MCP & Practical Workflows</div>
+
+    <h2>MCP (Model Context Protocol)</h2>
+    <p>MCP is the bridge between Claude's brain and the outside world. It allows Claude to interact directly with other applications.</p>
+    <ul>
+      <li><strong>Without MCP:</strong> You copy an email from Gmail, paste it into Claude, ask for a reply, copy the reply, and paste it back into Gmail.</li>
+      <li><strong>With MCP:</strong> Claude reads the email directly from Gmail, drafts the reply, and stages it in your outbox.</li>
+    </ul>
+    <p>MCP is the foundational technology behind the upcoming KeyCommand system.</p>
+
+    <h2>Practical Claude Workflows</h2>
+    <p>Let's put the theory into practice with three core VA workflows using Claude.</p>
+
+    <h3>1. The "Brain Dump" to SOP Workflow</h3>
+    <p>Clients often send rambling voice notes or messy bullet points. Feed this into Claude using Sonnet, ask it to format it into a standard KeyPlayers SOP structure using an Artifact, and then save that Artifact into KeyBrain.</p>
+
+    <h3>2. The "Tone Match" Workflow</h3>
+    <p>Feed Claude 5 emails the client has written. Ask Claude to analyze the tone, vocabulary, and sentence structure. Save that analysis into the Project Instructions so Claude permanently adopts that voice.</p>
+
+    <h3>3. The "Meeting Extraction" Workflow</h3>
+    <p>Upload a 1-hour meeting transcript. Do not just ask for a summary. Ask Claude to extract: 1) Action items assigned to the client, 2) Action items assigned to you (the VA), and 3) Deadlines.</p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: The Final Authorization</div>
+      <p>MCP gives AI the "hands" to do the work, but YOU hold the keys. Never set up an MCP workflow that auto-sends emails or auto-publishes social posts without a human review step. The AI drafts; the Human Margin clicks "Send."</p>
+    </div>
+
+    <div class="qa-section">
+      <div class="qa-title">Day 4 Q&A (15 mins)</div>
+      <p style="font-size: 10pt; color: #8CA692;">This concludes today's content. Please ask the trainer any questions about Claude Projects, Artifacts, Vision, or specific workflows.</p>
+      <div class="nav-buttons">
+        <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
+        <button type="button" class="btn" onclick="navSlide('done')">Complete Day 4 ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  KeyPlayers HQ · KP VA AI Training Program · Day 4
+</div>
+
+<script>
+  function navSlide(slideId) {
+    document.querySelectorAll('.slide').forEach(function(slide) {
+      slide.classList.remove('active');
+    });
+
+    if (slideId === 'done') {
+      alert('Day 4 Completed! Great job. See you tomorrow for Cowork & Agentic AI.');
+      return;
+    }
+
+    if (slideId === 'index') {
+      document.getElementById('sessionIndex').style.display = 'block';
+      window.scrollTo(0, document.getElementById('sessionIndex').offsetTop - 20);
+      return;
+    }
+
+    document.getElementById('sessionIndex').style.display = 'none';
+    document.getElementById(slideId).classList.add('active');
+    window.scrollTo(0, document.getElementById(slideId).offsetTop - 20);
+
+    if (history.pushState) {
+      history.pushState(null, null, '#' + slideId);
+    } else {
+      location.hash = '#' + slideId;
+    }
+  }
+
+  window.onload = function() {
+    var hash = window.location.hash;
+    if (hash && document.querySelector(hash)) {
+      navSlide(hash.substring(1));
+    }
+  }
+
+  window.onhashchange = function() {
+    var hash = window.location.hash;
+    if (hash && document.querySelector(hash)) {
+      navSlide(hash.substring(1));
+    }
+  }
+</script>
+
+</body>
+</html>
