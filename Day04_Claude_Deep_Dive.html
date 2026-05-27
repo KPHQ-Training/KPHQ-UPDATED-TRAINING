@@ -3,432 +3,943 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers VA Academy: Day 4 - Claude Deep Dive</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<title>KeyPlayers HQ | Day 4: Claude Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: 'Epilogue', Arial, sans-serif;
-    font-size: 11pt;
-    color: #E0E0E0;
-    background: #0A140F;
-    margin: 0;
-    padding: 0;
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --accent-hover: #16a34a;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --gold: #EAB308;
+    --charcoal: #18181B;
+    --pill-bg: #166534;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --red: #ef4444;
+    --sidebar-w: 260px;
   }
-  .header {
-    background: #060B08;
-    padding: 18px 40px;
-    text-align: center;
-    border-bottom: 1px solid #1A2E22;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg-deep); color: var(--silver); line-height: 1.7; font-size: 15px; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--charcoal); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
+  .sidebar-logo span { color: var(--accent); }
+  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--silver); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s ease; border-left: 3px solid transparent; }
+  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
+  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
+  .sidebar-nav a .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--bg-deep); color: var(--silver); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
+  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
+  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
+
+  /* ── MAIN ── */
+  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
+  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── TYPOGRAPHY ── */
+  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
+  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
+  p { margin-bottom: 14px; }
+  strong { color: var(--white); font-weight: 600; }
+  em { color: var(--accent); font-style: normal; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-gold { border-left: 3px solid var(--gold); }
+  .card-red { border-left: 3px solid var(--red); }
+  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
+  .card-gold .card-title { color: var(--gold); }
+  .card-red .card-title { color: var(--red); }
+
+  /* ── REVIEW CARD ── */
+  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
+  .review-card h3 { color: var(--gold); margin-top: 0; }
+
+  /* ── LISTS ── */
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { margin-bottom: 7px; padding-left: 4px; }
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--accent); font-weight: 600; }
+
+  /* ── PROMPT BLOCKS ── */
+  .prompt-block { background: #0c0c0e; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; color: #d4d4d8; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; position: relative; }
+  .prompt-label { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: var(--pill-bg); padding: 2px 8px; border-radius: 4px; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
+  tr:hover td { background: rgba(34,197,94,0.03); }
+
+  /* ── EXERCISES ── */
+  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
+  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
+  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
+
+  /* ── PILLS ── */
+  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
+
+  /* ── NAV BUTTONS ── */
+  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+  .btn-primary { background: var(--accent); color: var(--bg-deep); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
+  .btn-secondary:hover { color: var(--white); }
+
+  /* ── DETAILS/SUMMARY ── */
+  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
+  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
+  summary:hover { background: rgba(34,197,94,0.04); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details > div { padding: 16px; }
+
+  /* ── TIMER ── */
+  .timer-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: var(--gold); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+
+  /* ── MODEL CARDS ── */
+  .model-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0;
   }
-  .header-text {
-    font-family: 'Fraunces', serif;
-    color: #DDEEE0;
-    font-size: 14pt;
-    font-weight: 500;
-    letter-spacing: 1px;
+  .model-card {
+    border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
   }
-  .container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+  .model-card-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
   }
-  h1 {
-    font-family: 'Fraunces', serif;
-    color: #DDEEE0;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 10px;
+  .model-card-name { font-size: 16px; font-weight: 800; margin-bottom: 2px; }
+  .model-card-version { font-size: 11px; color: var(--silver); }
+  .model-card-body { padding: 14px 16px; font-size: 13px; }
+  .model-card-body p { margin-bottom: 8px; }
+  .model-haiku .model-card-header { background: rgba(161,161,170,0.08); }
+  .model-haiku .model-card-name { color: var(--silver); }
+  .model-sonnet .model-card-header { background: rgba(34,197,94,0.1); border-left: 3px solid var(--accent); }
+  .model-sonnet .model-card-name { color: var(--accent); }
+  .model-opus .model-card-header { background: rgba(234,179,8,0.1); border-left: 3px solid var(--gold); }
+  .model-opus .model-card-name { color: var(--gold); }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; margin: 14px 0; padding: 0; }
+  .step-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num { width: 26px; height: 26px; border-radius: 6px; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── CALLOUT ── */
+  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 14px; line-height: 1.6; }
+  .callout-body strong { color: var(--white); }
+
+  /* ── MCP CONNECTION ── */
+  .mcp-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .mcp-item:last-child { border-bottom: none; }
+  .mcp-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .mcp-content { flex: 1; }
+  .mcp-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .mcp-desc { font-size: 13px; color: var(--silver); margin-bottom: 4px; }
+  .mcp-example { font-size: 12px; color: var(--accent); font-style: italic; }
+
+  /* ── MOBILE ── */
+  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
+  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding-top: 56px; }
+    .content { padding: 24px 16px 60px; }
+    .model-row { grid-template-columns: 1fr; }
   }
-  .subtitle {
-    text-align: center;
-    color: #8CA692;
-    margin-bottom: 40px;
-  }
-  .session-index {
-    margin-bottom: 30px;
-  }
-  .session-index-title {
-    font-family: 'Fraunces', serif;
-    color: #438951;
-    font-size: 13pt;
-    margin-bottom: 15px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #1A2E22;
-  }
-  .session-card {
-    display: block;
-    background: #111F17;
-    border: 1px solid #1A2E22;
-    border-radius: 6px;
-    padding: 14px 20px;
-    margin-bottom: 10px;
-    color: #8CA692;
-    text-decoration: none;
-    font-size: 10.5pt;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-  .session-card:hover {
-    background: #1A2E22;
-    border-color: #438951;
-    color: #DDEEE0;
-  }
-  .session-card .snum {
-    color: #438951;
-    font-weight: 600;
-    margin-right: 8px;
-  }
-  .slide {
-    display: none;
-    background: #111F17;
-    border: 1px solid #1A2E22;
-    border-radius: 8px;
-    padding: 30px;
-    margin-bottom: 20px;
-  }
-  .slide.active { display: block; }
-  .section-title {
-    font-family: 'Fraunces', serif;
-    font-size: 18pt;
-    color: #438951;
-    border-bottom: 2px solid #1A2E22;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-  }
-  h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 14pt;
-    color: #DDEEE0;
-    margin-top: 30px;
-    margin-bottom: 15px;
-  }
-  h3 { color: #8CA692; margin-top: 25px; }
-  p { line-height: 1.7; margin-bottom: 16px; }
-  ul, ol { margin-bottom: 20px; padding-left: 20px; }
-  li { margin-bottom: 10px; line-height: 1.6; }
-  .human-margin-box {
-    background: #0D1A13;
-    border-left: 4px solid #438951;
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 0 8px 8px 0;
-  }
-  .human-margin-title {
-    font-family: 'Fraunces', serif;
-    color: #438951;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-  }
-  .drill-box {
-    background: rgba(234,179,8,0.05);
-    border: 1px solid rgba(234,179,8,0.2);
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 8px;
-  }
-  .drill-title {
-    font-family: 'Fraunces', serif;
-    color: #EAB308;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-  }
-  .case-study {
-    background: rgba(167,139,250,0.05);
-    border: 1px solid rgba(167,139,250,0.2);
-    padding: 20px;
-    margin: 25px 0;
-    border-radius: 8px;
-  }
-  .case-title {
-    font-family: 'Fraunces', serif;
-    color: #A78BFA;
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 12pt;
-  }
-  .prompt-block {
-    background: #060B08;
-    border: 1px solid #1A2E22;
-    border-radius: 6px;
-    padding: 15px;
-    font-family: monospace;
-    color: #8CA692;
-    white-space: pre-wrap;
-    margin: 15px 0;
-  }
-  .qa-section {
-    background: #060B08;
-    border: 1px solid #1A2E22;
-    border-radius: 8px;
-    padding: 25px;
-    margin-top: 40px;
-  }
-  .qa-title {
-    color: #DDEEE0;
-    font-weight: 600;
-    margin-bottom: 15px;
-    font-size: 13pt;
-  }
-  .nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  .nav-buttons.end { justify-content: flex-end; }
-  .btn {
-    background: #438951;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Epilogue', sans-serif;
-    transition: background 0.2s;
-  }
-  .btn:hover { background: #367042; }
-  .btn-outline {
-    background: transparent;
-    border: 1px solid #438951;
-    color: #438951;
-  }
-  .btn-outline:hover { background: rgba(67, 137, 81, 0.1); }
-  .footer {
-    text-align: center;
-    color: #5A7061;
-    font-size: 9.5pt;
-    margin-top: 40px;
-    padding-bottom: 40px;
-  }
-  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-  th, td { padding: 12px; border: 1px solid #1A2E22; text-align: left; }
-  th { background: #060B08; color: #438951; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <span class="header-text">KeyPlayers VA Academy</span>
+<div class="mobile-header">
+  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
+  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
 </div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<div class="container">
-  <h1>Day 4: Claude Deep Dive & Secret Weapons</h1>
-  <p class="subtitle">Mastering the primary AI engine of the KeyPlayers HQ stack</p>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
+    <div class="sidebar-day">Day 4 &nbsp;|&nbsp; Claude Deep Dive</div>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Day 3 Review</a>
+    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>Claude Models</a>
+    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>Projects & Context</a>
+    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>Artifacts & Outputs</a>
+    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>MCP — Claude with Tools</a>
+    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>Hands-On Lab</a>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 6 completed</div>
+  </div>
+</nav>
 
-  <!-- SESSION INDEX -->
-  <div class="session-index" id="sessionIndex">
-    <div class="session-index-title">Day 4 Sessions</div>
-    <a class="session-card" onclick="navSlide('slide1')"><span class="snum">Session 1:</span> The Claude Model Family & Capabilities</a>
-    <a class="session-card" onclick="navSlide('slide2')"><span class="snum">Session 2:</span> Projects & Context Engineering</a>
-    <a class="session-card" onclick="navSlide('slide3')"><span class="snum">Session 3:</span> Artifacts & Advanced Features</a>
-    <a class="session-card" onclick="navSlide('slide4')"><span class="snum">Session 4:</span> MCP & Practical Workflows</a>
+<div class="main"><div class="content">
+
+<!-- S0: DAY 3 REVIEW -->
+<section class="section active" id="s0">
+  <h1>Day 3 Review</h1>
+  <p class="section-subtitle">Recap of the AI tool landscape before we go deep on Claude — the primary tool in the KP stack.</p>
+  <div class="timer-badge">&#9201; 10 min</div>
+
+  <div class="review-card">
+    <h3>Yesterday's Key Points</h3>
+    <p><strong>5 Tool Categories:</strong> Chat AI (Claude, ChatGPT, Gemini), Research AI (Perplexity), AI Agents (Manus), Video AI (HeyGen), Coding AI (Claude Code, GitHub Copilot).</p>
+    <p><strong>Decision Framework (4 questions):</strong> What type of task? Does it need current info? How complex is the input? What tools is the client already using?</p>
+    <p><strong>Privacy & Data Safety:</strong> Never paste personal IDs, financial data, passwords, or confidential contracts into AI. Use the Safe Substitution Method — replace real data with placeholders, then fill in manually after.</p>
+    <p style="margin:0;"><strong>Key insight:</strong> Categories stay stable — individual tools change fast. Learn what each category does and you'll always know where to look when a new tool launches.</p>
   </div>
 
-  <!-- SESSION 1 -->
-  <div class="slide" id="slide1">
-    <div class="section-title">Session 1: The Claude Model Family & Capabilities</div>
-    <p>Claude is not just one AI; it is a family of models. As an Operator, you must know which model to deploy based on the task's requirements for speed versus intelligence.</p>
-
-    <table>
-      <thead><tr><th>Model</th><th>Speed</th><th>Intelligence</th><th>Best For</th></tr></thead>
-      <tbody>
-        <tr><td>Haiku</td><td>Fastest</td><td>Good</td><td>Quick tasks, simple rewrites, bulk data formatting</td></tr>
-        <tr><td>Sonnet</td><td>Fast</td><td>Very Good</td><td>Daily work, emails, content creation, most VA tasks</td></tr>
-        <tr><td>Opus</td><td>Slowest</td><td>Best</td><td>Complex strategy, massive document analysis, nuanced reasoning</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Why Claude is our Primary Tool</h2>
-    <ul>
-      <li><strong>Precision:</strong> It follows multi-step instructions better than competitors.</li>
-      <li><strong>Context Window:</strong> It can process entire books or hundreds of pages of transcripts without forgetting details.</li>
-      <li><strong>Safety & Nuance:</strong> It rarely hallucinates when given proper context and defaults to a professional tone.</li>
-    </ul>
-
-    <div class="case-study">
-      <div class="case-title">Case Study: The 100-Page Contract</div>
-      <p>A client needed to find all instances where "liability" was mentioned in a 100-page vendor contract, and summarize the risk. Using ChatGPT, the VA hit a token limit and the system crashed. Using Claude (Sonnet 3.5), the VA uploaded the PDF and had a comprehensive, bulleted risk analysis in 45 seconds.</p>
+  <details>
+    <summary>Quick Check — Do You Remember?</summary>
+    <div>
+      <p><strong>Q: A client asks you to find their competitor's current pricing. Which tool?</strong><br>Perplexity — it searches the live web with cited sources. Chat AI can't provide current pricing reliably.</p>
+      <p><strong>Q: You need to browse 8 websites and compile a data table. Which tool?</strong><br>Manus — it's an agent that can actually interact with websites. Chat AI can only write about what it knows.</p>
+      <p><strong>Q: A client sends you their full 60-page partnership agreement to summarise. Which tool?</strong><br>Claude — largest context window, handles full-length documents without needing to chunk them.</p>
+      <p style="margin:0;"><strong>Q: What's the Safe Substitution Method?</strong><br>Replace real sensitive details (names, numbers, IDs) with placeholders before pasting into AI, then fill in the real details manually afterward.</p>
     </div>
+  </details>
 
-    <div class="human-margin-box">
-      <div class="human-margin-title">The Human Margin: Model Selection</div>
-      <p>Using Opus to write a 2-sentence email is like using a sledgehammer to crack a nut—it wastes time and expensive tokens. The Human Margin is knowing that Sonnet is your daily driver, and reserving Opus only for when the client hands you a 50-page Q3 financial report that needs deep analysis.</p>
-    </div>
-
-    <div class="drill-box">
-      <div class="drill-title">5-Minute Drill: Model Matchmaker</div>
-      <p>Which Claude model (Haiku, Sonnet, or Opus) would you use for:</p>
-      <ol>
-        <li>Reformatting a list of 50 names from "Last, First" to "First Last".</li>
-        <li>Drafting a standard weekly update email to the team.</li>
-        <li>Analyzing three different competitor pricing strategies to recommend a new tier structure for your client.</li>
-      </ol>
-    </div>
-
-    <div class="nav-buttons">
-      <button type="button" class="btn btn-outline" onclick="navSlide('index')">← Back to Sessions</button>
-      <button type="button" class="btn" onclick="navSlide('slide2')">Next: Projects & Context Engineering →</button>
-    </div>
+  <div class="section-nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(1)">Claude Models &rarr;</button>
   </div>
+</section>
 
-  <!-- SESSION 2 -->
-  <div class="slide" id="slide2">
-    <div class="section-title">Session 2: Projects & Context Engineering</div>
-    <p>A standard Claude chat forgets everything when you close the window. A <strong>Claude Project</strong> acts as a persistent workspace with a permanent memory of your client.</p>
+<!-- S1: CLAUDE MODELS -->
+<section class="section" id="s1">
+  <h1>Claude Models</h1>
+  <p class="section-subtitle">Claude isn't one model — it's a family. Each model trades off speed, intelligence, and cost. Knowing which to use (and when) is a practical skill you'll use daily.</p>
+  <div class="timer-badge">&#9201; 20 min</div>
 
-    <h2>Setting up a Client Project</h2>
-    <p>When you onboard a new client, your first step is creating their KeyBrain profile, and your second step is mirroring that into a Claude Project.</p>
-    <ol>
-      <li><strong>Project Knowledge:</strong> Upload brand guidelines, past successful emails, SOPs, and company info.</li>
-      <li><strong>Custom Instructions:</strong> Write a permanent system prompt that governs every interaction in that project.</li>
-    </ol>
+  <p>As of May 2026, there are three active Claude models. Each is built for a different use case:</p>
 
-    <div class="prompt-block">System Prompt Example:
-You are an Executive Assistant to Sarah Chen, CEO of Pacific Realty.
-Tone: Direct, professional, no corporate fluff.
-Output Rules: Always use bullet points for summaries. Never commit Sarah's time without asking.</div>
-
-    <h2>Context Maintenance & The Feedback Loop</h2>
-    <p>A Claude Project is only as good as the information inside it. If the information is outdated, the AI's output will be outdated. Every time your client corrects an email draft or changes a process, you must update the Project Knowledge.</p>
-
-    <div class="human-margin-box">
-      <div class="human-margin-title">The Human Margin: Active Maintenance</div>
-      <p>AI doesn't know when a client changes their mind. If Sarah decides she wants her emails to sound more casual, Claude won't know. The Human Margin is the active maintenance of the Project Instructions. You must constantly update the system prompt as you learn more about the client's evolving preferences.</p>
+  <div class="model-row">
+    <div class="model-card model-haiku">
+      <div class="model-card-header">
+        <div class="model-card-name">Haiku</div>
+        <div class="model-card-version">Claude Haiku 4.5</div>
+      </div>
+      <div class="model-card-body">
+        <p><strong>Speed:</strong> Fastest</p>
+        <p><strong>Intelligence:</strong> Good</p>
+        <p><strong>Best for:</strong> Quick tasks, classifications, simple rewrites, bulk processing where you need many outputs fast</p>
+      </div>
     </div>
-
-    <div class="drill-box">
-      <div class="drill-title">10-Minute Drill: Build a System Prompt</div>
-      <p>Imagine you are the EA for a fitness influencer who is highly energetic, uses emojis, but is very strict about not giving medical advice. Write a 4-sentence System Prompt for their Claude Project.</p>
+    <div class="model-card model-sonnet">
+      <div class="model-card-header">
+        <div class="model-card-name">Sonnet ★</div>
+        <div class="model-card-version">Claude Sonnet 4.6 — Daily Driver</div>
+      </div>
+      <div class="model-card-body">
+        <p><strong>Speed:</strong> Fast</p>
+        <p><strong>Intelligence:</strong> Very Good</p>
+        <p><strong>Best for:</strong> Most VA work — emails, content, summaries, client projects, research, SOPs. The right default for 90% of tasks.</p>
+      </div>
     </div>
-
-    <div class="nav-buttons">
-      <button type="button" class="btn btn-outline" onclick="navSlide('slide1')">← Previous</button>
-      <button type="button" class="btn" onclick="navSlide('slide3')">Next: Artifacts & Advanced Features →</button>
-    </div>
-  </div>
-
-  <!-- SESSION 3 -->
-  <div class="slide" id="slide3">
-    <div class="section-title">Session 3: Artifacts & Advanced Features</div>
-
-    <h2>Claude Artifacts</h2>
-    <p>When Claude generates a long document, a complex table, or code, it creates an <strong>Artifact</strong>—a dedicated window separate from the chat interface. This allows you to view, copy, and iterate on the final product without losing your chat history.</p>
-    <p>Artifacts are essential for creating SOPs, long-form content, or HTML snippets. You can ask Claude to "update the third section of the Artifact" without it having to rewrite the entire document in the chat log.</p>
-
-    <h2>Vision Capabilities</h2>
-    <p>Claude can "see." You can upload images, screenshots, or charts, and ask Claude to analyze them.</p>
-    <p><em>Use Case:</em> Take a screenshot of a messy whiteboard from a client meeting, upload it to Claude, and say: "Transcribe this whiteboard and organize the notes into Action Items, Ideas, and Deadlines."</p>
-
-    <h2>File Uploads & Batch Processing</h2>
-    <p>You can upload up to 5 files at once in the free tier. This is perfect for cross-referencing data.</p>
-    <p><em>Use Case:</em> Upload last month's financial PDF and this month's financial PDF. Prompt: "Compare these two documents and list the top 3 areas where expenses increased."</p>
-
-    <div class="human-margin-box">
-      <div class="human-margin-title">The Human Margin: Vision Verification</div>
-      <p>Claude's vision is good, but not perfect. If you upload a whiteboard screenshot with messy handwriting, Claude might misread a number or a name. The Human Margin requires you to look at the original image and verify the AI's transcription before taking action.</p>
-    </div>
-
-    <div class="drill-box">
-      <div class="drill-title">10-Minute Drill: The Artifact Request</div>
-      <p>Write a prompt that asks Claude to create a weekly schedule for a CEO, and explicitly instruct it to output the result as an Artifact so you can easily copy it into KeyBrain.</p>
-    </div>
-
-    <div class="nav-buttons">
-      <button type="button" class="btn btn-outline" onclick="navSlide('slide2')">← Previous</button>
-      <button type="button" class="btn" onclick="navSlide('slide4')">Next: MCP & Practical Workflows →</button>
-    </div>
-  </div>
-
-  <!-- SESSION 4 -->
-  <div class="slide" id="slide4">
-    <div class="section-title">Session 4: MCP & Practical Workflows</div>
-
-    <h2>MCP (Model Context Protocol)</h2>
-    <p>MCP is the bridge between Claude's brain and the outside world. It allows Claude to interact directly with other applications.</p>
-    <ul>
-      <li><strong>Without MCP:</strong> You copy an email from Gmail, paste it into Claude, ask for a reply, copy the reply, and paste it back into Gmail.</li>
-      <li><strong>With MCP:</strong> Claude reads the email directly from Gmail, drafts the reply, and stages it in your outbox.</li>
-    </ul>
-    <p>MCP is the foundational technology behind the upcoming KeyCommand system.</p>
-
-    <h2>Practical Claude Workflows</h2>
-    <p>Let's put the theory into practice with three core VA workflows using Claude.</p>
-
-    <h3>1. The "Brain Dump" to SOP Workflow</h3>
-    <p>Clients often send rambling voice notes or messy bullet points. Feed this into Claude using Sonnet, ask it to format it into a standard KeyPlayers SOP structure using an Artifact, and then save that Artifact into KeyBrain.</p>
-
-    <h3>2. The "Tone Match" Workflow</h3>
-    <p>Feed Claude 5 emails the client has written. Ask Claude to analyze the tone, vocabulary, and sentence structure. Save that analysis into the Project Instructions so Claude permanently adopts that voice.</p>
-
-    <h3>3. The "Meeting Extraction" Workflow</h3>
-    <p>Upload a 1-hour meeting transcript. Do not just ask for a summary. Ask Claude to extract: 1) Action items assigned to the client, 2) Action items assigned to you (the VA), and 3) Deadlines.</p>
-
-    <div class="human-margin-box">
-      <div class="human-margin-title">The Human Margin: The Final Authorization</div>
-      <p>MCP gives AI the "hands" to do the work, but YOU hold the keys. Never set up an MCP workflow that auto-sends emails or auto-publishes social posts without a human review step. The AI drafts; the Human Margin clicks "Send."</p>
-    </div>
-
-    <div class="qa-section">
-      <div class="qa-title">Day 4 Q&A (15 mins)</div>
-      <p style="font-size: 10pt; color: #8CA692;">This concludes today's content. Please ask the trainer any questions about Claude Projects, Artifacts, Vision, or specific workflows.</p>
-      <div class="nav-buttons">
-        <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
-        <button type="button" class="btn" onclick="navSlide('done')">Complete Day 4 ✓</button>
+    <div class="model-card model-opus">
+      <div class="model-card-header">
+        <div class="model-card-name">Opus</div>
+        <div class="model-card-version">Claude Opus 4.6</div>
+      </div>
+      <div class="model-card-body">
+        <p><strong>Speed:</strong> Slower</p>
+        <p><strong>Intelligence:</strong> Highest</p>
+        <p><strong>Best for:</strong> Complex analysis, long documents, strategic thinking, nuanced reasoning, anything where quality matters more than speed</p>
       </div>
     </div>
   </div>
 
-</div>
+  <div class="card card-accent">
+    <div class="card-title">Rule of thumb</div>
+    <p style="margin:0;"><strong>Sonnet 4.6 is your daily driver.</strong> Use Haiku when speed matters more than depth (e.g., classifying a large list of emails). Use Opus 4.6 when you need Claude to think through something complex — a 50-page contract, a strategic recommendation, or anything where getting it wrong has consequences.</p>
+  </div>
 
-<div class="footer">
-  KeyPlayers HQ · KP VA AI Training Program · Day 4
-</div>
+  <h2>Why Claude Over Other Chat AI?</h2>
+  <p>You've now used Day 3 to understand why different tools exist. Here's why Claude specifically is the KP default:</p>
+
+  <table>
+    <thead><tr><th>Capability</th><th>Why It Matters for VA Work</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">Follows instructions precisely</td><td>Claude handles multi-step, constrained prompts without drifting. It does exactly what you asked — not more, not less.</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Massive context window</td><td>200,000 tokens — roughly 150,000 words. You can upload an entire client's document library and Claude can reference it all in one conversation.</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Projects feature</td><td>Persistent memory across conversations. You set up a client project once and Claude remembers it every time.</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Artifacts</td><td>Structured, copyable outputs — documents, tables, code, charts — created in a separate panel so you can edit without losing the conversation.</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Cowork mode</td><td>Connects Claude to your real tools — Slack, Gmail, files, calendar — so it can take actions, not just generate text.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Claude's Limitations — What It Can't Do</h2>
+  <p>Understanding where Claude falls short helps you use it better and know when to switch tools:</p>
+  <ul>
+    <li><strong>No live internet access</strong> (in standard mode) — its knowledge has a training cutoff. For current information, use Perplexity.</li>
+    <li><strong>Can still hallucinate</strong> — less often than some competitors, but still possible. Always verify facts, numbers, dates, and names.</li>
+    <li><strong>Not a replacement for expertise</strong> — Claude can draft a legal contract, but a lawyer should review it. It can write medical content, but a professional should verify it.</li>
+    <li><strong>Context window isn't infinite</strong> — 200,000 tokens is huge, but very long conversations can cause earlier context to be weighted less. Important instructions belong at the top or in Project Instructions, not buried at the bottom of a long chat.</li>
+    <li><strong>Can be confidently wrong</strong> — Claude doesn't say "I'm not sure" enough. It will present an incorrect date, a made-up statistic, or a non-existent company name as if it's certain. The more specific the claim (a number, a name, a date), the more you need to verify it independently.</li>
+  </ul>
+
+  <h2>Claude Best Practices — The Professional Playbook</h2>
+  <p>These aren't tips — they're habits that separate people who occasionally use AI from those who are genuinely AI-powered operators. Build these into your daily workflow starting today.</p>
+
+  <h3>Conversation Management</h3>
+  <div class="card">
+    <p><strong>Start new conversations for new tasks.</strong> Don't use the same conversation thread for unrelated work. Each conversation has a context window — mixing topics dilutes Claude's focus. One client email draft, one research task, one content batch = three separate conversations.</p>
+    <p><strong>Use the first message to set the stage.</strong> Your first message in a conversation is the most influential. If you're working inside a Project, Claude already has the background — but your first prompt should still clearly state what you're doing right now. "I need to draft 3 follow-up emails for leads who went quiet this week" is a strong opener.</p>
+    <p><strong>Reference earlier responses by position.</strong> "Take option 2 from the list you just gave me and expand it into a full email." Claude remembers everything in the current conversation — use that to build iteratively instead of re-explaining.</p>
+    <p style="margin:0;"><strong>When a conversation gets long (20+ messages), consider starting fresh.</strong> Very long threads can cause Claude to lose track of earlier instructions. If you notice quality dropping, start a new conversation with a clean prompt that includes any important context from the previous thread.</p>
+  </div>
+
+  <h3>Output Quality Control</h3>
+  <div class="card">
+    <p><strong>Always specify what "done" looks like.</strong> "Write me a post" is vague. "Write a LinkedIn post — 120 words, hook on the first line, end with a question, no emojis, professional but not stiff" is a standard. The more specific your definition of "done," the closer Claude gets on the first try.</p>
+    <p><strong>Use the "Before you write, tell me your plan" technique.</strong> For complex tasks, ask Claude to outline its approach before executing. "Before you write the email, tell me: who are you writing to, what tone will you use, and what's the one thing this email needs to achieve?" This catches misunderstandings before they become wasted output.</p>
+    <p><strong>Critique mode is underused.</strong> Ask Claude to review its own work: "Now read what you just wrote and tell me: is there anything that sounds generic, any claim that might not be accurate, or any section that could be tighter?" Claude is surprisingly good at self-critique when asked explicitly.</p>
+    <p style="margin:0;"><strong>Version your iterations.</strong> When iterating, be specific: "Keep the hook from version 1, the structure from version 2, and make the CTA from version 3 more direct." Claude can track versions within a conversation — use this to combine the best parts of multiple outputs.</p>
+  </div>
+
+  <h3>Prompting Patterns That Work Every Time</h3>
+  <table>
+    <thead><tr><th>Pattern</th><th>When to Use It</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">Persona + Task</td><td>Every client-facing output</td><td>"You are Sarah's EA. Draft a reply to this client complaint."</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Step-by-Step Thinking</td><td>Complex decisions, analysis</td><td>"Think through this step by step before giving your recommendation."</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Few-Shot (Examples)</td><td>Matching a specific style</td><td>"Here are 3 emails Sarah approved. Write the next one in the same style."</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Negative Constraints</td><td>Preventing common AI mistakes</td><td>"Do not use corporate jargon. Do not start with 'I hope this finds you well.'"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Output Template</td><td>Structured deliverables</td><td>"Use this format: SUBJECT | BODY | CTA | SIGN-OFF"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Iterative Chaining</td><td>Complex multi-part work</td><td>"First give me the outline → I'll approve → then write the full version"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Self-Review</td><td>High-stakes deliverables</td><td>"Now review what you wrote. Flag anything generic, inaccurate, or off-brand."</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Common Mistakes to Avoid</h3>
+  <div class="card card-red">
+    <div class="card-title">Don't do these</div>
+    <p><strong>Don't paste client-sensitive data without anonymising.</strong> Even inside a Project, use placeholders for SSNs, account numbers, and confidential financial data. Claude's Project context is private to your account, but the data still goes to Anthropic's servers.</p>
+    <p><strong>Don't accept hallucinated facts.</strong> If Claude says "According to a 2024 Harvard study..." and you can't find that study, it's probably made up. Never include unverified claims in client deliverables.</p>
+    <p><strong>Don't overload one conversation.</strong> A 50-message thread about 8 different topics will produce worse output than 8 focused conversations. Context pollution is real.</p>
+    <p style="margin:0;"><strong>Don't skip the Project setup.</strong> Yes, it takes 20 minutes. But every conversation after that saves 5+ minutes of re-briefing. Over a month with one client, that's hours saved. Over a year, it's weeks.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
+    <button class="btn btn-primary" onclick="goTo(2)">Projects & Context &rarr;</button>
+  </div>
+</section>
+
+<!-- S2: PROJECTS & CONTEXT -->
+<section class="section" id="s2">
+  <h1>Projects & Context Engineering</h1>
+  <p class="section-subtitle">How to give Claude persistent memory so it works like a trained team member who already knows your client — not a stranger you have to brief from scratch every time.</p>
+  <div class="timer-badge">&#9201; 35 min</div>
+
+  <h2>What Are Claude Projects?</h2>
+  <p>A <strong>Project</strong> is a workspace inside Claude where you give it permanent context — documents, guidelines, instructions — that stay active across every conversation in that project. No re-briefing. No copy-pasting the same background every time.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">The analogy that makes it click</div>
+    <p>A regular Claude conversation is like calling a smart temp agency. Every call, you explain who you are and what you need from scratch.</p>
+    <p style="margin:0;">A <strong>Claude Project</strong> is like having a full-time assistant who has already read every client file, knows every brand guideline, and remembers every preference from your last 6 months of work — before you say a single word.</p>
+  </div>
+
+  <h2>What Goes Into a Project</h2>
+  <p>A well-set-up Project has two components:</p>
+
+  <h3>1. Project Knowledge (files Claude should always reference)</h3>
+  <ul>
+    <li>Brand voice and tone guide</li>
+    <li>Client onboarding document (who they are, what they sell, who their customers are)</li>
+    <li>SOPs for that client's recurring tasks</li>
+    <li>Sample approved work (past emails, social posts, reports that hit the mark)</li>
+    <li>Key contacts and their communication style</li>
+    <li>Products, services, and pricing (if relevant)</li>
+  </ul>
+
+  <h3>2. Project Instructions (a system prompt that shapes every response)</h3>
+  <p>This is the most important part. Think of it as the briefing you'd give a new hire on their first morning.</p>
+  <div class="prompt-block"><span class="prompt-label">Example Instructions</span>You are an executive assistant working directly for Sarah Chen, CEO of Pacific Realty Group — a real estate brokerage with 12 agents based in Vancouver.
+
+ABOUT SARAH:
+- Communication style: Direct, busy, wants bottom-line answers first
+- She hates: corporate filler, excessive pleasantries, long-winded intros
+- Sign-off: Always "Best, Sarah"
+
+YOUR ROLE:
+- Draft emails in Sarah's voice — professional but warm
+- When summarising: bullets first, most important item at the top
+- When writing for clients: slightly more formal than Sarah's internal tone
+- Always flag if you're uncertain about a fact rather than guessing
+
+ACTIVE CLIENTS TO KNOW:
+- Marcus Webb: Real estate broker, Pacific area, interested in VA services for inbox + scheduling
+- Jennifer Kim: Existing client, law firm, needs content + admin support
+
+When I say "draft a reply", use Sarah's voice. When I say "write on behalf of the company", use KP's brand voice.</div>
+
+  <h2>How to Set Up a Client Project (Step by Step)</h2>
+  <ol class="step-list">
+    <li><span class="step-num">1</span><div><strong>Go to claude.ai → click Projects in the left sidebar.</strong><br>If you don't see Projects, make sure you're logged in to a Claude account (free tier works).</div></li>
+    <li><span class="step-num">2</span><div><strong>Click "Create Project" and name it.</strong><br>Use a clear naming convention: "Client: [Name] — [Business Type]" (e.g., "Client: Sarah Chen — Pacific Realty")</div></li>
+    <li><span class="step-num">3</span><div><strong>Add Project Knowledge.</strong><br>Upload any files Claude should always reference. PDFs, Word docs, text files — anything with context that stays relevant across tasks.</div></li>
+    <li><span class="step-num">4</span><div><strong>Write Project Instructions.</strong><br>Cover: who the client is, their communication style, your role, output preferences, and any recurring context. Be specific — vague instructions produce vague behaviour.</div></li>
+    <li><span class="step-num">5</span><div><strong>Test with 3 different prompts.</strong><br>Draft an email. Summarise something. Write a social post. Does the output match the client's voice? If not, adjust the instructions.</div></li>
+    <li><span class="step-num">6</span><div><strong>Update when things change.</strong><br>New client focus? New product launch? New contact? Update the project. Stale context produces stale output.</div></li>
+  </ol>
+
+  <h2>Context Engineering Tips</h2>
+  <div class="card">
+    <p><strong>Structure beats length.</strong> A well-organized 300-word project instruction beats a disorganized 1,000-word one. Use clear headers (ABOUT THE CLIENT, YOUR ROLE, OUTPUT PREFERENCES) so Claude can find what's relevant to each task.</p>
+    <p><strong>Be explicit about what you don't want.</strong> "Don't use passive voice." "Never make up statistics." "Always recommend consulting a professional for medical or legal topics." These constraints prevent the most common errors.</p>
+    <p><strong>Include approved examples in Project Knowledge.</strong> Upload 3-5 examples of approved emails, posts, or reports. Claude learns style from examples far better than from descriptions of style.</p>
+    <p style="margin:0;"><strong>Test edge cases.</strong> After setting up a project, ask it something unusual: "What if Sarah wants me to write a formal complaint letter?" See if Claude handles it correctly or defaults to generic. Adjust instructions if needed.</p>
+  </div>
+
+  <h2>Project Templates for Common VA Scenarios</h2>
+  <p>You won't start from a blank page every time. Here are ready-to-adapt instruction templates for the most common VA setups:</p>
+
+  <details>
+    <summary>Template: Executive Assistant Project</summary>
+    <div>
+      <div class="prompt-block"><span class="prompt-label">Template</span>ROLE: Executive assistant for [Name], [Title] at [Company]
+
+COMMUNICATION STYLE:
+- [Name]'s tone: [Direct/Warm/Formal — pick one]
+- Email sign-off: "[Their preferred sign-off]"
+- Internal messages: casual, to the point
+- External/client messages: professional, personable
+
+RECURRING TASKS:
+- Daily inbox triage: Flag urgent, draft responses for routine
+- Meeting prep: pull agenda, attendee bios, open items
+- Weekly report: summarise completed tasks, blockers, next steps
+
+RULES:
+- Never commit to a meeting time without checking calendar first
+- Always flag items over $[amount] for approval
+- Summarise first, details second — [Name] reads on mobile</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Template: Content & Social Media Project</summary>
+    <div>
+      <div class="prompt-block"><span class="prompt-label">Template</span>ROLE: Content assistant for [Brand Name]
+
+BRAND VOICE:
+- Personality: [e.g., "Confident but approachable, like a mentor, not a guru"]
+- Words we USE: [list 5-10 on-brand words]
+- Words we AVOID: [list 5-10 off-brand words, e.g., "synergy, leverage, hack"]
+- Emoji policy: [e.g., "Max 2 per post, never in LinkedIn, ok in IG"]
+
+PLATFORMS:
+- LinkedIn: Professional thought leadership, 150-200 words
+- Instagram: Casual, visual-first, captions under 100 words
+- Newsletter: Conversational, 400-600 words, one CTA
+
+CONTENT PILLARS:
+1. [Pillar 1 — e.g., "Industry insights"]
+2. [Pillar 2 — e.g., "Client success stories"]
+3. [Pillar 3 — e.g., "Behind the scenes / team culture"]
+
+RULES:
+- Never post without the client's approval
+- Always include a CTA — even if it's just "What do you think?"
+- No stock phrases: "In today's fast-paced world" is banned</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Template: Client Operations Project</summary>
+    <div>
+      <div class="prompt-block"><span class="prompt-label">Template</span>ROLE: Operations assistant for [Client Name], [Business Type]
+
+BUSINESS CONTEXT:
+- Industry: [e.g., Real estate, SaaS, Professional services]
+- Team size: [number]
+- Tools used: [e.g., "Notion for tasks, Slack for comms, HubSpot for CRM"]
+
+DAILY RESPONSIBILITIES:
+- Process new leads from [source] within [timeframe]
+- Update [tool] with status changes
+- Send end-of-day summary to [person/channel]
+
+ESCALATION RULES:
+- Client complaints: escalate immediately to [person]
+- Billing questions: forward to [person/email]
+- Technical issues: log in [tool], tag [person]
+
+OUTPUT PREFERENCES:
+- Status updates: bullet format, newest first
+- Reports: table format with columns for Task, Status, Owner, Due Date
+- Meeting notes: action items at the top, discussion below</div>
+    </div>
+  </details>
+
+  <h2>Managing Multiple Client Projects</h2>
+  <p>When you're handling 3-5 clients simultaneously, your Project setup becomes an operational advantage — not just a convenience. Here's how to keep it clean:</p>
+
+  <div class="card">
+    <p><strong>Naming convention matters.</strong> Use a consistent format like "Client: [Name] — [Service Type]" for every project. When you're switching between five clients in a morning, you need to find the right project in under two seconds.</p>
+    <p><strong>Create a "KP Internal" project too.</strong> Not everything is client-facing. Set up a project for your own work — internal reports, team updates, training reflections, SOP drafts. This keeps your internal communication consistent too.</p>
+    <p><strong>Review and update monthly.</strong> Block 30 minutes on the first Monday of each month to review every Project. Has a client's focus shifted? Did they launch a new product? Did someone leave their team? Stale context = stale output. Put this in your calendar now.</p>
+    <p style="margin:0;"><strong>Don't mix clients in one project.</strong> Even if two clients are in the same industry, each gets their own project. Claude's behaviour inside one project should never leak into another. This is a data hygiene habit, not a preference.</p>
+  </div>
+
+  <h2>Common Project Setup Mistakes</h2>
+  <div class="card card-red">
+    <div class="card-title">Avoid these</div>
+    <p><strong>Instructions too vague.</strong> "Write good emails" tells Claude nothing. "Write emails in Sarah's voice: short sentences, no filler, always end with a specific next step" gives Claude a target.</p>
+    <p><strong>Uploading too many files at once.</strong> Start with 3-5 essential documents. Adding 50 files creates noise. Claude will reference them, but if the files contradict each other, output quality drops. Curate your knowledge base.</p>
+    <p><strong>Never updating after initial setup.</strong> A project set up in January with no updates by May is working off 4-month-old context. The client has evolved. Your project hasn't.</p>
+    <p style="margin:0;"><strong>Forgetting to test outputs.</strong> You wouldn't hand a new hire their first task without checking their work. Test at least 3 different prompt types before trusting the project for real client deliverables.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">&larr; Models</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Artifacts & Outputs &rarr;</button>
+  </div>
+</section>
+
+<!-- S3: ARTIFACTS & OUTPUTS -->
+<section class="section" id="s3">
+  <h1>Artifacts & Output Modes</h1>
+  <p class="section-subtitle">How Claude packages its output — and how to get the format you actually need.</p>
+  <div class="timer-badge">&#9201; 25 min</div>
+
+  <h2>What Is an Artifact?</h2>
+  <p>When Claude creates something substantial — a full document, a table, a piece of code, an HTML page — it presents it in an <strong>Artifact panel</strong>: a separate, self-contained output box on the right side of the interface.</p>
+  <p>The Artifact panel lets you:</p>
+  <ul>
+    <li><strong>View the output separately</strong> from the conversation — no scrolling through chat to find it</li>
+    <li><strong>Copy the entire output</strong> with one click</li>
+    <li><strong>Download it as a file</strong> (Markdown, HTML, or text)</li>
+    <li><strong>Continue iterating</strong> — "Make the intro shorter" — and the Artifact updates</li>
+  </ul>
+
+  <table>
+    <thead><tr><th>Creates an Artifact</th><th>Does NOT Create an Artifact</th></tr></thead>
+    <tbody>
+      <tr><td>Full documents (SOPs, reports, guides)</td><td>Short conversational answers</td></tr>
+      <tr><td>Tables and structured data</td><td>Quick explanations or edits</td></tr>
+      <tr><td>Code (any programming language)</td><td>Simple rewrites of short text</td></tr>
+      <tr><td>HTML pages and visual layouts</td><td>Yes/no or factual responses</td></tr>
+      <tr><td>Formal letters and emails over ~200 words</td><td>Inline suggestions and feedback</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Controlling Output Format</h2>
+  <p>Claude's default output format may not always match what you need. You can control it explicitly in your prompt:</p>
+
+  <table>
+    <thead><tr><th>You Want</th><th>Tell Claude This</th></tr></thead>
+    <tbody>
+      <tr><td>Bullet list</td><td>"Format as bullet points, one action per bullet."</td></tr>
+      <tr><td>Numbered steps</td><td>"Give me numbered steps, each starting with a verb."</td></tr>
+      <tr><td>Table</td><td>"Present this as a table with columns: [X], [Y], [Z]."</td></tr>
+      <tr><td>Plain prose</td><td>"Write in paragraphs — no bullets or headers."</td></tr>
+      <tr><td>Email format</td><td>"Format as a ready-to-send email with subject line and sign-off."</td></tr>
+      <tr><td>Executive summary</td><td>"Lead with a 3-sentence summary, then details in bullets."</td></tr>
+      <tr><td>Short and tight</td><td>"Maximum 100 words. Every sentence must earn its place."</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Uploading Files to Claude</h2>
+  <p>Claude can read documents you upload directly in a conversation. Supported file types include PDFs, Word docs, plain text files, and images.</p>
+  <div class="card">
+    <p><strong>Good use cases for file uploads:</strong></p>
+    <ul style="margin-bottom:0;">
+      <li>"Here's a 30-page report. Summarise the top 5 findings in plain language."</li>
+      <li>"Here's a contract. Highlight any clauses that are unusual or worth reviewing."</li>
+      <li>"Here are 3 competitor blog posts. What's missing from all of them?"</li>
+      <li>"Here's the client's old website copy. Rewrite it in a warmer, more direct tone."</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><strong>Uploads in a Project vs. a conversation:</strong> Files uploaded inside a Project's Knowledge stay permanently. Files uploaded mid-conversation only last for that conversation. For recurring reference material, always add it to Project Knowledge.</div>
+  </div>
+
+  <h2>Iterating on Artifacts Like a Pro</h2>
+  <p>The real power of Artifacts isn't the first output — it's the iteration cycle. Each refinement gets you closer to client-ready quality without starting over.</p>
+
+  <div class="card">
+    <p><strong>Layer your feedback, don't rewrite your prompt.</strong> After Claude creates an Artifact, respond with targeted edits: "Make the intro more direct," "Add a row to the table for Q4," "Change the tone from formal to conversational." Each response updates the Artifact while keeping the parts you liked.</p>
+    <p><strong>Use "keep X, change Y" phrasing.</strong> "Keep the structure and examples, but make every sentence under 20 words." This prevents Claude from throwing out good work while making improvements.</p>
+    <p><strong>Save your best versions.</strong> When an Artifact hits the mark, copy it immediately or download it. If you keep iterating and go too far, you want the "good version" saved somewhere. Claude can't undo within an Artifact — your clipboard is your version control.</p>
+    <p style="margin:0;"><strong>Compare side by side.</strong> Open a new conversation with the same Project, generate the same Artifact with a different approach, and compare. Sometimes two different prompts produce two different strengths — combine them in a final version.</p>
+  </div>
+
+  <h2>Real VA Workflows With Artifacts</h2>
+  <p>Here's how Artifacts fit into daily VA work — not as a feature to demo, but as a tool that changes how fast you deliver:</p>
+
+  <table>
+    <thead><tr><th>Scenario</th><th>How Artifacts Help</th><th>Format to Request</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">Weekly client report</td><td>Claude generates the full report as an Artifact — copy into Google Docs or email directly</td><td>"Create as a structured report with headers: Summary, Completed, In Progress, Blockers, Next Week"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Social media batch</td><td>10 posts generated as one Artifact — each post separated, ready to schedule</td><td>"Create 10 LinkedIn posts as a numbered list, each with Hook / Body / CTA clearly labeled"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">SOP creation</td><td>Full SOP as a downloadable Artifact — step-by-step with screenshots spots marked</td><td>"Write as a step-by-step SOP with numbered steps, each starting with a verb. Mark where screenshots should go with [SCREENSHOT: description]"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Competitor analysis</td><td>Comparison table as an Artifact — ready to paste into a client presentation</td><td>"Create a comparison table with columns: Feature, Us, Competitor A, Competitor B, Our Advantage"</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Email sequences</td><td>Full 5-email nurture sequence in one Artifact — each email with subject line, body, CTA</td><td>"Write 5 emails as a sequence. Format each as: EMAIL [#] | Subject: | Body: | CTA: | Send timing:"</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Artifact Types You Should Know</h2>
+  <p>Claude can create different kinds of Artifacts depending on what you ask for. Knowing what's possible expands what you can deliver:</p>
+
+  <div class="card">
+    <p><strong>Markdown documents</strong> — reports, SOPs, guides, meeting notes. These are the most common and easiest to copy into other tools.</p>
+    <p><strong>HTML pages</strong> — Claude can build interactive pages, landing page mockups, email templates with actual formatting. You're reading one of these right now — this entire training module is a Claude-generated HTML Artifact.</p>
+    <p><strong>Tables and structured data</strong> — comparison matrices, content calendars, pricing tables, audit checklists. Request specific column headers to get exactly what you need.</p>
+    <p><strong>Code</strong> — even if you don't code, Claude can create Google Apps Script automations, simple calculators, or data processing scripts that you can paste into Google Sheets or other tools.</p>
+    <p style="margin:0;"><strong>SVG graphics</strong> — simple diagrams, flowcharts, and visual layouts. Not design-quality, but useful for quick process visualisations or concept maps.</p>
+  </div>
+
+  <h2>Connecting Artifacts to No-Code Automation</h2>
+  <p>Artifacts aren't just for reading — they're building blocks for automated workflows. Here's how Claude's output connects to no-code tools you'll learn about:</p>
+
+  <div class="card card-accent">
+    <div class="card-title">The Artifact → Automation Pipeline</div>
+    <p><strong>Step 1:</strong> Claude generates structured content as an Artifact (e.g., 20 social posts in a CSV-friendly format).</p>
+    <p><strong>Step 2:</strong> You copy/export that into a spreadsheet (Google Sheets or Airtable).</p>
+    <p><strong>Step 3:</strong> A no-code automation (Zapier, Make, or Airtable Automation) picks up each row and schedules it — posting to LinkedIn, sending to a client for approval, or adding to your content calendar.</p>
+    <p style="margin:0;">This is how one Claude conversation turns into a month of scheduled content without manual copy-paste for each post.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Projects</button>
+    <button class="btn btn-primary" onclick="goTo(4)">MCP &rarr;</button>
+  </div>
+</section>
+
+<!-- S4: MCP -->
+<section class="section" id="s4">
+  <h1>MCP — Claude with Tools</h1>
+  <p class="section-subtitle">MCP (Model Context Protocol) is what lets Claude reach outside the chat window and connect to your real apps. This is what transforms Claude from a writing assistant into an operational teammate.</p>
+  <div class="timer-badge">&#9201; 30 min</div>
+
+  <div class="card card-accent">
+    <div class="card-title">The analogy</div>
+    <p style="color:var(--white);font-size:16px;font-weight:600;margin-bottom:6px;">If Claude is the brain, MCP is the hands.</p>
+    <p style="margin:0;">Without MCP, Claude can only think and write. With MCP, Claude can send messages, read your emails, check calendars, organise files, and take actions inside your tools — directly, without you copy-pasting anything.</p>
+  </div>
+
+  <h2>What MCP Connections Look Like in Practice</h2>
+
+  <div class="card">
+    <div class="mcp-item">
+      <div class="mcp-icon">💬</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Slack</div>
+        <div class="mcp-desc">Read channels, send messages, search conversations, summarise threads</div>
+        <div class="mcp-example">"What were the main decisions from #client-updates today?"</div>
+      </div>
+    </div>
+    <div class="mcp-item">
+      <div class="mcp-icon">📧</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Gmail / Email</div>
+        <div class="mcp-desc">Read incoming emails, draft replies, send messages, search your inbox</div>
+        <div class="mcp-example">"Read my last 10 unread emails and flag anything that needs a response today."</div>
+      </div>
+    </div>
+    <div class="mcp-item">
+      <div class="mcp-icon">📅</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Calendar</div>
+        <div class="mcp-desc">View schedules, identify conflicts, check availability, summarise the day ahead</div>
+        <div class="mcp-example">"What does Mitch's Tuesday look like? Are there any back-to-back meetings that need buffer time?"</div>
+      </div>
+    </div>
+    <div class="mcp-item">
+      <div class="mcp-icon">📁</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Files & Folders</div>
+        <div class="mcp-desc">Read, write, organise, and create files on your computer</div>
+        <div class="mcp-example">"Organise the Downloads folder — sort by file type, delete duplicates, rename files with today's date."</div>
+      </div>
+    </div>
+    <div class="mcp-item">
+      <div class="mcp-icon">🌐</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Browser</div>
+        <div class="mcp-desc">Navigate websites, read page content, extract data, take actions</div>
+        <div class="mcp-example">"Go to this URL and pull the pricing table into a structured format."</div>
+      </div>
+    </div>
+    <div class="mcp-item">
+      <div class="mcp-icon">🗃️</div>
+      <div class="mcp-content">
+        <div class="mcp-name">Notion / Asana / ClickUp</div>
+        <div class="mcp-desc">Read and update project management tools, create tasks, pull status updates</div>
+        <div class="mcp-example">"Check what tasks are overdue in the client's Notion workspace and summarise for the morning brief."</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>How MCP Works (Without the Technical Details)</h2>
+  <p>MCP is an open standard — a shared language that lets Claude talk to other software. Developers build "connectors" for their tools, and when you connect a tool to Claude, Claude gains the ability to interact with it.</p>
+  <p>You don't need to understand how MCP works to use it. You need to know:</p>
+  <ul>
+    <li><strong>Which tools have connectors</strong> (Slack, Gmail, Notion, files, browser, and many more)</li>
+    <li><strong>How to connect them</strong> (through Claude's desktop app settings — you'll do this in Day 5)</li>
+    <li><strong>What Claude can do once connected</strong> (read, write, search, summarise, take action)</li>
+    <li><strong>What Claude will always ask before doing</strong> (Claude confirms before sending messages, making changes, or taking irreversible actions)</li>
+  </ul>
+
+  <div class="card card-gold">
+    <div class="card-title">Safety by design</div>
+    <p style="margin:0;">Claude does not take actions without telling you first. Before sending a message, creating a file, or making any change, it shows you what it's about to do and asks for confirmation. You are always in control. MCP extends what Claude can reach — it doesn't remove you from the loop.</p>
+  </div>
+
+  <h2>Real VA Workflows Powered by MCP</h2>
+  <p>MCP isn't theoretical — it changes how you work every day. Here are complete workflows that VAs at KP actually use:</p>
+
+  <div class="card card-accent">
+    <div class="card-title">Workflow 1: Morning Client Briefing</div>
+    <p><strong>Without MCP:</strong> Open Slack, scan 5 channels, open Gmail, read 15 emails, open calendar, check 3 schedules, open Notion, review task board. Write a summary manually. Time: 45 minutes.</p>
+    <p><strong>With MCP:</strong> One prompt: "Give me this morning's briefing — what came into Slack overnight, any urgent emails, and what's on the calendar today." Claude reads all three tools and delivers a structured summary. Time: 5 minutes.</p>
+    <p style="margin:0;"><strong>Your role shifts:</strong> You go from being the person who gathers information to the person who reviews and acts on it. That's a fundamental change in how VAs operate.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Workflow 2: End-of-Day Client Update</div>
+    <p><strong>Without MCP:</strong> Recall everything you did today, check your notes, review completed tasks, draft an update email from memory. Time: 20 minutes.</p>
+    <p style="margin:0;"><strong>With MCP:</strong> "Look at what I completed in Notion today, any Slack messages I sent, and summarise into an end-of-day email for the client. Bullet format, most important first." Claude pulls the actual data and drafts. You review and send. Time: 3 minutes.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Workflow 3: Meeting Follow-Up</div>
+    <p><strong>Without MCP:</strong> Listen to meeting recording, take notes manually, create action items, assign in project tool, send follow-up email. Time: 30-60 minutes depending on meeting length.</p>
+    <p style="margin:0;"><strong>With MCP:</strong> "Pull the transcript from today's call with Marcus Webb. Create action items with owners and deadlines, add them to the Notion task board, and draft a follow-up email to Marcus confirming what was agreed." One conversation, three outputs. Time: 10 minutes.</p>
+  </div>
+
+  <h2>MCP vs. No-Code Automation — When to Use Which</h2>
+  <p>MCP and no-code tools (Zapier, Make, Airtable Automations) solve different problems. Understanding the difference prevents you from using the wrong tool:</p>
+
+  <table>
+    <thead><tr><th>MCP (Claude)</th><th>No-Code Automation (Zapier/Make)</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">One-time or variable tasks</td><td style="color:var(--white);font-weight:600;">Repeating, identical tasks</td></tr>
+      <tr><td>"Summarise this thread and draft a response"</td><td>"Every time a form is submitted, add to spreadsheet and send confirmation"</td></tr>
+      <tr><td>Needs judgment and context</td><td>Follows the same steps every time</td></tr>
+      <tr><td>Output varies based on input</td><td>Output is always the same format</td></tr>
+      <tr><td>You're in the loop, reviewing and approving</td><td>Runs in the background without you</td></tr>
+      <tr><td>Best for: research, drafting, analysis, summarising</td><td>Best for: data entry, notifications, file routing, status updates</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><strong>The power move:</strong> Use both together. Claude (via MCP) does the thinking — analysing, drafting, deciding. No-code automation does the doing — sending, updating, routing. Claude generates the content; Zapier distributes it. Claude triages your inbox; Make routes the results to the right channels.</div>
+  </div>
+
+  <h2>MCP Security — What You Must Know</h2>
+  <p>Connecting Claude to your real tools means real responsibility. These rules are non-negotiable:</p>
+
+  <div class="card card-red">
+    <div class="card-title">MCP Security Rules</div>
+    <p><strong>Always review before approving.</strong> When Claude says "I'll send this Slack message to #client-updates" — read the message before clicking approve. One wrong message to a client channel can't be unsent.</p>
+    <p><strong>Start with read-only connections.</strong> When first connecting a tool, give Claude read access only. Let it prove it understands the context before you give it write/send access. You can always expand permissions later.</p>
+    <p><strong>Never connect personal accounts for client work.</strong> If you're connecting Gmail, use a dedicated VA email — not your personal account. Same for Slack, calendar, and file storage.</p>
+    <p style="margin:0;"><strong>Log what Claude does.</strong> Keep a simple running note of which actions Claude took via MCP: "Sent email to Marcus Webb via Gmail, 2:30pm." If anything goes wrong, you need an audit trail. This habit takes 10 seconds and saves you in edge cases.</p>
+  </div>
+
+  <p>You'll connect your tools and run MCP workflows hands-on in <strong>Day 5 (Cowork mode)</strong>.</p>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(3)">&larr; Artifacts</button>
+    <button class="btn btn-primary" onclick="goTo(5)">Hands-On Lab &rarr;</button>
+  </div>
+</section>
+
+<!-- S5: HANDS-ON LAB -->
+<section class="section" id="s5">
+  <h1>Hands-On Lab</h1>
+  <p class="section-subtitle">Apply everything from today in real exercises. The goal isn't to finish fast — it's to build the habits that carry into every client engagement.</p>
+  <div class="timer-badge">&#9201; 40 min</div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Model Selection Test</span></div>
+    <p>Run the same prompt on two different Claude models and compare the output. Use this prompt:</p>
+    <div class="prompt-block"><span class="prompt-label">Test Prompt</span>Analyse the following situation and give a strategic recommendation:
+
+A small digital marketing agency has 4 employees, $8,000/month in revenue, and is spending 30% of its time on admin work (email, scheduling, client reporting). They're considering whether to add automation tools or hire a part-time operations coordinator.
+
+Should they invest in automation software, hire an operations coordinator, or continue doing it manually? Walk through the trade-offs and give a clear recommendation.</div>
+    <p>Run this on <strong>Sonnet 4.6</strong> (default), then on <strong>Opus 4.6</strong> (if available on your plan). What's different? Which is more useful for a task like this?</p>
+    <p style="margin:0;">Write down your observation — this is training your model-selection instinct.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Build a Client Project</span></div>
+    <p>Create a complete Claude Project for a real or practice client. This is the exercise you'll use professionally from Day 1 with a new client.</p>
+    <ol>
+      <li>Go to <strong>claude.ai → Projects → Create Project</strong></li>
+      <li>Name it clearly: "Client: [Name] — [Business Type]"</li>
+      <li>Write <strong>Project Instructions</strong> covering:
+        <ul>
+          <li>Who the client is and what they do</li>
+          <li>Their communication style and preferred tone</li>
+          <li>Your role and what you handle for them</li>
+          <li>Output preferences (bullets vs. prose, email sign-off, etc.)</li>
+          <li>Anything Claude must always do or never do</li>
+        </ul>
+      </li>
+      <li>Upload at least 1 document as Project Knowledge (sample email, brand guide, or SOP)</li>
+      <li>Test with these 3 prompts:
+        <ul>
+          <li>"Draft a follow-up email to a lead who went quiet after the intro call."</li>
+          <li>"Give me 5 LinkedIn post ideas for this week."</li>
+          <li>"Summarise what this client does in 3 sentences for someone who's never heard of them."</li>
+        </ul>
+      </li>
+    </ol>
+    <p style="margin:0;">After each output — does it sound like it's coming from someone who knows this client? If not, adjust your Project Instructions and run again.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Format Control Practice</span></div>
+    <p>Run this prompt three times, changing only the format instruction each time:</p>
+    <div class="prompt-block"><span class="prompt-label">Base Prompt</span>Explain the main benefits of outsourcing social media management for a small business owner who currently handles all their own content.
+
+[CHANGE THIS EACH ROUND]:
+Round 1: "Format as 5 bullet points, each under 20 words."
+Round 2: "Format as 3 paragraphs — one benefit per paragraph, each with a real example."
+Round 3: "Format as a comparison table: Benefit | Current Pain | With Outsourced Social Media"</div>
+    <p style="margin:0;">Notice how the same content serves different purposes depending on format. Different clients, different scenarios, different formats — the same prompt structure applies.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Artifact Iteration Drill</span></div>
+    <p>Practice the iteration cycle that makes Artifacts powerful. Do all four rounds in one conversation:</p>
+    <ol>
+      <li><strong>Round 1 — Generate:</strong> "Create a weekly status report template for a client. Include sections for: Key Wins, Tasks Completed, In Progress, Blockers, and Next Week's Priorities."</li>
+      <li><strong>Round 2 — Refine format:</strong> "Keep the sections but make each one a table with columns: Item, Status, Owner, Notes."</li>
+      <li><strong>Round 3 — Add constraints:</strong> "Now fill in the template with sample data for a digital marketing client who runs Facebook ads, email campaigns, and a blog. Make the data realistic."</li>
+      <li><strong>Round 4 — Adapt:</strong> "Create a version of this same report but for a real estate client. Keep the structure, change the content to match their work."</li>
+    </ol>
+    <p style="margin:0;"><strong>What to notice:</strong> Each round builds on the last. You never re-explained the format. This is how real VA work with Claude should feel — building iteratively, not starting over.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Prompting Pattern Practice</span></div>
+    <p>Apply the 7 prompting patterns from Section 1 to a single task. Use this scenario:</p>
+    <div class="prompt-block"><span class="prompt-label">Scenario</span>A client (fitness coach, personal brand, 10k Instagram followers) wants you to write a LinkedIn post about why solopreneurs should invest in systems and automation before hiring more people. The post should feel personal and authentic.</div>
+    <p>Write a prompt using <strong>each</strong> of these patterns. You don't need to run all of them — the goal is to practice constructing each type:</p>
+    <ol>
+      <li><strong>Persona + Task:</strong> Set who Claude is and what to do</li>
+      <li><strong>Negative Constraints:</strong> Tell Claude what NOT to write</li>
+      <li><strong>Output Template:</strong> Define the exact structure (Hook / Story / Lesson / CTA)</li>
+      <li><strong>Few-Shot:</strong> Find 2 real LinkedIn posts the client has written and include them as style examples</li>
+      <li><strong>Self-Review:</strong> After generating, ask Claude to critique its own post</li>
+    </ol>
+    <p style="margin:0;">Pick your best 2 outputs and save them. Compare — which prompting pattern got the closest to "client-ready" on the first try?</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 6</span><span class="exercise-title">MCP Workflow Design</span></div>
+    <p>You won't connect MCP until Day 5 — but you can plan your workflows now. For each scenario, write out: what Claude would read, what it would produce, and what action it would take.</p>
+    <table>
+      <thead><tr><th>Scenario</th><th>MCP Reads</th><th>Claude Produces</th><th>Claude Action</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--white);">Morning briefing</td><td>Slack (overnight messages), Gmail (unread), Calendar (today's schedule)</td><td>Prioritised summary</td><td>None (you review)</td></tr>
+        <tr><td style="color:var(--white);">Meeting follow-up</td><td><em>Fill this in</em></td><td><em>Fill this in</em></td><td><em>Fill this in</em></td></tr>
+        <tr><td style="color:var(--white);">Content scheduling</td><td><em>Fill this in</em></td><td><em>Fill this in</em></td><td><em>Fill this in</em></td></tr>
+        <tr><td style="color:var(--white);">Client status update</td><td><em>Fill this in</em></td><td><em>Fill this in</em></td><td><em>Fill this in</em></td></tr>
+      </tbody>
+    </table>
+    <p style="margin:0;"><strong>Goal:</strong> When you open Cowork mode tomorrow, you'll already know exactly what to build. Planning the workflow before touching the tool means faster, cleaner execution.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 7</span><span class="exercise-title">Group Discussion — "What Would You Automate First?"</span></div>
+    <p>In your group (or individually if working solo), answer these three questions:</p>
+    <ol>
+      <li><strong>What's the one task you spend the most time on every day?</strong> Be specific — not "email" but "reading 30 emails, deciding which ones the client needs to see, forwarding 5 with a one-line summary."</li>
+      <li><strong>Could Claude + MCP handle part of it?</strong> Which part requires judgment (Claude) and which part is mechanical (automation)?</li>
+      <li><strong>What would you do with the time saved?</strong> If this task went from 45 minutes to 10 minutes, what higher-value work would you do instead?</li>
+    </ol>
+    <p style="margin:0;">Write your answers down. This isn't hypothetical — this is your first automation target for Day 5.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Homework Before Day 5</div>
+    <p><strong>Task 1:</strong> Keep your client project set up and test it with 5 different types of prompts before tomorrow.</p>
+    <p><strong>Task 2:</strong> Download the <strong>Claude desktop app</strong> (claude.ai/download) if you haven't already. Day 5 requires it for Cowork mode. Install it tonight.</p>
+    <p style="margin:0;"><strong>Task 3:</strong> Complete the MCP Workflow Design exercise (Exercise 6) — write out all four scenarios. You'll use these plans directly in tomorrow's hands-on session.</p>
+  </div>
+
+  <div class="card card-gold">
+    <div class="card-title">Day 4 Complete</div>
+    <p>You now know Claude's three models and when to use each, how to build persistent client projects that make Claude work like a trained team member, how Artifacts structure output, and what MCP makes possible.</p>
+    <p style="margin:0;">Tomorrow: <strong>Cowork mode — where Claude connects to your real tools and starts acting, not just writing.</strong> Come with the Claude desktop app installed and your MCP workflow plans ready.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(4)">&larr; MCP</button>
+    <span style="color:var(--silver);font-size:13px;padding:10px;">End of Day 4</span>
+  </div>
+</section>
+
+</div></div>
 
 <script>
-  function navSlide(slideId) {
-    document.querySelectorAll('.slide').forEach(function(slide) {
-      slide.classList.remove('active');
-    });
+let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const totalSections = sections.length;
+const completed = new Set();
 
-    if (slideId === 'done') {
-      alert('Day 4 Completed! Great job. See you tomorrow for Cowork & Agentic AI.');
-      return;
-    }
+function goTo(n) {
+  completed.add(currentSection);
+  currentSection = n;
+  sections.forEach((el, i) => el.classList.toggle('active', i === n));
+  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
+  const pct = Math.round((completed.size / totalSections) * 100);
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
+}
 
-    if (slideId === 'index') {
-      document.getElementById('sessionIndex').style.display = 'block';
-      window.scrollTo(0, document.getElementById('sessionIndex').offsetTop - 20);
-      return;
-    }
-
-    document.getElementById('sessionIndex').style.display = 'none';
-    document.getElementById(slideId).classList.add('active');
-    window.scrollTo(0, document.getElementById(slideId).offsetTop - 20);
-
-    if (history.pushState) {
-      history.pushState(null, null, '#' + slideId);
-    } else {
-      location.hash = '#' + slideId;
-    }
-  }
-
-  window.onload = function() {
-    var hash = window.location.hash;
-    if (hash && document.querySelector(hash)) {
-      navSlide(hash.substring(1));
-    }
-  }
-
-  window.onhashchange = function() {
-    var hash = window.location.hash;
-    if (hash && document.querySelector(hash)) {
-      navSlide(hash.substring(1));
-    }
-  }
+function toggleSidebar() {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('overlay')?.classList.toggle('show');
+}
 </script>
-
 </body>
 </html>
