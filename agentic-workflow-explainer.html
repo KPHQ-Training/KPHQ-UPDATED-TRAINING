@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Workflow Explainer — KeyPlayers HQ AI Training</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #010D07; color: #fff; min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 32px 20px; }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .logo { font-size: 13px; letter-spacing: 1.5px; margin-bottom: 10px; text-transform: uppercase; }
+  .logo span { color: #22C55E; font-weight: 700; }
+  .title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { color: #A1A1AA; font-size: 14px; line-height: 1.5; }
+
+  .loop-wrap { display: flex; justify-content: center; margin-bottom: 32px; }
+  .loop-svg { width: 340px; height: 340px; }
+
+  .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .step { background: #18181B; border-radius: 10px; padding: 16px 18px; cursor: pointer; border-left: 3px solid #22C55E; transition: all 0.2s; }
+  .step:hover { background: #1f1f23; }
+  .step.active { background: #0a1f12; border-left-color: #EAB308; }
+  .step-header { display: flex; align-items: center; gap: 10px; }
+  .step-num { background: #166534; color: #22C55E; font-weight: 700; font-size: 12px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step.active .step-num { background: #422006; color: #EAB308; }
+  .step-title { font-weight: 600; font-size: 15px; }
+  .step-detail { display: none; margin-top: 12px; padding-left: 36px; color: #A1A1AA; font-size: 13px; line-height: 1.6; }
+  .step.active .step-detail { display: block; }
+  .step-example { background: #010D07; border-radius: 6px; padding: 10px 12px; margin-top: 10px; font-size: 12px; color: #22C55E; font-family: monospace; line-height: 1.6; }
+
+  .play-area { text-align: center; margin-top: 24px; }
+  .play-btn { background: #22C55E; color: #010D07; border: none; padding: 12px 32px; border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+  .play-btn:hover { background: #16a34a; }
+  .play-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .sim-log { margin-top: 20px; text-align: left; max-height: 260px; overflow-y: auto; }
+  .sim-entry { padding: 8px 0; font-size: 13px; color: #A1A1AA; border-bottom: 1px solid #18181B; display: flex; gap: 10px; align-items: flex-start; animation: fadeIn 0.3s; }
+  .sim-entry .tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
+  .tag-plan { background: #166534; color: #22C55E; }
+  .tag-act { background: #422006; color: #EAB308; }
+  .tag-observe { background: #1e1b4b; color: #818cf8; }
+  .tag-decide { background: #4a1d1d; color: #f87171; }
+  .tag-done { background: #166534; color: #22C55E; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-label { color: #A1A1AA; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; margin-top: 8px; }
+
+  .key-takeaways { background: #18181B; border-radius: 10px; padding: 20px; margin-top: 32px; }
+  .key-takeaways h3 { font-size: 15px; margin-bottom: 12px; color: #22C55E; }
+  .key-takeaways p { color: #A1A1AA; font-size: 13px; line-height: 1.7; margin-bottom: 8px; }
+  .key-takeaways p:last-child { margin-bottom: 0; }
+  .key-takeaways strong { color: #fff; }
+
+  .footer { text-align: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #18181B; color: #A1A1AA; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">KeyPlayers <span>HQ</span> — AI Training</div>
+    <div class="title">Agentic Workflow: How AI Agents Think</div>
+    <div class="subtitle">The Plan, Act, Observe, Decide loop that powers autonomous AI work. This is the core mental model behind every AI agent — from Claude to custom automations.</div>
+  </div>
+
+  <div class="loop-wrap">
+    <svg class="loop-svg" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="170" cy="170" r="115" fill="none" stroke="#18181B" stroke-width="2"/>
+      <path d="M170 55 A115 115 0 0 1 285 170" fill="none" stroke="#22C55E" stroke-width="3" opacity="0.4"/>
+      <path d="M285 170 A115 115 0 0 1 170 285" fill="none" stroke="#EAB308" stroke-width="3" opacity="0.4"/>
+      <path d="M170 285 A115 115 0 0 1 55 170" fill="none" stroke="#818cf8" stroke-width="3" opacity="0.4"/>
+      <path d="M55 170 A115 115 0 0 1 170 55" fill="none" stroke="#f87171" stroke-width="3" opacity="0.4"/>
+
+      <polygon points="283,162 293,170 283,178" fill="#EAB308" opacity="0.7"/>
+      <polygon points="178,283 170,293 162,283" fill="#818cf8" opacity="0.7"/>
+      <polygon points="57,178 47,170 57,162" fill="#f87171" opacity="0.7"/>
+      <polygon points="162,57 170,47 178,57" fill="#22C55E" opacity="0.7"/>
+
+      <g><circle cx="170" cy="51" r="30" fill="#010D07" stroke="#22C55E" stroke-width="2"/><text x="170" y="55" text-anchor="middle" fill="#22C55E" font-size="12" font-weight="700" font-family="Inter,system-ui">PLAN</text></g>
+      <g><circle cx="289" cy="170" r="30" fill="#010D07" stroke="#EAB308" stroke-width="2"/><text x="289" y="174" text-anchor="middle" fill="#EAB308" font-size="12" font-weight="700" font-family="Inter,system-ui">ACT</text></g>
+      <g><circle cx="170" cy="289" r="30" fill="#010D07" stroke="#818cf8" stroke-width="2"/><text x="170" y="285" text-anchor="middle" fill="#818cf8" font-size="10" font-weight="700" font-family="Inter,system-ui">OB-</text><text x="170" y="297" text-anchor="middle" fill="#818cf8" font-size="10" font-weight="700" font-family="Inter,system-ui">SERVE</text></g>
+      <g><circle cx="51" cy="170" r="30" fill="#010D07" stroke="#f87171" stroke-width="2"/><text x="51" y="166" text-anchor="middle" fill="#f87171" font-size="10" font-weight="700" font-family="Inter,system-ui">DE-</text><text x="51" y="178" text-anchor="middle" fill="#f87171" font-size="10" font-weight="700" font-family="Inter,system-ui">CIDE</text></g>
+
+      <text x="170" y="165" text-anchor="middle" fill="#A1A1AA" font-size="11" font-family="Inter,system-ui">AGENT</text>
+      <text x="170" y="182" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="Inter,system-ui">LOOP</text>
+    </svg>
+  </div>
+
+  <div class="section-label">Click each step to expand</div>
+  <div class="steps" id="steps">
+    <div class="step" data-idx="0" onclick="toggle(0)">
+      <div class="step-header"><div class="step-num">1</div><div class="step-title">PLAN — Break the goal into steps</div></div>
+      <div class="step-detail">The agent receives a goal and decomposes it into a sequence of actions. It doesn't try to do everything at once — it picks the first logical step.<div class="step-example">Goal: "Research competitor pricing"<br>&#8594; Step 1: Search for competitor websites<br>&#8594; Step 2: Extract pricing pages<br>&#8594; Step 3: Compile into comparison table</div></div>
+    </div>
+    <div class="step" data-idx="1" onclick="toggle(1)">
+      <div class="step-header"><div class="step-num">2</div><div class="step-title">ACT — Use a tool or take an action</div></div>
+      <div class="step-detail">The agent calls a tool — web search, file read, Slack message, Canva design, spreadsheet creation. It does ONE action per cycle, not everything at once.<div class="step-example">Action: WebSearch("competitor X pricing page 2026")<br>&#8594; Tool returns search results with URLs</div></div>
+    </div>
+    <div class="step" data-idx="2" onclick="toggle(2)">
+      <div class="step-header"><div class="step-num">3</div><div class="step-title">OBSERVE — Read the result</div></div>
+      <div class="step-detail">The agent reads what came back from the tool. Did it get what it needed? Is the data useful? Are there errors or missing info?<div class="step-example">Observation: "Found 3 pricing pages. Competitor X has 3 tiers: $29/$79/$199. Competitor Y requires a demo call — no public pricing."</div></div>
+    </div>
+    <div class="step" data-idx="3" onclick="toggle(3)">
+      <div class="step-header"><div class="step-num">4</div><div class="step-title">DECIDE — Loop or finish?</div></div>
+      <div class="step-detail">The agent decides: do I have enough, or do I need another loop? If info is missing, it goes back to PLAN with new context. If done, it delivers the output.<div class="step-example">Decision: "Missing Competitor Y pricing. Loop back &#8594; Plan: search for Competitor Y pricing on review sites instead."</div></div>
+    </div>
+  </div>
+
+  <div class="section-label">Live simulation</div>
+  <div class="play-area">
+    <button class="play-btn" id="playBtn" onclick="runSim()">&#9654; Simulate a Research Workflow</button>
+    <div class="sim-log" id="simLog"></div>
+  </div>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways for VAs</h3>
+    <p><strong>Agentic = autonomous loops.</strong> The AI doesn't just answer once — it keeps working through Plan/Act/Observe/Decide cycles until the task is done.</p>
+    <p><strong>Tools are the hands.</strong> The agent "thinks" with the LLM but "does" with tools — search, file creation, messaging, browser automation, etc.</p>
+    <p><strong>You're the supervisor.</strong> As a VA working with AI agents, you set the goal, review the output, and course-correct. The agent handles the repetitive middle steps.</p>
+    <p><strong>This is how Cowork, Claude Code, and custom automations all work under the hood.</strong></p>
+  </div>
+
+  <div class="footer">KeyPlayers HQ &middot; AI Training Module &middot; 2026</div>
+</div>
+
+<script>
+function toggle(idx) {
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.toggle('active', i === idx && !s.classList.contains('active'));
+  });
+}
+
+const simSteps = [
+  { tag: 'plan', text: 'Goal received: "Find top 3 AI VA tools and compare pricing"' },
+  { tag: 'plan', text: 'Step 1 &#8594; Search for AI VA tools in 2026' },
+  { tag: 'act', text: 'WebSearch("best AI virtual assistant tools 2026")' },
+  { tag: 'observe', text: 'Got 8 results. Top mentions: Lindy AI, AgentGPT, HyperWrite.' },
+  { tag: 'decide', text: 'Have tool names. Need pricing &#8594; loop back.' },
+  { tag: 'plan', text: 'Step 2 &#8594; Get pricing for each tool' },
+  { tag: 'act', text: 'WebFetch("lindy.ai/pricing")' },
+  { tag: 'observe', text: 'Lindy: Free tier, Pro $49/mo, Team $99/mo.' },
+  { tag: 'act', text: 'WebFetch("agentgpt.reworkd.ai/pricing")' },
+  { tag: 'observe', text: 'AgentGPT: Open source / Pro $29/mo.' },
+  { tag: 'act', text: 'WebFetch("hyperwrite.ai/pricing")' },
+  { tag: 'observe', text: 'HyperWrite: Starter free, Premium $19.99/mo, Ultra $44.99/mo.' },
+  { tag: 'decide', text: 'Have all 3 pricing sets. Ready to compile.' },
+  { tag: 'plan', text: 'Step 3 &#8594; Build comparison table' },
+  { tag: 'act', text: 'CreateSpreadsheet("AI VA Tools Comparison.xlsx")' },
+  { tag: 'observe', text: 'Spreadsheet created with 3 tools &times; 4 columns.' },
+  { tag: 'done', text: '&#10003; Delivered: AI VA Tools Comparison — 3 tools, pricing, features.' },
+];
+
+async function runSim() {
+  const btn = document.getElementById('playBtn');
+  const log = document.getElementById('simLog');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running...';
+  log.innerHTML = '';
+
+  for (const step of simSteps) {
+    const entry = document.createElement('div');
+    entry.className = 'sim-entry';
+    entry.innerHTML = '<span class="tag tag-' + step.tag + '">' + step.tag.toUpperCase() + '</span><span>' + step.text + '</span>';
+    log.appendChild(entry);
+    log.scrollTop = log.scrollHeight;
+    await new Promise(r => setTimeout(r, 700));
+  }
+
+  btn.disabled = false;
+  btn.textContent = '↻ Run Again';
+}
+</script>
+</body>
+</html>

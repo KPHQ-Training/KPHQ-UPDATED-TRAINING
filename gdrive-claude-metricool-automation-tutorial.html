@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automation Tutorial: Google Drive → Claude → Metricool | KeyPlayers HQ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #010D07; color: #E4E4E7; line-height: 1.7; }
+
+  .page { max-width: 780px; margin: 0 auto; padding: 40px 28px; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 40px; padding-bottom: 32px; border-bottom: 1px solid #18181B; }
+  .logo { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; color: #A1A1AA; }
+  .logo span { color: #22C55E; font-weight: 700; }
+  .doc-title { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .doc-subtitle { color: #A1A1AA; font-size: 15px; }
+  .doc-meta { margin-top: 16px; display: flex; justify-content: center; gap: 24px; font-size: 12px; color: #71717A; }
+  .doc-meta .tag { background: #166534; color: #22C55E; padding: 2px 10px; border-radius: 999px; font-weight: 600; }
+
+  /* Sections */
+  h2 { font-size: 20px; font-weight: 700; color: #22C55E; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #1a3a25; }
+  h3 { font-size: 16px; font-weight: 600; color: #fff; margin: 24px 0 10px; }
+  p { margin-bottom: 14px; font-size: 14px; }
+  strong { color: #fff; }
+
+  /* Cards */
+  .card { background: #18181B; border-radius: 10px; padding: 20px; margin-bottom: 16px; border-left: 3px solid #22C55E; }
+  .card.gold { border-left-color: #EAB308; }
+  .card.purple { border-left-color: #818cf8; }
+  .card.red { border-left-color: #f87171; }
+  .card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .card-label.green { color: #22C55E; }
+  .card-label.gold { color: #EAB308; }
+  .card-label.purple { color: #818cf8; }
+  .card-label.red { color: #f87171; }
+
+  /* Step blocks */
+  .step-block { background: #18181B; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; position: relative; }
+  .step-num { position: absolute; top: -10px; left: 20px; background: #166534; color: #22C55E; font-weight: 700; font-size: 11px; padding: 2px 10px; border-radius: 999px; }
+  .step-block h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; margin-top: 6px; }
+  .step-block p { font-size: 13px; color: #A1A1AA; margin-bottom: 8px; }
+
+  /* Code blocks */
+  .code { background: #0a0a0a; border: 1px solid #27272A; border-radius: 6px; padding: 14px 16px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #22C55E; margin: 10px 0 14px; overflow-x: auto; white-space: pre-wrap; }
+
+  /* Flow diagram */
+  .flow { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 24px 0; flex-wrap: wrap; }
+  .flow-node { background: #18181B; border: 1px solid #27272A; border-radius: 8px; padding: 10px 16px; text-align: center; min-width: 120px; }
+  .flow-node .icon { font-size: 24px; margin-bottom: 4px; }
+  .flow-node .label { font-size: 12px; font-weight: 600; color: #fff; }
+  .flow-node .sub { font-size: 10px; color: #A1A1AA; }
+  .flow-node.active { border-color: #22C55E; background: #0a1f12; }
+  .flow-arrow { color: #22C55E; font-size: 20px; font-weight: 700; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th { background: #166534; color: #22C55E; text-align: left; padding: 10px 14px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #27272A; color: #A1A1AA; }
+  tr:hover td { background: #1a1a1e; }
+
+  /* Callouts */
+  .callout { background: #0a1f12; border: 1px solid #166534; border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-size: 13px; }
+  .callout.warn { background: #1a1508; border-color: #854d0e; }
+  .callout-title { font-weight: 700; color: #22C55E; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .callout.warn .callout-title { color: #EAB308; }
+
+  /* Lists */
+  ul, ol { margin: 10px 0 14px 24px; font-size: 14px; }
+  li { margin-bottom: 6px; color: #A1A1AA; }
+  li strong { color: #fff; }
+
+  /* Footer */
+  .footer { text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid #18181B; color: #52525B; font-size: 11px; }
+
+  @media print {
+    body { background: #fff; color: #1a1a1a; }
+    .page { padding: 20px; }
+    .card, .step-block, .code, .callout { border: 1px solid #ddd; background: #f9f9f9; }
+    h2 { color: #166534; }
+    .flow-node { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="logo">KeyPlayers <span>HQ</span> — AI Training</div>
+    <div class="doc-title">Building Your First Agentic Automation</div>
+    <div class="doc-subtitle">Google Drive → Claude AI → Metricool — Automated Social Media Scheduling</div>
+    <div class="doc-meta">
+      <span class="tag">VA Training</span>
+      <span>Difficulty: Intermediate</span>
+      <span>Time: 30–45 min</span>
+    </div>
+  </div>
+
+  <!-- WHAT YOU'LL BUILD -->
+  <h2>What You'll Build</h2>
+  <p>An automated pipeline that watches a Google Drive folder for approved social media graphics, uses Claude AI to write captions and QA the content, then schedules the post in Metricool — all without manual intervention.</p>
+
+  <div class="flow">
+    <div class="flow-node active">
+      <div class="icon">📁</div>
+      <div class="label">Google Drive</div>
+      <div class="sub">Approved folder</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="icon">⚡</div>
+      <div class="label">Zapier</div>
+      <div class="sub">Trigger + orchestrator</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <div class="icon">🧠</div>
+      <div class="label">Claude AI</div>
+      <div class="sub">Caption + QA</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node active">
+      <div class="icon">📅</div>
+      <div class="label">Metricool</div>
+      <div class="sub">Schedule post</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Why this is "agentic"</div>
+    This isn't a simple A→B automation. Claude makes decisions in the middle — writing copy, checking brand alignment, and determining if the content is ready to post. That decision-making loop is what makes it an agentic workflow.
+  </div>
+
+  <!-- PREREQUISITES -->
+  <h2>Prerequisites</h2>
+  <table>
+    <tr><th>Tool</th><th>Plan Needed</th><th>What For</th></tr>
+    <tr><td><strong>Google Drive</strong></td><td>Any (free works)</td><td>File storage + approval folder</td></tr>
+    <tr><td><strong>Zapier</strong></td><td>Starter or higher</td><td>Connects the tools + runs Claude</td></tr>
+    <tr><td><strong>Claude API</strong></td><td>Anthropic API key</td><td>Generates captions + QA checks</td></tr>
+    <tr><td><strong>Metricool</strong></td><td>Any paid plan</td><td>Schedules and publishes posts</td></tr>
+  </table>
+
+  <div class="callout warn">
+    <div class="callout-title">Important: API Key Safety</div>
+    Your Claude API key is sensitive. Only enter it in Zapier's official integration field — never paste it in shared docs, Slack, or public forms.
+  </div>
+
+  <!-- STEP 1 -->
+  <h2>Step 1: Set Up Your Google Drive Folder Structure</h2>
+
+  <div class="step-block">
+    <div class="step-num">1A</div>
+    <h4>Create the folder hierarchy</h4>
+    <p>In Google Drive, create this structure:</p>
+    <div class="code">📁 Social Media Content
+  📁 Drafts          ← designers drop files here
+  📁 For Review       ← team lead reviews here
+  📁 Approved         ← ✅ THIS triggers the automation
+  📁 Published        ← files move here after posting</div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">1B</div>
+    <h4>File naming convention</h4>
+    <p>Use this naming pattern so Claude knows what the post is about:</p>
+    <div class="code">[Platform]-[Content Pillar]-[Short Description].png
+
+Examples:
+IG-AI-Stack-Tool-Comparison.png
+FB-Hiring-5-Signs-You-Need-VA.png
+LI-Framework-Delegation-Matrix.png</div>
+    <p>Claude will parse this filename to understand the platform, topic, and angle — no extra metadata needed.</p>
+  </div>
+
+  <!-- STEP 2 -->
+  <h2>Step 2: Build the Zapier Zap</h2>
+
+  <h3>Trigger: New File in Google Drive Folder</h3>
+  <div class="step-block">
+    <div class="step-num">2A</div>
+    <h4>Configure the trigger</h4>
+    <ol>
+      <li>In Zapier, click <strong>Create Zap</strong></li>
+      <li>Choose <strong>Google Drive</strong> as the trigger app</li>
+      <li>Event: <strong>New File in Folder</strong></li>
+      <li>Select your <strong>"Approved"</strong> folder</li>
+      <li>Test the trigger — drop a test file in the Approved folder first</li>
+    </ol>
+  </div>
+
+  <h3>Action 1: Claude AI — Generate Caption + QA</h3>
+  <div class="step-block">
+    <div class="step-num">2B</div>
+    <h4>Add Claude as an action step</h4>
+    <ol>
+      <li>Add a new action → search for <strong>"Claude" or "Anthropic"</strong></li>
+      <li>If not available natively, use <strong>Webhooks by Zapier</strong> → POST to <code>https://api.anthropic.com/v1/messages</code></li>
+      <li>Set headers:
+        <div class="code">x-api-key: [YOUR_API_KEY]
+anthropic-version: 2023-06-01
+content-type: application/json</div>
+      </li>
+      <li>Set the request body (see prompt below)</li>
+    </ol>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">2C</div>
+    <h4>The Claude prompt — this is the "brain"</h4>
+    <p>This prompt turns Claude into your caption writer + QA agent. Paste this into the Zapier webhook body:</p>
+    <div class="code">{
+  "model": "claude-sonnet-4-20250514",
+  "max_tokens": 1024,
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a social media manager for KeyPlayers HQ.\n\nA new file has been approved for posting.\nFilename: {{filename_from_trigger}}\nPlatform: {{parsed_platform}}\n\nTasks:\n1. WRITE a caption (max 150 words) that matches the KeyPlayers tone: confident, direct, helpful. No fluff. Speak to business owners who are overwhelmed.\n2. Include 1 clear CTA — either join Key Leaders community OR grab a free resource. Never sell directly.\n3. Add 5-8 relevant hashtags.\n4. QA CHECK: Rate the post 1-10 on brand alignment. If below 7, flag the issue.\n\nRespond in this exact JSON format:\n{\n  \"caption\": \"...\",\n  \"hashtags\": \"...\",\n  \"cta\": \"...\",\n  \"qa_score\": 8,\n  \"qa_notes\": \"...\",\n  \"ready_to_post\": true\n}"
+    }
+  ]
+}</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Why JSON output?</div>
+    By forcing Claude to respond in JSON, Zapier can parse each field separately — caption goes to Metricool's text field, hashtags get appended, and the QA score can trigger a conditional path.
+  </div>
+
+  <h3>Action 2: Filter — Only Post if QA Passes</h3>
+  <div class="step-block">
+    <div class="step-num">2D</div>
+    <h4>Add a Zapier Filter</h4>
+    <p>This is the "Decide" step in the agentic loop:</p>
+    <ol>
+      <li>Add a <strong>Filter by Zapier</strong> step</li>
+      <li>Condition: <strong>ready_to_post</strong> (from Claude's response) <strong>equals true</strong></li>
+      <li>If it fails, add a <strong>Path B</strong> that sends a Slack/email notification: "Post flagged by Claude QA — manual review needed"</li>
+    </ol>
+  </div>
+
+  <h3>Action 3: Metricool — Schedule the Post</h3>
+  <div class="step-block">
+    <div class="step-num">2E</div>
+    <h4>Connect Metricool</h4>
+    <ol>
+      <li>Add <strong>Metricool</strong> as the final action (or use their API via webhook if not natively in Zapier)</li>
+      <li>Map fields:
+        <table>
+          <tr><th>Metricool Field</th><th>Source</th></tr>
+          <tr><td>Post Text</td><td>Claude's <code>caption</code> + <code>hashtags</code></td></tr>
+          <tr><td>Image</td><td>Google Drive file URL from trigger</td></tr>
+          <tr><td>Platform</td><td>Parsed from filename (IG/FB/LI)</td></tr>
+          <tr><td>Schedule Time</td><td>Metricool's "best time" or set a fixed slot</td></tr>
+        </table>
+      </li>
+    </ol>
+  </div>
+
+  <div class="step-block">
+    <div class="step-num">2F</div>
+    <h4>Move file to Published folder</h4>
+    <p>Add one last action: <strong>Google Drive → Move File</strong> — move the file from "Approved" to "Published" so it doesn't get processed again.</p>
+  </div>
+
+  <!-- STEP 3 -->
+  <h2>Step 3: The Complete Workflow Map</h2>
+  <p>Here's everything wired together. This is what your Zapier Zap looks like end to end:</p>
+
+  <div class="card">
+    <div class="card-label green">Trigger</div>
+    <p><strong>Google Drive:</strong> New file appears in "Approved" folder</p>
+  </div>
+  <div style="text-align:center;color:#22C55E;font-size:18px;margin:4px 0;">↓</div>
+  <div class="card gold">
+    <div class="card-label gold">Act + Observe</div>
+    <p><strong>Claude AI (Webhook):</strong> Receives filename → writes caption → QA checks → returns JSON</p>
+  </div>
+  <div style="text-align:center;color:#22C55E;font-size:18px;margin:4px 0;">↓</div>
+  <div class="card purple">
+    <div class="card-label purple">Decide</div>
+    <p><strong>Zapier Filter:</strong> If <code>ready_to_post = true</code> → continue. If false → notify team for manual review.</p>
+  </div>
+  <div style="text-align:center;color:#22C55E;font-size:18px;margin:4px 0;">↓</div>
+  <div class="card">
+    <div class="card-label green">Act</div>
+    <p><strong>Metricool:</strong> Schedule post with caption + image + hashtags</p>
+  </div>
+  <div style="text-align:center;color:#22C55E;font-size:18px;margin:4px 0;">↓</div>
+  <div class="card">
+    <div class="card-label green">Cleanup</div>
+    <p><strong>Google Drive:</strong> Move file from "Approved" → "Published"</p>
+  </div>
+
+  <!-- STEP 4 -->
+  <h2>Step 4: Test It End to End</h2>
+  <ol>
+    <li><strong>Drop a test image</strong> into the "Approved" folder (use the naming convention)</li>
+    <li><strong>Watch Zapier</strong> — check the Zap history to see each step fire</li>
+    <li><strong>Check Claude's output</strong> — is the caption on-brand? Is the QA score accurate?</li>
+    <li><strong>Check Metricool</strong> — is the post scheduled with the right image, caption, and platform?</li>
+    <li><strong>Check Drive</strong> — did the file move to "Published"?</li>
+  </ol>
+
+  <div class="callout warn">
+    <div class="callout-title">Common Issues</div>
+    <strong>Claude returns malformed JSON:</strong> Add "You must respond ONLY with valid JSON, no extra text" to your prompt.<br><br>
+    <strong>Image doesn't attach in Metricool:</strong> Make sure the Google Drive file is shared (at least "anyone with the link can view") so Metricool can access it.<br><br>
+    <strong>Zap triggers on non-image files:</strong> Add a Zapier Filter after the trigger that checks file extension contains ".png" or ".jpg".
+  </div>
+
+  <!-- CUSTOMIZATION -->
+  <h2>Step 5: Customize for Your Needs</h2>
+
+  <h3>Upgrade the Claude prompt</h3>
+  <p>The prompt is where all the intelligence lives. Here's how to level it up:</p>
+  <table>
+    <tr><th>Upgrade</th><th>Add to Prompt</th></tr>
+    <tr><td>Platform-specific tone</td><td>"If platform is LinkedIn, use professional tone. If Instagram, use casual + emoji."</td></tr>
+    <tr><td>Content pillars</td><td>"Match content to KP pillars: AI Stack, Team Building, or Frameworks. Reference the matching lead magnet in CTA."</td></tr>
+    <tr><td>Competitor awareness</td><td>"Never mention [competitor names]. Position KeyPlayers as the premium option."</td></tr>
+    <tr><td>Multi-language</td><td>"Generate caption in both English and [language]."</td></tr>
+  </table>
+
+  <h3>Add more decision branches</h3>
+  <table>
+    <tr><th>Condition</th><th>Action</th></tr>
+    <tr><td>QA score below 7</td><td>Send to Slack for human review instead of posting</td></tr>
+    <tr><td>Platform = LinkedIn</td><td>Use different Metricool scheduling settings</td></tr>
+    <tr><td>File is a video (.mp4)</td><td>Use different Claude prompt optimized for video captions</td></tr>
+  </table>
+
+  <!-- KEY CONCEPTS -->
+  <h2>Key Concepts for VAs</h2>
+
+  <div class="card">
+    <div class="card-label green">Concept 1: The Agent Loop</div>
+    <p>This automation follows Plan → Act → Observe → Decide. Claude is the "brain" that acts and observes. The Zapier filter is the "decide" gate. If something fails QA, the loop routes to a human — that's the fallback.</p>
+  </div>
+
+  <div class="card gold">
+    <div class="card-label gold">Concept 2: Structured Output</div>
+    <p>By telling Claude to respond in JSON, we turn unstructured AI output into structured data that other tools can parse. This is how you connect AI to any automation — always demand structured output.</p>
+  </div>
+
+  <div class="card purple">
+    <div class="card-label purple">Concept 3: Human-in-the-Loop</div>
+    <p>The QA filter is your safety net. AI doesn't post blindly — it checks its own work, and if it's unsure, a human reviews. This is the pattern for all responsible AI automation.</p>
+  </div>
+
+  <div class="card red">
+    <div class="card-label red">Concept 4: Naming = Context</div>
+    <p>The file naming convention isn't just organization — it's how you give Claude context without a database. The filename IS the prompt input. Smart naming = smart AI output.</p>
+  </div>
+
+  <div class="footer">
+    KeyPlayers HQ &middot; AI Training Module &middot; 2026<br>
+    Built for VAs who want to work smarter, not harder.
+  </div>
+
+</div>
+</body>
+</html>
