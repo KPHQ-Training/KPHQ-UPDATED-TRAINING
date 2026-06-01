@@ -1,36 +1,54 @@
-# KPHQ AI Training Program - Updated
+# KP-AI Academy — KeyPlayers VA Academy
 
-KeyPlayers HQ VA AI Training Program (KP-AI Academy).
+The internal AI Operator training program for KeyPlayers HQ virtual assistants.
+A self-contained set of interactive HTML lessons taking a VA from AI fundamentals
+through to running automated client systems in GoHighLevel.
 
-## Week 1: AI Fundamentals & Prompting (Days 1-5)
+🔗 **Live:** [kphq-updated-training.vercel.app](https://kphq-updated-training.vercel.app)
 
-| File | Day | Topic |
-|------|-----|-------|
-| Day01_AI_Fundamentals.html | Day 1 | AI Landscape, Benchmarking, CLEAR Framework, Metaprompting, Cross-referencing |
-| Day02_Prompting_Mastery.html | Day 2 | Claude Introduction, Free-tier Tools Overview |
-| Day03_Tool_Selection.html | Day 3 | Tool Selection, 5 Core Categories, Security & Compliance |
-| Day04_Claude_Deep_Dive.html | Day 4 | Claude Deep Dive (Haiku/Sonnet/Opus, Artifacts, Projects, MCP) |
-| Day05_Cowork_Agentic_AI.html | Day 5 | Cowork & Agentic AI, Manus, n8n/Zapier, KeyCommand |
-| KP_AI_Glossary.html | Reference | Standalone AI Glossary |
+> **For internal use only — must be kept confidential.**
 
-## Deployment
+---
 
-- Hosted on **Vercel** (auto-deploys from this repo)
-- Embedded in **GoHighLevel Memberships** via iframe
-- Day 1 survey uses Google Script backend (do not modify)
-- Day 10 assessment uses Formspree (`mdajlwrk`)
+## Program Structure
 
-## Branding
+### Week 1 — AI Fundamentals & Prompting
+| Day | Lesson | Focus |
+|-----|--------|-------|
+| 1 | [AI Fundamentals](Day01_AI_Fundamentals.html) | AI landscape, benchmarking, CLEAR framework, metaprompting, cross-referencing |
+| 2 | [Prompting Mastery](Day02_Prompting_Mastery.html) | The 5 building blocks, prompt formulas, advanced techniques, debugging output |
+| 3 | [Tool Selection](Day03_Tool_Selection.html) | 5 core tool categories, pros/cons, compliance, role-based mapping |
+| 4 | [Claude Deep Dive](Day04_Claude_Deep_Dive.html) | Haiku/Sonnet/Opus, Artifacts, Projects, context windows, MCP |
+| 5 | [Cowork & Agentic AI](Day05_Cowork_Agentic_AI.html) | Cowork mode, power workflows, agentic patterns, oversight & responsible use |
 
-- Dark forest green theme (#0A140F, #1A2E22, #438951)
-- Fraunces serif + Epilogue sans-serif fonts
-- 4 sessions per day with internal slide navigation
+### Week 2 — GoHighLevel Mastery
+| Day | Lesson | Focus |
+|-----|--------|-------|
+| 6 | [GoHighLevel Foundations](Day06_GoHighLevel_Foundations.html) | Agency vs. sub-accounts, contacts & tags, pipelines, conversations, calendars |
+| 7 | [GHL Automation, API & MCP](Day07_GHL_Automation_Workflows.html) | Workflows, triggers & actions, APIs, webhooks, MCP, integrations |
+| 8 | [AI Meetings, PM & Messaging](Day08_AI_Meetings_PM_Messaging.html) | AI note-takers, project management, Slack/WhatsApp/Telegram, command center |
 
-## Updated May 2026
+### Reference
+- [AI Glossary](KP_AI_Glossary.html) — core AI terms used across Week 1
+- [GoHighLevel Glossary](GHL_Glossary.html) — 56 GHL terms a VA needs, searchable & filterable by category
 
-AI models current as of May 25, 2026:
-- Claude: Opus 4.7 (flagship), Sonnet 4.6 (free tier)
-- ChatGPT: GPT-5.5 Instant (free default), GPT Image 2
-- Gemini: 3.5 Flash (free default), Omni, 2.5 Pro
-- Kimi: K2.6 (free tier, open-source)
-- Manus: Free tier (credit-based)
+---
+
+## Navigation
+
+- **[index.html](index.html)** is the hub — it lists every day in both weeks plus both glossaries.
+- Each day page has a **Course Navigation** panel linking all 8 days, so learners can jump anywhere.
+- Days run in sequence: Day 1 → … → Day 8, with Week 1 flowing straight into Week 2.
+
+---
+
+## Tech & Deployment
+
+- **Stack:** plain, self-contained HTML/CSS/JS — no build step, no dependencies (Google Fonts loaded via CDN).
+- **Hosting:** static deploy on Vercel, auto-deployed from `main`.
+- **Embedding:** pages are iframe-friendly (e.g. the GoHighLevel Glossary embeds in the GHL community).
+- **To update:** edit the relevant `.html` file and push to `main`; Vercel redeploys automatically.
+
+---
+
+_KeyPlayers HQ · KP-AI Academy · Updated June 2026_

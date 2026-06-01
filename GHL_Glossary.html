@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | GoHighLevel Glossary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --accent-hover: #16a34a;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --gold: #EAB308;
+    --charcoal: #18181B;
+    --pill-bg: #166534;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --red: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--silver);
+    line-height: 1.7; font-size: 15px;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 55%);
+    background-attachment: fixed;
+  }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ── HEADER ── */
+  .glossary-header { text-align: center; margin-bottom: 28px; }
+  .logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; margin-bottom: 16px; }
+  .logo span { color: var(--accent); }
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  h1 { font-size: 34px; font-weight: 800; color: var(--white); letter-spacing: -0.6px; line-height: 1.15; margin-bottom: 10px; }
+  .subtitle { font-size: 15px; color: var(--silver); max-width: 560px; margin: 0 auto; }
+
+  /* ── SEARCH ── */
+  .search-wrap { position: sticky; top: 0; z-index: 20; padding: 16px 0; margin: 24px 0 8px; background: linear-gradient(to bottom, var(--bg-deep) 70%, rgba(1,13,7,0)); }
+  .search-box { position: relative; max-width: 560px; margin: 0 auto; }
+  .search-box input {
+    width: 100%; padding: 14px 18px 14px 46px;
+    background: var(--charcoal); border: 1px solid var(--border);
+    border-radius: 12px; color: var(--white); font-size: 15px;
+    font-family: inherit; transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-box input::placeholder { color: #6b7280; }
+  .search-box input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(34,197,94,0.12); }
+  .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--silver); font-size: 18px; pointer-events: none; }
+  .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--silver); font-size: 20px; cursor: pointer; display: none; line-height: 1; padding: 4px; }
+  .search-clear:hover { color: var(--white); }
+
+  /* ── FILTERS ── */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0 8px; }
+  .filter-btn {
+    background: var(--charcoal); color: var(--silver);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 6px 14px; font-size: 12px; font-weight: 600;
+    font-family: inherit; cursor: pointer; transition: all 0.15s;
+  }
+  .filter-btn:hover { color: var(--white); border-color: var(--accent); }
+  .filter-btn.active { background: var(--pill-bg); color: var(--accent); border-color: var(--accent); }
+
+  .count-label { text-align: center; font-size: 12px; color: var(--silver); margin: 14px 0 24px; }
+  .count-label strong { color: var(--accent); }
+
+  /* ── CATEGORY GROUP ── */
+  .cat-group { margin-bottom: 36px; }
+  .cat-title { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .cat-title .cat-icon { font-size: 16px; }
+  .cat-count { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--silver); background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; }
+
+  /* ── TERM CARD ── */
+  .term {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px; padding: 16px 20px; margin-bottom: 12px;
+    transition: border-color 0.15s, transform 0.08s;
+  }
+  .term:hover { border-color: rgba(34,197,94,0.4); border-left-color: var(--accent); }
+  .term-name { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .term-aka { font-size: 12px; font-weight: 500; color: var(--gold); margin-left: 8px; }
+  .term-def { font-size: 14px; color: var(--silver); margin: 0; }
+  .term-def strong { color: var(--white); font-weight: 600; }
+  mark { background: rgba(234,179,8,0.28); color: var(--white); padding: 0 2px; border-radius: 3px; }
+
+  /* ── NO RESULTS ── */
+  .no-results { text-align: center; padding: 50px 20px; color: var(--silver); display: none; }
+  .no-results .nr-icon { font-size: 40px; margin-bottom: 12px; }
+  .no-results strong { color: var(--white); display: block; font-size: 17px; margin-bottom: 6px; }
+
+  /* ── FOOTER ── */
+  .glossary-footer { text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: #6b7280; }
+  .glossary-footer a { color: var(--accent); text-decoration: none; }
+  .glossary-footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 28px 16px 60px; }
+    h1 { font-size: 26px; }
+    .filters { gap: 6px; }
+    .filter-btn { padding: 5px 11px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="glossary-header">
+    <div class="logo">Key<span>Players</span> HQ</div>
+    <div class="eyebrow">AI Training &middot; Reference</div>
+    <h1>The GoHighLevel Glossary</h1>
+    <p class="subtitle">Every GHL term a VA needs &mdash; in plain English. Search any word, or filter by category. Bookmark this page; you'll come back to it.</p>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="search" placeholder="Search a term or definition&hellip;" autocomplete="off" aria-label="Search glossary">
+      <button class="search-clear" id="clear" aria-label="Clear search">&times;</button>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="Core Platform">Core Platform</button>
+    <button class="filter-btn" data-cat="Contacts &amp; CRM">Contacts &amp; CRM</button>
+    <button class="filter-btn" data-cat="Pipelines &amp; Sales">Pipelines &amp; Sales</button>
+    <button class="filter-btn" data-cat="Communication">Communication</button>
+    <button class="filter-btn" data-cat="Automation">Automation</button>
+    <button class="filter-btn" data-cat="Marketing &amp; Sites">Marketing &amp; Sites</button>
+    <button class="filter-btn" data-cat="Technical">Technical &amp; Integrations</button>
+    <button class="filter-btn" data-cat="AI">AI in GHL</button>
+  </div>
+
+  <div class="count-label" id="countLabel"></div>
+
+  <div id="glossary"></div>
+
+  <div class="no-results" id="noResults">
+    <div class="nr-icon">&#128270;</div>
+    <strong>No terms found</strong>
+    <span>Try a different word, or clear your search to see everything.</span>
+  </div>
+
+  <div class="glossary-footer">
+    KeyPlayers HQ &mdash; VA AI Training Program &nbsp;&middot;&nbsp; GoHighLevel Reference Glossary<br>
+    Part of Days 6&ndash;7: GoHighLevel Foundations &amp; Automation.
+  </div>
+
+</div>
+
+<script>
+// ── GLOSSARY DATA ──────────────────────────────────────────────
+// Each entry: { term, aka (optional), def, cat, icon (set per category) }
+const TERMS = [
+  // ── CORE PLATFORM ──
+  { cat: "Core Platform", term: "GoHighLevel (GHL)", aka: "HighLevel", def: "An all-in-one CRM and marketing platform that lets a business capture leads, nurture them, close deals, and retain customers — replacing a whole stack of separate tools (email, texting, calendars, pipelines, funnels, reviews)." },
+  { cat: "Core Platform", term: "Agency Account", def: "The top-level account that owns and manages every business on the platform. Think of it as the building manager's master key. You launch from here into individual client accounts." },
+  { cat: "Core Platform", term: "Sub-Account", aka: "Location", def: "One individual client's business inside GHL. Their contacts, pipelines, calendars, and messages live here, separate from every other business. 99% of daily VA work happens inside a sub-account." },
+  { cat: "Core Platform", term: "Snapshot", def: "A reusable template of an entire sub-account setup — workflows, pipelines, funnels, calendars — that can be loaded into a new account to launch a client fast without rebuilding from scratch." },
+  { cat: "Core Platform", term: "Dashboard", def: "The home screen of a sub-account showing at-a-glance stats: new leads, pipeline value, revenue, and upcoming appointments." },
+  { cat: "Core Platform", term: "SaaS Mode", def: "A GHL feature that lets an agency resell the platform to clients under its own brand and pricing, automating billing and account creation." },
+  { cat: "Core Platform", term: "White Label", def: "Rebranding GHL with the agency's own name, logo, and domain so clients never see the GoHighLevel brand." },
+
+  // ── CONTACTS & CRM ──
+  { cat: "Contacts & CRM", term: "Contact", def: "A single person's record in the database — lead or customer. Everything (messages, appointments, deals, notes) connects back to a contact." },
+  { cat: "Contacts & CRM", term: "Tag", def: "A simple label stuck on a contact (e.g. new-lead, hot, booked-call) used to group, segment, message, and automate. Most automations start with 'when a tag is added.'" },
+  { cat: "Contacts & CRM", term: "Custom Field", def: "A business-specific data slot on a contact — like property type, budget, or service requested — beyond the standard name/email/phone." },
+  { cat: "Contacts & CRM", term: "Smart List", def: "A saved, filtered view of contacts (e.g. 'leads from the last 7 days with no appointment'). It updates automatically as contacts match or stop matching the filter." },
+  { cat: "Contacts & CRM", term: "Source", def: "How a contact entered the system (Facebook ad, referral, website form). Used for tracking which channels actually produce leads." },
+  { cat: "Contacts & CRM", term: "Import", def: "Bulk-adding contacts from a CSV spreadsheet, mapping each column to a GHL field. Always tag the whole batch on import so you can find them later." },
+  { cat: "Contacts & CRM", term: "Merge / Duplicate", def: "When two records for the same person exist. GHL can merge by matching email/phone. Duplicates cause double-messaging, so check after big imports." },
+  { cat: "Contacts & CRM", term: "DND", aka: "Do Not Disturb", def: "A setting that stops automated messages from going to a contact across one or more channels — used when someone opts out or asks not to be contacted." },
+
+  // ── PIPELINES & SALES ──
+  { cat: "Pipelines & Sales", term: "Pipeline", def: "The visual map of how a business turns a lead into a customer, broken into stages — like a Kanban board for deals." },
+  { cat: "Pipelines & Sales", term: "Stage", def: "One column/step in a pipeline (e.g. New Lead → Contacted → Booked → Won). A deal sits in exactly one stage at a time." },
+  { cat: "Pipelines & Sales", term: "Opportunity", def: "One deal for one contact, sitting in one pipeline stage, usually with a dollar value attached. Moving it between stages can trigger automations." },
+  { cat: "Pipelines & Sales", term: "Won / Lost", def: "The final outcome of an opportunity. 'Won' = they bought; 'Lost' = they declined or went cold (always log a reason for Lost)." },
+  { cat: "Pipelines & Sales", term: "Pipeline Value", def: "The total dollar amount of all active opportunities. It's only accurate if every opportunity has a value — which is part of pipeline hygiene." },
+  { cat: "Pipelines & Sales", term: "Speed to Lead", def: "How fast a business responds to a new lead. Replying in under 5 minutes vs. an hour can multiply conversions — which is why instant-follow-up workflows exist." },
+
+  // ── COMMUNICATION ──
+  { cat: "Communication", term: "Conversations", aka: "Unified Inbox", def: "GHL's single inbox that pulls every channel — SMS, email, Facebook/Instagram DMs, web chat, WhatsApp — into one thread per contact, so you always have full context before replying." },
+  { cat: "Communication", term: "Calendar", def: "GHL's booking system (replaces Calendly). A booking link lets leads pick an open slot; the appointment lands on the calendar and the contact record automatically." },
+  { cat: "Communication", term: "Appointment", def: "A scheduled meeting/call tied to a contact and a calendar. Reminders can be automated to cut no-shows." },
+  { cat: "Communication", term: "Snippet", aka: "Template", def: "A saved reusable message you can drop into a reply to save typing common responses — personalise the first line." },
+  { cat: "Communication", term: "Trigger Link", def: "A trackable link you put in emails/texts. When a contact clicks it, GHL knows — and can fire an automation (e.g. tag them 'interested')." },
+  { cat: "Communication", term: "Merge Field", aka: "Custom Value / Token", def: "A placeholder like {{contact.first_name}} that auto-fills with each contact's real data when a message sends, making bulk messages feel personal." },
+  { cat: "Communication", term: "A2P 10DLC", def: "A US carrier registration required to send business SMS legally. Numbers must be registered or texts get blocked. Often a setup step for new accounts." },
+
+  // ── AUTOMATION ──
+  { cat: "Automation", term: "Workflow", def: "GHL's automation builder. The core logic: WHEN something happens (trigger), DO these things (actions), sometimes only IF conditions are met." },
+  { cat: "Automation", term: "Trigger", def: "The event that starts a workflow — a tag added, a form submitted, an appointment booked, a reply received. Nothing runs until a trigger fires." },
+  { cat: "Automation", term: "Action", def: "What a workflow does once triggered — send an SMS/email, wait, add a tag, move an opportunity, notify the team. Actions run in order, top to bottom." },
+  { cat: "Automation", term: "Condition", aka: "If/Else", def: "Logic that branches a workflow so it behaves differently for different contacts (e.g. if they booked, confirm; else, keep following up)." },
+  { cat: "Automation", term: "Wait Step", aka: "Delay", def: "A pause inside a workflow ('wait 1 day', 'wait until 9am') that spaces messages out so automation feels human, not robotic." },
+  { cat: "Automation", term: "Enrollment", def: "When a contact enters a workflow. The enrollment history shows who's in a workflow and what step they're on — check it to confirm automations are running correctly." },
+  { cat: "Automation", term: "Trigger (Legacy)", aka: "Triggers vs. Workflows", def: "Older standalone 'Triggers' and 'Campaigns' have largely been replaced by the unified Workflow builder. New automations should be built as Workflows." },
+  { cat: "Automation", term: "Recipe / Template", def: "A pre-built workflow you can clone and customise (e.g. instant lead follow-up, appointment reminders) instead of building from a blank canvas." },
+
+  // ── MARKETING & SITES ──
+  { cat: "Marketing & Sites", term: "Funnel", def: "A multi-step landing-page sequence designed to guide a visitor toward one action (opt-in → offer → checkout). Replaces ClickFunnels/Leadpages." },
+  { cat: "Marketing & Sites", term: "Website", def: "A multi-page site built inside GHL, sharing the same builder and forms as funnels." },
+  { cat: "Marketing & Sites", term: "Form", def: "A fields-based capture tool embedded on a page. A submission can create a contact and trigger a workflow." },
+  { cat: "Marketing & Sites", term: "Survey", def: "A multi-step questionnaire (like a form but conversational) used to qualify leads with branching questions." },
+  { cat: "Marketing & Sites", term: "Social Planner", def: "GHL's tool for scheduling and publishing posts across social platforms from one place — replaces Later/Hootsuite." },
+  { cat: "Marketing & Sites", term: "Email Campaign", def: "A one-to-many email send (broadcast or sequence) to a segment of contacts, built with GHL's email builder." },
+  { cat: "Marketing & Sites", term: "Reputation Management", def: "GHL's review tools — automatically requesting reviews from happy customers and monitoring incoming reviews (replaces Birdeye)." },
+
+  // ── TECHNICAL & INTEGRATIONS ──
+  { cat: "Technical", term: "API", aka: "Application Programming Interface", def: "The 'waiter' between two apps — a structured way for one tool to ask another for data or tell it to do something, automatically. 'GHL has an API' means other tools can talk to it programmatically." },
+  { cat: "Technical", term: "API Key", def: "A secret credential that lets another tool securely access a GHL account via the API. Treat it like a password — never share it publicly." },
+  { cat: "Technical", term: "Webhook", def: "A workflow action that automatically PUSHES data out to another tool the instant a trigger fires. API = you ask (pull); webhook = it tells you (push). You set one up by pasting a URL." },
+  { cat: "Technical", term: "Native Integration", def: "A connection built directly into GHL, set up in a few clicks (e.g. Google Calendar, Stripe, Facebook). Always the first choice — most reliable." },
+  { cat: "Technical", term: "Zapier", def: "A no-code connector that links GHL to thousands of apps with simple 'if this, then that' automations." },
+  { cat: "Technical", term: "Make", aka: "Integromat", def: "A no-code automation tool like Zapier but better for complex, multi-step, branching workflows between apps." },
+  { cat: "Technical", term: "MCP", aka: "Model Context Protocol", def: "The standard 'bridge' layer that lets an AI like Claude connect directly to tools — including GHL — to read records and take actions in plain English, with human approval." },
+  { cat: "Technical", term: "OAuth", def: "The secure 'log in with' permission flow used to connect GHL to another app without sharing your password — you grant specific access instead." },
+
+  // ── AI IN GHL ──
+  { cat: "AI", term: "Conversation AI", def: "GHL's built-in AI that auto-responds to lead messages, answers FAQs, and books appointments 24/7. The VA trains it, sets guardrails, and reviews its conversations." },
+  { cat: "AI", term: "Content AI", def: "GHL's native AI for generating email and social copy inside the platform. Prompt it, then edit for the client's voice and accuracy." },
+  { cat: "AI", term: "AI Employee", def: "GHL's suite of AI add-ons (Conversation AI, Voice AI, Reviews AI, etc.) that automate front-line communication tasks under your supervision." },
+  { cat: "AI", term: "Voice AI", def: "An AI add-on that answers and makes phone calls — qualifying leads or booking appointments by voice — then logs the outcome to the contact." },
+  { cat: "AI", term: "Workflow AI Action", def: "An AI-powered step inside a workflow (e.g. categorise a reply, draft a response) that adds intelligence to an otherwise rule-based automation." }
+];
+
+// Category icons + canonical labels
+const CAT_META = {
+  "Core Platform":      { icon: "&#127970;", label: "Core Platform" },
+  "Contacts & CRM": { icon: "&#128100;", label: "Contacts &amp; CRM" },
+  "Pipelines & Sales": { icon: "&#128202;", label: "Pipelines &amp; Sales" },
+  "Communication":      { icon: "&#128172;", label: "Communication" },
+  "Automation":         { icon: "&#9881;&#65039;", label: "Automation" },
+  "Marketing & Sites": { icon: "&#128226;", label: "Marketing &amp; Sites" },
+  "Technical":          { icon: "&#128268;", label: "Technical &amp; Integrations" },
+  "AI":                 { icon: "&#129504;", label: "AI in GHL" }
+};
+const CAT_ORDER = ["Core Platform","Contacts & CRM","Pipelines & Sales","Communication","Automation","Marketing & Sites","Technical","AI"];
+
+// ── RENDER ─────────────────────────────────────────────────────
+const glossaryEl = document.getElementById('glossary');
+const searchEl = document.getElementById('search');
+const clearEl = document.getElementById('clear');
+const noResultsEl = document.getElementById('noResults');
+const countLabelEl = document.getElementById('countLabel');
+const filterBtns = document.querySelectorAll('.filter-btn');
+let activeCat = 'all';
+
+function escapeRx(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function highlight(text, q) {
+  if (!q) return text;
+  try {
+    const rx = new RegExp('(' + escapeRx(q) + ')', 'ig');
+    return text.replace(rx, '<mark>$1</mark>');
+  } catch (e) { return text; }
+}
+
+function render() {
+  const q = searchEl.value.trim().toLowerCase();
+  clearEl.style.display = searchEl.value ? 'block' : 'none';
+  glossaryEl.innerHTML = '';
+  let total = 0;
+
+  CAT_ORDER.forEach(cat => {
+    if (activeCat !== 'all' && activeCat !== cat) return;
+
+    const matches = TERMS.filter(t => {
+      if (t.cat !== cat) return false;
+      if (!q) return true;
+      const hay = (t.term + ' ' + (t.aka || '') + ' ' + t.def).toLowerCase();
+      return hay.includes(q);
+    });
+    if (matches.length === 0) return;
+    total += matches.length;
+
+    const meta = CAT_META[cat];
+    const group = document.createElement('div');
+    group.className = 'cat-group';
+    group.innerHTML =
+      '<div class="cat-title"><span class="cat-icon">' + meta.icon + '</span>' + meta.label +
+      '<span class="cat-count">' + matches.length + '</span></div>';
+
+    matches.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'term';
+      const aka = t.aka ? '<span class="term-aka">' + highlight(t.aka, q) + '</span>' : '';
+      card.innerHTML =
+        '<div class="term-name">' + highlight(t.term, q) + aka + '</div>' +
+        '<p class="term-def">' + highlight(t.def, q) + '</p>';
+      group.appendChild(card);
+    });
+    glossaryEl.appendChild(group);
+  });
+
+  noResultsEl.style.display = total === 0 ? 'block' : 'none';
+  countLabelEl.innerHTML = total === 0 ? '' :
+    'Showing <strong>' + total + '</strong> term' + (total === 1 ? '' : 's') +
+    (q ? ' matching &ldquo;' + searchEl.value.trim() + '&rdquo;' : '') +
+    (activeCat !== 'all' ? ' in ' + CAT_META[activeCat].label : '');
+}
+
+searchEl.addEventListener('input', render);
+clearEl.addEventListener('click', () => { searchEl.value = ''; render(); searchEl.focus(); });
+filterBtns.forEach(btn => btn.addEventListener('click', () => {
+  filterBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCat = btn.dataset.cat;
+  render();
+}));
+
+// keyboard: "/" focuses search
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); }
+  if (e.key === 'Escape') { searchEl.value = ''; render(); searchEl.blur(); }
+});
+
+render();
+</script>
+</body>
+</html>

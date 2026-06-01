@@ -214,6 +214,11 @@
     .main { margin-left: 0; padding-top: 56px; }
     .content { padding: 24px 16px 60px; }
   }
+  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
+  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
+  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
+  .course-nav a:hover { color: var(--white); }
+  .course-nav a.current { color: var(--accent); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -240,6 +245,17 @@
   <div class="sidebar-progress">
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     <div class="progress-label" id="progressLabel">0 of 6 completed</div>
+  </div>
+  <div class="course-nav">
+    <div class="course-nav-label">Course Navigation</div>
+    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
+    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
+    <a href="#" class="current">Day 3 &mdash; Tool Selection</a>
+    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
+    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
+    <a href="Day06_GoHighLevel_Foundations.html">Day 6 &mdash; GoHighLevel Foundations</a>
+    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
+    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
   </div>
 </nav>
 

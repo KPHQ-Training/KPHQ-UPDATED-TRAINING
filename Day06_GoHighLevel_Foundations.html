@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | Day 6: GoHighLevel Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --accent-hover: #16a34a;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --gold: #EAB308;
+    --charcoal: #18181B;
+    --pill-bg: #166534;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --red: #ef4444;
+    --sidebar-w: 260px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg-deep); color: var(--silver); line-height: 1.7; font-size: 15px; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--charcoal); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
+  .sidebar-logo span { color: var(--accent); }
+  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--silver); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s ease; border-left: 3px solid transparent; }
+  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
+  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
+  .sidebar-nav a .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--bg-deep); color: var(--silver); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
+  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
+  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
+  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
+  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
+  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
+  .course-nav a:hover { color: var(--white); }
+  .course-nav a.current { color: var(--accent); font-weight: 700; }
+
+  /* ── MAIN ── */
+  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
+  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── TYPOGRAPHY ── */
+  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
+  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
+  p { margin-bottom: 14px; }
+  strong { color: var(--white); font-weight: 600; }
+  em { color: var(--accent); font-style: normal; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-gold { border-left: 3px solid var(--gold); }
+  .card-red { border-left: 3px solid var(--red); }
+  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
+  .card-gold .card-title { color: var(--gold); }
+  .card-red .card-title { color: var(--red); }
+
+  /* ── REVIEW CARD ── */
+  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
+  .review-card h3 { color: var(--gold); margin-top: 0; }
+
+  /* ── LISTS ── */
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { margin-bottom: 7px; padding-left: 4px; }
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--accent); font-weight: 600; }
+
+  /* ── PROMPT BLOCKS ── */
+  .prompt-block { background: #0c0c0e; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; color: #d4d4d8; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; position: relative; }
+  .prompt-label { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: var(--pill-bg); padding: 2px 8px; border-radius: 4px; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
+  tr:hover td { background: rgba(34,197,94,0.03); }
+
+  /* ── EXERCISES ── */
+  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
+  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
+  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
+
+  /* ── COMPARISON ── */
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .comparison-weak, .comparison-strong { padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+  .comparison-weak { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+  .comparison-strong { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
+  .comparison-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .comparison-weak .comparison-label { color: var(--red); }
+  .comparison-strong .comparison-label { color: var(--accent); }
+
+  /* ── PILLS ── */
+  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
+
+  /* ── NAV BUTTONS ── */
+  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+  .btn-primary { background: var(--accent); color: var(--bg-deep); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
+  .btn-secondary:hover { color: var(--white); }
+
+  /* ── BLOCK ITEM ── */
+  .block-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
+  .block-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
+  .block-num { width: 32px; height: 32px; border-radius: 8px; background: var(--pill-bg); color: var(--accent); font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .block-name { font-size: 17px; font-weight: 700; color: var(--white); }
+  .block-body { padding: 16px 20px; }
+  .block-body p { margin-bottom: 10px; }
+
+  /* ── CALLOUT ── */
+  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 14px; line-height: 1.6; }
+  .callout-body strong { color: var(--white); }
+
+  /* ── TIMER ── */
+
+  /* ── STEP FLOW ── */
+  .step-flow { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
+  .step-item { display: flex; gap: 16px; position: relative; }
+  .step-item:not(:last-child) { padding-bottom: 20px; }
+  .step-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 36px; bottom: 0; width: 2px; background: var(--border); }
+  .step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--pill-bg); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content { flex: 1; padding-top: 4px; }
+  .step-content strong { display: block; margin-bottom: 4px; }
+  .step-content p { margin: 0; font-size: 14px; }
+
+  /* ── DETAILS/SUMMARY ── */
+  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
+  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
+  summary:hover { background: rgba(34,197,94,0.04); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details > div { padding: 16px; }
+
+  /* ── MOBILE ── */
+  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
+  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding-top: 56px; }
+    .content { padding: 24px 16px 60px; }
+    .comparison { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-header">
+  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
+  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
+    <div class="sidebar-day">Day 6 &nbsp;|&nbsp; GoHighLevel Foundations</div>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Week 1 Review</a>
+    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>What Is GoHighLevel?</a>
+    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>Navigating the Dashboard</a>
+    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>CRM &amp; Contacts</a>
+    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>Pipelines &amp; Opportunities</a>
+    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>The Communication Hub</a>
+    <a href="#" onclick="goTo(6);return false;" data-section="6"><span class="num">7</span>Hands-On Lab</a>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 7 completed</div>
+  </div>
+    <div class="course-nav">
+    <div class="course-nav-label">Course Navigation</div>
+    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
+    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
+    <a href="Day03_Tool_Selection.html">Day 3 &mdash; Tool Selection</a>
+    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
+    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
+    <a href="#" class="current">Day 6 &mdash; GoHighLevel Foundations</a>
+    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
+    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
+  </div>
+</nav>
+
+<div class="main"><div class="content">
+
+<!-- S0: WEEK 1 REVIEW -->
+<section class="section active" id="s0">
+  <h1>Welcome to Week 2</h1>
+  <p class="section-subtitle">Week 1 made you dangerous with AI. Week 2 makes you dangerous with the tools clients actually run their business on &mdash; starting with the single most important platform in the KeyPlayers stack: GoHighLevel.</p>
+
+  <div class="review-card">
+    <h3>Week 1 in One Breath</h3>
+    <p><strong>AI is a prediction engine, not a thinking machine.</strong> It drafts, summarises, and transforms at speed &mdash; but you own the judgment and the accuracy.</p>
+    <p><strong>Prompting is the core skill.</strong> Role, Task, Context, Constraints, Examples. The more context you give, the better the output.</p>
+    <p><strong>Claude is your primary partner.</strong> Projects give it persistent memory, Skills make it a specialist, Artifacts turn it into a document builder.</p>
+    <p style="margin:0;"><strong>Cowork turns Claude into a teammate.</strong> It acts across your real tools &mdash; with you reviewing at the right checkpoints. This is exactly the mindset you'll bring into GoHighLevel.</p>
+  </div>
+
+  <h2>Week 1, Day by Day</h2>
+  <p>Five days, five building blocks. Here's the single most important thing to carry out of each one &mdash; because you'll use every one of them inside GoHighLevel this week.</p>
+  <table>
+    <thead><tr><th>Day</th><th>Focus</th><th>The One Thing to Carry Forward</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--accent);font-weight:700;">1</td><td style="color:var(--white);">AI Foundations</td><td>AI predicts, <em>you</em> judge. Use the <strong>Trust Scale</strong> to decide how hard to check its work.</td></tr>
+      <tr><td style="color:var(--accent);font-weight:700;">2</td><td style="color:var(--white);">Prompting Mastery</td><td><strong>RTCCE</strong> &mdash; Role, Task, Context, Constraints, Examples. More context in, better output out.</td></tr>
+      <tr><td style="color:var(--accent);font-weight:700;">3</td><td style="color:var(--white);">Tool Selection</td><td>Match the tool to the job. Don't force one AI to do everything &mdash; pick the right one for the task.</td></tr>
+      <tr><td style="color:var(--accent);font-weight:700;">4</td><td style="color:var(--white);">Claude Deep Dive</td><td><strong>Projects</strong> = memory, <strong>Skills</strong> = specialism, <strong>Artifacts</strong> = finished deliverables.</td></tr>
+      <tr><td style="color:var(--accent);font-weight:700;">5</td><td style="color:var(--white);">Cowork &amp; Agentic AI</td><td>Claude can <em>act</em> across your real tools &mdash; with you reviewing at the right checkpoints.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">&#129504;</div>
+    <div class="callout-body"><strong>The two frameworks you'll reuse all week:</strong> Inside GHL you'll constantly ask AI to draft messages, summarise conversations, and sort leads. <strong>RTCCE</strong> gets you a strong draft; the <strong>Trust Scale</strong> tells you whether to send it or review it first. Almost every task in Days 6&ndash;8 is just one of these two Week 1 habits applied to a real client tool.</div>
+  </div>
+
+  <div class="review-card">
+    <h3>Quick self-check before you start</h3>
+    <p style="margin-bottom:8px;">If any of these feel shaky, it's worth a two-minute look back at the matching Week 1 day before you dive in:</p>
+    <p style="margin:0;">&#10003; Can you write a prompt with Role + Task + Context? &nbsp;&bull;&nbsp; &#10003; Can you place a task on the Trust Scale (Trust / Use Carefully / Avoid)? &nbsp;&bull;&nbsp; &#10003; Do you know the difference between a Claude Project and a Skill?</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Why GoHighLevel Comes Next</div>
+    <p style="margin:0;">Most clients you support &mdash; agencies, coaches, real estate teams, local service businesses &mdash; run their entire operation inside GoHighLevel. Their leads, calendars, pipelines, emails, texts, and follow-ups all live there. If you master GHL, you become the person who keeps the business running. Days 6 and 7 make that happen.</p>
+  </div>
+
+  <h2>What Days 6 &amp; 7 Cover</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Focus</th><th>What You'll Walk Away With</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--accent);font-weight:700;">6</td><td style="color:var(--white);">GHL Foundations</td><td>Confident navigation: dashboard, contacts, pipelines, conversations, calendars</td></tr>
+      <tr><td style="color:var(--accent);font-weight:700;">7</td><td style="color:var(--white);">GHL Automation</td><td>Workflows, triggers, APIs, webhooks, MCP, and AI-powered integrations</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">&#127919;</div>
+    <div class="callout-body"><strong>Today's goal:</strong> By the end of Day 6, you should be able to log into any client's GoHighLevel account, find a contact, read a conversation, move a deal through a pipeline, and book an appointment &mdash; without panicking. That's the foundation everything else builds on.</div>
+  </div>
+
+  <div class="section-nav">
+    <a href="Day05_Cowork_Agentic_AI.html" class="btn btn-secondary">&larr; Day 5</a>
+    <button class="btn btn-primary" onclick="goTo(1)">What Is GoHighLevel? &rarr;</button>
+  </div>
+</section>
+
+<!-- S1: WHAT IS GOHIGHLEVEL -->
+<section class="section" id="s1">
+  <h1>What Is GoHighLevel?</h1>
+  <p class="section-subtitle">Before you click a single button, you need the mental model. GoHighLevel isn't one tool &mdash; it's a dozen tools fused into one platform. Understanding what it replaces is the fastest way to understand what it does.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">The one-line definition</div>
+    <p style="margin:0;color:var(--white);font-size:17px;font-weight:600;">GoHighLevel (GHL) is an all-in-one CRM and marketing platform that lets a business capture leads, nurture them, close deals, and keep customers &mdash; all in one place.</p>
+  </div>
+
+  <p>Most businesses used to stitch together 8&ndash;10 separate tools: one for email, one for texting, one for the calendar, one for the sales pipeline, one for landing pages, one for reviews. Each cost money, none of them talked to each other, and the VA had to log into all of them. GoHighLevel replaces that entire stack.</p>
+
+  <h2>What GHL Replaces</h2>
+  <table>
+    <thead><tr><th>Old Separate Tool</th><th>GHL Feature That Replaces It</th></tr></thead>
+    <tbody>
+      <tr><td>Mailchimp / ActiveCampaign (email)</td><td style="color:var(--accent);">Email campaigns &amp; automations</td></tr>
+      <tr><td>Calendly / Acuity (booking)</td><td style="color:var(--accent);">Calendars &amp; appointments</td></tr>
+      <tr><td>HubSpot / Pipedrive (sales CRM)</td><td style="color:var(--accent);">Contacts &amp; Opportunities (pipelines)</td></tr>
+      <tr><td>Twilio / texting tools (SMS)</td><td style="color:var(--accent);">2-way SMS in Conversations</td></tr>
+      <tr><td>ClickFunnels / Leadpages (pages)</td><td style="color:var(--accent);">Funnels &amp; Websites builder</td></tr>
+      <tr><td>Typeform / Jotform (forms)</td><td style="color:var(--accent);">Forms &amp; Surveys</td></tr>
+      <tr><td>Birdeye / reputation tools</td><td style="color:var(--accent);">Reviews &amp; Reputation Management</td></tr>
+      <tr><td>Later / Hootsuite (social)</td><td style="color:var(--accent);">Social Planner</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Agency vs. Sub-Account &mdash; The Most Important Concept</h2>
+  <p>This trips up almost every new VA, so get it clear now. GoHighLevel has two levels:</p>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">A</div>
+      <div class="block-name">The Agency Account</div>
+    </div>
+    <div class="block-body">
+      <p style="margin:0;">The top level. This is owned by the agency (often your client, or KeyPlayers itself). From here you can see and manage <strong>every business that uses the platform</strong>. Think of it as the building manager's master key. You usually won't live here day-to-day &mdash; but you'll launch from it to jump into individual accounts.</p>
+    </div>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">S</div>
+      <div class="block-name">The Sub-Account (Location)</div>
+    </div>
+    <div class="block-body">
+      <p style="margin:0;">Each individual business gets its own <strong>sub-account</strong> (also called a "location"). One sub-account = one client's business. Their contacts, pipelines, calendars, and messages live here, completely separate from every other business. <strong>99% of your daily work happens inside a sub-account.</strong> When a client says "go into my GHL," they mean their sub-account.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">&#128273;</div>
+    <div class="callout-body"><strong>The golden rule of multi-client work:</strong> Always confirm which sub-account you're inside before you do anything. Sending a campaign or moving a deal in the wrong client's account is the kind of mistake that's hard to undo. The account name is always shown at the top &mdash; check it every time you switch.</div>
+  </div>
+
+  <h2>Why This Matters for You</h2>
+  <p>As a KeyPlayers VA, GHL is where a huge share of your billable work happens: adding leads, replying to messages, booking calls, moving deals, sending follow-ups, and pulling reports. The faster and more accurately you move inside it, the more valuable you are. And as you'll see on Day 7, AI makes you dramatically faster inside it.</p>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
+    <button class="btn btn-primary" onclick="goTo(2)">Navigating the Dashboard &rarr;</button>
+  </div>
+</section>
+
+<!-- S2: NAVIGATING THE DASHBOARD -->
+<section class="section" id="s2">
+  <h1>Navigating the Dashboard</h1>
+  <p class="section-subtitle">A tour of the left-hand menu &mdash; the map you'll use every single day. You don't need to master every feature today. You need to know what each menu item is for, so you always know where to go.</p>
+
+  <h2>The Left Sidebar Menu</h2>
+  <p>Inside a sub-account, everything is reached from the menu on the left. Here's what each item does, top to bottom:</p>
+
+  <table>
+    <thead><tr><th>Menu Item</th><th>What It's For</th><th>How Often You'll Use It</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">Dashboard</td><td>At-a-glance stats: leads, pipeline value, revenue, appointments</td><td><span class="pill">Daily</span></td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Conversations</td><td>The unified inbox &mdash; every SMS, email, and chat in one thread per contact</td><td><span class="pill">Constant</span></td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Calendars</td><td>Booking links, appointments, availability</td><td><span class="pill">Daily</span></td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Contacts</td><td>The full database of every lead and customer</td><td><span class="pill">Constant</span></td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Opportunities</td><td>The sales pipelines &mdash; deals moving through stages</td><td><span class="pill">Daily</span></td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Payments</td><td>Invoices, products, transactions</td><td>Occasional</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Marketing</td><td>Email campaigns, Social Planner, trigger links, templates</td><td>Weekly</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Automation</td><td>Workflows &mdash; the automation engine (this is all of Day 7)</td><td>Weekly</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Sites</td><td>Funnels, websites, forms, surveys, blogs</td><td>Project-based</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Reputation</td><td>Review requests and review monitoring</td><td>Weekly</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Reporting</td><td>Performance reports across all channels</td><td>Weekly</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Settings</td><td>Phone numbers, custom fields, team, integrations</td><td>Setup only</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">&#128161;</div>
+    <div class="callout-body"><strong>Don't try to memorise everything.</strong> The four you'll live in are <strong>Conversations, Contacts, Opportunities, and Calendars.</strong> Master those four and you can handle 80% of daily VA work. The rest you learn as specific tasks come up.</div>
+  </div>
+
+  <h2>Switching Between Sub-Accounts</h2>
+  <ol class="step-list" style="list-style:none;margin:14px 0;padding:0;">
+    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span class="step-dot">1</span><div><strong>Find the account switcher.</strong> It's usually the account name at the bottom-left or top of the screen. Click it.</div></li>
+    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span class="step-dot">2</span><div><strong>Search for the client.</strong> A list of all sub-accounts you have access to appears. Type the business name.</div></li>
+    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;"><span class="step-dot">3</span><div><strong>Confirm the name at the top before working.</strong> Make this a reflex. The right account name in the corner = safe to proceed.</div></li>
+  </ol>
+
+  <div class="card card-gold">
+    <div class="card-title">First-day orientation task</div>
+    <p style="margin:0;">When a client gives you GHL access, spend 15 minutes just clicking through every menu item once. Don't change anything &mdash; just look. Build a mental map of where things live. This single habit will save you hours of "where do I find&hellip;?" later.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">&larr; What Is GHL?</button>
+    <button class="btn btn-primary" onclick="goTo(3)">CRM &amp; Contacts &rarr;</button>
+  </div>
+</section>
+
+<!-- S3: CRM & CONTACTS -->
+<section class="section" id="s3">
+  <h1>CRM &amp; Contacts</h1>
+  <p class="section-subtitle">Contacts are the heart of GoHighLevel. Every lead, customer, and conversation connects back to a contact record. Master this section and the rest of the platform makes sense.</p>
+
+  <h2>The Contact Record</h2>
+  <p>Click any contact and you open their record &mdash; a complete profile of everything the business knows about that person. It contains:</p>
+  <ul>
+    <li><strong>Core details:</strong> name, email, phone, address, source (how they came in)</li>
+    <li><strong>Tags:</strong> labels you apply to organise and segment (more below)</li>
+    <li><strong>Custom fields:</strong> business-specific data &mdash; property type, budget, service requested, etc.</li>
+    <li><strong>Conversation history:</strong> every text, email, and call with this person</li>
+    <li><strong>Appointments:</strong> past and upcoming bookings</li>
+    <li><strong>Opportunities:</strong> which deals/pipelines they're part of</li>
+    <li><strong>Activity &amp; notes:</strong> a timeline of everything that's happened</li>
+  </ul>
+
+  <h2>Tags &mdash; Your Organisation Superpower</h2>
+  <div class="card card-accent">
+    <div class="card-title">What a tag is</div>
+    <p style="margin:0;">A tag is a simple label you stick on a contact &mdash; like <span class="pill">new-lead</span> <span class="pill">hot</span> <span class="pill">booked-call</span> <span class="pill">past-client</span>. Tags are how you group people so you can message, automate, and report on them. A contact can have many tags.</p>
+  </div>
+  <p>Tags are the connective tissue of GHL. Almost every automation you'll build on Day 7 starts with "when this tag is added&hellip;". Good tagging discipline is what separates an organised account from chaos.</p>
+
+  <div class="comparison">
+    <div class="comparison-weak">
+      <div class="comparison-label">Messy tagging</div>
+      Random tags like "John", "interested?", "call him", "MAYBE". No system. Nobody else can tell what they mean. Automations break.
+    </div>
+    <div class="comparison-strong">
+      <div class="comparison-label">Clean tagging</div>
+      A consistent system: lifecycle tags (lead / opportunity / customer), source tags (fb-ad / referral), and status tags (nurturing / booked / closed). Predictable and automatable.
+    </div>
+  </div>
+
+  <h2>Smart Lists &mdash; Saved Filtered Views</h2>
+  <p>A <strong>Smart List</strong> is a saved filter over your contacts. Instead of scrolling thousands of records, you build a view like "all contacts tagged <em>hot-lead</em> who haven't booked a call." Save it, and it updates automatically as contacts match or stop matching.</p>
+  <p><strong>Common Smart Lists a VA maintains:</strong></p>
+  <ul>
+    <li>New leads from the last 7 days (to follow up)</li>
+    <li>Leads with no appointment booked (to chase)</li>
+    <li>No-shows (to re-engage)</li>
+    <li>Customers (for retention campaigns)</li>
+  </ul>
+
+  <h2>Adding &amp; Importing Contacts</h2>
+  <div class="step-flow">
+    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Add one contact manually</strong><p>Contacts &rarr; Add Contact. Fill in name, email, phone. Apply the correct source tag immediately.</p></div></div>
+    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Import a list (CSV)</strong><p>Contacts &rarr; Import. Upload a spreadsheet, then map each column to a GHL field. Always apply a tag to the whole batch on import (e.g. <em>webinar-jan</em>) so you can find them later.</p></div></div>
+    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Check for duplicates</strong><p>GHL merges by email/phone, but always sanity-check after a big import. Duplicate contacts cause double-messaging &mdash; a fast way to annoy a client's leads.</p></div></div>
+  </div>
+
+  <div class="card card-red">
+    <div class="card-title">High-stakes warning</div>
+    <p style="margin:0;">Contact data is real people's personal information, and a client's most valuable asset. Never export, share, or delete contacts without explicit permission. Never test automations on real leads. When practising, create a fake contact with your own details. Treat the database like it's irreplaceable &mdash; because to the client, it is.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Dashboard</button>
+    <button class="btn btn-primary" onclick="goTo(4)">Pipelines &amp; Opportunities &rarr;</button>
+  </div>
+</section>
+
+<!-- S4: PIPELINES & OPPORTUNITIES -->
+<section class="section" id="s4">
+  <h1>Pipelines &amp; Opportunities</h1>
+  <p class="section-subtitle">A pipeline is the visual map of how a business turns a lead into a paying customer. Keeping it accurate is one of the highest-value things a VA does &mdash; it's how the owner knows where the money is.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">The vocabulary</div>
+    <p style="margin-bottom:8px;"><strong>Pipeline</strong> = the whole journey, broken into stages (like a Kanban board).</p>
+    <p style="margin-bottom:8px;"><strong>Stage</strong> = one column/step in that journey (e.g. New Lead &rarr; Contacted &rarr; Booked &rarr; Won).</p>
+    <p style="margin:0;"><strong>Opportunity</strong> = one deal for one contact, sitting in one stage, usually with a dollar value attached.</p>
+  </div>
+
+  <h2>A Typical Sales Pipeline</h2>
+  <table>
+    <thead><tr><th>Stage</th><th>What It Means</th><th>VA Action</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--accent);font-weight:600;">New Lead</td><td>Just came in, no contact yet</td><td>Reach out within minutes; move to Contacted</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Contacted</td><td>You've reached out, waiting on a reply</td><td>Follow up on a schedule; log responses</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Appointment Booked</td><td>A call/meeting is scheduled</td><td>Send reminders; confirm the day before</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Proposal Sent</td><td>They've seen pricing/offer</td><td>Follow up; answer questions</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Won</td><td>They bought</td><td>Mark Won; trigger onboarding</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Lost</td><td>They said no / went cold</td><td>Mark Lost with a reason; move to nurture</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Moving a Deal Through the Pipeline</h2>
+  <p>This is a core daily task. On the Opportunities board, you literally drag a deal's card from one stage to the next as its status changes. Each move can trigger an automation (covered Day 7) &mdash; for example, moving to "Appointment Booked" can auto-send a confirmation text.</p>
+
+  <div class="callout">
+    <div class="callout-icon">&#128200;</div>
+    <div class="callout-body"><strong>Why pipeline hygiene matters:</strong> The owner looks at this board to decide where to spend their time and money. A stale pipeline &mdash; deals stuck in the wrong stage, no values, dead leads still marked "active" &mdash; gives them bad information. A VA who keeps the pipeline clean and current is worth their weight in gold.</div>
+  </div>
+
+  <h2>The VA's Pipeline Checklist</h2>
+  <ul>
+    <li>Every new lead lands in the first stage with a source tag</li>
+    <li>No deal sits in a stage longer than its follow-up window without action</li>
+    <li>Every opportunity has a dollar value (so reports are accurate)</li>
+    <li>Won and Lost deals are marked promptly &mdash; with a reason for Lost</li>
+    <li>Nothing is "stuck" with no next step</li>
+  </ul>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(3)">&larr; Contacts</button>
+    <button class="btn btn-primary" onclick="goTo(5)">The Communication Hub &rarr;</button>
+  </div>
+</section>
+
+<!-- S5: COMMUNICATION HUB -->
+<section class="section" id="s5">
+  <h1>The Communication Hub</h1>
+  <p class="section-subtitle">Conversations and Calendars are where a VA spends most of their GHL day. This is the front line of client communication &mdash; and where careful, on-brand work is most visible.</p>
+
+  <h2>Conversations &mdash; The Unified Inbox</h2>
+  <p>GHL's <strong>Conversations</strong> tab pulls every channel into one thread per contact: SMS, email, Facebook/Instagram DMs, web chat, and WhatsApp (when connected). Instead of jumping between apps, you see the entire history with a person in one place and reply from the same window.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">Why this is powerful</div>
+    <p style="margin:0;">A lead texts on Monday, emails on Wednesday, and DMs on Friday. In most businesses those are three disconnected messages. In GHL they're one continuous conversation, so you always have full context before you reply. No more "sorry, who is this again?"</p>
+  </div>
+
+  <h3>Replying Like a Pro</h3>
+  <ul>
+    <li><strong>Read the full thread first.</strong> Context prevents embarrassing mistakes.</li>
+    <li><strong>Match the client's voice.</strong> This is where your Day 3 Project setup pays off &mdash; Claude can draft replies in the client's exact tone.</li>
+    <li><strong>Use snippets/templates</strong> for common replies, but personalise the first line.</li>
+    <li><strong>Log the outcome</strong> &mdash; update the tag or pipeline stage after the conversation moves forward.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-icon">&#9888;</div>
+    <div class="callout-body"><strong>Trust Scale reminder (Day 1):</strong> Messages to a client's leads are <em>"Use Carefully."</em> Someone real reads them. Always review AI-drafted replies for tone, accuracy, and the right name before you hit send. You represent the client with every message.</div>
+  </div>
+
+  <h2>Calendars &amp; Appointments</h2>
+  <p>GHL calendars replace Calendly. A booking link lets leads pick an available slot; the appointment lands on the calendar and on the contact's record automatically. As a VA you'll:</p>
+  <table>
+    <thead><tr><th>Task</th><th>What You Do</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--white);font-weight:600;">Book an appointment</td><td>Open the contact &rarr; add appointment &rarr; pick calendar, date, time</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Reschedule / cancel</td><td>Open the appointment &rarr; change time or cancel &rarr; notify the contact</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Reduce no-shows</td><td>Confirm the day before; rely on automated reminders (Day 7)</td></tr>
+      <tr><td style="color:var(--white);font-weight:600;">Manage availability</td><td>Block off the owner's busy times so leads can't double-book</td></tr>
+    </tbody>
+  </table>
+
+  <h2>A Realistic VA Morning in GHL</h2>
+  <div class="card">
+    <p style="margin-bottom:8px;"><strong>1.</strong> Check the Dashboard &mdash; new leads overnight, today's appointments.</p>
+    <p style="margin-bottom:8px;"><strong>2.</strong> Open Conversations &mdash; reply to every unread message in the client's voice.</p>
+    <p style="margin-bottom:8px;"><strong>3.</strong> Tag and route new leads into the right pipeline stage.</p>
+    <p style="margin-bottom:8px;"><strong>4.</strong> Confirm today's appointments; chase anyone unconfirmed.</p>
+    <p style="margin:0;"><strong>5.</strong> Update the pipeline &mdash; move deals, mark Won/Lost, add next steps.</p>
+  </div>
+  <p>That entire routine is something AI will help you compress dramatically &mdash; which is exactly where Day 7 picks up.</p>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(4)">&larr; Pipelines</button>
+    <button class="btn btn-primary" onclick="goTo(6)">Hands-On Lab &rarr;</button>
+  </div>
+</section>
+
+<!-- S6: HANDS-ON LAB -->
+<section class="section" id="s6">
+  <h1>Hands-On Lab</h1>
+  <p class="section-subtitle">Time to get inside the platform. These exercises build the muscle memory you'll use every day. Use a practice/demo sub-account or a fake contact with your own details &mdash; never test on real client leads.</p>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Map the Menu</span></div>
+    <p>Log into a GHL sub-account. Without changing anything, click through all 12 left-menu items once. For each, write one sentence describing what it does in your own words. This becomes your personal cheat-sheet.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Create a Test Contact</span></div>
+    <p>Add a contact using your own name and details. Then:</p>
+    <ol>
+      <li>Apply three tags using a clean system (e.g. <em>lead</em>, <em>referral</em>, <em>nurturing</em>)</li>
+      <li>Add a custom note: "Practice contact &mdash; do not message"</li>
+      <li>Find your contact again using a Smart List filter</li>
+    </ol>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Run a Deal Through a Pipeline</span></div>
+    <p>Create an opportunity for your test contact in the first stage of a pipeline. Give it a dollar value. Then drag it through three stages, noting what (if anything) happens at each move. Finally, mark it Won.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Draft a Reply with Claude</span></div>
+    <p>Imagine a lead messaged: <em>"Hey, saw your ad &mdash; how much do you charge?"</em> Use Claude (with a client Project from Day 3 if you have one) to draft three reply options in different tones. Then choose the best and explain why it fits the client's voice.</p>
+    <div class="prompt-block"><span class="prompt-label">Try This</span>You're replying to a lead in [client name]'s voice (warm, professional, no jargon). The lead asked about pricing but we don't quote prices over text — we book a quick call first. Write 3 short SMS replies (under 30 words each) that answer warmly and steer toward booking a call.</div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Book &amp; Reschedule</span></div>
+    <p>Book a test appointment for your contact on a calendar. Then reschedule it to a different time, and finally cancel it. Notice how each action updates the contact record. This is the exact flow you'll do for real leads daily.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Homework Before Day 7</div>
+    <p><strong>Task 1:</strong> Spend 20 minutes inside a real (or demo) sub-account just navigating. Get comfortable switching accounts and confirming which one you're in.</p>
+    <p><strong>Task 2:</strong> Write down the three GHL tasks you think you'll do most often. Tomorrow you'll learn to automate them.</p>
+    <p style="margin:0;"><strong>Task 3:</strong> List one repetitive thing in GHL that feels like it <em>should</em> be automatic (e.g. "every new lead should get a welcome text"). Bring it to Day 7.</p>
+  </div>
+
+  <div class="card card-gold">
+    <div class="card-title">Day 6 Complete</div>
+    <p style="margin:0;">You can now navigate GoHighLevel with confidence: dashboard, contacts, tags, pipelines, conversations, and calendars. You know where everything lives and how the daily VA workflow runs. Tomorrow: <strong>we make it run itself &mdash; workflows, automations, APIs, MCP, and AI inside GHL.</strong></p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(5)">&larr; Communication Hub</button>
+    <a href="Day07_GHL_Automation_Workflows.html" class="btn btn-primary">Day 7: GHL Automation &rarr;</a>
+  </div>
+</section>
+
+</div></div>
+
+<script>
+let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const totalSections = sections.length;
+const completed = new Set();
+
+function goTo(n) {
+  completed.add(currentSection);
+  currentSection = n;
+  sections.forEach((el, i) => el.classList.toggle('active', i === n));
+  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
+  const pct = Math.round((completed.size / totalSections) * 100);
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('overlay')?.classList.toggle('show');
+}
+</script>
+</body>
+</html>
