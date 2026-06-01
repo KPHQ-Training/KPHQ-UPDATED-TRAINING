@@ -493,15 +493,39 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
     </div>
   </div>
 
-  <h2>Level 1: GHL's Native AI</h2>
+  <h2>Level 1: GHL's Native AI Suite (&ldquo;AI Employee&rdquo;)</h2>
+  <p>GHL bundles its built-in AI under the <strong>AI Employee</strong> umbrella. You won't switch all of these on for every client, but you should know what each one does and where it fits. <em>Feature set current as of June 2026 &mdash; GHL ships AI changes almost monthly, so always confirm in-app.</em></p>
   <table>
-    <thead><tr><th>Feature</th><th>What It Does</th><th>VA Role</th></tr></thead>
+    <thead><tr><th>AI Feature</th><th>What It Does</th><th>Your Role as VA</th></tr></thead>
     <tbody>
-      <tr><td style="color:var(--accent);font-weight:600;">Conversation AI</td><td>Auto-responds to lead messages, books appointments, answers FAQs 24/7</td><td>Train it, set guardrails, review its conversations</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Content AI</td><td>Generates email and social copy inside GHL</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Workflow AI actions</td><td>AI steps inside workflows (e.g. categorise a reply, generate a response)</td><td>Configure the prompt; monitor outputs</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Ask AI</td><td>Talk to the CRM in plain English &mdash; &ldquo;show today's unbooked leads,&rdquo; &ldquo;draft replies for the hot ones.&rdquo; It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Conversation AI</td><td>Auto-responds to leads and books appointments 24/7 across SMS, email, web chat, Facebook/Instagram DMs &amp; Google Business messages</td><td>Train it on the client's FAQs, set guardrails, review its chats</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Voice AI</td><td>Answers and makes phone calls to qualify leads and book appointments &mdash; now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Reviews AI</td><td>Automatically drafts replies to Google/Facebook reviews</td><td>Approve the tone before replies post</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Content AI</td><td>Generates emails, social posts &amp; images inside GHL (long-form up to ~2,000 words, plus AI subject-line suggestions)</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Workflow AI</td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations &mdash; summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Funnel &amp; Website AI</td><td>Builds and edits funnels and websites from prompts</td><td>Prompt, then refine layout &amp; copy</td></tr>
+      <tr><td style="color:var(--accent);font-weight:600;">Agent Studio</td><td>Build custom AI agents with multimodal skills (text, image, video, speech, web search)</td><td>Advanced &mdash; design &amp; test agents; billed separately</td></tr>
     </tbody>
   </table>
+
+  <div class="card card-accent">
+    <div class="card-title">What's new in GHL AI &mdash; 2026</div>
+    <p style="margin-bottom:8px;">GHL releases AI updates almost every month. The recent ones, so a client can't surprise you:</p>
+    <ul style="margin:0;">
+      <li><strong>Ask AI moved into AI Employee with unlimited usage</strong> &mdash; the &ldquo;talk to your CRM&rdquo; assistant is now front-and-centre.</li>
+      <li><strong>Voice AI expanded to 27 languages</strong> (added Portuguese, Italian &amp; German) with sub-second, near-real-time responses.</li>
+      <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic &mdash; describe it in plain English and AI assembles the automation.</li>
+      <li><strong>Content AI 2.0</strong> &mdash; longer, more on-brand content plus automatic email subject-line suggestions.</li>
+      <li><strong>AI Usage Dashboard</strong> &mdash; an agency-level view of AI spend, tokens and usage per sub-account.</li>
+      <li><strong>Billing simplified (May 2026)</strong> &mdash; most &ldquo;AI Employee Plus&rdquo; extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
+    </ul>
+  </div>
+
+  <div class="card card-gold">
+    <div class="card-title">Pricing in one breath (so you can answer a client)</div>
+    <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing &mdash; but knowing what's roughly included keeps you credible when a client asks &ldquo;is this extra?&rdquo;</p>
+  </div>
 
   <h2>Level 3: Connecting Claude to GHL via MCP</h2>
   <p>This is the frontier. When GHL is connected to Claude through an MCP server, you can do things like:</p>
