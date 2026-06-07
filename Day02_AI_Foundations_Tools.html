@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 2: AI Foundations II &amp; Right Tool</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
+    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
+    --border:#1A2620; --border-2:#24332C;
+    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
+    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
+    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
+    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
+    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
+    --sidebar-w:268px; --maxw:860px; --r:14px;
+    --font-d:'Inter',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
+    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
+    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
+    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}
+  .course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+
+  /* DECK */
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}
+  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
+    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+
+  /* TYPE */
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+
+  /* CARDS */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}
+  .card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}
+  .card-danger .card-head{color:var(--danger)}
+  .card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));
+    border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));
+    border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}
+  .col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+
+  .prompt{position:relative;background:#06100B;border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:36px 18px 16px;margin:14px 0;font-family:'SF Mono','Consolas',monospace;
+    font-size:13px;color:#bfe9cc;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
+  .prompt-tag{position:absolute;top:10px;left:18px;font-family:var(--font-b);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:5px}
+
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}
+  .ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+
+  .pipeline{display:flex;align-items:center;gap:0;margin:18px 0}
+  .stage{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 10px 14px;text-align:center;position:relative;animation:stageOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage .step-no{position:absolute;top:7px;left:11px;font-size:10px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
+  .stage-ico{width:42px;height:42px;margin:2px auto 10px;border-radius:12px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);animation:icoOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-ico svg{width:21px;height:21px}
+  .stage-name{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:5px;animation:nameOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-cap{font-size:11px;color:var(--dim);line-height:1.45}
+  @keyframes stageOn{0%,17%{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(34,197,94,0.16)}33%,100%{border-color:var(--border);box-shadow:none}}
+  @keyframes icoOn{0%,17%{background:var(--accent);border-color:var(--accent);color:#04150B}33%,100%{background:var(--panel);border-color:var(--border);color:var(--dim)}}
+  @keyframes nameOn{0%,17%{color:var(--ink)}33%,100%{color:var(--muted)}}
+  .connector{flex:0 0 30px;position:relative;height:24px;display:flex;align-items:center;justify-content:center}
+  .connector .line{width:100%;height:2px;background:var(--border-2);border-radius:2px}
+  .connector .pulse{position:absolute;top:50%;left:0;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-50%);box-shadow:0 0 9px var(--accent);opacity:0;animation:pulseMove 6s linear infinite;animation-delay:var(--pd,0s)}
+  @keyframes pulseMove{0%{left:0;opacity:0}4%{opacity:1}15%{left:calc(100% - 7px);opacity:0}100%{left:calc(100% - 7px);opacity:0}}
+  @keyframes pulseMoveV{0%{top:0;opacity:0}4%{opacity:1}15%{top:calc(100% - 7px);opacity:0}100%{top:calc(100% - 7px);opacity:0}}
+  /* benchmark bars (animated, AI Tools session) */
+  .bench-row{display:flex;align-items:center;gap:12px;margin:11px 0}
+  .bench-name{width:162px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--ink);line-height:1.25}
+  .bench-name small{display:block;color:var(--dim);font-weight:500;font-size:11px}
+  .bench-track{flex:1;height:28px;background:var(--panel);border:1px solid var(--border);border-radius:7px;overflow:hidden;position:relative}
+  .bench-fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:benchGrow 1.4s cubic-bezier(.4,0,.2,1) forwards;animation-delay:var(--bd,0s)}
+  .bench-fill.alt{background:linear-gradient(90deg,var(--gold),#f5c542)}
+  .bench-val{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+  @keyframes benchGrow{to{width:var(--bw)}}
+
+  /* human-margin flow */
+  .hflow{display:flex;align-items:stretch;gap:0;margin:20px 0}
+  .hnode{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:15px 12px;text-align:center}
+  .hnode .ht{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);margin-bottom:6px}
+  .hnode .hd{font-size:12.5px;color:var(--muted);line-height:1.4}
+  .hnode.you{background:linear-gradient(135deg,rgba(234,179,8,0.13),rgba(34,197,94,0.05));border-color:rgba(234,179,8,0.42)}
+  .hnode.you .ht{color:var(--gold)}
+  .hnode.you .hd{color:var(--ink);font-weight:500}
+  .harrow{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+  .harrow svg{width:16px;height:16px}
+  @media(max-width:680px){.hflow{flex-direction:column}.harrow{transform:rotate(90deg);flex-basis:22px}}
+
+  /* interactive drills */
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}
+  .quiz-fb .no{color:var(--danger);font-weight:700}
+  .quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+
+  /* niche */
+  .niche{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .niche-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+  .niche-tab{background:var(--panel-2);border:1px solid var(--border);color:var(--muted);font-family:var(--font-b);font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:pointer;transition:all .15s}
+  .niche-tab:hover{color:var(--ink);border-color:var(--border-2)}
+  .niche-tab.active{background:var(--accent);color:#04150B;border-color:var(--accent)}
+  .niche-panel{display:none;animation:fade .25s ease}
+  .niche-panel.active{display:block}
+  .niche-panel .role{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:6px}
+
+  /* attendance gate */
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){
+    .sidebar{transform:translateX(-100%);transition:transform .3s ease}
+    .sidebar.open{transform:translateX(0)}
+    .mobile-bar{display:flex}
+    .scrim.show{display:block}
+    .main{margin-left:0;padding-top:54px}
+    .slide{padding:24px 18px 30px}
+    .deckbar{height:60px;padding:0 12px}
+    .nav-btn{padding:9px 13px;font-size:13px}
+    .compare{grid-template-columns:1fr}
+    h1{font-size:25px}h2{font-size:21px}
+    .pipeline{flex-direction:column;align-items:stretch}
+    .stage{width:100%}
+    .connector{width:100%;height:24px;flex:0 0 24px}
+    .connector .line{width:2px;height:100%}
+    .connector .pulse{left:50%;top:0;transform:translateX(-50%);animation:pulseMoveV 6s linear infinite;animation-delay:var(--pd,0s)}
+  }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-tool"/></svg> Day 2 · AI Foundations II</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Prompting II: Power Blocks</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-align"/></svg></span>Format &amp; the Full Blueprint</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Debugging Bad Output</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-compass"/></svg></span>The Right Tool</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>AI Tools</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a class="current"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GoHighLevel_Automation.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_PM_And_Meetings.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_By_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- SESSION 0 -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Session 1</div>
+    <h1>Prompting Foundations II: Power Blocks</h1>
+    <p class="subtitle">Yesterday you learned the first three blocks: Role, Task, Context. Today you add the three that turn "pretty good" output into reliable, ready-to-use work: Constraints, Examples, and Format.</p>
+    <div class="gate">
+      <div class="card-head" style="color:var(--accent)"><svg><use href="#i-check"/></svg> Mark your attendance</div>
+      <div id="attForm">
+        <p style="margin-bottom:14px">Enter your name to check in to today's session. (One per person.)</p>
+        <input class="field" id="attName" placeholder="First and last name" style="margin-bottom:12px">
+        <div class="err" id="attErr"></div>
+        <button class="btn btn-primary btn-block" onclick="markAttendance()">Mark me present &amp; start <svg><use href="#i-arrow"/></svg></button>
+      </div>
+      <div id="attDone" style="display:none;text-align:center;padding:6px 0">
+        <div style="width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg style="width:24px;height:24px;color:#04150B"><use href="#i-check"/></svg></div>
+        <p style="color:var(--ink);font-weight:600;margin-bottom:4px">You are checked in. Welcome back.</p>
+        <p style="margin:0;font-size:13px">Use the Next button below, or your arrow keys, to begin.</p>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> 20-second recap of Day 1</div>
+      <p style="margin:0"><strong>Role</strong> (who it should be) plus <strong>Task</strong> (what to do) plus <strong>Context</strong> (the background a new hire would need). That is the base. Now we bolt on the parts that control quality.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Block 4 - Constraints: set the guardrails</h2>
+    <p>Constraints tell the model what to avoid and what rules to follow. They head off the rambling, the wrong tone, and the wall of text <strong>before</strong> it happens, instead of you fixing it after.</p>
+    <table>
+      <thead><tr><th>Constraint type</th><th>Example you can add</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Length</strong></td><td>"Under 120 words." "Exactly 3 bullet points."</td></tr>
+        <tr><td><strong>What to avoid</strong></td><td>"No jargon. No emojis. Do not invent statistics."</td></tr>
+        <tr><td><strong>Must include</strong></td><td>"Mention the free tune-up offer and our Friday deadline."</td></tr>
+        <tr><td><strong>Reading level / tone</strong></td><td>"Plain English a busy homeowner can skim. Warm, not salesy."</td></tr>
+      </tbody>
+    </table>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> No constraints</div>"Write a follow-up email." You get 400 hedged words, three emojis, and a tone that is off for the client.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Constrained</div>"Write a follow-up email under 90 words, warm and direct, no emojis, ending in one clear question." You get something you can send.</div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Block 5 - Examples: show, do not just tell</h2>
+    <p>One or two examples of what "good" looks like beats a paragraph describing it. Giving the model a sample to copy is called <em>few-shot prompting</em>, and it is the fastest way to lock in a format, voice, or style.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Zero-shot (just asking)</div>"Write product taglines for our cleaning service." The style is a coin toss and rarely matches your brand.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Few-shot (with examples)</div>"Match the style of these two: 'Spotless, every time.' / 'We sweat the small stuff.' Now write 5 more." The output snaps to your voice.</div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>When words fail to describe what you want, <em>show an example</em>. The model is a world-class imitator. Give it the right thing to imitate.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 1 -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Session 2</div>
+    <h1>Format &amp; the Full Blueprint</h1>
+    <p class="subtitle">The last block, then we assemble all six into one prompt you could hand to a capable new hire and trust the result.</p>
+    <h2>Block 6 - Format: specify the shape of the output</h2>
+    <p>Tell it exactly how to deliver: bullets, a table, a word count, a JSON object, or an email with a subject line. Format-locked output is output you can paste straight into the doc, the CRM, or the send box.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Loose</div>"Summarize this call." You get a shapeless paragraph you still have to reorganize.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Format-locked</div>"Summarize as: 1 line on the main pain point, 3 bullets on next steps, and a one-line recommended reply." Drop-in ready.</div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The full prompt blueprint</h2>
+    <p>Stack all six blocks and you go from a vague wish to a brief someone could actually execute. You will not need all six every time, but knowing them means you always know what to add when output is weak.</p>
+    <div class="prompt"><span class="prompt-tag">Role · Task · Context · Constraints · Examples · Format</span>You are a social media manager for a boutique real-estate brokerage. (Role)
+
+Write Instagram captions announcing a new listing. (Task)
+
+Context: a 2-bedroom condo in a walkable neighborhood; audience is first-time buyers aged 28 to 40. (Context)
+
+Constraints: under 60 words each, warm and confident, no hashtags stuffed at the end, do not invent details about the unit. (Constraints)
+
+Match the style of this caption: "Light, space, and a commute you will actually enjoy." (Example)
+
+Format: give me 3 options as a numbered list. (Format)</div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>A weak prompt is a wish. A strong prompt is a <em>brief</em>. The six blocks are your checklist for turning one into the other.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Quick check: spot the missing block</h2>
+    <p>Read the prompt, then pick what it most needs.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
+      <div class="quiz-q">"You are a bookkeeper. Write a payment reminder email. Keep it under 80 words, friendly but firm." What is this prompt most missing?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It already has a Role (bookkeeper)."><span class="qmark"></span><span class="qtext">A Role</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="There is no Context: who is the client, how overdue, what was agreed? Without it the email is generic and may strike the wrong tone for this relationship."><span class="qmark"></span><span class="qtext">Context about the client and the situation</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It already has Constraints (under 80 words, friendly but firm)."><span class="qmark"></span><span class="qtext">Constraints</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A Task is present (write a payment reminder email). The gap is the background, not the task."><span class="qmark"></span><span class="qtext">A Task</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- SESSION 2 -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Session 3</div>
+    <h1>Debugging Bad Output</h1>
+    <p class="subtitle">When AI gives you something weak, it is rarely "the AI being dumb." It is almost always a fixable gap in the prompt. Here is how an operator diagnoses and repairs it.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> The mindset shift</div>
+      <p style="margin:0">Bad output is not a dead end, it is <strong>feedback</strong>. The model did exactly what your prompt implied. So the question is never "why is it wrong," it is <strong>"what did my prompt leave open?"</strong> Fix the input, not your mood.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>The four common failure modes</h2>
+    <p>Almost every weak result is one of these four. Learn the symptom, the cause, and the one-move fix.</p>
+    <table>
+      <thead><tr><th>Symptom</th><th>Real cause</th><th>The fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Too generic / bland</strong></td><td>No Role, no Context, no examples</td><td>Add who it is for and a sample of "good"</td></tr>
+        <tr><td><strong>Wrong or made-up facts</strong></td><td>You asked from memory; it filled gaps</td><td>Paste the source material; tell it not to invent</td></tr>
+        <tr><td><strong>Wrong format or tone</strong></td><td>You never specified either</td><td>Add Format and a tone Constraint</td></tr>
+        <tr><td><strong>Ignored an instruction</strong></td><td>Buried in a long, messy prompt</td><td>Put key rules on their own lines; ask for one thing</td></tr>
+      </tbody>
+    </table>
+    <p class="hookline" style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55"><svg style="width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px"><use href="#i-target"/></svg><span><strong>Notice the pattern:</strong> every fix is just adding back one of the six blocks. Debugging is not a new skill, it is the blocks in reverse.</span></p>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>The debug loop: change one thing at a time</h2>
+    <p>Do not rewrite the whole prompt and re-roll the dice. Change <strong>one</strong> variable, re-run, and compare. That is how you learn what actually moved the result, and how you reach "good" in two or three tries instead of ten.</p>
+    <div class="pipeline">
+      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-target"/></svg></div><div class="stage-name">Diagnose</div><div class="stage-cap">which of the 4 failure modes is it?</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
+      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-spark"/></svg></div><div class="stage-name">Change one block</div><div class="stage-cap">add the missing piece only</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:1.6s"></span></div>
+      <div class="stage" style="--d:2.2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-activity"/></svg></div><div class="stage-name">Re-run</div><div class="stage-cap">generate again</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:2.7s"></span></div>
+      <div class="stage" style="--d:3.3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-check"/></svg></div><div class="stage-name">Compare</div><div class="stage-cap">better? keep going. worse? revert</div></div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Prompting is a <em>conversation</em>, not a slot machine. Iterate one change at a time and the model becomes predictable.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Drill: diagnose the bad output</h2>
+    <p>A VA asked: <em>"Write a LinkedIn post about our new service."</em> The result was a generic, buzzword-filled paragraph that could belong to any company. What is the single best first fix?</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-activity"/></svg> Diagnose it</div>
+      <div class="quiz-q">Which move fixes it fastest?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Switching tools does not fix a thin prompt. The same vague ask gives the same bland result anywhere."><span class="qmark"></span><span class="qtext">Try a different AI tool</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Length is not the problem. A longer generic post is still generic."><span class="qmark"></span><span class="qtext">Ask it to make the post longer</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Generic output means missing Role, Context, and an example. Add the audience, what the service actually does, and one sample post to match. That is the 'too generic' fix from the table."><span class="qmark"></span><span class="qtext">Add a Role, real Context, and a sample post to match</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Regenerating the same prompt just reshuffles the same bland ingredients."><span class="qmark"></span><span class="qtext">Hit regenerate a few times</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- SESSION 3 -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Session 4</div>
+    <h1>The Right Tool</h1>
+    <p class="subtitle">There is no single "best AI." There is the right category of tool for the job in front of you. An operator picks deliberately instead of forcing one tool to do everything.</p>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Match the <em>job</em> to the <em>category</em>, then use whatever your client or team has standardized on. The skill is the choice, not the brand.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The 2026 landscape, by category</h2>
+    <p>Tools change every month, so do not memorize brands. Learn the <strong>categories</strong> and what each is built for. Most names below overlap into several categories, which is exactly why you choose by the job.</p>
+    <table>
+      <thead><tr><th>Category</th><th>Examples</th><th>Reach for it when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Conversational assistant</strong></td><td>ChatGPT, Claude, Gemini, Copilot</td><td>Drafting, rewriting, reasoning, general Q&amp;A</td></tr>
+        <tr><td><strong>Web-grounded research</strong></td><td>Perplexity, Gemini, ChatGPT search</td><td>You need current info with sources you can check</td></tr>
+        <tr><td><strong>Media generation</strong></td><td>Image, video, and voice tools</td><td>You need a picture, video, or audio, not text</td></tr>
+        <tr><td><strong>Embedded / in-app AI</strong></td><td>AI inside GoHighLevel, Canva, Notion, your CRM</td><td>The work already lives in that tool</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-bottom:0">No category wins outright. The fastest operators keep two or three they trust and switch based on the task, not loyalty.</p>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Chat vs Automation vs Agent</h2>
+    <p>Beyond which brand, decide <strong>how</strong> the AI should run. This is the choice that separates someone who saves minutes from someone who saves hours.</p>
+    <table>
+      <thead><tr><th>Mode</th><th>What it is</th><th>Best for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Chat</strong></td><td>You prompt, it answers, you stay in the loop</td><td>One-off, creative, or judgment-heavy tasks</td></tr>
+        <tr><td><strong>Automation</strong></td><td>A trigger runs fixed steps with no one watching</td><td>Repeatable work on a schedule or event</td></tr>
+        <tr><td><strong>Agent</strong></td><td>AI plans multiple steps and uses tools to reach a goal</td><td>Multi-step tasks that need decisions along the way</td></tr>
+      </tbody>
+    </table>
+    <p class="hookline" style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55"><svg style="width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px"><use href="#i-bolt"/></svg><span>Rule of thumb: if you have done it the same way three times, it probably belongs in an <strong>automation</strong>, not a chat. We build those starting Day 4.</span></p>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The decision framework</h2>
+    <p>Before you open a tool, ask these in order. The first "yes" points you to the right category.</p>
+    <table>
+      <thead><tr><th>Ask yourself</th><th>If yes, reach for</th></tr></thead>
+      <tbody>
+        <tr><td>Does it involve regulated or client-private data?</td><td><strong style="color:var(--secure)">An approved, contracted environment only</strong> (never a free public tool)</td></tr>
+        <tr><td>Do I need current info or facts I can cite?</td><td>A web-grounded research tool</td></tr>
+        <tr><td>Do I need an image, video, or voice?</td><td>A media generation tool</td></tr>
+        <tr><td>Does this repeat on a trigger or schedule?</td><td>An automation</td></tr>
+        <tr><td>Is the work already inside one platform?</td><td>That platform's embedded AI</td></tr>
+        <tr><td>None of the above, I just need to think or draft?</td><td>A conversational assistant</td></tr>
+      </tbody>
+    </table>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Carry-over from Day 1</div>
+      <p>The data-safety question comes first, every time. The right tool is never worth leaking a client's regulated data.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Quick check: pick the tool type</h2>
+    <p>A client asks you to pull this week's mortgage rate news and summarize it with links to verify. Which category fits best?</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="quiz-q">Best category for "this week's news, with checkable sources"?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A plain conversational assistant may not have current info and can invent sources past its cutoff."><span class="qmark"></span><span class="qtext">A standard conversational assistant from memory</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="'This week' plus 'links to verify' is the textbook case for a web-grounded research tool: current data and citations you can open and check."><span class="qmark"></span><span class="qtext">A web-grounded research tool</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Media tools make images, video, or audio, not researched summaries."><span class="qmark"></span><span class="qtext">A media generation tool</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="An agent could orchestrate it, but the core need here is current, citable info, which is the research category."><span class="qmark"></span><span class="qtext">An image generator</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- SESSION 4: AI TOOLS -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Session 5</div>
+    <h1>An Introduction to AI Tools</h1>
+    <p class="subtitle">You do not need a paid subscription to do great work. The strongest AI tools all have free tiers that are more than enough for most VA tasks. Here are five worth knowing and what each is best at.</p>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Budget reality for VAs</div>
+      <p style="margin:0">Assume a zero subscription budget. Every tool below has a <strong>free tier</strong> you can start with today. Learn two or three well and switch based on the task, not the price tag.</p>
+    </div>
+    <table>
+      <thead><tr><th>Tool</th><th>What it is</th><th>Free access</th><th>Reach for it when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ChatGPT</strong><br><span style="color:var(--dim);font-size:12px">OpenAI</span></td><td>The most widely used assistant, a strong all-rounder with images, voice, and a big ecosystem</td><td>Free tier with a GPT-5-class model, web search, voice, and some image generation</td><td>General tasks, brainstorming, images, and voice</td></tr>
+        <tr><td><strong>Claude</strong><br><span style="color:var(--dim);font-size:12px">Anthropic</span></td><td>Conversational assistant, strong at writing and careful reasoning</td><td>Free tier includes a Sonnet-class model, web search, memory, 200K context</td><td>Drafting, editing, summaries, structured thinking</td></tr>
+        <tr><td><strong>Gemini</strong><br><span style="color:var(--dim);font-size:12px">Google</span></td><td>Conversational assistant with deep Google and multimodal reach</td><td>Generous free tier across Gmail, Docs, and search</td><td>Research, images, anything inside Google Workspace</td></tr>
+        <tr><td><strong>Kimi</strong><br><span style="color:var(--dim);font-size:12px">Moonshot AI</span></td><td>Conversational assistant, very long memory, strong at code</td><td>Free to use, large context window, open model</td><td>Long documents, transcripts, budget-tight work</td></tr>
+        <tr><td><strong>Manus</strong><br><span style="color:var(--dim);font-size:12px">autonomous agent</span></td><td>Not a chatbot: an agent that plans and finishes multi-step tasks on its own</td><td>Free daily credits to test full agent mode</td><td>Hands-off jobs: research, build a deliverable, run a workflow</td></tr>
+      </tbody>
+    </table>
+    <p class="hookline" style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55"><svg style="width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px"><use href="#i-target"/></svg><span><strong>Four are chat assistants, one is an agent.</strong> ChatGPT, Claude, Gemini, and Kimi answer and create as you talk to them. Manus goes off and does the whole task. Pick the type that matches the job.</span></p>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>What the benchmarks say</h2>
+    <p>Benchmarks are standardized tests for AI. They change every month, so do not chase this week's leader. The lesson for a VA: the free-access models below sit at the very top of the public leaderboards, so free is plenty.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-activity"/></svg> Overall capability: Humanity's Last Exam (higher is better)</div>
+      <div class="bench-row"><div class="bench-name">Claude Opus 4.8</div><div class="bench-track"><div class="bench-fill" style="--bw:57.9%;--bd:.05s"></div><div class="bench-val">57.9</div></div></div>
+      <div class="bench-row"><div class="bench-name">Gemini 3 Pro</div><div class="bench-track"><div class="bench-fill" style="--bw:45.8%;--bd:.15s"></div><div class="bench-val">45.8</div></div></div>
+      <div class="bench-row"><div class="bench-name">Kimi K2 Thinking</div><div class="bench-track"><div class="bench-fill" style="--bw:44.9%;--bd:.25s"></div><div class="bench-val">44.9</div></div></div>
+      <div class="bench-row"><div class="bench-name">ChatGPT (GPT-5.5 Pro)</div><div class="bench-track"><div class="bench-fill" style="--bw:43.1%;--bd:.35s"></div><div class="bench-val">43.1</div></div></div>
+      <p style="margin:12px 0 0;font-size:12px;color:var(--dim)">Source: Vellum LLM Leaderboard, updated 29 May 2026. Humanity's Last Exam is a deliberately brutal PhD-level test, so even the leaders score near half. It is only for ranking, and these free-access models top the chart.</p>
+    </div>
+    <div class="card">
+      <div class="card-head" style="color:var(--gold)"><svg><use href="#i-compass"/></svg> Agent skill: GAIA (real-world, multi-step tasks)</div>
+      <div class="bench-row"><div class="bench-name">Manus<br><small>autonomous agent</small></div><div class="bench-track"><div class="bench-fill alt" style="--bw:86.5%;--bd:.1s"></div><div class="bench-val">86.5</div></div></div>
+      <p style="margin:12px 0 0;font-size:12px;color:var(--dim)">GAIA tests finishing real tasks with tools. Manus reported about 86.5 percent, ahead of earlier deep-research agents. This is a different test from the chat models above, so do not compare the bars directly.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Do not pick a tool by who tops the chart this week. Pick by <em>fit and free access</em>. For almost all VA work, a free model is already more capable than the task needs.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Which one should you reach for?</h2>
+    <p>You do not need all five. Match the job to the tool, then use whatever your client has standardized on. Here is a starting map for everyday VA work.</p>
+    <table>
+      <thead><tr><th>The task</th><th>Good free pick</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Write or edit a doc, email, or post</strong></td><td>Claude or ChatGPT</td><td>Both are strong, careful writers with a generous free chat</td></tr>
+        <tr><td><strong>Research with current facts and links</strong></td><td>Gemini or ChatGPT</td><td>Both search the live web and show sources you can check</td></tr>
+        <tr><td><strong>Work through a long transcript or file</strong></td><td>Kimi or Gemini</td><td>Largest free context windows, so they hold more at once</td></tr>
+        <tr><td><strong>Make an image or simple graphic</strong></td><td>ChatGPT or Gemini</td><td>Both generate images on the free tier</td></tr>
+        <tr><td><strong>Anything already inside Google Workspace</strong></td><td>Gemini</td><td>Reads Gmail, Docs, and Drive natively</td></tr>
+        <tr><td><strong>Hands-off, multi-step job</strong></td><td>Manus</td><td>An agent that plans and finishes the whole task for you</td></tr>
+      </tbody>
+    </table>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Carry-over from Day 1</div>
+      <p>Client-private or regulated data goes only in an approved, contracted environment, never a free public tool. The right tool is never worth leaking a client's data.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Make the most of free tiers</h2>
+    <p>Free does not mean limited if you use it well. These habits stretch a zero-budget stack across a full day of real work.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Five budget habits</div>
+      <p><strong>1. Spread the load.</strong> Each tool has its own daily limit. Keep two or three open and rotate when one slows down.</p>
+      <p><strong>2. Start fresh.</strong> A new chat resets the context, so begin a new one per task instead of one endless thread.</p>
+      <p><strong>3. Match the tool to the job.</strong> Do not burn the heaviest model on a simple rewrite. Save the strongest one for the hard task.</p>
+      <p><strong>4. Reuse your prompts.</strong> Keep the prompt library from earlier today so you are not re-typing the same setup every time.</p>
+      <p style="margin:0"><strong>5. Switch, do not pay.</strong> When a free limit hits, move to the next tool. You rarely need a subscription to finish the day.</p>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Quick check</div>
+      <div class="quiz-q">A client sends a 60-page call transcript and asks for a summary, and you are on a zero-budget stack. Which free tool fits best?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Manus is an agent for multi-step jobs. A one-shot summary does not need an agent, so this is overkill."><span class="qmark"></span><span class="qtext">Manus, because it is the most powerful</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="A 60-page transcript needs a large context window. Kimi (and Gemini) hold the most on the free tier, so the whole transcript fits in one pass."><span class="qmark"></span><span class="qtext">Kimi, for its large free context window</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="An image generator does not read or summarize documents."><span class="qmark"></span><span class="qtext">An image generator</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Paying is the last resort. The point of a free stack is to switch tools, not open your wallet."><span class="qmark"></span><span class="qtext">Buy a subscription right away</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Wrap-up &amp; what's next</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 3 (activity)</div>
+      <p><strong>1.</strong> Take 3 prompts from your "Prompt Library" and add the new blocks: Constraints, an Example, and a Format. Save the upgraded versions.</p>
+      <p><strong>2.</strong> Next time output disappoints, run the debug loop: name the failure mode, change one block, re-run. Note what fixed it.</p>
+      <p style="margin:0"><strong>3.</strong> Sign up for two free tools from today (for example Claude and Gemini), run the same task in both, and notice which one fits you better.</p>
+    </div>
+    <div class="qa">
+      <h3>Day 2 Q&amp;A</h3>
+      <p>Bring your questions on the six blocks, debugging, or choosing the right tool. Tomorrow we go deep on Claude: how it differs, Projects, and how to get your best work out of it.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 3 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div>
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Prompting Foundations II</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 18</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script>
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 2' };
+const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day03_Claude.html';
+
+/* ---- KeyPlayers attendance + completion tracking ---- */
+const TRACK = {
+  URL: CONFIG.SUBMIT_URL,   // same Apps Script web app as the Day 1 survey
+  DAY: CONFIG.DAY,          // 'Day 2'
+  NEXT: 'Day 3',            // where the Proceed button goes
+  TOKEN: '',                // must match SHARED_TOKEN in Apps Script (leave '' if unused)
+  BEACON_ON_OPEN: true      // anonymous open-ping on load (named if ?name= is in the URL)
+};
+let attendeeName = (new URLSearchParams(location.search).get('name')) || localStorage.getItem('kp_name_'+TRACK.DAY) || '';
+
+function kpTrack(eventType, extra){
+  if(!TRACK.URL || !TRACK.URL.startsWith('http')){ console.log('[track]', eventType, Object.assign({name:attendeeName}, extra||{})); return; }
+  const payload = Object.assign({
+    formType:eventType, day:TRACK.DAY, token:TRACK.TOKEN,
+    name:attendeeName, userAgent:navigator.userAgent, ts:new Date().toISOString()
+  }, extra||{});
+  kpSend(payload);
+}
+function kpSend(payload){
+  fetch(TRACK.URL, { method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+    .catch(()=>kpQueue(payload));   // endpoint unreachable: hold it and retry on next load
+}
+function kpQueue(payload){
+  try{ const q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); q.push(payload);
+    localStorage.setItem('kp_queue', JSON.stringify(q.slice(-50))); }catch(e){}
+}
+function kpFlush(){
+  let q; try{ q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); }catch(e){ q=[]; }
+  if(!q.length) return; localStorage.removeItem('kp_queue'); q.forEach(kpSend);
+}
+function kpOnce(key){ if(localStorage.getItem(key)) return false; localStorage.setItem(key,'1'); return true; }
+
+kpFlush(); // resend anything that failed to send on a previous visit
+/* anonymous (or named) open beacon, once per day per browser */
+if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())){ kpTrack('opened', {}); }
+
+function markAttendance(){
+  const inp=document.getElementById('attName'); const name=(inp.value||'').trim();
+  const err=document.getElementById('attErr');
+  if(!name){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; return; }
+  err.style.display='none';
+  attendeeName=name; localStorage.setItem('kp_name_'+TRACK.DAY, name);
+  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {});
+  document.getElementById('attForm').style.display='none';
+  document.getElementById('attDone').style.display='block';
+}
+
+function proceedNext(){
+  kpTrack('completed', { nextDay: TRACK.NEXT });
+  setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
+}
+
+const sesNames = ['Prompting Foundations II','Format & the Full Blueprint','Debugging Bad Output','The Right Tool','AI Tools'];
+
+const slides = [...document.querySelectorAll('.slide')];
+const navLinks = [...document.querySelectorAll('#nav a')];
+const pfill = document.getElementById('pfill'), ptext = document.getElementById('ptext');
+const dbLabel = document.getElementById('dbLabel'), dbCount = document.getElementById('dbCount');
+const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
+let cur = 0;
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active', i===cur));
+  const ses = +slides[cur].dataset.ses;
+  navLinks.forEach((a,i)=>{a.classList.toggle('active', i===ses); a.classList.toggle('done', i<ses);});
+  pfill.style.width = Math.round(((cur+1)/slides.length)*100)+'%';
+  ptext.textContent = 'Slide '+(cur+1)+' of '+slides.length;
+  dbLabel.textContent = sesNames[ses];
+  dbCount.innerHTML = '<strong>'+(cur+1)+'</strong> / '+slides.length;
+  prevBtn.disabled = cur===0;
+  if(cur===slides.length-1){
+    nextBtn.innerHTML = 'Day 3 <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = proceedNext;
+  } else {
+    nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = next;
+  }
+  const sc = slides[cur]; sc.scrollTop = 0;
+  sc.querySelectorAll('.bench-fill').forEach(function(el){ el.style.animation='none'; void el.offsetHeight; el.style.animation=''; });
+}
+function next(){ if(cur<slides.length-1){ cur++; render(); } }
+function prev(){ if(cur>0){ cur--; render(); } }
+function goSession(s){ const i = slides.findIndex(sl=>+sl.dataset.ses===s); if(i>=0){ cur=i; render(); } closeNav(); }
+
+document.addEventListener('keydown', e=>{
+  const t = document.activeElement.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); next(); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+
+function toggleNav(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('scrim').classList.toggle('show'); }
+function closeNav(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
+function showNiche(id,btn){
+  document.querySelectorAll('.niche-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.niche-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('niche-'+id).classList.add('active'); btn.classList.add('active');
+}
+function quizPick(btn){
+  const quiz=btn.closest('.quiz'); if(quiz.classList.contains('answered'))return;
+  quiz.classList.add('answered');
+  const opts=[...quiz.querySelectorAll('.quiz-opt')];
+  const correctOpt=opts.find(o=>o.dataset.correct==='true');
+  const chose=btn.dataset.correct==='true';
+  opts.forEach(o=>{o.disabled=true; if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});
+  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}
+  const fb=quiz.querySelector('.quiz-fb');
+  fb.innerHTML = chose
+    ? '<strong class="ok">Correct.</strong> '+btn.dataset.why
+    : '<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;
+  fb.classList.add('show');
+  quiz.querySelector('.quiz-reset').style.display='inline-block';
+}
+function quizReset(btn){
+  const quiz=btn.closest('.quiz'); quiz.classList.remove('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});
+  const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
+  btn.style.display='none';
+}
+render();
+</script>
+</body>
+</html>
