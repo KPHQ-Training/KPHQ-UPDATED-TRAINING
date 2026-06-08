@@ -318,15 +318,15 @@
     <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
     <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
     <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
-    <a href="https://kphq-updated-training.vercel.app/Day07_GoHighLevel_Automation.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
-    <a href="https://kphq-updated-training.vercel.app/Day08_PM_And_Meetings.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
     <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
     <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
     <div class="ref">
       <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
       <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
       <a href="https://kphq-updated-training.vercel.app/Tools_By_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
-      <a href="https://kphq-updated-training.vercel.app/AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
     </div>
   </div>
   <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
@@ -335,8 +335,43 @@
 <div class="main">
   <div class="deck" id="deck">
 
-  <!-- SESSION 0 -->
+  <!-- OPENER -->
   <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Today</div>
+    <h1>AI Foundations II &amp; the Right Tool</h1>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick review of Day 1</div>
+      <ul>
+        <li>AI is a prediction engine: it predicts the next word, it does not search</li>
+        <li>Strong at drafting, summarizing, and reshaping; weak at facts, math, and recency (always verify)</li>
+        <li>The Trust Scale, plus handling client data safely</li>
+        <li>Your first prompt blocks: Role, Task, Context</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
+      <p style="margin-bottom:10px">By the end of today you can:</p>
+      <ul>
+        <li>Level up prompts with Constraints, Examples, and Format (the full 6-block blueprint)</li>
+        <li>Use meta prompting and cross-referencing to get grounded, higher-quality output</li>
+        <li>Debug bad output by changing one thing at a time</li>
+        <li>Choose the right tool for a job: chat vs automation vs agent</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
+      <ol>
+        <li>Prompting Foundations II: power blocks (Constraints, Examples)</li>
+        <li>Format &amp; the full prompt blueprint</li>
+        <li>From prompting to context engineering (meta prompting, cross-referencing)</li>
+        <li>Debugging bad output (4 failure modes, the debug loop)</li>
+        <li>The right tool, plus intro to AI tools (benchmarks, free tiers)</li>
+      </ol>
+    </div>
+  </div></section>
+
+  <!-- SESSION 0 -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
     <div class="eyebrow">Day 2 · Session 1</div>
     <h1>Prompting Foundations II: Power Blocks</h1>
     <p class="subtitle">Yesterday you learned the first three blocks: Role, Task, Context. Today you add the three that turn "pretty good" output into reliable, ready-to-use work: Constraints, Examples, and Format.</p>
@@ -440,6 +475,30 @@ Format: give me 3 options as a numbered list. (Format)</div>
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- BRIDGE: PROMPTING -> CONTEXT ENGINEERING -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 2 · Prompting, Leveled Up</div>
+    <h1>From Prompting to Context Engineering</h1>
+    <p class="subtitle">You now have the 6-block blueprint. Here is where it goes next. The strongest operators spend less time hunting for the perfect sentence and more time shaping everything around the request. That shift has a name, and three habits get you there.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Meta prompting: use AI to write your prompts</div>
+      <p>Stop writing prompts from scratch. Ask Claude to write or upgrade the prompt for you, then save it.</p>
+      <p><em>"Write me a prompt that gets the best possible weekly client report from these notes. Ask me anything you need first."</em></p>
+      <p style="margin-bottom:0">Why it matters: your prompts improve fast, and you build a reusable Prompt Library across clients.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-align"/></svg> Cross-referencing: give it your sources, not just instructions</div>
+      <p>Instead of trusting what the model already knows, hand it the real material (the brief, the transcript, the sheet) and have it reconcile and cite.</p>
+      <p><em>"Using the call transcript and the pricing sheet I pasted, draft the follow-up. Flag anything the two sources disagree on."</em></p>
+      <p style="margin-bottom:0">Why it matters: answers get grounded in your facts, and hallucinations drop because it is working from your material.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-target"/></svg></div>
+      <div class="pl">The shift</div>
+      <p>A prompt is one message. Context engineering is the whole setup: what to include, what to leave out, which sources to attach, what examples to show, and which Project or system prompt to work inside. The question stopped being "what do I type?" and became "what does the AI need in front of it to do this well?" We go deep on it tomorrow in Day 3.</p>
     </div>
   </div></section>
 

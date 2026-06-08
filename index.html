@@ -4,21 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KeyPlayers VA Academy</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #0A140F;
+    --bg-deep: #060B08;
+    --card: #111F17;
+    --card-low: #0d1813;
+    --border: #1A2E22;
+    --border-soft: #233a2c;
+    --green: #438951;
+    --green-bright: #5BA86B;
+    --text: #DDEEE0;
+    --muted: #8CA692;
+    --faint: #5A7061;
+  }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Epilogue', Arial, sans-serif;
-    color: #E0E0E0;
-    background: #0A140F;
+    color: var(--text);
+    background:
+      radial-gradient(900px 480px at 50% -120px, rgba(67,137,81,0.16), transparent 70%),
+      var(--bg);
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top accent + header */
+  .accent-bar {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--green), var(--green-bright), var(--green), transparent);
+    opacity: 0.85;
   }
   .header {
-    background: #060B08;
+    background: rgba(6,11,8,0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     padding: 18px 40px;
     text-align: center;
-    border-bottom: 1px solid #1A2E22;
+    border-bottom: 1px solid var(--border);
   }
   .header-text {
     font-family: 'Fraunces', serif;
@@ -27,165 +55,411 @@
     font-weight: 500;
     letter-spacing: 1px;
   }
+
   .container {
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 0 20px;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 0;
   }
-  h1 {
+
+  /* Hero */
+  .hero { text-align: center; margin-bottom: 34px; }
+  .hero h1 {
     font-family: 'Fraunces', serif;
-    color: #DDEEE0;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 8px;
-    font-size: 24pt;
+    color: #EAF4EC;
+    font-weight: 600;
+    margin: 0 0 10px;
+    font-size: 34pt;
+    line-height: 1.05;
+    letter-spacing: 0.3px;
   }
   .subtitle {
-    text-align: center;
-    color: #8CA692;
-    margin-bottom: 8px;
-    font-size: 11pt;
+    color: var(--muted);
+    margin: 0 0 16px;
+    font-size: 11.5pt;
+    letter-spacing: 0.3px;
   }
   .confidential {
-    text-align: center;
-    color: #ef4444;
-    font-size: 9.5pt;
+    display: inline-block;
+    color: #fca5a5;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.35);
+    font-size: 9pt;
     font-weight: 600;
-    margin-bottom: 45px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
   }
-  .week-label {
-    font-family: 'Fraunces', serif;
-    color: #438951;
-    font-size: 13pt;
-    margin-bottom: 20px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #1A2E22;
+
+  /* Intro / how to use */
+  .intro {
+    background: linear-gradient(180deg, var(--card), var(--card-low));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 44px;
+    position: relative;
+    overflow: hidden;
   }
-  .day-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
+  .intro::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
   }
-  .day-list li {
-    margin-bottom: 12px;
-  }
-  .day-list a {
-    display: block;
-    background: #111F17;
-    border: 1px solid #1A2E22;
-    border-radius: 8px;
-    padding: 18px 24px;
-    color: #DDEEE0;
-    text-decoration: none;
-    transition: all 0.2s;
+  .intro p {
+    margin: 0;
+    color: #cfe0d3;
     font-size: 11pt;
+    line-height: 1.7;
   }
-  .day-list a:hover {
-    background: #1A2E22;
-    border-color: #438951;
-  }
-  .day-list a .day-num {
+  .intro .lead {
     font-family: 'Fraunces', serif;
-    color: #438951;
-    font-weight: 600;
-    margin-right: 12px;
-  }
-  .day-list a .day-topic {
-    color: #8CA692;
-    font-size: 10pt;
+    color: #EAF4EC;
+    font-size: 13pt;
+    font-weight: 500;
     display: block;
-    margin-top: 4px;
-    margin-left: 52px;
+    margin-bottom: 8px;
   }
-  .glossary-link {
-    text-align: center;
-    margin-top: 30px;
+
+  /* Learning path timeline */
+  .path { position: relative; margin-bottom: 14px; }
+  .days {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  .days::before {
+    content: "";
+    position: absolute;
+    left: 26px;
+    top: 34px;
+    bottom: 34px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(67,137,81,0.15), var(--green) 12%, var(--green) 88%, rgba(67,137,81,0.15));
+    border-radius: 2px;
+  }
+  .days li { margin: 0 0 16px; }
+  .day-link {
     display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    justify-content: center;
-  }
-  .glossary-link a {
-    color: #438951;
+    align-items: center;
+    gap: 18px;
     text-decoration: none;
+    color: inherit;
+  }
+  .node {
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
     font-weight: 600;
-    border: 1px solid #438951;
-    padding: 12px 24px;
-    border-radius: 6px;
-    transition: all 0.2s;
+    font-size: 15pt;
+    color: var(--green-bright);
+    background: var(--bg-deep);
+    border: 1px solid var(--border-soft);
+    position: relative;
+    z-index: 2;
+    transition: all 0.22s ease;
   }
-  .glossary-link a:hover {
-    background: rgba(67, 137, 81, 0.1);
+  .card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(180deg, var(--card), var(--card-low));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
   }
+  .icon {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(67,137,81,0.10);
+    border: 1px solid rgba(67,137,81,0.22);
+    color: var(--green-bright);
+  }
+  .icon svg { width: 21px; height: 21px; display: block; }
+  .body { flex: 1; min-width: 0; }
+  .title {
+    display: block;
+    font-family: 'Fraunces', serif;
+    color: #EAF4EC;
+    font-weight: 500;
+    font-size: 12.5pt;
+    line-height: 1.25;
+  }
+  .topic {
+    display: block;
+    color: var(--muted);
+    font-size: 9.5pt;
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+  .chev {
+    flex: 0 0 auto;
+    color: var(--faint);
+    font-size: 16pt;
+    line-height: 1;
+    transition: transform 0.22s ease, color 0.22s ease;
+  }
+
+  .day-link:hover .card {
+    transform: translateY(-3px);
+    border-color: var(--green);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.35), 0 0 0 1px rgba(67,137,81,0.25);
+  }
+  .day-link:hover .node {
+    background: var(--green);
+    border-color: var(--green-bright);
+    color: #07120b;
+    box-shadow: 0 0 0 4px rgba(67,137,81,0.18);
+  }
+  .day-link:hover .chev { color: var(--green-bright); transform: translateX(4px); }
+  .day-link:focus-visible .card { border-color: var(--green-bright); outline: none; }
+
+  /* Glossary feature tiles */
+  .gloss-head {
+    text-align: center;
+    color: var(--muted);
+    font-size: 9.5pt;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin: 46px 0 16px;
+  }
+  .glossaries {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .gloss-tile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    background: linear-gradient(180deg, var(--card), var(--card-low));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+  .gloss-tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--green);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.35), 0 0 0 1px rgba(67,137,81,0.25);
+  }
+  .gloss-ico {
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(67,137,81,0.12);
+    border: 1px solid rgba(67,137,81,0.25);
+    color: var(--green-bright);
+  }
+  .gloss-ico svg { width: 25px; height: 25px; }
+  .gloss-tile .gt-title {
+    display: block;
+    font-family: 'Fraunces', serif;
+    color: #EAF4EC;
+    font-weight: 500;
+    font-size: 12pt;
+  }
+  .gloss-tile .gt-sub {
+    display: block;
+    color: var(--muted);
+    font-size: 9pt;
+    line-height: 1.45;
+    margin-top: 3px;
+  }
+
   .footer {
     text-align: center;
-    color: #5A7061;
+    color: var(--faint);
     font-size: 9.5pt;
-    margin-top: 50px;
-    padding-bottom: 40px;
+    margin-top: 54px;
+    padding: 28px 24px 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header { padding: 16px 20px; }
+    .container { padding: 38px 16px 0; }
+    .hero h1 { font-size: 27pt; }
+    .glossaries { grid-template-columns: 1fr; }
+    .days::before { left: 21px; }
+    .node { flex-basis: 44px; width: 44px; height: 44px; font-size: 13pt; }
+    .day-link { gap: 12px; }
+    .card { padding: 14px; gap: 12px; }
+    .icon { flex-basis: 34px; width: 34px; height: 34px; }
+    .icon svg { width: 19px; height: 19px; }
+    .title { font-size: 11.5pt; }
+    .chev { display: none; }
   }
 </style>
 </head>
 <body>
 
+<div class="accent-bar"></div>
 <div class="header">
   <span class="header-text">KeyPlayers VA Academy</span>
 </div>
 
-<div class="container">
-  <h1>KP-AI Academy</h1>
-  <p class="subtitle">AI Operator Training Program | KeyPlayers HQ</p>
-  <p class="confidential">For internal use only and must be kept confidential</p>
+<main class="container">
 
-  <div class="week-label">Week 1: AI Foundations, Claude &amp; Automation</div>
-  <ul class="day-list">
-    <li><a href="Day01_AI_Foundations.html">
-      <span class="day-num">Day 1</span> AI Foundations I
-      <span class="day-topic">How AI works, what it can &amp; can't do, trust &amp; data safety, prompting foundations</span>
-    </a></li>
-    <li><a href="Day02_AI_Foundations_Tools.html">
-      <span class="day-num">Day 2</span> AI Foundations II &amp; the Right Tool
-      <span class="day-topic">Prompting power blocks, format &amp; full-prompt blueprint, debugging output, choosing the right tool</span>
-    </a></li>
-    <li><a href="Day03_Claude.html">
-      <span class="day-num">Day 3</span> Claude Deep Dive
-      <span class="day-topic">Artifacts, live artifacts, MCP &amp; API, CLI, Cowork, Projects/Skills/Plugins, context engineering, autopilot</span>
-    </a></li>
-    <li><a href="Day04_Automation_Foundations.html">
-      <span class="day-num">Day 4</span> Automation Foundations
-      <span class="day-topic">What automation is, triggers &amp; actions, what to automate, mapping a workflow first</span>
-    </a></li>
-    <li><a href="Day05_Building_Automations.html">
-      <span class="day-num">Day 5</span> Building Automations
-      <span class="day-topic">From map to build, connectors, building step by step, testing &amp; staying safe, maintenance</span>
-    </a></li>
-  </ul>
+  <section class="hero">
+    <h1>KP-AI Academy</h1>
+    <p class="subtitle">AI Operator Training Program &middot; KeyPlayers HQ</p>
+    <span class="confidential">For internal use only and must be kept confidential</span>
+  </section>
 
-  <div class="week-label">Week 2: GoHighLevel Mastery</div>
-  <ul class="day-list">
-    <li><a href="Day06_GoHighLevel_Foundations.html">
-      <span class="day-num">Day 6</span> GoHighLevel Foundations
-      <span class="day-topic">Agency vs. Sub-accounts, Contacts & Tags, Pipelines, Conversations, Calendars</span>
-    </a></li>
-    <li><a href="Day07_GHL_Automation_Workflows.html">
-      <span class="day-num">Day 7</span> GHL Automation, API & MCP
-      <span class="day-topic">Workflows, Triggers & Actions, APIs, Webhooks, MCP, Integrations</span>
-    </a></li>
-    <li><a href="Day08_AI_Meetings_PM_Messaging.html">
-      <span class="day-num">Day 8</span> AI Meetings, PM & Messaging
-      <span class="day-topic">AI note-takers, Project management, Slack/WhatsApp/Telegram, Command Center</span>
-    </a></li>
-  </ul>
+  <section class="intro">
+    <p>
+      <span class="lead">Welcome to your AI Operator path.</span>
+      Eight hands-on sessions take you from AI foundations and Claude, through automation, GoHighLevel, and the tools you will use every day. Work through them in order. Each day opens as a self-contained interactive session, and your attendance is logged automatically when you begin. If you hit a term you do not know, the AI and GoHighLevel glossaries are linked at the bottom.
+    </p>
+  </section>
 
-  <div class="glossary-link">
-    <a href="KP_AI_Glossary.html">View AI Glossary</a>
-    <a href="GHL_Glossary.html">View GoHighLevel Glossary</a>
-  </div>
-</div>
+  <section class="path">
+    <ol class="days">
+
+      <li><a class="day-link" href="Day01_AI_Foundations.html">
+        <span class="node">1</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5.9 1.2 1 2h6c.1-.8.4-1.5 1-2A7 7 0 0 0 12 2Z"/></svg></span>
+          <span class="body">
+            <span class="title">AI Foundations I</span>
+            <span class="topic">How AI works, what it can &amp; can't do, trust &amp; data safety, prompting foundations</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day02_AI_Foundations_Tools.html">
+        <span class="node">2</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="9" cy="8" r="2.2"/><circle cx="15" cy="16" r="2.2"/></svg></span>
+          <span class="body">
+            <span class="title">AI Foundations II &amp; the Right Tool</span>
+            <span class="topic">Prompting power blocks, format &amp; full-prompt blueprint, debugging output, choosing the right tool</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day03_Claude.html">
+        <span class="node">3</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 12h18"/><path d="M5.5 5.5l13 13"/><path d="M18.5 5.5l-13 13"/></svg></span>
+          <span class="body">
+            <span class="title">Claude Deep Dive</span>
+            <span class="topic">Artifacts, live artifacts, MCP &amp; API, CLI, Cowork, Projects/Skills/Plugins, context engineering, autopilot</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day04_Automation_Foundations.html">
+        <span class="node">4</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><polyline points="21 3 21 8 16 8"/></svg></span>
+          <span class="body">
+            <span class="title">Automation Foundations</span>
+            <span class="topic">What automation is, triggers &amp; actions, what to automate, mapping a workflow first</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day05_Building_Automations.html">
+        <span class="node">5</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"/><rect x="15" y="14" width="6" height="6" rx="1.5"/><path d="M9 7h3a3 3 0 0 1 3 3v4"/></svg></span>
+          <span class="body">
+            <span class="title">Building Automations</span>
+            <span class="topic">From map to build, connectors, building step by step, testing &amp; staying safe, maintenance</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day06_GoHighLevel_Foundations.html">
+        <span class="node">6</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M10 21v-5h4v5"/><path d="M9 11h.01"/><path d="M15 11h.01"/></svg></span>
+          <span class="body">
+            <span class="title">GoHighLevel Foundations</span>
+            <span class="topic">Agency vs. Sub-accounts, Contacts &amp; Tags, Pipelines, Conversations, Calendars</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day07_GHL_Automation_Workflows.html">
+        <span class="node">7</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 4 14 11 14 10 22 20 9 13 9 13 2"/></svg></span>
+          <span class="body">
+            <span class="title">GHL Automation, API &amp; MCP</span>
+            <span class="topic">Workflows, Triggers &amp; Actions, APIs, Webhooks, MCP, Integrations</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+      <li><a class="day-link" href="Day08_AI_Meetings_PM_Messaging.html">
+        <span class="node">8</span>
+        <span class="card">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8 8 0 0 1-11.5 7.2L3 21l2.3-6.5A8 8 0 1 1 21 11.5Z"/></svg></span>
+          <span class="body">
+            <span class="title">AI Meetings, PM &amp; Messaging</span>
+            <span class="topic">AI note-takers, Project management, Slack/WhatsApp/Telegram, Command Center</span>
+          </span>
+          <span class="chev">&rarr;</span>
+        </span>
+      </a></li>
+
+    </ol>
+  </section>
+
+  <p class="gloss-head">Reference</p>
+  <section class="glossaries">
+    <a class="gloss-tile" href="KP_AI_Glossary.html">
+      <span class="gloss-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4a2 2 0 0 1 2-2h6v18H6a2 2 0 0 0-2 2V4Z"/><path d="M20 4a2 2 0 0 0-2-2h-6v18h6a2 2 0 0 1 2 2V4Z"/></svg></span>
+      <span>
+        <span class="gt-title">AI Glossary</span>
+        <span class="gt-sub">Plain-English definitions for every AI term used across the program.</span>
+      </span>
+    </a>
+    <a class="gloss-tile" href="GHL_Glossary.html">
+      <span class="gloss-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4a2 2 0 0 1 2-2h6v18H6a2 2 0 0 0-2 2V4Z"/><path d="M20 4a2 2 0 0 0-2-2h-6v18h6a2 2 0 0 1 2 2V4Z"/></svg></span>
+      <span>
+        <span class="gt-title">GoHighLevel Glossary</span>
+        <span class="gt-sub">Key GoHighLevel terms, menus, and modules explained simply.</span>
+      </span>
+    </a>
+  </section>
+
+</main>
 
 <div class="footer">
-  KeyPlayers HQ · KP-AI Academy · Updated June 2026
+  KeyPlayers HQ &middot; KP-AI Academy &middot; Updated June 2026
 </div>
 
 </body>
