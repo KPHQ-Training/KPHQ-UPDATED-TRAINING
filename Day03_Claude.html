@@ -827,7 +827,11 @@ const TRACK = {
   TOKEN: '',                // must match SHARED_TOKEN in Apps Script (leave '' if unused)
   BEACON_ON_OPEN: true      // anonymous open-ping on load (named if ?name= is in the URL)
 };
-let attendeeName = (new URLSearchParams(location.search).get('name')) || localStorage.getItem('kp_name_'+TRACK.DAY) || '';
+let attendeeName = (new URLSearchParams(location.search).get('name'))
+  || localStorage.getItem('kp_name')                  // remembered across every day
+  || localStorage.getItem('kp_name_'+TRACK.DAY) || ''; // migrate any older per-day value
+attendeeName = (attendeeName||'').trim();
+if(attendeeName) localStorage.setItem('kp_name', attendeeName);
 
 function kpTrack(eventType, extra){
   if(!TRACK.URL || !TRACK.URL.startsWith('http')){ console.log('[track]', eventType, Object.assign({name:attendeeName}, extra||{})); return; }
@@ -854,21 +858,48 @@ function kpOnce(key){ if(localStorage.getItem(key)) return false; localStorage.s
 
 kpFlush(); // resend anything that failed to send on a previous visit
 /* anonymous (or named) open beacon, once per day per browser */
-if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())){ kpTrack('opened', {}); }
+/* ---- presence + blocking check-in gate ---- */
+function kpSetName(n){ n=(n||'').trim(); if(!n) return false;
+  attendeeName=n; localStorage.setItem('kp_name', n); localStorage.setItem('kp_name_'+TRACK.DAY, n); return true; }
+function kpRecordPresence(){
+  if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())) kpTrack('opened', {});
+  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {});
+  var f=document.getElementById('attForm'), d=document.getElementById('attDone');
+  if(f) f.style.display='none'; if(d) d.style.display='block';
+}
+function kpGateClose(){ var g=document.getElementById('kpGate'); if(g&&g.parentNode) g.parentNode.removeChild(g); }
+function kpGateOpen(){
+  if(document.getElementById('kpGate')) return;
+  var g=document.createElement('div'); g.id='kpGate';
+  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+    '<div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div>'+
+    '<h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2>'+
+    '<p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p>'+
+    '<input id="kpGateName" placeholder="First and last name" autocomplete="name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '<div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>'+
+    '<button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button>'+
+  '</div>';
+  document.body.appendChild(g);
+  var inp=g.querySelector('#kpGateName'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
+  function go(){ if(!kpSetName(inp.value)){ er.textContent='Please enter your name to check in.'; er.style.display='block'; inp.focus(); return; } kpRecordPresence(); kpGateClose(); }
+  btn.onclick=go; inp.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
+  setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 50);
+}
+/* known learner -> silent check-in; unknown -> block until they enter a name */
+if(attendeeName){ kpRecordPresence(); }
+else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', kpGateOpen); }
+else { kpGateOpen(); }
 
 function markAttendance(){
-  const inp=document.getElementById('attName'); const name=(inp.value||'').trim();
-  const err=document.getElementById('attErr');
-  if(!name){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; return; }
-  err.style.display='none';
-  attendeeName=name; localStorage.setItem('kp_name_'+TRACK.DAY, name);
-  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {});
-  document.getElementById('attForm').style.display='none';
-  document.getElementById('attDone').style.display='block';
+  var inp=document.getElementById('attName'); var err=document.getElementById('attErr');
+  if(!kpSetName(inp?inp.value:'')){ if(err){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; } return; }
+  if(err) err.style.display='none';
+  kpRecordPresence();
 }
 
 function proceedNext(){
-  kpTrack('completed', { nextDay: TRACK.NEXT });
+  if(kpOnce('kp_done_'+TRACK.DAY)) kpTrack('completed', { nextDay: TRACK.NEXT });
   setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
 }
 

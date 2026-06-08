@@ -935,6 +935,7 @@ function submitSurvey(){
   const err=document.getElementById('svErr');
   if(!name||!q1||!q2||!q3||roles.length===0){ err.textContent='Please fill in your name and all four questions.'; err.style.display='block'; return; }
   err.style.display='none';
+  try{ localStorage.setItem('kp_name', name); }catch(e){}  // remember name so later days auto-check-in
   const roleVals=roles.map(r=>r.value==='Other'?('Other: '+(document.getElementById('svOther').value.trim()||'')):r.value);
   const payload={ formType:'pre-training-baseline', day:CONFIG.DAY, name, prompting_skill:q1.value, ai_knowledge:q2.value, automation_knowledge:q3.value, roles:roleVals.join(', '), submitted_at:new Date().toISOString() };
   const btn=document.getElementById('svBtn'); btn.textContent='Submitting...'; btn.disabled=true;
