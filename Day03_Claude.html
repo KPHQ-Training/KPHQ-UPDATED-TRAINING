@@ -168,6 +168,96 @@
   @keyframes flowDash{to{background-position:12px 0}}
   @keyframes flowDashV{to{background-position:0 12px}}
 
+  /* Artifact split-panel simulation */
+  .art-sim{display:flex;height:215px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel);margin:16px 0}
+  .art-chat{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+  .art-panel-r{flex:1;display:flex;flex-direction:column}
+  .art-chrome{height:28px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 10px;gap:5px;flex-shrink:0}
+  .art-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .art-dot.r{background:#EF4444}.art-dot.y{background:#F59E0B}.art-dot.g{background:#22C55E}
+  .art-chrome-title{font-size:11px;color:var(--dim);flex:1;text-align:center;margin-right:20px}
+  .art-msgs{flex:1;padding:10px 12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden}
+  .art-umsg{align-self:flex-end;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.22);color:var(--ink);font-size:12px;padding:7px 11px;border-radius:10px 10px 3px 10px;max-width:90%;opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+  .art-umsg.show{opacity:1;transform:translateY(0)}
+  .art-cmsg{display:flex;gap:7px;opacity:0;transition:opacity .4s ease}
+  .art-cmsg.show{opacity:1}
+  .art-ava{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .art-dots{display:flex;gap:3px;padding:3px 0}
+  .art-dots span{width:5px;height:5px;background:var(--dim);border-radius:50%;animation:artBlink 1s infinite}
+  .art-dots span:nth-child(2){animation-delay:.2s}.art-dots span:nth-child(3){animation-delay:.4s}
+  .art-dots.hide{display:none}
+  .art-ctext{font-size:12px;color:var(--muted);display:none}
+  .art-ctext.show{display:block}
+  .art-bar{height:32px;border-top:1px solid var(--border);display:flex;align-items:center;padding:0 10px;gap:6px;flex-shrink:0;background:var(--panel-2)}
+  .art-prompt-hint{flex:1;font-size:11px;color:var(--dim)}
+  .art-rbtn{font-size:11px;color:var(--accent);background:none;border:1px solid rgba(34,197,94,0.25);padding:3px 9px;border-radius:6px;cursor:pointer;font-family:var(--font-b)}
+  .art-rbtn:hover{background:var(--accent-soft)}
+  .art-panel-btns{margin-left:auto;display:flex;gap:4px}
+  .art-pbtn{font-size:10px;padding:2px 7px;border:1px solid var(--border);background:var(--panel-2);color:var(--dim);border-radius:5px;cursor:default}
+  .art-content{flex:1;position:relative;overflow:hidden}
+  .art-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .3s ease}
+  .art-empty.hide{opacity:0;pointer-events:none}
+  .art-lines{position:absolute;inset:0;padding:12px 14px;display:flex;flex-direction:column;gap:5px;opacity:0;transition:opacity .3s ease}
+  .art-lines.show{opacity:1}
+  .art-ln{height:9px;background:var(--border-2);border-radius:4px;width:0;transition:width .45s ease}
+  .art-ln.fill{width:var(--w,100%)}
+  .art-ln.dim{background:var(--border);height:8px}
+  .art-gap{height:3px}
+  .art-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .art-tricard{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--panel);border:1px solid var(--border);border-radius:10px;font-size:12.5px;line-height:1.5}
+  .art-trico{width:30px;height:30px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;margin-top:2px}
+  @keyframes artBlink{0%,80%,100%{opacity:.35;transform:scale(1)}40%{opacity:1;transform:scale(1.2)}}
+
+  /* Cowork + Canva workflow animation */
+  .cw-wrap{margin:4px 0 12px}
+  .cw-prompt-row{margin-bottom:12px}
+  .cw-you{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);color:var(--ink);font-size:12.5px;padding:9px 14px;border-radius:10px;line-height:1.5;font-style:italic}
+  .cw-you-label{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;font-style:normal}
+  .cw-layout{display:flex;gap:16px;align-items:flex-start}
+  .cw-steps-col{flex:1}
+  .cw-step-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:8px;background:var(--panel);border:1px solid var(--border);margin-bottom:6px;opacity:0;transform:translateX(-8px);transition:opacity .35s ease,transform .35s ease}
+  .cw-step-item.show{opacity:1;transform:translateX(0)}
+  .cw-step-num{width:22px;height:22px;border-radius:6px;background:var(--panel-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--dim);flex-shrink:0;margin-top:2px}
+  .cw-step-canva .cw-step-num{background:rgba(0,196,204,0.12);border-color:rgba(0,196,204,0.3);color:#00C4CC;font-size:12px;font-weight:800}
+  .cw-step-item-name{font-size:13px;font-weight:600;color:var(--ink)}
+  .cw-step-item-cap{font-size:11px;color:var(--dim);margin-top:1px}
+  .cw-canvas-col{width:152px;flex-shrink:0}
+  .cw-canvas-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--dim);margin-bottom:7px;text-align:center}
+  .cw-canvas{width:152px;height:196px;border-radius:10px;background:#0A1628;border:1px solid var(--border);overflow:hidden;position:relative}
+  .cw-el{position:absolute;opacity:0;transition:opacity .4s ease,transform .4s ease;transform:translateY(-6px)}
+  .cw-el.show{opacity:1;transform:translateY(0)}
+  .cw-el-header{top:0;left:0;right:0;height:65px;background:linear-gradient(135deg,#00B4D8,#0077B6);border-radius:0}
+  .cw-el-logo{top:12px;left:10px;width:30px;height:30px;background:rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;letter-spacing:-.3px}
+  .cw-el-badge{top:18px;right:8px;background:rgba(255,255,255,0.22);border-radius:4px;padding:3px 6px;font-size:8.5px;font-weight:700;color:#fff;letter-spacing:.3px;display:flex;align-items:center}
+  .cw-el-headline{top:76px;left:10px;right:10px;height:10px;background:rgba(234,240,236,0.65);border-radius:3px}
+  .cw-el-sub1{top:93px;left:10px;right:18px;height:7px;background:rgba(234,240,236,0.28);border-radius:3px}
+  .cw-el-sub2{top:105px;left:10px;right:30px;height:7px;background:rgba(234,240,236,0.18);border-radius:3px}
+  .cw-el-divider{top:122px;left:10px;right:10px;height:1px;background:rgba(255,255,255,0.07)}
+  .cw-el-icon1{top:134px;left:10px;width:24px;height:24px;background:rgba(0,180,216,0.14);border-radius:5px;border:1px solid rgba(0,180,216,0.25)}
+  .cw-el-icontxt{top:138px;left:40px;right:10px;height:7px;background:rgba(234,240,236,0.22);border-radius:3px}
+  .cw-el-icontxt2{top:149px;left:40px;width:38px;height:7px;background:rgba(234,240,236,0.12);border-radius:3px}
+  .cw-el-cta{bottom:10px;left:10px;right:10px;height:25px;background:linear-gradient(90deg,#22C55E,#16A34A);border-radius:6px}
+
+  /* Claude Secrets grid */
+  .secrets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+  .secret-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;gap:10px}
+  .secret-num{font-size:11px;font-weight:800;color:var(--accent);opacity:.55;min-width:20px;padding-top:2px;font-variant-numeric:tabular-nums}
+  .secret-body strong{font-size:13px;color:var(--ink);display:block;margin-bottom:4px}
+  .secret-body p{font-size:12px;color:var(--muted);margin:0;line-height:1.55}
+
+  /* Agentic multi-tool flow */
+  .agent-flow{display:flex;flex-direction:column;gap:6px;margin:12px 0 10px}
+  .agent-step{display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--panel);border:1px solid var(--border);border-radius:10px;opacity:0;transform:translateX(-10px);transition:opacity .35s ease,transform .35s ease}
+  .agent-step.show{opacity:1;transform:translateX(0)}
+  .agent-tool-ico{width:34px;height:34px;border-radius:9px;border:1px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .agent-step-body{flex:1}
+  .agent-tool-name{font-size:13.5px;font-weight:600;color:var(--ink)}
+  .agent-tool-cap{font-size:11.5px;color:var(--dim)}
+  .agent-tick{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);display:flex;align-items:center;justify-content:center;color:var(--accent);opacity:0;transition:opacity .4s ease;flex-shrink:0}
+  .agent-tick.show{opacity:1}
+  .agent-done{display:flex;align-items:center;gap:9px;padding:10px 14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.28);border-radius:10px;color:var(--accent);font-size:13px;font-weight:600;opacity:0;transition:opacity .5s ease;margin-bottom:12px}
+  .agent-done.show{opacity:1}
+
   /* terminal (Day 3 CLI) */
   .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
   .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
@@ -424,26 +514,48 @@
     </div>
   </div></section>
 
-  <section class="slide" data-ses="0"><div class="slide-inner">
+  <section class="slide" data-ses="0" id="artSlide"><div class="slide-inner">
     <h2>What you can do with an artifact</h2>
-    <p>An artifact stays in its own panel on the right while you keep chatting on the left. That split is what turns Claude from a chatbot into a production tool: you are not just reading answers, you are building work you can ship.</p>
-    <table>
-      <thead><tr><th>You can</th><th>What that means</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Edit it</strong></td><td>Tell Claude to change something and it updates the artifact in place, without starting over.</td></tr>
-        <tr><td><strong>Use it</strong></td><td>Copy it straight into Google Docs, an email, or a sheet. It comes out clean, no reformatting.</td></tr>
-        <tr><td><strong>Make several</strong></td><td>One chat can produce many artifacts at once: an agenda, its follow-up email, and a task list, all connected.</td></tr>
-      </tbody>
-    </table>
-    <h3>How it works</h3>
-    <div class="pipeline">
-      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-msg"/></svg></div><div class="stage-name">Ask Claude</div><div class="stage-cap">give it a task</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-grid"/></svg></div><div class="stage-name">It builds it</div><div class="stage-cap">shows up on the right</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-spark"/></svg></div><div class="stage-name">You edit</div><div class="stage-cap">ask for changes in chat</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-check"/></svg></div><div class="stage-name">You use it</div><div class="stage-cap">copy or download</div></div>
+    <p>Claude builds it in a panel on the right. You keep chatting on the left. This is the split that turns Claude from a chatbot into a production tool: finished work, not just answers.</p>
+    <div class="art-sim">
+      <div class="art-chat">
+        <div class="art-chrome"><span class="art-dot r"></span><span class="art-dot y"></span><span class="art-dot g"></span><span class="art-chrome-title">Claude</span></div>
+        <div class="art-msgs">
+          <div class="art-umsg" id="artU">Draft a follow-up email after our discovery call with Acme Corp.</div>
+          <div class="art-cmsg" id="artC">
+            <div class="art-ava">C</div>
+            <div style="flex:1;min-width:0">
+              <div class="art-dots" id="artDots"><span></span><span></span><span></span></div>
+              <div class="art-ctext" id="artCText">Done. I built the email in the artifact panel on the right.</div>
+            </div>
+          </div>
+        </div>
+        <div class="art-bar"><span class="art-prompt-hint">Ask Claude anything...</span><button class="art-rbtn" onclick="replayArt()">Replay</button></div>
+      </div>
+      <div class="art-panel-r">
+        <div class="art-chrome"><svg style="width:12px;height:12px;color:var(--accent)" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg><span class="art-chrome-title">Follow-Up Email</span><div class="art-panel-btns"><span class="art-pbtn">Copy</span><span class="art-pbtn">Download</span></div></div>
+        <div class="art-content">
+          <div class="art-empty" id="artEmpty"><svg style="width:22px;height:22px;opacity:.25" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg><div style="font-size:11px;color:var(--dim);margin-top:6px">Building...</div></div>
+          <div class="art-lines" id="artLines">
+            <div class="art-ln" style="--w:58%"></div>
+            <div class="art-ln dim" style="--w:40%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln" style="--w:96%"></div>
+            <div class="art-ln" style="--w:86%"></div>
+            <div class="art-ln dim" style="--w:72%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln" style="--w:92%"></div>
+            <div class="art-ln dim" style="--w:54%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln dim" style="--w:38%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="art-trio">
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></div><div><strong>Edit it</strong><div style="font-size:12px">Tell Claude to change it -- updates in place.</div></div></div>
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/></svg></div><div><strong>Copy it</strong><div style="font-size:12px">Paste into Docs or email. Comes out clean.</div></div></div>
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg></div><div><strong>Make several</strong><div style="font-size:12px">One chat, many connected artifacts at once.</div></div></div>
     </div>
   </div></section>
 
@@ -624,18 +736,38 @@
     <div class="eyebrow">Day 3 · Session 5</div>
     <h1>Cowork: Claude at Your Desk</h1>
     <p class="subtitle">Cowork is Anthropic's desktop app where Claude works alongside you. It connects to your tools, files, and skills, so it does not just answer in a chat box, it gets the work done with you in the room.</p>
-    <div class="pipeline">
-      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-msg"/></svg></div><div class="stage-name">You ask</div><div class="stage-cap">in plain English</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-compass"/></svg></div><div class="stage-name">Cowork plans</div><div class="stage-cap">breaks it into steps</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-tool"/></svg></div><div class="stage-name">Uses your tools</div><div class="stage-cap">files, Slack, Gmail</div></div>
-      <div class="connector"><span class="line"></span></div>
-      <div class="stage" style="--d:3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-check"/></svg></div><div class="stage-name">Delivers</div><div class="stage-cap">finished work</div></div>
+    <div class="cw-wrap" id="cwWrap">
+      <div class="cw-prompt-row">
+        <div class="cw-you"><div class="cw-you-label">You ask</div>"Create a Canva social post announcing our new VA placement offer."</div>
+      </div>
+      <div class="cw-layout">
+        <div class="cw-steps-col">
+          <div class="cw-step-item" id="cws1"><div class="cw-step-num">1</div><div><div class="cw-step-item-name">Cowork reads the brief</div><div class="cw-step-item-cap">understands context and goal</div></div></div>
+          <div class="cw-step-item cw-step-canva" id="cws2"><div class="cw-step-num">C</div><div><div class="cw-step-item-name">Opens Canva connector</div><div class="cw-step-item-cap">tool already linked -- no login needed</div></div></div>
+          <div class="cw-step-item" id="cws3"><div class="cw-step-num">3</div><div><div class="cw-step-item-name">Applies brand + writes copy</div><div class="cw-step-item-cap">headline, colors, layout, CTA</div></div></div>
+          <div class="cw-step-item" id="cws4"><div class="cw-step-num">4</div><div><div class="cw-step-item-name">Delivers the finished post</div><div class="cw-step-item-cap">ready to review and publish</div></div></div>
+        </div>
+        <div class="cw-canvas-col">
+          <div class="cw-canvas-lbl">Output Preview</div>
+          <div class="cw-canvas">
+            <div class="cw-el cw-el-header" id="cwEl1"></div>
+            <div class="cw-el cw-el-logo" id="cwEl2">KP</div>
+            <div class="cw-el cw-el-badge" id="cwEl3">NEW</div>
+            <div class="cw-el cw-el-headline" id="cwEl4"></div>
+            <div class="cw-el cw-el-sub1" id="cwEl5"></div>
+            <div class="cw-el cw-el-sub2" id="cwEl6"></div>
+            <div class="cw-el cw-el-divider" id="cwEl7"></div>
+            <div class="cw-el cw-el-icon1" id="cwEl8"></div>
+            <div class="cw-el cw-el-icontxt" id="cwEl9"></div>
+            <div class="cw-el cw-el-icontxt2" id="cwEl10"></div>
+            <div class="cw-el cw-el-cta" id="cwEl11"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-grid"/></svg> Why it matters for VAs</div>
-      <p style="margin:0">This is where most of your AI work will happen. Cowork can read a file, draft the email, update the sheet, and post to Slack in one flow, because your tools are already connected to it.</p>
+      <p style="margin:0">This is where most of your AI work will happen. Cowork can read a brief, open Canva, build the post, and hand it back to you in one flow -- no tab switching, no manual setup.</p>
     </div>
   </div></section>
 
@@ -688,6 +820,28 @@
     </div>
   </div></section>
 
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>What a Project Remembers</h2>
+    <p>A Project is not just a folder. It holds everything Claude needs before you type a single message -- the client, the rules, the tone, the files. That context is ready the moment you open it.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-msg"/></svg> Regular chat</div>Starts blank every time. Claude does not know your client, your tone, or what you discussed last week. You re-explain from scratch.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-grid"/></svg> Inside a Project</div>Opens with memory. Claude already knows the client brief, the rules, the brand voice. Your first message is the task, not the introduction.</div>
+    </div>
+    <table>
+      <thead><tr><th>What you store</th><th>What Claude gains</th></tr></thead>
+      <tbody>
+        <tr><td><strong>System prompt</strong></td><td>Standing role and rules: who Claude is, what tone to use, what never to do -- set once, active always</td></tr>
+        <tr><td><strong>Files and docs</strong></td><td>Brand guides, SOPs, previous reports -- Claude reads them before you ask anything</td></tr>
+        <tr><td><strong>Chat history</strong></td><td>Past conversations in this Project stay visible, so nothing gets forgotten between sessions</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>One Project per client or recurring responsibility. Everything Claude needs to know about them lives there. You stop re-explaining -- <em>Claude already knows</em>.</p>
+    </div>
+  </div></section>
+
   <!-- SESSION 6: CONTEXT ENGINEERING -->
   <section class="slide" data-ses="6"><div class="slide-inner">
     <div class="eyebrow">Day 3 · Session 7</div>
@@ -719,6 +873,20 @@
       <div class="badge"><svg><use href="#i-compass"/></svg></div>
       <div class="pl">The Principle</div>
       <p>The best operators do not write cleverer one-liners. They <em>engineer better context</em>: the right role, the right files, the right examples, and nothing that distracts.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Claude Secrets</div>
+    <h2>Habits That Separate Power Users</h2>
+    <p>Most people use Claude like a search engine. These six habits change that. Each one takes seconds to apply and noticeably improves what you get back.</p>
+    <div class="secrets-grid">
+      <div class="secret-card"><div class="secret-num">01</div><div class="secret-body"><strong>Ask Claude to critique itself</strong><p>"What is wrong with that answer?" triggers a sharper second draft. Claude catches its own weak points better than most editors.</p></div></div>
+      <div class="secret-card"><div class="secret-num">02</div><div class="secret-body"><strong>Upload the actual file</strong><p>Do not paste text from a PDF -- upload the file. Claude reads the full document including tables and layout. Pasting loses that.</p></div></div>
+      <div class="secret-card"><div class="secret-num">03</div><div class="secret-body"><strong>"Think step by step"</strong><p>Add this before a complex task. It forces Claude to reason before concluding -- dramatically fewer wrong answers and invented facts.</p></div></div>
+      <div class="secret-card"><div class="secret-num">04</div><div class="secret-body"><strong>Set your system prompt once</strong><p>A Project system prompt shapes every response. "You are a concise EA. Never use bullet points." -- set it once, active in every session.</p></div></div>
+      <div class="secret-card"><div class="secret-num">05</div><div class="secret-body"><strong>"One more thing"</strong><p>After Claude finishes any answer, type exactly this. It reliably surfaces the most important insight Claude left out the first time.</p></div></div>
+      <div class="secret-card"><div class="secret-num">06</div><div class="secret-body"><strong>End with "plain English"</strong><p>Add "explain the key point in one plain sentence" to any prompt. Forces Claude to name what actually matters instead of padding.</p></div></div>
     </div>
   </div></section>
 
@@ -760,6 +928,41 @@
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="7" id="agentSlide"><div class="slide-inner">
+    <h2>One Instruction, Four Tools</h2>
+    <p>This is agentic AI in action. You give Claude one goal. It plans the steps, opens each tool in sequence, completes the work, and delivers -- with no clicks from you in between.</p>
+    <div class="cw-prompt-row">
+      <div class="cw-you"><div class="cw-you-label">One instruction</div>"Research 3 VA productivity tips, write a short post in Google Docs, create a Canva graphic for it, and post the summary to the team Slack."</div>
+    </div>
+    <div class="agent-flow">
+      <div class="agent-step" id="ags1">
+        <div class="agent-tool-ico" style="background:rgba(93,169,244,0.12);border-color:rgba(93,169,244,0.28);color:#5DA9F4"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Research</div><div class="agent-tool-cap">reads sources, pulls 3 tips</div></div>
+        <div class="agent-tick" id="agTick1"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags2">
+        <div class="agent-tool-ico" style="background:rgba(66,133,244,0.12);border-color:rgba(66,133,244,0.28);color:#4285F4"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Google Docs</div><div class="agent-tool-cap">writes and formats the post</div></div>
+        <div class="agent-tick" id="agTick2"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags3">
+        <div class="agent-tool-ico" style="background:rgba(0,196,204,0.12);border-color:rgba(0,196,204,0.28);color:#00C4CC"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Canva</div><div class="agent-tool-cap">creates the social graphic</div></div>
+        <div class="agent-tick" id="agTick3"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags4">
+        <div class="agent-tool-ico" style="background:rgba(163,66,160,0.12);border-color:rgba(163,66,160,0.28);color:#A342A0"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Slack</div><div class="agent-tool-cap">posts the summary to the team</div></div>
+        <div class="agent-tick" id="agTick4"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+    </div>
+    <div class="agent-done" id="agentDone"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> 4 actions completed -- 0 clicks from you</div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> What makes this agentic</div>
+      <p style="margin:0">Claude did not wait for your permission between steps. It planned, acted, checked its work, and moved to the next tool on its own. You gave it a goal -- it handled the path. That is the difference between a chatbot and an agent.</p>
     </div>
   </div></section>
 
@@ -816,7 +1019,7 @@
 </div>
 
 <script>
-const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 3' };
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 3', UNLOCK_DATE:'2026-06-10', PREV_DAY_KEY:'kp_done_Day 2' };
 const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html';
 
 /* ---- KeyPlayers attendance + completion tracking ---- */
@@ -863,7 +1066,7 @@ function kpSetName(n){ n=(n||'').trim(); if(!n) return false;
   attendeeName=n; localStorage.setItem('kp_name', n); localStorage.setItem('kp_name_'+TRACK.DAY, n); return true; }
 function kpRecordPresence(){
   if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())) kpTrack('opened', {});
-  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {});
+  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});
   var f=document.getElementById('attForm'), d=document.getElementById('attDone');
   if(f) f.style.display='none'; if(d) d.style.display='block';
 }
@@ -876,20 +1079,90 @@ function kpGateOpen(){
     '<div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div>'+
     '<h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2>'+
     '<p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p>'+
-    '<input id="kpGateName" placeholder="First and last name" autocomplete="name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+    '<input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '<input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '</div>'+
     '<div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>'+
     '<button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button>'+
   '</div>';
   document.body.appendChild(g);
-  var inp=g.querySelector('#kpGateName'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
-  function go(){ if(!kpSetName(inp.value)){ er.textContent='Please enter your name to check in.'; er.style.display='block'; inp.focus(); return; } kpRecordPresence(); kpGateClose(); }
-  btn.onclick=go; inp.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); });
-  setTimeout(function(){ try{ inp.focus(); }catch(e){} }, 50);
+  var fn=g.querySelector('#kpGateFname'), ln=g.querySelector('#kpGateLname'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
+  function go(){ var f=(fn.value||'').trim(), l=(ln.value||'').trim(); if(!f||!l){ er.textContent='Please enter both your first and last name.'; er.style.display='block'; (f?ln:fn).focus(); return; } er.style.display='none'; localStorage.setItem('kp_fname',f); localStorage.setItem('kp_lname',l); kpSetName(f+' '+l); kpRecordPresence(); kpGateClose(); }
+  btn.onclick=go; [fn,ln].forEach(function(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); }); });
+  setTimeout(function(){ try{ fn.focus(); }catch(e){} }, 50);
 }
-/* known learner -> silent check-in; unknown -> block until they enter a name */
-if(attendeeName){ kpRecordPresence(); }
-else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', kpGateOpen); }
-else { kpGateOpen(); }
+/* ---- date-unlock + completion-gate guardrails ---- */
+function kpShowLocked(badge,heading,body){
+  if(document.getElementById('kpLocked')) return;
+  var el=document.createElement('div'); el.id='kpLocked';
+  el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
+    '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
+    '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div>'+
+    '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2>'+
+    '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p>'+
+  '</div>';
+  document.body.appendChild(el);
+}
+/* ---- past sessions navigator ---- */
+const KP_SESSIONS=[
+  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
+  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
+  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
+  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
+  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
+  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
+  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}
+];
+function kpNavBuild(){
+  var base='https://kphq-updated-training.vercel.app/';
+  var panel=document.createElement('div'); panel.id='kpNavPanel';
+  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
+  panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
+  KP_SESSIONS.forEach(function(s){
+    var done=!!localStorage.getItem('kp_done_'+s.day);
+    var isCur=(s.day===CONFIG.DAY);
+    var a=document.createElement('a');
+    a.href=base+s.url;
+    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
+    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
+    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
+    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
+    panel.appendChild(a);
+  });
+  document.body.appendChild(panel);
+  var btn=document.createElement('div'); btn.id='kpNavBtn';
+  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
+  btn.innerHTML='&#9776; Sessions';
+  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
+  document.body.appendChild(btn);
+  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){
+  function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();
+}
+function kpCheckAccess(){
+  if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
+  var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');
+  if(new Date()<unlock){
+    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
+  }
+  if(CONFIG.PREV_DAY_KEY && !localStorage.getItem(CONFIG.PREV_DAY_KEY)){
+    var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);
+    var fn2=function(){ kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' isn\'t marked complete on this device. Go back and click through to the end of '+prev+', then return here.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2(); return;
+  }
+  if(attendeeName){ kpRecordPresence(); }
+  else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',kpGateOpen); }
+  else { kpGateOpen(); }
+}
+kpCheckAccess();
 
 function markAttendance(){
   var inp=document.getElementById('attName'); var err=document.getElementById('attErr');
@@ -929,6 +1202,9 @@ function render(){
     nextBtn.onclick = next;
   }
   const sc = slides[cur]; sc.scrollTop = 0;
+  if(sc.id==='artSlide') setTimeout(initArt, 60);
+  if(sc.querySelector('#cwWrap')) setTimeout(initCw, 60);
+  if(sc.id==='agentSlide') setTimeout(initAgent, 60);
 }
 function next(){ if(cur<slides.length-1){ cur++; render(); } }
 function prev(){ if(cur>0){ cur--; render(); } }
@@ -978,6 +1254,45 @@ function simRefresh(){
     sim.classList.remove('loading');
   }, 650);
 }
+/* artifact split-panel demo */
+function initArt(){
+  var u=document.getElementById('artU'),c=document.getElementById('artC'),dots=document.getElementById('artDots'),ct=document.getElementById('artCText'),emp=document.getElementById('artEmpty'),lns=document.getElementById('artLines');
+  if(!u) return;
+  u.classList.remove('show'); c.classList.remove('show'); dots.classList.remove('hide'); ct.classList.remove('show'); emp.classList.remove('hide'); lns.classList.remove('show');
+  document.querySelectorAll('#artLines .art-ln').forEach(function(l){ l.classList.remove('fill'); });
+  setTimeout(function(){ u.classList.add('show'); }, 500);
+  setTimeout(function(){ c.classList.add('show'); }, 1500);
+  setTimeout(function(){
+    emp.classList.add('hide'); lns.classList.add('show');
+    document.querySelectorAll('#artLines .art-ln').forEach(function(l,i){ setTimeout(function(){ l.classList.add('fill'); }, i*110); });
+  }, 2400);
+  setTimeout(function(){ dots.classList.add('hide'); ct.classList.add('show'); }, 3100);
+}
+function replayArt(){ initArt(); }
+
+/* agentic multi-tool demo */
+function initAgent(){
+  var steps=['ags1','ags2','ags3','ags4'];
+  var ticks=['agTick1','agTick2','agTick3','agTick4'];
+  var done=document.getElementById('agentDone');
+  steps.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  ticks.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  if(done) done.classList.remove('show');
+  var sDelays=[300,900,1500,2100];
+  var tDelays=[750,1350,1950,2550];
+  steps.forEach(function(id,i){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, sDelays[i]); });
+  ticks.forEach(function(id,i){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, tDelays[i]); });
+  setTimeout(function(){ if(done) done.classList.add('show'); }, 3100);
+}
+
+/* cowork canva demo */
+function initCw(){
+  var ids=['cws1','cws2','cws3','cws4','cwEl1','cwEl2','cwEl3','cwEl4','cwEl5','cwEl6','cwEl7','cwEl8','cwEl9','cwEl10','cwEl11'];
+  ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  var delays={cws1:250,cws2:800,cws3:1350,cws4:1900,cwEl1:800,cwEl2:900,cwEl3:960,cwEl4:1400,cwEl5:1520,cwEl6:1600,cwEl7:1700,cwEl8:1800,cwEl9:1860,cwEl10:1920,cwEl11:2200};
+  ids.forEach(function(id){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, delays[id]||0); });
+}
+
 var simAge=0;
 setInterval(function(){
   var t=document.getElementById('simTime'); if(!t) return;

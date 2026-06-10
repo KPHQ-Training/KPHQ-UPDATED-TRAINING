@@ -840,7 +840,69 @@ Context: the sender is a potential partner we like but cannot prioritize this qu
 </div>
 
 <script>
-const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 1' };
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 1', UNLOCK_DATE:'2026-06-08' };
+
+/* ---- date-unlock guardrail ---- */
+(function(){
+  if(new URLSearchParams(window.location.search).has('admin')){
+    function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b(); return;
+  }
+  var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');
+  if(new Date()<unlock){
+    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    function showLock(){
+      var el=document.createElement('div'); el.id='kpLocked';
+      el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+      el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
+        '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
+        '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">session not yet open</div>'+
+        '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+CONFIG.DAY+' opens on '+d+'</h2>'+
+        '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">Check back on '+d+'. Your instructor will share the link when the session goes live.</p>'+
+      '</div>';
+      document.body.appendChild(el);
+    }
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',showLock):showLock();
+  }
+})();
+
+/* ---- past sessions navigator ---- */
+const KP_SESSIONS=[
+  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
+  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
+  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
+  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
+  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
+  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
+  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}
+];
+function kpNavBuild(){
+  var base='https://kphq-updated-training.vercel.app/';
+  var panel=document.createElement('div'); panel.id='kpNavPanel';
+  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
+  panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
+  KP_SESSIONS.forEach(function(s){
+    var done=!!localStorage.getItem('kp_done_'+s.day);
+    var isCur=(s.day===CONFIG.DAY);
+    var a=document.createElement('a');
+    a.href=base+s.url;
+    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
+    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
+    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
+    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
+    panel.appendChild(a);
+  });
+  document.body.appendChild(panel);
+  var btn=document.createElement('div'); btn.id='kpNavBtn';
+  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
+  btn.innerHTML='&#9776; Sessions';
+  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
+  document.body.appendChild(btn);
+  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+
 const sesNames = ['How AI Actually Works','What It Can & Can’t Do','Trust, Security & Judgment','Prompting Foundations I','Practice & Your Niche'];
 
 const slides = [...document.querySelectorAll('.slide')];
