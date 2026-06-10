@@ -194,6 +194,74 @@
   @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
   @keyframes n8nPulse{0%{left:-100%}55%,100%{left:100%}}
 
+  /* PROC GRID (4 automation process types) */
+  .proc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 14px}
+  .proc-card{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:9px 11px}
+  .proc-badge{font-size:9px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:4px}
+  .proc-body{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+  /* IF / ELSE FLOW */
+  .if-flow{display:flex;flex-direction:column;align-items:center;margin:0 0 12px}
+  .if-node{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:7px 20px;text-align:center}
+  .if-trigger{border-color:rgba(234,179,8,.42);background:rgba(234,179,8,.07)}
+  .if-cond{border-color:rgba(93,169,244,.42);background:rgba(93,169,244,.09)}
+  .if-n-lbl{font-size:8.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+  .if-n-title{font-weight:700;color:var(--ink);font-size:12.5px}
+  .if-vert{width:2px;height:12px;background:var(--border);flex-shrink:0}
+  .if-horiz{display:flex;justify-content:center;gap:0;width:100%}
+  .if-branch{display:flex;flex-direction:column;align-items:center;gap:0;flex:1;max-width:46%}
+  .if-blbl{font-size:9.5px;font-weight:800;letter-spacing:.8px;padding:2px 12px;border-radius:20px;margin:6px 0 7px}
+  .if-yes-lbl{background:rgba(34,197,94,.17);color:#4ade80}
+  .if-no-lbl{background:rgba(239,68,68,.14);color:#f87171}
+  .if-bline{width:2px;height:11px}
+  .if-yes .if-bline{background:rgba(34,197,94,.35)}
+  .if-no .if-bline{background:rgba(239,68,68,.28)}
+  .if-act{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;width:93%;box-sizing:border-box}
+  .if-yes .if-act{border-color:rgba(34,197,94,.28)}
+  .if-no .if-act{border-color:rgba(239,68,68,.2)}
+  .if-act-t{font-weight:600;color:var(--ink);font-size:11px}
+  .if-act-s{color:var(--dim);font-size:9.5px;margin-top:1px}
+  .if-div{width:1px;background:var(--border);margin:0 10px;align-self:stretch;opacity:.4}
+
+  /* FLOW DEMO (animated 2-scene) */
+  .flow-demo{margin:10px 0 0}
+  .ftabs{display:flex;gap:6px;margin-bottom:10px}
+  .ftab{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:5px 13px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+  .ftab.ftab-active{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.5);color:#4ade80}
+  .fscene{display:none}.fscene.fscene-active{display:block}
+  .fn{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:6px 14px;transition:border-color .3s,background .3s,box-shadow .3s;text-align:center}
+  .fn-lbl{font-size:7.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+  .fn-title{font-weight:700;color:var(--ink);font-size:11.5px}
+  .fn-sub{color:var(--dim);font-size:9.5px;margin-top:1px}
+  .fn-trigger{border-color:rgba(234,179,8,.35);background:rgba(234,179,8,.06)}
+  .fn-cond{border-color:rgba(93,169,244,.35);background:rgba(93,169,244,.07)}
+  .fn-act-yes{border-color:rgba(34,197,94,.22);background:var(--panel-2)}
+  .fn-default{border-color:rgba(239,68,68,.2);background:var(--panel-2)}
+  .fn.flit.fn-trigger{border-color:rgba(234,179,8,.9)!important;background:rgba(234,179,8,.18)!important;box-shadow:0 0 14px rgba(234,179,8,.35)!important}
+  .fn.flit.fn-cond{border-color:rgba(93,169,244,.9)!important;background:rgba(93,169,244,.18)!important;box-shadow:0 0 14px rgba(93,169,244,.35)!important}
+  .fn.flit:not(.fn-trigger):not(.fn-cond):not(.fn-default){border-color:rgba(34,197,94,.9)!important;background:rgba(34,197,94,.15)!important;box-shadow:0 0 12px rgba(34,197,94,.3)!important}
+  .fn.flit.fn-default{border-color:rgba(239,68,68,.9)!important;background:rgba(239,68,68,.15)!important;box-shadow:0 0 12px rgba(239,68,68,.3)!important}
+  .fv{width:2px;height:12px;background:var(--border);transition:background .3s;flex-shrink:0}
+  .fv.flit{background:#4ade80!important}
+  .f1-wrap{display:flex;flex-direction:column;align-items:center}
+  .ftree{width:100%}
+  .ftr-conn{padding-left:82px;height:18px;display:flex;align-items:stretch}
+  .ftconn{width:2px;background:var(--border);position:relative;transition:background .3s}
+  .ftconn.flit{background:#4ade80!important}
+  .ftconn-no.flit{background:#f87171!important}
+  .fno-lbl{position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:7.5px;font-weight:800;color:rgba(239,68,68,.6);letter-spacing:.4px;pointer-events:none}
+  .ftr-row{display:flex;align-items:center;width:100%}
+  .ftr-left{flex:0 0 164px}
+  .ftr-yes{display:flex;align-items:center;flex:0 0 auto;padding:0 4px;gap:2px;opacity:.28;transition:opacity .3s}
+  .ftr-yes.flit{opacity:1!important}
+  .fta-lbl{font-size:7.5px;font-weight:800;color:#4ade80;letter-spacing:.4px}
+  .fta-line{display:inline-block;height:2px;width:20px;background:rgba(34,197,94,.35);margin:0 1px;vertical-align:middle;transition:background .3s}
+  .ftr-yes.flit .fta-line{background:#4ade80!important}
+  .fta-arr{font-size:10px;color:rgba(34,197,94,.45);line-height:1;transition:color .3s}
+  .ftr-yes.flit .fta-arr,.ftr-yes.flit .fta-lbl{color:#4ade80!important}
+  .ftr-right{flex:1}
+  .ftr-right .fn{text-align:left;padding:5px 10px;width:100%;box-sizing:border-box}
+
   /* FOOTNOTE */
   .footnote{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
   .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
@@ -321,9 +389,9 @@
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>What Is Automation?</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Trigger &amp; Action</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-spark"/></svg></span>AI Automation</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-compass"/></svg></span>What to Automate</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-lock"/></svg></span>Safety &amp; Compliance</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Free Tools &amp; Hours</a>
-    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-align"/></svg></span>Map, Build &amp; Best Practices</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-align"/></svg></span>Plan, Map &amp; Build</a>
     <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Recap</a>
   </div>
   <div class="progress">
@@ -375,6 +443,7 @@
         <li>Identify tasks worth automating and describe how AI fits in</li>
         <li>Name free tools and tools with built-in automation</li>
         <li>Map a workflow and walk through a QA checklist before going live</li>
+        <li>Apply basic compliance and data security rules to every automation you build</li>
       </ul>
     </div>
     <div class="card">
@@ -384,8 +453,9 @@
         <li>Triggers, filters, and actions — the building blocks</li>
         <li>AI automation with Claude — basic to intermediate</li>
         <li>What to automate (and what to keep human)</li>
+        <li>Compliance, data security, and guardrails</li>
         <li>Free tools, native AI features, and real hours saved</li>
-        <li>From map to live — building and QA-ing your first automation</li>
+        <li>From planning to map to live — building and QA-ing your first automation</li>
       </ol>
     </div>
   </div></section>
@@ -681,6 +751,53 @@
     </div>
   </div></section>
 
+  <!-- COMPLIANCE & DATA SECURITY -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Compliance</div>
+    <h1>Compliance: Know the Rules Before You Automate</h1>
+    <p class="subtitle">Compliance is not bureaucracy. It is the legal and policy framework that protects your client's customers — and protects your client's business from liability. As a VA, you follow these rules even if you did not write them.</p>
+    <table>
+      <thead><tr><th>Framework</th><th>Who it covers</th><th>What it means for your automations</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GDPR</strong></td><td>Anyone handling data of EU citizens</td><td>Personal data must be collected with consent, stored lawfully, and deletable on request — check every tool in the flow</td></tr>
+        <tr><td><strong>CCPA</strong></td><td>Data of California residents</td><td>Consumers can opt out of data use; any automation touching California contacts must honour that flag</td></tr>
+        <tr><td><strong>HIPAA</strong></td><td>US healthcare data</td><td>Health information cannot flow through any non-HIPAA-compliant tool under any circumstances — full stop</td></tr>
+        <tr><td><strong>SOC 2</strong></td><td>Business / enterprise SaaS data</td><td>Ask if the connector tools you are using are SOC 2 certified before routing client business data through them</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> The one question every VA must ask</div>
+      <p style="margin:0"><em>"Does my client have a data policy that covers this automation?"</em> If the answer is unclear — stop. Ask before you build. A five-minute conversation now prevents a legal incident later.</p>
+    </div>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Your responsibility</div>
+      <p>Ignorance is not a defence. If you automate data into a non-compliant tool, liability can fall on the VA and the client. When in doubt, escalate — never guess.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Data security in your automations</h2>
+    <p>Compliance tells you what rules to follow. Security tells you how to protect the data while the automation is running. You need both — one without the other still leaves you exposed.</p>
+    <table>
+      <thead><tr><th>Data type</th><th>Level</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Task updates, calendar blocks, content drafts, internal notes</td><td><strong style="color:#4ade80">GREEN &mdash; generally safe</strong></td><td>Proceed, but still verify the tool is approved by the client</td></tr>
+        <tr><td>Names, emails, phone numbers, business contact info</td><td><strong style="color:rgba(234,179,8,.9)">YELLOW &mdash; check first</strong></td><td>Confirm the client's privacy policy covers this data flowing through these tools</td></tr>
+        <tr><td>Health records, financial data, passwords, PII of minors, legal documents</td><td><strong style="color:#f87171">RED &mdash; stop</strong></td><td>Do not automate without explicit written approval from the client or their legal team</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-lock"/></svg> Four security rules &mdash; no exceptions</div>
+      <ul style="margin:4px 0 0;padding-left:18px;font-size:13px">
+        <li style="margin-bottom:7px"><strong>Never store credentials in the workflow text</strong> — use the platform's built-in secrets manager</li>
+        <li style="margin-bottom:7px"><strong>Request only the permissions the automation actually needs</strong> — not read/write/delete everything</li>
+        <li style="margin-bottom:7px"><strong>Audit tool access every 90 days</strong> — remove connections to tools you no longer use</li>
+        <li style="margin-bottom:0"><strong>Rotate API keys immediately</strong> if a tool is compromised, deprecated, or shared by accident</li>
+      </ul>
+    </div>
+  </div></section>
+
   <!-- SESSION 4: FREE TOOLS & HOURS SAVED -->
   <section class="slide" data-ses="4"><div class="slide-inner">
     <div class="eyebrow">Day 4 · Session 5</div>
@@ -743,24 +860,119 @@
     </div>
   </div></section>
 
+  <!-- SESSION 5: PLAN, MAP & BUILD -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 6</div>
+    <h1>Plan before you build</h1>
+    <p class="subtitle">Rushing into an automation tool before thinking it through is how you end up with something that half-works, breaks silently, and takes twice as long to fix. Five minutes of planning prevents five hours of debugging.</p>
+    <div class="compare" style="margin-bottom:12px">
+      <div class="col-a"><div class="col-label">Rush: build first, think later</div>
+        <ul>
+          <li>Copy a template and fill in the fields</li>
+          <li>Test it live on real contacts</li>
+          <li>Debug from error messages</li>
+          <li>Realise halfway through it breaks client policy</li>
+        </ul>
+      </div>
+      <div class="col-b"><div class="col-label">Plan: think first, build once</div>
+        <ul>
+          <li>Sketch the flow on paper or in a doc first</li>
+          <li>Break it into discrete tasks and check each tool</li>
+          <li>Test on dummy data before going near real clients</li>
+          <li>Deliver something that works and passes compliance</li>
+        </ul>
+      </div>
+    </div>
+    <table style="font-size:12px">
+      <thead><tr><th>Question</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>What exact problem does this solve?</strong></td><td>Prevents building automations that are clever but useless</td></tr>
+        <tr><td><strong>What triggers it, and can that trigger misfire?</strong></td><td>Misfire = accidental sends or duplicate data</td></tr>
+        <tr><td><strong>What data does it touch, and is that data sensitive?</strong></td><td>Compliance and security check before a single tool is opened</td></tr>
+        <tr><td><strong>What should happen if it fails?</strong></td><td>Every automation needs a fallback or an alert — not a silent failure</td></tr>
+        <tr><td><strong>Who needs to approve this before it goes live?</strong></td><td>Client sign-off protects you from building the wrong thing</td></tr>
+      </tbody>
+    </table>
+    <div class="card" style="margin-top:8px;padding:10px 14px">
+      <div class="card-head" style="margin-bottom:4px"><svg><use href="#i-target"/></svg> Break it into tasks</div>
+      <p style="margin:0;font-size:12px">List every step the automation takes as a separate task before you open the tool. Automation is just tasks in order — and tasks you have not written down are tasks you will forget to test.</p>
+    </div>
+  </div></section>
+
   <!-- SESSION 5: MAP IT FIRST -->
   <section class="slide" data-ses="5"><div class="slide-inner">
     <div class="eyebrow">Day 4 · Session 6</div>
     <h1>Map It First</h1>
-    <p class="subtitle">Never build blind. Before you touch any tool, map the workflow on paper: the trigger, the steps in order, the decisions, and the result. A clear map turns building into simple assembly.</p>
-    <p>Here is a common VA workflow, mapped. Notice it is just trigger and actions in a line.</p>
-    <div class="pipeline">
-      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-msg"/></svg></div><div class="stage-name">New lead</div><div class="stage-cap">form submitted</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
-      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-grid"/></svg></div><div class="stage-name">Add to CRM</div><div class="stage-cap">create the contact</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:1.6s"></span></div>
-      <div class="stage" style="--d:2.2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-book"/></svg></div><div class="stage-name">Welcome email</div><div class="stage-cap">send automatically</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:2.7s"></span></div>
-      <div class="stage" style="--d:3.3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-activity"/></svg></div><div class="stage-name">Notify sales</div><div class="stage-cap">ping in Slack</div></div>
+    <p class="subtitle">Every automation is made of the same four building blocks. Know each one by name and you can read, build, or fix any workflow you encounter.</p>
+    <div class="proc-grid">
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(234,179,8,.9)">Trigger</div>
+        <div class="proc-body">The event that starts everything. Nothing runs until the trigger fires — a form submitted, a time reached, a message received.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(93,169,244,.85)">Condition (if/else)</div>
+        <div class="proc-body">A yes/no question that splits the flow into two paths. Each answer runs different actions. This is how automations handle real-world variety.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(34,197,94,.85)">Action</div>
+        <div class="proc-body">Something the automation actually does: send a message, create a record, update a field, generate text with AI, or notify a person.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:var(--muted)">Result</div>
+        <div class="proc-body">The finished output after all steps complete. This is what you promised the client when you said "I will automate this."</div>
+      </div>
     </div>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-align"/></svg> Read the map</div>
-      <p style="margin:0">One trigger (a lead arrives) sets off three actions in order (CRM, email, Slack). No step needs a human, so the whole thing runs in seconds, every time a lead comes in.</p>
+    <div class="flow-demo">
+      <div class="ftabs">
+        <button class="ftab ftab-active" id="ftab1" onclick="flowScene(1)">&#9654; All YES &mdash; happy path</button>
+        <button class="ftab" id="ftab2" onclick="flowScene(2)">&#8651; Multi-condition routing</button>
+      </div>
+      <!-- SCENE 1: All YES -->
+      <div class="fscene fscene-active" id="fscene1">
+        <div class="f1-wrap">
+          <div class="fn fn-trigger" id="f1-t" style="min-width:192px"><div class="fn-lbl">Trigger</div><div class="fn-title">New lead submitted</div></div>
+          <div class="fv" id="f1-v1"></div>
+          <div class="fn fn-cond" id="f1-c1" style="min-width:192px"><div class="fn-lbl">Condition &mdash; taking YES path</div><div class="fn-title">Paid plan? &#10003; YES</div></div>
+          <div class="fv" id="f1-v2"></div>
+          <div class="fn" id="f1-a1" style="min-width:192px"><div class="fn-title">Add to CRM</div><div class="fn-sub">paid clients folder</div></div>
+          <div class="fv" id="f1-v3"></div>
+          <div class="fn" id="f1-a2" style="min-width:192px"><div class="fn-title">Send welcome email</div><div class="fn-sub">paid onboarding flow</div></div>
+          <div class="fv" id="f1-v4"></div>
+          <div class="fn" id="f1-a3" style="min-width:192px"><div class="fn-title">Notify sales team</div><div class="fn-sub">Slack ping sent</div></div>
+          <div class="fv" id="f1-v5"></div>
+          <div class="fn" id="f1-r" style="min-width:192px"><div class="fn-title">Done &mdash; 0 manual steps</div><div class="fn-sub">result reached</div></div>
+        </div>
+      </div>
+      <!-- SCENE 2: Multi-condition routing tree -->
+      <div class="fscene" id="fscene2">
+        <div class="ftree">
+          <div style="display:flex">
+            <div class="fn fn-trigger" id="f2-t" style="min-width:164px;text-align:center"><div class="fn-lbl">Trigger</div><div class="fn-title">New lead submitted</div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn" id="f2-v1"></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c1"><div class="fn-lbl">Condition 1</div><div class="fn-title">Business email?</div></div></div>
+            <div class="ftr-yes" id="f2-arr1"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y1"><div class="fn-title">Hot CRM &mdash; alert sales instantly</div><div class="fn-sub">account manager assigned</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v2"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c2"><div class="fn-lbl">Condition 2</div><div class="fn-title">Budget &gt; $1,000?</div></div></div>
+            <div class="ftr-yes" id="f2-arr2"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y2"><div class="fn-title">Warm CRM + book discovery call</div><div class="fn-sub">email sent automatically</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v3"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c3"><div class="fn-lbl">Condition 3</div><div class="fn-title">Source = referral?</div></div></div>
+            <div class="ftr-yes" id="f2-arr3"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y3"><div class="fn-title">Personal reply + referral sheet</div><div class="fn-sub">thank-you sequence triggered</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v4"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div style="display:flex">
+            <div class="fn fn-default" id="f2-d" style="min-width:164px;text-align:center"><div class="fn-title">Cold list &mdash; free content</div><div class="fn-sub">automated nurture sequence</div></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div></section>
 
@@ -850,19 +1062,20 @@
   <!-- SESSION 6: RECAP -->
   <section class="slide" data-ses="6"><div class="slide-inner">
     <div class="eyebrow">Day 4 · Session 7</div>
-    <h1>Where Automations Run</h1>
-    <p class="subtitle">You do not need to be technical to build automations. You connect tools you already use. Here are the three main categories. Use whatever your client has standardized on.</p>
+    <h1>What's Coming in Day 5</h1>
+    <p class="subtitle">Today was vocabulary, concepts, and planning. Tomorrow we build. Here is exactly what Day 5 covers — so you know what to expect and what to prepare.</p>
     <table>
-      <thead><tr><th>Category</th><th>What it is</th><th>Examples</th></tr></thead>
+      <thead><tr><th>Day 5 activity</th><th>What you will build</th><th>Tools used</th></tr></thead>
       <tbody>
-        <tr><td><strong>Built-in automation</strong></td><td>Automation features inside a tool you already use</td><td>GoHighLevel workflows, Gmail filters, spreadsheet rules</td></tr>
-        <tr><td><strong>Connector platforms</strong></td><td>Apps that link other apps together with triggers and actions</td><td>Zapier, Make, n8n</td></tr>
-        <tr><td><strong>AI agents</strong></td><td>AI that plans and runs a multi-step task on its own</td><td>Manus, Cowork agents</td></tr>
+        <tr><td><strong>Free tool build</strong></td><td>A working automation using Google Apps Script and Google Sheets — zero paid tools required</td><td>Google Sheets · Apps Script</td></tr>
+        <tr><td><strong>Research automation</strong></td><td>A flow that pulls information on a topic and formats it automatically — no more starting from a blank page</td><td>Make or Zapier + Claude</td></tr>
+        <tr><td><strong>Social media posting</strong></td><td>A sequence that takes approved content and schedules or posts it without manual copy-paste every time</td><td>Make or Zapier + a scheduler</td></tr>
+        <tr><td><strong>Live activity (~30 min)</strong></td><td>You build your own automation from scratch using the four-question map you mapped today</td><td>Your choice of tool</td></tr>
       </tbody>
     </table>
-    <div class="card card-gold">
-      <div class="card-head"><svg><use href="#i-compass"/></svg> No single winner</div>
-      <p style="margin:0">There is no one best platform. Pick by what the client already uses, what the task needs, and where the data is allowed to go. We build a real automation start to finish tomorrow.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Come prepared tomorrow</div>
+      <p style="margin:0">Bring your four-question map from today's activity: what starts it, the steps in order, any "only if" conditions, and the result. That map is your blueprint for the live build.</p>
     </div>
   </div></section>
 
@@ -888,6 +1101,7 @@
     <table>
       <thead><tr><th>Idea</th><th>The one-line version</th></tr></thead>
       <tbody>
+        <tr><td><strong>Planning</strong></td><td>Answer five questions before you open any tool &mdash; what it solves, what triggers it, what data it touches, what fails gracefully, who approves it</td></tr>
         <tr><td><strong>Automation types</strong></td><td>Scheduled, triggered, multi-step, and AI-powered</td></tr>
         <tr><td><strong>Trigger and action</strong></td><td>When something happens, do something. Every automation is this shape</td></tr>
         <tr><td><strong>AI automation</strong></td><td>Claude is the thinking step — your prompt is the logic</td></tr>
@@ -896,6 +1110,7 @@
         <tr><td><strong>Hours saved</strong></td><td>5 automations → ~6.5 hrs freed per week</td></tr>
         <tr><td><strong>Build and QA</strong></td><td>One step at a time, test on dummy data, run the 7-point checklist</td></tr>
         <tr><td><strong>Guardrails</strong></td><td>Test-send first, no sensitive data through free tools, always have an off switch</td></tr>
+        <tr><td><strong>Compliance &amp; security</strong></td><td>Know GDPR/CCPA/HIPAA before you build; classify data Green/Yellow/Red; never store credentials in the workflow text</td></tr>
         <tr><td><strong>Best practices</strong></td><td>Understand it manually first, document as you build, review monthly, track hours saved</td></tr>
       </tbody>
     </table>
@@ -915,6 +1130,7 @@
         <div class="fn-item"><strong>Corbin Brown</strong><span>AI agents and real workflow builds</span></div>
         <div class="fn-item"><strong>Nick Saraev</strong><span>Make.com tutorials, visual and beginner-clear</span></div>
         <div class="fn-item"><strong>Kevin Stratvert</strong><span>Google and Microsoft tools, free-tier focus</span></div>
+        <div class="fn-item"><strong>Nate Herk</strong><span>Make.com, Zapier, AI automation — beginner-friendly builds</span></div>
       </div>
     </div>
   </div></section>
@@ -1072,6 +1288,46 @@ function kpCheckAccess(){
   else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',kpGateOpen); }
   else { kpGateOpen(); }
 }
+/* ---- Animated IF/ELSE Flow Demo ---- */
+var flowTimers=[];
+function clearFT(){flowTimers.forEach(function(t){clearTimeout(t)});flowTimers=[];}
+function fReset(){document.querySelectorAll('.fn,.fv,.ftconn,.ftr-yes').forEach(function(el){el.classList.remove('flit');});}
+function fDelay(ms,fn){var t=setTimeout(fn,ms);flowTimers.push(t);return t;}
+function fLitSeq(ids,gap,cb){
+  ids.forEach(function(id,i){fDelay(i*gap,function(){var el=document.getElementById(id);if(el)el.classList.add('flit');});});
+  if(cb) fDelay(ids.length*gap+300,cb);
+}
+function flowScene(n){
+  clearFT();fReset();
+  document.getElementById('ftab1').classList.toggle('ftab-active',n===1);
+  document.getElementById('ftab2').classList.toggle('ftab-active',n===2);
+  document.getElementById('fscene1').classList.toggle('fscene-active',n===1);
+  document.getElementById('fscene2').classList.toggle('fscene-active',n===2);
+  if(n===1)animF1();else animF2();
+}
+function animF1(){
+  fLitSeq(['f1-t','f1-v1','f1-c1','f1-v2','f1-a1','f1-v3','f1-a2','f1-v4','f1-a3','f1-v5','f1-r'],360,function(){
+    fDelay(1500,function(){fReset();fDelay(500,animF1);});
+  });
+}
+function animF2(){
+  /* Run A: not business email → budget YES → warm CRM */
+  fLitSeq(['f2-t','f2-v1','f2-c1','f2-v2','f2-c2','f2-arr2','f2-y2'],400,function(){
+    fDelay(1500,function(){fReset();fDelay(500,function(){
+      /* Run B: all NO → cold list */
+      fLitSeq(['f2-t','f2-v1','f2-c1','f2-v2','f2-c2','f2-v3','f2-c3','f2-v4','f2-d'],400,function(){
+        fDelay(1500,function(){fReset();fDelay(500,function(){
+          /* Run C: business email YES → hot CRM */
+          fLitSeq(['f2-t','f2-v1','f2-c1','f2-arr1','f2-y1'],400,function(){
+            fDelay(1500,function(){fReset();fDelay(500,animF2);});
+          });
+        });});
+      });
+    });});
+  });
+}
+setTimeout(function(){if(document.getElementById('f1-t'))animF1();},400);
+
 kpCheckAccess();
 
 function markAttendance(){
@@ -1086,7 +1342,7 @@ function proceedNext(){
   setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
 }
 
-const sesNames = ['What Is Automation','Trigger and Action','What to Automate','Map It First','Tools & Recap'];
+const sesNames = ['What Is Automation','Trigger and Action','AI Automation','Safety & Compliance','Free Tools & Hours','Plan, Map & Build','Recap'];
 
 const slides = [...document.querySelectorAll('.slide')];
 const navLinks = [...document.querySelectorAll('#nav a')];
