@@ -9,44 +9,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
-    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
-    --border:#1A2620; --border-2:#24332C;
-    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
-    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
-    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
-    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
-    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
-    --sidebar-w:268px; --maxw:860px; --r:14px;
-    --font-d:'Inter',system-ui,-apple-system,sans-serif;
-    --font-b:'Inter',system-ui,-apple-system,sans-serif;
-  }
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
   .sprite{position:absolute;width:0;height:0;overflow:hidden}
-
-  /* SIDEBAR */
-  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
-    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
-    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
-  .sidebar::-webkit-scrollbar{width:6px}
-  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
   .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
   .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
   .brand-mark span{color:var(--accent)}
   .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
-  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
-    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
   .day-chip svg{width:13px;height:13px}
   .nav{flex:1;padding:14px 12px}
   .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
-  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
-    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
   .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
   .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
-  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
-    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
   .nav a .ico svg{width:16px;height:16px}
   .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
   .nav a.done .ico{color:var(--accent)}
@@ -57,38 +37,29 @@
   .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
   .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
   .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
-  .course a:hover{color:var(--ink)}
-  .course a.current{color:var(--accent);font-weight:600}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
   .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
   .course a.current .cn{color:var(--accent)}
   .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
   .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
   .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
-
-  /* DECK */
-  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
-    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
   .deck{flex:1;position:relative;overflow:hidden}
   .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
   .slide.active{display:block;animation:fade .35s ease}
-  .slide::-webkit-scrollbar{width:8px}
-  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
   .slide-inner{max-width:var(--maxw);margin:0 auto}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
-    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
   .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
   .db-count strong{color:var(--accent)}
-  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
-    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
   .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
   .nav-btn:disabled{opacity:.35;cursor:not-allowed}
   .nav-btn svg{width:15px;height:15px}
   .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
   .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
-
-  /* TYPE */
   h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
   .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
   h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
@@ -100,100 +71,73 @@
   li{margin-bottom:8px;padding-left:4px}
   li::marker{color:var(--accent)}
   .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-
-  /* CARDS */
   .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
-  .card-accent{border-left:3px solid var(--accent)}
-  .card-gold{border-left:3px solid var(--gold)}
-  .card-danger{border-left:3px solid var(--danger)}
-  .card-secure{border-left:3px solid var(--secure)}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
   .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
   .card-head svg{width:15px;height:15px}
-  .card-gold .card-head{color:var(--gold)}
-  .card-danger .card-head{color:var(--danger)}
-  .card-secure .card-head{color:var(--secure)}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
   .card>*:last-child{margin-bottom:0}
-
-  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));
-    border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
   .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
   .principle .badge svg{width:17px;height:17px}
   .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
   .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
-  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));
-    border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
   .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
   .standard .badge svg{width:17px;height:17px}
   .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
   .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
-
   .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
   .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
   .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
   .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
   .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
-  .col-weak .col-label{color:var(--danger)}
-  .col-strong .col-label{color:var(--accent)}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
   .col-label svg{width:14px;height:14px}
-
-  .prompt{position:relative;background:#06100B;border:1px solid var(--border);border-left:3px solid var(--accent);
-    border-radius:0 10px 10px 0;padding:36px 18px 16px;margin:14px 0;font-family:'SF Mono','Consolas',monospace;
-    font-size:13px;color:#bfe9cc;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
-  .prompt-tag{position:absolute;top:10px;left:18px;font-family:var(--font-b);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:5px}
-
   .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
   .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
   .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
-  .ex-badge svg{width:14px;height:14px}
-  .ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
   .exercise>*:last-child{margin-bottom:0}
-
   table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
   th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
   td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
   td strong{color:var(--ink)}
   tr:hover td{background:rgba(34,197,94,0.025)}
-
-  .pipeline{display:flex;align-items:center;gap:0;margin:18px 0}
-  .stage{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 10px 14px;text-align:center;position:relative;animation:stageOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
-  .stage .step-no{position:absolute;top:7px;left:11px;font-size:10px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
-  .stage-ico{width:42px;height:42px;margin:2px auto 10px;border-radius:12px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);animation:icoOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
-  .stage-ico svg{width:21px;height:21px}
-  .stage-name{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:5px;animation:nameOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
-  .stage-cap{font-size:11px;color:var(--dim);line-height:1.45}
-  @keyframes stageOn{0%,17%{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(34,197,94,0.16)}33%,100%{border-color:var(--border);box-shadow:none}}
-  @keyframes icoOn{0%,17%{background:var(--accent);border-color:var(--accent);color:#04150B}33%,100%{background:var(--panel);border-color:var(--border);color:var(--dim)}}
-  @keyframes nameOn{0%,17%{color:var(--ink)}33%,100%{color:var(--muted)}}
-  .connector{flex:0 0 30px;position:relative;height:24px;display:flex;align-items:center;justify-content:center}
-  .connector .line{width:100%;height:2px;background:var(--border-2);border-radius:2px}
-  .connector .pulse{position:absolute;top:50%;left:0;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-50%);box-shadow:0 0 9px var(--accent);opacity:0;animation:pulseMove 6s linear infinite;animation-delay:var(--pd,0s)}
-  @keyframes pulseMove{0%{left:0;opacity:0}4%{opacity:1}15%{left:calc(100% - 7px);opacity:0}100%{left:calc(100% - 7px);opacity:0}}
-  @keyframes pulseMoveV{0%{top:0;opacity:0}4%{opacity:1}15%{top:calc(100% - 7px);opacity:0}100%{top:calc(100% - 7px);opacity:0}}
-
-  /* terminal + live dot (shared component library) */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0}
+  .n8n-node{flex:1;min-width:0;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node.n8n-active{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.13)}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 30px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:1.5px;flex:1;background:rgba(255,255,255,.13);position:relative;overflow:hidden}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,#22c55e,transparent);animation:n8nPulse 2.6s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid rgba(255,255,255,.18)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:100%}}
   .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
   .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
   .terminal-dot{width:11px;height:11px;border-radius:50%}
-  .terminal-dot.red{background:var(--danger)}
-  .terminal-dot.yellow{background:var(--gold)}
-  .terminal-dot.green{background:var(--accent)}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
   .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
   .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
-  .terminal-body .cprompt{color:var(--accent)}
-  .terminal-body .ccmd{color:var(--ink)}
-  .terminal-body .ccmt{color:var(--dim)}
-  .live-dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:7px;vertical-align:middle;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
-
-  /* interactive drills */
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
   .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
   .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
   .quiz-tag svg{width:13px;height:13px}
   .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
   .quiz-opts{display:flex;flex-direction:column;gap:9px}
   .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
-  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
-  .quiz-opt:disabled{cursor:default}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
   .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
   .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
   .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
@@ -202,13 +146,9 @@
   .quiz-opt .qmark svg{width:13px;height:13px}
   .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
   .quiz-fb.show{display:block;animation:fade .25s}
-  .quiz-fb .ok{color:var(--accent);font-weight:700}
-  .quiz-fb .no{color:var(--danger);font-weight:700}
-  .quiz-fb strong{color:var(--ink)}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
   .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
   .quiz-reset:hover{color:var(--accent)}
-
-  /* attendance gate */
   .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
   .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
   .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
@@ -220,35 +160,21 @@
   .btn-block{width:100%;justify-content:center}
   .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
   .qa h3{margin-top:0;color:var(--ink)}
-
+  .footnote{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
   .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
   .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .hamb svg{width:20px;height:20px}
   .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
   .scrim.show{display:block}
-  @media(max-width:860px){
-    .sidebar{transform:translateX(-100%);transition:transform .3s ease}
-    .sidebar.open{transform:translateX(0)}
-    .mobile-bar{display:flex}
-    .scrim.show{display:block}
-    .main{margin-left:0;padding-top:54px}
-    .slide{padding:24px 18px 30px}
-    .deckbar{height:60px;padding:0 12px}
-    .nav-btn{padding:9px 13px;font-size:13px}
-    .compare{grid-template-columns:1fr}
-    h1{font-size:25px}h2{font-size:21px}
-    .pipeline{flex-direction:column;align-items:stretch}
-    .stage{width:100%}
-    .connector{width:100%;height:24px;flex:0 0 24px}
-    .connector .line{width:2px;height:100%}
-    .connector .pulse{left:50%;top:0;transform:translateX(-50%);animation:pulseMoveV 6s linear infinite;animation-delay:var(--pd,0s)}
-  }
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}}
 </style>
 </head>
 <body>
-
 <svg class="sprite" aria-hidden="true">
-  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
   <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
@@ -269,7 +195,7 @@
   <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
   <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
-  <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 </svg>
 
 <div class="mobile-bar">
@@ -282,15 +208,17 @@
   <div class="brand">
     <div class="brand-mark">Key<span>Players</span></div>
     <div class="brand-sub">VA Academy</div>
-    <div class="day-chip"><svg><use href="#i-tool"/></svg> Day 5 · Building Automations</div>
+    <div class="day-chip"><svg><use href="#i-bolt"/></svg> Day 5 · Building Automations</div>
   </div>
   <div class="nav" id="nav">
     <div class="nav-label">Today's Sessions</div>
-    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-align"/></svg></span>From Map to Build</a>
-    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Connectors</a>
-    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Build It</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-shield"/></svg></span>Test &amp; Stay Safe</a>
-    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-refresh"/></svg></span>Maintain &amp; Recap</a>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Welcome Back</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Your Blueprint</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Free Tool Build</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Research Automation</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>Content &amp; Social</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Live Build</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Recap</a>
   </div>
   <div class="progress">
     <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
@@ -311,7 +239,6 @@
     <div class="ref">
       <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
       <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
-      <a href="https://kphq-updated-training.vercel.app/Tools_By_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
       <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
     </div>
   </div>
@@ -321,499 +248,704 @@
 <div class="main">
   <div class="deck" id="deck">
 
-  <!-- OPENER -->
+  <!-- S0-0: WELCOME BACK -->
   <section class="slide active" data-ses="0"><div class="slide-inner">
     <div class="eyebrow">Day 5 · Today</div>
     <h1>Building Automations</h1>
     <div class="card">
       <div class="card-head"><svg><use href="#i-check"/></svg> Quick review of Day 4</div>
       <ul>
-        <li>An automation is a trigger plus actions, designed before it is built</li>
-        <li>Automate the repetitive and rule-based; keep judgment with a human</li>
-        <li>Map the workflow first using the four-question map</li>
+        <li>Automation frees repetitive, rule-based work so you focus on what only a human can do</li>
+        <li>Every automation is a trigger plus one or more actions: when something happens, do something</li>
+        <li>The four types: scheduled, triggered, multi-step, and AI-powered</li>
+        <li>The four-question map turns any task description into a buildable workflow</li>
       </ul>
     </div>
     <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
-      <p style="margin-bottom:10px">By the end of today you can:</p>
-      <ul>
-        <li>Build a working automation step by step</li>
-        <li>Connect tools with connectors and field mapping</li>
-        <li>Test it safely, then maintain and scale it</li>
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objectives</div>
+      <ul style="margin:0">
+        <li>Build a working zero-cost automation using Google Apps Script</li>
+        <li>Create a research flow that uses Claude to summarize and deliver a brief automatically</li>
+        <li>Set up a content-to-posting pipeline with a human approval checkpoint</li>
+        <li>Test, QA, and document a live automation to VA professional standards</li>
       </ul>
     </div>
-    <div class="card">
-      <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
-      <ol>
-        <li>Anatomy of a built automation</li>
-        <li>Connectors: the glue (three concepts)</li>
-        <li>Build it, step by step (field mapping)</li>
-        <li>Test, then trust (keep it safe)</li>
-        <li>Maintain &amp; scale</li>
-      </ol>
-    </div>
   </div></section>
 
-  <!-- SESSION 0: FROM MAP TO BUILD -->
+  <!-- S0-1: ATTENDANCE -->
   <section class="slide" data-ses="0"><div class="slide-inner">
-    <div class="eyebrow">Day 5 · Session 1</div>
-    <h1>Building Automations</h1>
-    <p class="subtitle">Yesterday you mapped a workflow on paper. Today you turn that map into a working automation that runs on its own. No code, just connecting tools you already use.</p>
-    <div class="gate">
-      <div class="card-head" style="color:var(--accent)"><svg><use href="#i-check"/></svg> Mark your attendance</div>
-      <div id="attForm">
-        <p style="margin-bottom:14px">Enter your name to check in to today's session. (One per person.)</p>
-        <input class="field" id="attName" placeholder="First and last name" style="margin-bottom:12px">
-        <div class="err" id="attErr"></div>
-        <button class="btn btn-primary btn-block" onclick="markAttendance()">Mark me present &amp; start <svg><use href="#i-arrow"/></svg></button>
-      </div>
-      <div id="attDone" style="display:none;text-align:center;padding:6px 0">
-        <div style="width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg style="width:24px;height:24px;color:#04150B"><use href="#i-check"/></svg></div>
-        <p style="color:var(--ink);font-weight:600;margin-bottom:4px">You are checked in. Welcome back.</p>
-        <p style="margin:0;font-size:13px">Use the Next button below, or your arrow keys, to begin.</p>
-      </div>
+    <div class="eyebrow">Day 5 · Check-in</div>
+    <h1>Mark Your Attendance</h1>
+    <p class="subtitle">Takes 60 seconds. This logs your participation for today's session.</p>
+    <div class="gate" id="attForm">
+      <p style="margin-bottom:14px;color:var(--ink);font-weight:500">Enter your name to mark yourself present for Day 5.</p>
+      <input class="field" id="attName" type="text" placeholder="First and last name" autocomplete="name">
+      <div class="err" id="attErr"></div>
+      <button class="btn btn-primary btn-block" onclick="markAttendance()" style="margin-top:14px"><svg><use href="#i-check"/></svg> Mark me present &amp; start</button>
     </div>
-    <div class="card card-gold">
-      <div class="card-head"><svg><use href="#i-book"/></svg> From map to machine</div>
-      <p style="margin:0">A map is the plan; an automation is the plan running. If your map has a clear trigger and ordered steps, the build is mostly drag, drop, and connect.</p>
+    <div id="attDone" style="display:none">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Marked present</div><p style="margin:0">Your Day 5 attendance is logged. Let's build.</p></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Prep check</div>
+      <ul style="margin:0">
+        <li>Did you map a task using the four-question map from Day 4?</li>
+        <li>If yes: have it open. That is your live-build blueprint today.</li>
+        <li>If not: pick one from the Common VA Automations list (Session 2).</li>
+      </ul>
     </div>
   </div></section>
 
+  <!-- S0-2: STATS -->
   <section class="slide" data-ses="0"><div class="slide-inner">
-    <h2>Anatomy of a built automation</h2>
-    <p>Every built automation links a <strong>trigger app</strong> (where the event happens) to one or more <strong>action apps</strong> (where the work lands). A platform in the middle listens for the trigger and runs the actions, carrying the data across.</p>
-    <div class="compare">
-      <div class="col col-strong"><div class="col-label"><svg><use href="#i-bolt"/></svg> Trigger app (the start)</div>The app where the event happens: a form tool, your inbox, a calendar, a CRM. The automation watches it and waits for the trigger.</div>
-      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Action apps (the finish)</div>The apps where the work gets done: a spreadsheet, a messaging tool, a CRM, an email sender. Each performs one step.</div>
+    <div class="eyebrow">Day 5 · Why this matters</div>
+    <h1>The Numbers Behind Automation</h1>
+    <p class="subtitle">Workers who automate do not just save time. They change what kind of work they do.</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">94<span style="font-size:18px;font-weight:600">%</span></div><div class="stat-label">of workers perform time-consuming repetitive tasks that could be automated</div><div class="stat-src">Zapier State of Business Automation, 2021</div></div>
+      <div class="stat-card"><div class="stat-num">76<span style="font-size:18px;font-weight:600">%</span></div><div class="stat-label">say automation gives them more time for work they actually enjoy</div><div class="stat-src">Zapier State of Business Automation, 2023</div></div>
+      <div class="stat-card"><div class="stat-num">88<span style="font-size:18px;font-weight:600">%</span></div><div class="stat-label">of SMB owners say automation lets them compete with larger companies</div><div class="stat-src">Zapier State of Business Automation, 2023</div></div>
+      <div class="stat-card"><div class="stat-num">6.5<span style="font-size:18px;font-weight:600">hrs</span></div><div class="stat-label">freed per week when 5 core automations run in parallel</div><div class="stat-src">KeyPlayers VA Academy model (Day 4)</div></div>
     </div>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-tool"/></svg> The platform in the middle</div>
-      <p style="margin:0">You do not connect apps by hand. A connector platform sits between them: it detects the trigger, then passes the data into each action in order. Your job is to set up the steps once.</p>
-    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Shift</div><p>Every hour saved on repetitive work is an hour for client relationships, strategy, or skill-building. Automation is not about doing less. It is about doing what matters.</p></div>
   </div></section>
 
-  <!-- SESSION 1: CONNECTORS -->
+  <!-- S1-0: BLUEPRINT REVIEW -->
   <section class="slide" data-ses="1"><div class="slide-inner">
     <div class="eyebrow">Day 5 · Session 2</div>
-    <h1>Connectors: the Glue</h1>
-    <p class="subtitle">A connector platform is the tool that links your apps. It watches one app for a trigger, then performs actions in others. You build the steps visually, no code required.</p>
-    <p>You will meet a few kinds. Use whatever your client already pays for. None is "the KeyPlayers default."</p>
-    <table>
-      <thead><tr><th>Kind</th><th>What it is</th><th>Examples</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Built-in</strong></td><td>Automation that lives inside one app you already use</td><td>GoHighLevel workflows, Gmail filters</td></tr>
-        <tr><td><strong>Connector platform</strong></td><td>A separate app that links many other apps together</td><td>Zapier, Make, n8n</td></tr>
-        <tr><td><strong>AI agent</strong></td><td>AI that runs a multi-step task without fixed steps</td><td>Manus, Cowork agents</td></tr>
-      </tbody>
-    </table>
-    <div class="card card-gold">
-      <div class="card-head"><svg><use href="#i-compass"/></svg> How to choose</div>
-      <p style="margin:0">If the trigger and actions all live in one platform, use its built-in automation. If they span different apps, reach for a connector platform. The rule is simple: meet the work where it already lives.</p>
+    <h1>The Blueprint You Brought</h1>
+    <p class="subtitle">If you mapped a task yesterday, you are ready to build it today. Here is the map format you used.</p>
+    <div class="card" style="background:var(--panel-2)">
+      <div class="card-head" style="color:var(--gold)"><svg><use href="#i-book"/></svg> Completed example map: weekly client update</div>
+      <table style="margin:8px 0 0"><tbody>
+        <tr><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px"><strong>Trigger</strong></td><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px">Every Friday at 4:00 pm</td></tr>
+        <tr><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px"><strong>Steps</strong></td><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px">Pull this week's task log, format into email template, send to client</td></tr>
+        <tr><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px"><strong>Filter</strong></td><td style="border-bottom:1px solid var(--border);padding:8px 10px;font-size:13px">Only if at least one task was completed this week</td></tr>
+        <tr><td style="padding:8px 10px;font-size:13px"><strong>Output</strong></td><td style="padding:8px 10px;font-size:13px">Client receives a professional update with no manual writing</td></tr>
+      </tbody></table>
     </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Rule</div><p>If you can describe the workflow in one clear sentence, you can automate it. If you cannot describe it cleanly, you are not ready to build it yet.</p></div>
   </div></section>
 
+  <!-- S1-1: COMMON VA AUTOMATIONS TABLE -->
   <section class="slide" data-ses="1"><div class="slide-inner">
-    <h2>The three concepts you need</h2>
-    <p>Every connector platform uses the same three ideas. Learn these and the specific tool barely matters.</p>
+    <h2>What VAs Actually Automate</h2>
+    <p>Eight real automations you can build this week, most in under 30 minutes.</p>
     <table>
-      <thead><tr><th>Concept</th><th>What it means</th></tr></thead>
+      <thead><tr><th>Task</th><th>Trigger</th><th>Tool</th><th>Time saved/wk</th></tr></thead>
       <tbody>
-        <tr><td><strong>Step</strong></td><td>One trigger or one action in the automation. You add steps in order.</td></tr>
-        <tr><td><strong>Field mapping</strong></td><td>Connecting data from an earlier step into a later one, for example the form's email into the CRM's email field.</td></tr>
-        <tr><td><strong>Test run</strong></td><td>Running the automation once with sample data to confirm each step works before you switch it on.</td></tr>
-      </tbody>
-    </table>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-align"/></svg> Field mapping is the part people miss</div>
-      <p style="margin:0">Adding steps is easy. The skill is field mapping: making sure each action pulls the right piece of data from the trigger. We will see exactly how next.</p>
-    </div>
-  </div></section>
-
-  <!-- SESSION 2: BUILD IT -->
-  <section class="slide" data-ses="2"><div class="slide-inner">
-    <div class="eyebrow">Day 5 · Session 3</div>
-    <h1>Build It, Step by Step</h1>
-    <p class="subtitle">Let's build a real one. The goal: when a new form response comes in, add it to a spreadsheet and post a note to the team. Three apps, fully hands-off.</p>
-    <div class="pipeline">
-      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-bolt"/></svg></div><div class="stage-name">Form response</div><div class="stage-cap">the trigger</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
-      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-grid"/></svg></div><div class="stage-name">Add a row</div><div class="stage-cap">to the sheet</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:1.6s"></span></div>
-      <div class="stage" style="--d:2.2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-msg"/></svg></div><div class="stage-name">Post a note</div><div class="stage-cap">to the team</div></div>
-      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:2.7s"></span></div>
-      <div class="stage" style="--d:3.3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-check"/></svg></div><div class="stage-name">Done</div><div class="stage-cap">logged &amp; notified</div></div>
-    </div>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-tool"/></svg> The build, in four clicks of logic</div>
-      <p><strong>1.</strong> Pick the trigger app and event: the form tool, "new response."</p>
-      <p><strong>2.</strong> Add action one: the spreadsheet, "add a row."</p>
-      <p><strong>3.</strong> Add action two: the messaging tool, "send a message."</p>
-      <p style="margin:0"><strong>4.</strong> Map the fields, then test. That is the whole build.</p>
-    </div>
-  </div></section>
-
-  <section class="slide" data-ses="2"><div class="slide-inner">
-    <h2>Connect the data: field mapping</h2>
-    <p>This is the step that makes it actually work. You tell each action which piece of the trigger's data to use. The double braces below are placeholders the platform fills in with real data on every run.</p>
-    <div class="terminal">
-      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Field mapping</div></div>
-      <div class="terminal-body"><div><span class="ccmt"># Trigger: new form response gives you these fields</span></div>
-<div><span class="cprompt">fields:</span> name, email, message</div>
-<div>&nbsp;</div>
-<div><span class="ccmt"># Action 1: add a row to the sheet</span></div>
-<div>Name  = <span class="ccmd">{{name}}</span></div>
-<div>Email = <span class="ccmd">{{email}}</span></div>
-<div>Note  = <span class="ccmd">{{message}}</span></div>
-<div>&nbsp;</div>
-<div><span class="ccmt"># Action 2: post to the team channel</span></div>
-<div>message = <span class="ccmd">"New lead: {{name}} ({{email}})"</span></div></div>
-    </div>
-    <div class="principle">
-      <div class="badge"><svg><use href="#i-compass"/></svg></div>
-      <div class="pl">The Principle</div>
-      <p>Field mapping is just <em>plugging the right data into the right slot</em>. Get it right once and the automation fills itself in correctly on every single run.</p>
-    </div>
-  </div></section>
-
-  <!-- SESSION 3: TEST & STAY SAFE -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">Day 5 · Session 4</div>
-    <h1>Test, Then Trust</h1>
-    <p class="subtitle">An automation you have not tested is a guess. Run it once with sample data, confirm every step did what you expected, then turn it on for real.</p>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-check"/></svg> The test checklist</div>
-      <p><strong>1.</strong> Submit one test entry (use fake but realistic data).</p>
-      <p><strong>2.</strong> Check the row actually appeared in the sheet.</p>
-      <p><strong>3.</strong> Check the message actually posted to the channel.</p>
-      <p style="margin:0"><strong>4.</strong> Confirm each field landed in the right place, not scrambled.</p>
-    </div>
-    <h3>When it breaks, it is usually one of these</h3>
-    <table>
-      <thead><tr><th>What you see</th><th>The fix</th></tr></thead>
-      <tbody>
-        <tr><td>Nothing happens at all</td><td>The connection expired, reconnect the app</td></tr>
-        <tr><td>It stops partway through</td><td>You hit a free-tier limit, wait or spread the load</td></tr>
-        <tr><td>Data lands in the wrong field</td><td>Re-check your field mapping</td></tr>
-        <tr><td>It fires when it should not</td><td>Add a filter so it only runs when it should</td></tr>
+        <tr><td><strong>New lead alert</strong></td><td>Form submitted</td><td>Zapier + Gmail</td><td>20 min</td></tr>
+        <tr><td><strong>Weekly client report</strong></td><td>Every Friday 4 pm</td><td>Apps Script + Sheets</td><td>45 min</td></tr>
+        <tr><td><strong>Social media posting</strong></td><td>Row marked Approved</td><td>Make + Buffer</td><td>1 hr</td></tr>
+        <tr><td><strong>Meeting notes summary</strong></td><td>Calendar event ends</td><td>Zapier + Claude</td><td>30 min</td></tr>
+        <tr><td><strong>Invoice reminder</strong></td><td>Invoice unpaid 7+ days</td><td>Make + Stripe</td><td>15 min</td></tr>
+        <tr><td><strong>Inbox triage</strong></td><td>Email received</td><td>Gmail filters</td><td>25 min</td></tr>
+        <tr><td><strong>Research brief</strong></td><td>Every Monday 9 am</td><td>Make + Claude</td><td>40 min</td></tr>
+        <tr><td><strong>CRM data entry</strong></td><td>Form submitted</td><td>Zapier + HubSpot</td><td>30 min</td></tr>
       </tbody>
     </table>
   </div></section>
 
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Keep it safe</h2>
-    <p>A live automation runs without you watching, so safety is built in up front, not bolted on later.</p>
-    <div class="standard">
-      <div class="badge"><svg><use href="#i-lock"/></svg></div>
-      <div class="pl">Data safety first</div>
-      <p>Client-private or regulated data flows only through approved, contracted tools, never a random free connector. If you are unsure whether a tool is approved, ask before you connect it.</p>
-    </div>
-    <div class="card card-danger">
-      <div class="card-head"><svg><use href="#i-alert"/></svg> Do not let it fail silently</div>
-      <p style="margin:0">An automation that breaks quietly is worse than no automation, because you trust it and stop checking. Turn on failure notifications so a broken run tells you right away, the same way our own training tracker alerts a separate channel when something fails.</p>
-    </div>
-    <div class="quiz">
-      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Quick check</div>
-      <div class="quiz-q">You just finished building a new automation for a client. What do you do before turning it on for real?</div>
-      <div class="quiz-opts">
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Handing over an untested automation is how silent failures slip through. Test it first."><span class="qmark"></span><span class="qtext">Hand it to the client right away</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Run a test with sample data and confirm every step and field worked. Only then switch it on."><span class="qmark"></span><span class="qtext">Run a test with sample data and check every step</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="More steps before testing just means more places to break, untested."><span class="qmark"></span><span class="qtext">Add a few more steps to be safe</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Deleting your map throws away the documentation you will need when it breaks later."><span class="qmark"></span><span class="qtext">Delete the map now that it is built</span></button>
+  <!-- S1-2: ANATOMY CANVAS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Session 2</div>
+    <h1>Anatomy of an Automation</h1>
+    <p class="subtitle">Every automation, no matter how complex, is built from the same four parts.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-clock"/></svg></div><div><div class="n8n-node-title">Trigger</div><div class="n8n-node-sub">What starts it</div></div></div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.3)">Schedule / event / webhook</div>
       </div>
-      <div class="quiz-fb"></div>
-      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.35s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-target"/></svg></div><div><div class="n8n-node-title">Filter</div><div class="n8n-node-sub">Only if conditions met</div></div></div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.3)">Optional gatekeeper step</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.6s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-spark"/></svg></div><div><div class="n8n-node-title">AI Step</div><div class="n8n-node-sub">Claude processes</div></div></div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.3)">Optional: adds intelligence</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.85s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Action</div><div class="n8n-node-sub">The result delivered</div></div></div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.3)">Send / save / post / log</div>
+      </div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Insight</div><p>Understand one automation's anatomy and you can read, debug, or build any workflow you encounter.</p></div>
+  </div></section>
+
+  <!-- S2-0: PICK YOUR PATH -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Free Tool Build</div>
+    <h1>Pick Your Path</h1>
+    <p class="subtitle">Two free options. Same outcome: a real, working automation you built yourself. Pick the one that fits you, then follow that track for the next 3 slides.</p>
+    <div class="compare">
+      <div class="col" style="background:rgba(93,169,244,0.07);border:1px solid rgba(93,169,244,0.25)">
+        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-grid"/></svg> Track A · Google Apps Script</div>
+        <strong style="color:var(--ink);display:block;margin-bottom:6px">Form → Sheet → Gmail alert</strong>
+        <ul style="margin:0 0 10px;padding-left:16px;font-size:13.5px">
+          <li>Runs entirely inside Google</li>
+          <li>No third-party account needed</li>
+          <li>100% free, no task limits</li>
+          <li>You paste ~10 lines of code</li>
+        </ul>
+        <div style="font-size:12px;color:var(--dim)"><strong style="color:var(--secure)">Best for:</strong> VAs already in Google Workspace</div>
+      </div>
+      <div class="col" style="background:rgba(251,146,60,0.07);border:1px solid rgba(251,146,60,0.25)">
+        <div class="col-label" style="color:#FB923C"><svg><use href="#i-bolt"/></svg> Track B · Zapier Free Tier</div>
+        <strong style="color:var(--ink);display:block;margin-bottom:6px">Form → Gmail alert (visual, no code)</strong>
+        <ul style="margin:0 0 10px;padding-left:16px;font-size:13.5px">
+          <li>Point-and-click, zero code</li>
+          <li>Free: 100 tasks/month, unlimited Zaps</li>
+          <li>Works with 6,000+ apps</li>
+          <li>Free zapier.com account required</li>
+        </ul>
+        <div style="font-size:12px;color:var(--dim)"><strong style="color:#FB923C">Best for:</strong> VAs who want a no-code visual builder</div>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Both tracks build the same thing</div>
+      <p style="margin:0">When a Google Form is submitted, you get an email alert with the response data. The difference is only in how you build it. Either track counts as completing today's activity.</p>
     </div>
   </div></section>
 
-  <!-- SESSION 4: MAINTAIN & RECAP -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
-    <div class="eyebrow">Day 5 · Session 5</div>
-    <h1>Maintain and Scale</h1>
-    <p class="subtitle">Automations are not set-and-forget. A little upkeep keeps them reliable, and a few habits let you reuse your work across every client you support.</p>
+  <!-- S2-1: TRACK A SETUP STEPS -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">Track A · Google Apps Script</div>
+    <h2>Step 1: Set Up the Sheet and Script</h2>
+    <p>Three steps before you write any code.</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Setup guide</div></div>
+      <div class="terminal-body">
+        <span class="cprompt">Step 1</span> <span class="ccmd">Create a Google Form</span><br>
+        <span class="ccmt">  Add 3 fields: Name (short answer), Email (short answer), Message (paragraph)</span><br><br>
+        <span class="cprompt">Step 2</span> <span class="ccmd">Link to a Sheet</span><br>
+        <span class="ccmt">  In the form: Responses tab &gt; green Sheets icon &gt; Create new spreadsheet</span><br><br>
+        <span class="cprompt">Step 3</span> <span class="ccmd">Open Apps Script</span><br>
+        <span class="ccmt">  In the Sheet: Extensions &gt; Apps Script &gt; opens editor in new tab</span>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Note on authorization</div>
+      <p style="margin:0">When you run the script for the first time, Google will ask you to authorize it. Click "Advanced" then "Go to [project name] (unsafe)" and allow. This is normal for Apps Script.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-2: TRACK A CODE -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">Track A · Google Apps Script</div>
+    <h2>Step 2: Write the Trigger Function</h2>
+    <p>Paste this into the Apps Script editor, replacing any existing code. Save with Ctrl+S.</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Apps Script — Code.gs</div></div>
+      <div class="terminal-body">
+        <span class="ccmd">function</span> <span class="cprompt">notifyOnSubmit</span><span class="ccmd">(e) {</span><br>
+        <span class="ccmt">  // e.values = array of all form answers in order</span><br>
+        <span class="ccmd">  var name    = e.values[1];</span><br>
+        <span class="ccmd">  var email   = e.values[2];</span><br>
+        <span class="ccmd">  var message = e.values[3];</span><br>
+        <span class="ccmd">  MailApp.sendEmail({</span><br>
+        <span class="ccmd">    to:      Session.getActiveUser().getEmail(),</span><br>
+        <span class="ccmd">    subject: 'New form response from ' + name,</span><br>
+        <span class="ccmd">    body:    'Name: '    + name    + '\n' +</span><br>
+        <span class="ccmd">             'Email: '   + email   + '\n' +</span><br>
+        <span class="ccmd">             'Message: ' + message</span><br>
+        <span class="ccmd">  });</span><br>
+        <span class="ccmd">}</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-tool"/></svg> Connect the trigger</div>
+      <p style="margin:0">In Apps Script: click the alarm-clock icon (Triggers) on the left sidebar &gt; Add Trigger &gt; Choose function: <strong>notifyOnSubmit</strong> &gt; Event source: <strong>From spreadsheet</strong> &gt; Event type: <strong>On form submit</strong> &gt; Save.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-3: TRACK A TEST AND DEBUG -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">Track A · Google Apps Script</div>
+    <h2>Step 3: Test and Debug</h2>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Your turn (5 min)</div><div class="ex-title">Submit a test response</div></div>
+      <ol style="margin:0">
+        <li>Open your form and submit a test response with dummy data</li>
+        <li>Check your Gmail inbox for the alert email</li>
+        <li>In Apps Script, click Executions (left sidebar) to see the run log</li>
+      </ol>
+    </div>
     <table>
-      <thead><tr><th>Habit</th><th>Why it matters</th></tr></thead>
+      <thead><tr><th>Error message</th><th>Cause</th><th>Fix</th></tr></thead>
       <tbody>
-        <tr><td><strong>Name it clearly</strong></td><td>Anyone can tell what it does at a glance</td></tr>
-        <tr><td><strong>Document the steps</strong></td><td>It can be fixed or handed off without you</td></tr>
-        <tr><td><strong>Review monthly</strong></td><td>Apps change and connections expire over time</td></tr>
-        <tr><td><strong>Watch for silent failures</strong></td><td>Alerts on; no news is not always good news</td></tr>
-        <tr><td><strong>Template and reuse</strong></td><td>Copy a working one for the next client, fast</td></tr>
+        <tr><td><strong>Authorization required</strong></td><td>Never ran manually</td><td>Run the function once manually from the editor to trigger the authorization flow</td></tr>
+        <tr><td><strong>No email received</strong></td><td>Spam filter or wrong address</td><td>Check spam folder; verify the to: address resolves to your inbox</td></tr>
+        <tr><td><strong>e.values undefined</strong></td><td>Wrong trigger type</td><td>Delete the trigger and recreate with event type "On form submit," not "On open"</td></tr>
       </tbody>
     </table>
-    <div class="principle">
-      <div class="badge"><svg><use href="#i-compass"/></svg></div>
-      <div class="pl">The Principle</div>
-      <p>A documented, monitored automation is an <em>asset</em>. An undocumented one that breaks silently is a <em>liability</em>. The habits are what make the difference.</p>
+  </div></section>
+
+  <!-- S2-4: TRACK B ZAPIER SETUP -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:#FB923C">Track B · Zapier Free Tier</div>
+    <h2>Step 1: Create Your Zap</h2>
+    <p>A Zap is a single automation in Zapier. Free tier gives you 100 tasks/month and unlimited single-step Zaps.</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Zapier setup</div></div>
+      <div class="terminal-body">
+        <span class="cprompt">Step 1</span> <span class="ccmd">Create a free account</span><br>
+        <span class="ccmt">  Go to zapier.com &gt; Sign up with Google &gt; free plan</span><br><br>
+        <span class="cprompt">Step 2</span> <span class="ccmd">Create a Google Form</span><br>
+        <span class="ccmt">  Same as Track A: 3 fields — Name, Email, Message. Link to a Sheet.</span><br><br>
+        <span class="cprompt">Step 3</span> <span class="ccmd">Start a new Zap</span><br>
+        <span class="ccmt">  In Zapier: click "Create" &gt; "Zap" &gt; opens the visual builder</span><br><br>
+        <span class="cprompt">Step 4</span> <span class="ccmd">Set your trigger app</span><br>
+        <span class="ccmt">  Search "Google Forms" &gt; Event: "New Response in Spreadsheet" &gt; connect account</span>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Zapier needs the linked Sheet, not the Form</div>
+      <p style="margin:0">When connecting Google Forms in Zapier, you select the <strong>spreadsheet</strong> that your form responses log to, not the form itself. Make sure you created the linked Sheet first (Responses tab &gt; green Sheets icon).</p>
     </div>
   </div></section>
 
+  <!-- S2-5: TRACK B ZAPIER BUILD -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:#FB923C">Track B · Zapier Free Tier</div>
+    <h2>Step 2: Set the Action and Turn It On</h2>
+    <p>Once the trigger is connected, add the email action, test it, and activate.</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Zapier build — continued</div></div>
+      <div class="terminal-body">
+        <span class="cprompt">Step 5</span> <span class="ccmd">Add an action</span><br>
+        <span class="ccmt">  Click the "+" below the trigger &gt; search "Gmail" &gt; Event: "Send Email"</span><br><br>
+        <span class="cprompt">Step 6</span> <span class="ccmd">Map the fields</span><br>
+        <span class="ccmt">  To: your email address (type it directly)</span><br>
+        <span class="ccmt">  Subject: "New form response from " + [Name field from trigger]</span><br>
+        <span class="ccmt">  Body: map Name, Email, Message fields from the trigger step</span><br><br>
+        <span class="cprompt">Step 7</span> <span class="ccmd">Test the Zap</span><br>
+        <span class="ccmt">  Click "Test step" — Zapier sends a real email using your last form response</span><br><br>
+        <span class="cprompt">Step 8</span> <span class="ccmd">Publish</span><br>
+        <span class="ccmt">  Click "Publish" &gt; toggle ON &gt; your Zap is live</span>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Common mistake</div>
+        Skipping the test step and going straight to Publish. Then you do not know if the email actually sends.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Right approach</div>
+        Always click "Test step" before publishing. Zapier will send a real email from your last form response so you can verify the output looks right.
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S2-6: QA CHECKLIST -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Before You Go Live: QA Checklist</h2>
+    <p>Run every item before connecting to a client's real data.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> 7-point QA checklist</div>
+      <ol style="margin:0">
+        <li>Tested on dummy data, not real client data</li>
+        <li>Verified the trigger fires correctly (check execution log)</li>
+        <li>Confirmed the output arrived where expected (email, sheet, Slack)</li>
+        <li>Checked that a failed run sends an alert rather than silently failing</li>
+        <li>Named the automation clearly (what it does, not when you built it)</li>
+        <li>Documented the trigger, actions, and any credentials in a shared doc</li>
+        <li>Got client approval before connecting to live accounts</li>
+      </ol>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-shield"/></svg></div><div class="pl">The Rule</div><p>A slow QA now means zero late-night fixes later. Test on dummy data every time, even for a "simple" change.</p></div>
+  </div></section>
+
+  <!-- S3-0: BLANK PAGE PROBLEM -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Research Automation</div>
+    <h1>Stop Starting from Scratch</h1>
+    <p class="subtitle">Manual research and automated research produce the same output. One takes 45 minutes; the other takes 2.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Without automation</div>
+        Opens browser. Searches manually. Reads 6 tabs. Takes notes. Writes the brief. 45 minutes later: draft is ready.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> With automation</div>
+        Schedule fires. System pulls 5 sources. Claude summarizes into 3 bullets. Brief appears in inbox. 2 minutes: done.
+      </div>
+    </div>
+    <div class="standard"><div class="badge"><svg><use href="#i-spark"/></svg></div><div class="pl">The Standard</div><p>Automate the gathering. Keep the judgment. Your job shifts from collecting information to acting on it.</p></div>
+  </div></section>
+
+  <!-- S3-1: RESEARCH FLOW CANVAS -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Build the Research Flow</h2>
+    <p>Five nodes. Runs every Monday. You never have to think about it again.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-clock"/></svg></div><div><div class="n8n-node-title">Schedule</div><div class="n8n-node-sub">Mon 9:00 am</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.35s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-grid"/></svg></div><div><div class="n8n-node-title">HTTP / Search</div><div class="n8n-node-sub">Pull 5 articles</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.6s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-spark"/></svg></div><div><div class="n8n-node-title">Claude</div><div class="n8n-node-sub">Summarize + format</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.85s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-msg"/></svg></div><div><div class="n8n-node-title">Deliver</div><div class="n8n-node-sub">Email or Slack</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-tool"/></svg> Tools that support this flow</div>
+      <p style="margin:0">Make.com or n8n for the workflow canvas. NewsAPI, Perplexity API, or Firecrawl for the search step. Claude API (via Make HTTP module) for the AI step. Gmail or Slack for delivery.</p>
+    </div>
+  </div></section>
+
+  <!-- S3-2: PROMPT ENGINEERING FOR AUTOMATION -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Your Prompt Is the Logic</h2>
+    <p>In an automation the Claude node runs hundreds of times. A vague prompt gives vague output every single run.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Weak prompt</div>
+        <em style="color:var(--danger)">"Summarize this."</em><br><br>
+        Result varies wildly. Sometimes a paragraph. Sometimes a list. Sometimes a refusal. Unusable at scale.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Strong prompt</div>
+        <em style="color:var(--accent)">"You are a research assistant. Given these article summaries, write exactly 3 bullets. Each bullet: one clear insight, max 20 words. Plain text only."</em><br><br>
+        Consistent output every run. No surprises.
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Automation-specific prompt rules</div>
+      <ul style="margin:0">
+        <li>Always specify output format: bullet list, JSON, plain text, markdown</li>
+        <li>Set a word or character limit so the next step is not overwhelmed</li>
+        <li>Add a fallback instruction: "If there is no useful content, reply: NO_CONTENT"</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S3-3: ERROR HANDLING -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>When the AI Step Returns Nothing</h2>
+    <p>Every AI step can fail silently. Add a fallback for each one.</p>
+    <table>
+      <thead><tr><th>What happens</th><th>Likely cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Empty output</strong></td><td>Prompt too vague or input text too short</td><td>Add output format + minimum word count to prompt; add NO_CONTENT fallback</td></tr>
+        <tr><td><strong>Wrong format</strong></td><td>Forgot to specify structure in prompt</td><td>Add explicit JSON or bullet format instruction; test with sample input</td></tr>
+        <tr><td><strong>Timeout</strong></td><td>API rate limit or network error</td><td>Add error branch: if Claude step fails, send Slack alert with error detail</td></tr>
+        <tr><td><strong>Hallucinated data</strong></td><td>Input was ambiguous or contradictory</td><td>Include source text in the prompt; ask Claude to cite the source inline</td></tr>
+      </tbody>
+    </table>
+    <div class="standard"><div class="badge"><svg><use href="#i-shield"/></svg></div><div class="pl">The Standard</div><p>Add a fallback for every AI step. If the step fails, send an alert. Silent failure is not an option.</p></div>
+  </div></section>
+
+  <!-- S4-0: CONTENT PIPELINE PROBLEM -->
   <section class="slide" data-ses="4"><div class="slide-inner">
-    <h2>Quick check</h2>
-    <p>One more, on the part people get wrong.</p>
+    <div class="eyebrow">Day 5 · Content &amp; Social</div>
+    <h1>Approved Content That Never Gets Posted</h1>
+    <p class="subtitle">The bottleneck is not creation. It is the handoff from approved to live.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Without a pipeline</div>
+        Content approved in Slack. Buried by notifications. Re-approved 3 days later. Copy-pasted to wrong platform. Posted late. No record of what went out.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> With a pipeline</div>
+        Content approved in Sheet. Automation fires. Posted to platform at scheduled time. Row updated to "Posted." Log is always accurate.
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What this flow replaces</div>
+      <p style="margin:0">Manual copy-paste, missed posting slots, inconsistent timing, manual status updates, and the anxiety of "did that go out?"</p>
+    </div>
+  </div></section>
+
+  <!-- S4-1: CONTENT FLOW CANVAS -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Build the Content Flow</h2>
+    <p>One approved row in your Sheet triggers the entire chain.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-book"/></svg></div><div><div class="n8n-node-title">Sheet Trigger</div><div class="n8n-node-sub">New row = "Approved"</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.35s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-target"/></svg></div><div><div class="n8n-node-title">Filter</div><div class="n8n-node-sub">Status = Approved</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.6s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Post Content</div><div class="n8n-node-sub">Buffer / Hootsuite</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.85s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-refresh"/></svg></div><div><div class="n8n-node-title">Update Row</div><div class="n8n-node-sub">Status to "Posted"</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-tool"/></svg> Sheet structure that makes this work</div>
+      <p style="margin:0">Columns: <strong>Post copy</strong> | <strong>Platform</strong> | <strong>Scheduled date</strong> | <strong>Status</strong> (Draft / Approved / Posted). The automation watches the Status column and acts only on "Approved."</p>
+    </div>
+  </div></section>
+
+  <!-- S4-2: HUMAN CHECKPOINT -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Automate the Distribution, Not the Judgment</h2>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The rule</div>
+      <p style="margin:0">Never automate the approval step. The human reviews the content first, marks it approved, and only then does the automation act. This protects the client's brand and your relationship.</p>
+    </div>
+    <table>
+      <thead><tr><th>Category</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent)">Automate freely</strong></td><td>Scheduling, formatting, cross-posting, logging, reminders, data entry</td></tr>
+        <tr><td><strong style="color:var(--danger)">Keep human</strong></td><td>Approval decisions, tone reviews, crisis responses, strategy choices</td></tr>
+        <tr><td><strong style="color:var(--gold)">Gray area</strong></td><td>First-draft creation (AI is fine), final copy (human must verify before it goes out)</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S4-3: MANUAL VS AUTOMATED COMPARE -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>The Real Cost of Manual Content Handoffs</h2>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Manual (without pipeline)</div>
+        <ul style="margin:6px 0 0;padding-left:16px;font-size:13px">
+          <li>45 min/week copy-pasting across platforms</li>
+          <li>Inconsistent posting times</li>
+          <li>Missed slots when you are busy</li>
+          <li>Manual status updates in a separate doc</li>
+          <li>No audit trail if something goes wrong</li>
+        </ul>
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Automated (with pipeline)</div>
+        <ul style="margin:6px 0 0;padding-left:16px;font-size:13px">
+          <li>5 min/week: review and mark approved</li>
+          <li>Posts at the exact scheduled time</li>
+          <li>Nothing missed, even on busy days</li>
+          <li>Status auto-updates in the Sheet</li>
+          <li>Full log of every post: what, when, where</li>
+        </ul>
+      </div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Point</div><p>Your value to the client is not copy-paste speed. It is the judgment that decides what gets approved. Automate the rest.</p></div>
+  </div></section>
+
+  <!-- S5-0: LIVE BUILD INTRO -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Live Build Activity</div>
+    <h1>Time to Build Yours</h1>
+    <p class="subtitle">You mapped it yesterday. Now you run it. Use your four-question map as the blueprint.</p>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Live activity (~20 min)</div><div class="ex-title">Build your own automation from scratch</div></div>
+      <p>Bring up your four-question map from Day 4:</p>
+      <table style="margin:8px 0 0"><tbody>
+        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>What starts it?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your trigger</td></tr>
+        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>Steps in order?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your action sequence</td></tr>
+        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>Any "only if" conditions?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your filters</td></tr>
+        <tr><td style="padding:8px 10px;font-size:13px"><strong>Finished result?</strong></td><td style="padding:8px 10px;font-size:13px;color:var(--dim)">Your expected output</td></tr>
+      </tbody></table>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Did not map a task yesterday?</div>
+      <p style="margin:0">Pick one from Session 2's Common VA Automations table: "New lead alert" with Zapier + Gmail is the fastest to build and a great first automation.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-1: CHOOSE YOUR TOOL -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>Pick the Right Tool for Your Build</h2>
+    <p>Choose based on what your automation connects to and your comfort level.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>Best for</th><th>Cost</th><th>Skill level</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Zapier</strong></td><td>Quick trigger-action flows, 6,000+ app integrations</td><td>Free tier (100 tasks/month)</td><td>Beginner</td></tr>
+        <tr><td><strong>Make</strong></td><td>Visual multi-step flows, advanced logic</td><td>Free tier (1,000 ops/month)</td><td>Beginner to intermediate</td></tr>
+        <tr><td><strong>Apps Script</strong></td><td>Google Workspace automations (Sheets, Gmail, Forms)</td><td>Free</td><td>Beginner (basic JS)</td></tr>
+      </tbody>
+    </table>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> If you are not sure which to use</div>
+      <p style="margin:0">Start with <strong>Zapier</strong> if your automation connects two non-Google apps. Start with <strong>Apps Script</strong> if it lives inside Google Workspace. Use <strong>Make</strong> when you need more than 2-3 steps with branching logic.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-2: BUILD STEP BY STEP -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>Build It: Step by Step</h2>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-activity"/></svg> Your turn</div><div class="ex-title">Follow these 5 steps with your chosen tool</div></div>
+      <ol style="margin:0">
+        <li><strong>Open your tool</strong> (Zapier, Make, or Apps Script) and start a new workflow</li>
+        <li><strong>Set up the trigger:</strong> choose the event from your map (form submit, schedule, new row, etc.)</li>
+        <li><strong>Add the first action:</strong> connect the next step and map the data fields</li>
+        <li><strong>Add any filters or conditions</strong> from your "only if" question</li>
+        <li><strong>Add the final action</strong> (send, save, post, log) and turn on the automation</li>
+      </ol>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Golden rule for live builds</div>
+      <p style="margin:0">Build one step. Test one step. Do not add the next step until the current one works. The most common mistake is building five steps and then not knowing which one broke.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-3: VA BEST PRACTICES -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>VA Standards: Before You Hand It Over</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Professional standards checklist</div>
+      <ul style="margin:0">
+        <li>Name the automation clearly: what it does, not when you built it ("Weekly Client Report" not "Automation 3")</li>
+        <li>Document the trigger, actions, and any API keys in a shared doc the client can access</li>
+        <li>Test on your own data before connecting to the client's live accounts</li>
+        <li>Tell the client what changed and how to pause or turn it off</li>
+        <li>Schedule a monthly review: check that triggers still fire and outputs still look right</li>
+      </ul>
+    </div>
+    <table>
+      <thead><tr><th>Common mistake</th><th>What goes wrong</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>No error alert</strong></td><td>Automation breaks silently; nobody notices for days</td><td>Add an "on error: send me a Slack/email alert" branch to every flow</td></tr>
+        <tr><td><strong>Real data in tests</strong></td><td>Duplicate emails sent, corrupted records</td><td>Always use dummy data in test mode before going live</td></tr>
+        <tr><td><strong>No client sign-off</strong></td><td>Client did not want that automated</td><td>Show the flow diagram and get written approval before connecting</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S6-0: WHAT'S COMING IN DAY 6 -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Session 7</div>
+    <h1>What's Coming in Day 6</h1>
+    <p class="subtitle">Today was building inside Google and AI tools. Day 6 moves into the client-facing platform: GoHighLevel.</p>
+    <table>
+      <thead><tr><th>Day 6 activity</th><th>What you will learn</th><th>Tools</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Account navigation</strong></td><td>Move around your sub-account, understand the sidebar layout</td><td>GoHighLevel</td></tr>
+        <tr><td><strong>Contacts and pipelines</strong></td><td>Add contacts, move deals through stages, understand CRM logic</td><td>GHL CRM</td></tr>
+        <tr><td><strong>Forms and surveys</strong></td><td>Build lead capture forms, connect responses to contacts</td><td>GHL Forms</td></tr>
+        <tr><td><strong>Snapshots</strong></td><td>Import a KeyPlayers snapshot, understand what it pre-builds</td><td>GHL Snapshots</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Come prepared</div>
+      <p style="margin:0">Log in to your GoHighLevel sub-account before Day 6. Spend 10 minutes exploring the left sidebar and note anything unfamiliar. That curiosity is the best setup for the session.</p>
+    </div>
+  </div></section>
+
+  <!-- S6-1: QUIZ -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <h2>Quick Check</h2>
+    <p>One scenario to put it all together.</p>
     <div class="quiz">
       <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
-      <div class="quiz-q">Your automation runs, but the team message says "New lead: {{name}}" with the braces still showing. What went wrong?</div>
+      <div class="quiz-q">You built a research automation. Every Monday it searches for news, passes the text to Claude, and emails you a summary. This Monday the email did not arrive. What is the most useful first step?</div>
       <div class="quiz-opts">
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="The field was never mapped, so the placeholder was sent as literal text instead of the real name. Map the name field and re-test."><span class="qmark"></span><span class="qtext">The name field was not mapped to real data</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="The trigger clearly fired, since the message was sent. The problem is the data inside it."><span class="qmark"></span><span class="qtext">The trigger never fired</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A limit would stop the run, not send a message with raw placeholders."><span class="qmark"></span><span class="qtext">You hit a usage limit</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="The connection is working, the message went out. The data mapping is the issue."><span class="qmark"></span><span class="qtext">The app connection expired</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Error logs tell you exactly which step broke: the trigger, the search, the Claude step, or the email. Diagnose before changing anything."><span class="qmark"></span><span class="qtext">Check if the automation ran at all, then read the error log for the step that failed</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A rebuild is a last resort. Errors almost always mean a minor fix in one step. Diagnose first."><span class="qmark"></span><span class="qtext">Rebuild the automation from scratch</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="This is an internal research tool. And you do not even know the cause yet. Diagnose before communicating."><span class="qmark"></span><span class="qtext">Email your client to apologize for missing the brief</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="The error might not be in the Claude step at all. The trigger may never have fired, or the search may have returned nothing. Diagnose first."><span class="qmark"></span><span class="qtext">Change the Claude prompt and try again</span></button>
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
     </div>
   </div></section>
 
-  <section class="slide" data-ses="4"><div class="slide-inner">
-    <h2>Wrap-up &amp; what's next</h2>
+  <!-- S6-2: WRAP UP -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <h2>Wrap-up and what's next</h2>
     <table>
-      <thead><tr><th>Step</th><th>The one-line version</th></tr></thead>
+      <thead><tr><th>Idea</th><th>The one-line version</th></tr></thead>
       <tbody>
-        <tr><td><strong>Connect</strong></td><td>Link a trigger app to action apps through a platform</td></tr>
-        <tr><td><strong>Map</strong></td><td>Plug each piece of trigger data into the right slot</td></tr>
-        <tr><td><strong>Test</strong></td><td>Run it once with sample data and check every step</td></tr>
-        <tr><td><strong>Maintain</strong></td><td>Name it, document it, monitor it, reuse it</td></tr>
+        <tr><td><strong>Blueprint</strong></td><td>The four-question map turns a task description into a buildable workflow</td></tr>
+        <tr><td><strong>Free tool build</strong></td><td>Apps Script plus Sheets is zero-cost and runs in the Google ecosystem you already have</td></tr>
+        <tr><td><strong>Research automation</strong></td><td>Schedule plus AI is the most powerful VA productivity combination</td></tr>
+        <tr><td><strong>Content pipeline</strong></td><td>Approved-to-posted automation removes the manual bottleneck between creation and publishing</td></tr>
+        <tr><td><strong>Prompt as logic</strong></td><td>In automation, your prompt runs hundreds of times: specificity is not optional</td></tr>
+        <tr><td><strong>Human checkpoint</strong></td><td>Automate the distribution, not the judgment</td></tr>
+        <tr><td><strong>Error handling</strong></td><td>Every AI step needs a fallback: if output is blank, send an alert</td></tr>
+        <tr><td><strong>VA standards</strong></td><td>Name it, document it, test on dummy data, get client sign-off, review monthly</td></tr>
       </tbody>
     </table>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 6 (activity)</div>
-      <p style="margin:0">Take the map you made after Day 4 and turn it into a build spec: write down the exact trigger app and event, then each action app and what it does. You now have everything you would hand to a builder, including yourself.</p>
+      <p style="margin:0">Log in to your GoHighLevel sub-account and explore the sidebar for 10 minutes. Note any section you are unfamiliar with. Bring those questions to Day 6.</p>
     </div>
     <div class="qa">
       <h3>Day 5 Q&amp;A</h3>
-      <p>Bring your questions on connectors, field mapping, testing, and keeping automations safe. Next we go into GoHighLevel, the platform where many of these automations will actually live for clients.</p>
+      <p>Bring your questions on Apps Script, research flows, and content pipelines. Day 6 shifts into GoHighLevel: the platform your clients use to run their entire business.</p>
       <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 6 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+    <div class="footnote">
+      <div class="footnote-label">Keep learning: YouTube channels on automation</div>
+      <div class="footnote-list">
+        <div class="fn-item"><strong>Liam Ottley</strong><span>AI automation agency, n8n, Make</span></div>
+        <div class="fn-item"><strong>Corbin Brown</strong><span>AI agents and real workflow builds</span></div>
+        <div class="fn-item"><strong>Nick Saraev</strong><span>Make.com tutorials, visual and beginner-clear</span></div>
+        <div class="fn-item"><strong>Kevin Stratvert</strong><span>Google and Microsoft tools, free-tier focus</span></div>
+        <div class="fn-item"><strong>Nate Herk</strong><span>Make.com, Zapier, AI automation</span></div>
+      </div>
     </div>
   </div></section>
 
-  </div>
+  </div><!-- deck -->
 
   <div class="deckbar">
     <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
-    <div class="db-label" id="dbLabel">From Map to Build</div>
-    <div class="db-count" id="dbCount"><strong>1</strong> / 11</div>
+    <div class="db-label" id="dbLabel">Welcome Back</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 26</div>
     <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
 </div>
 
 <script>
-const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 5', UNLOCK_DATE:'2026-06-12', PREV_DAY_KEY:'kp_done_Day 4' };
-const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html';
-
-/* ---- KeyPlayers attendance + completion tracking ---- */
-const TRACK = {
-  URL: CONFIG.SUBMIT_URL,
-  DAY: CONFIG.DAY,          // 'Day 5'
-  NEXT: 'Day 6',
-  TOKEN: '',
-  BEACON_ON_OPEN: true
-};
-let attendeeName = (new URLSearchParams(location.search).get('name'))
-  || localStorage.getItem('kp_name')                  // remembered across every day
-  || localStorage.getItem('kp_name_'+TRACK.DAY) || ''; // migrate any older per-day value
-attendeeName = (attendeeName||'').trim();
-if(attendeeName) localStorage.setItem('kp_name', attendeeName);
-
-function kpTrack(eventType, extra){
-  if(!TRACK.URL || !TRACK.URL.startsWith('http')){ console.log('[track]', eventType, Object.assign({name:attendeeName}, extra||{})); return; }
-  const payload = Object.assign({
-    formType:eventType, day:TRACK.DAY, token:TRACK.TOKEN,
-    name:attendeeName, userAgent:navigator.userAgent, ts:new Date().toISOString()
-  }, extra||{});
-  kpSend(payload);
-}
-function kpSend(payload){
-  fetch(TRACK.URL, { method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
-    .catch(()=>kpQueue(payload));
-}
-function kpQueue(payload){
-  try{ const q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); q.push(payload);
-    localStorage.setItem('kp_queue', JSON.stringify(q.slice(-50))); }catch(e){}
-}
-function kpFlush(){
-  let q; try{ q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); }catch(e){ q=[]; }
-  if(!q.length) return; localStorage.removeItem('kp_queue'); q.forEach(kpSend);
-}
-function kpOnce(key){ if(localStorage.getItem(key)) return false; localStorage.setItem(key,'1'); return true; }
-
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 5',UNLOCK_DATE:'2026-06-12',PREV_DAY_KEY:'kp_done_Day 4'};
+const NEXT_DECK='https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 6',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
 kpFlush();
-/* ---- presence + blocking check-in gate ---- */
-function kpSetName(n){ n=(n||'').trim(); if(!n) return false;
-  attendeeName=n; localStorage.setItem('kp_name', n); localStorage.setItem('kp_name_'+TRACK.DAY, n); return true; }
-function kpRecordPresence(){
-  if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())) kpTrack('opened', {});
-  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});
-  var f=document.getElementById('attForm'), d=document.getElementById('attDone');
-  if(f) f.style.display='none'; if(d) d.style.display='block';
-}
-function kpGateClose(){ var g=document.getElementById('kpGate'); if(g&&g.parentNode) g.parentNode.removeChild(g); }
-function kpGateOpen(){
-  if(document.getElementById('kpGate')) return;
-  var g=document.createElement('div'); g.id='kpGate';
-  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
-  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
-    '<div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div>'+
-    '<h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2>'+
-    '<p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
-    '<input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
-    '<input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
-    '</div>'+
-    '<div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>'+
-    '<button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button>'+
-  '</div>';
-  document.body.appendChild(g);
-  var fn=g.querySelector('#kpGateFname'), ln=g.querySelector('#kpGateLname'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
-  function go(){ var f=(fn.value||'').trim(), l=(ln.value||'').trim(); if(!f||!l){ er.textContent='Please enter both your first and last name.'; er.style.display='block'; (f?ln:fn).focus(); return; } er.style.display='none'; localStorage.setItem('kp_fname',f); localStorage.setItem('kp_lname',l); kpSetName(f+' '+l); kpRecordPresence(); kpGateClose(); }
-  btn.onclick=go; [fn,ln].forEach(function(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); }); });
-  setTimeout(function(){ try{ fn.focus(); }catch(e){} }, 50);
-}
-/* ---- date-unlock + completion-gate guardrails ---- */
-function kpShowLocked(badge,heading,body){
-  if(document.getElementById('kpLocked')) return;
-  var el=document.createElement('div'); el.id='kpLocked';
-  el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
-  el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
-    '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
-    '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div>'+
-    '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2>'+
-    '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p>'+
-  '</div>';
-  document.body.appendChild(el);
-}
-/* ---- past sessions navigator ---- */
-const KP_SESSIONS=[
-  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
-  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
-  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
-  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
-  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
-  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
-  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
-  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}
-];
-function kpNavBuild(){
-  var base='https://kphq-updated-training.vercel.app/';
-  var panel=document.createElement('div'); panel.id='kpNavPanel';
-  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
-  panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
-  KP_SESSIONS.forEach(function(s){
-    var done=!!localStorage.getItem('kp_done_'+s.day);
-    var isCur=(s.day===CONFIG.DAY);
-    var a=document.createElement('a');
-    a.href=base+s.url;
-    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
-    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
-    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
-    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
-    panel.appendChild(a);
-  });
-  document.body.appendChild(panel);
-  var btn=document.createElement('div'); btn.id='kpNavBtn';
-  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
-  btn.innerHTML='&#9776; Sessions';
-  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
-  document.body.appendChild(btn);
-  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
-}
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpRecordPresence();kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
-function kpShowAdminBadge(){
-  function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
-  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();
-}
-function kpCheckAccess(){
-  if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
-  var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');
-  if(new Date()<unlock){
-    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-    var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
-    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
-  }
-  if(CONFIG.PREV_DAY_KEY && !localStorage.getItem(CONFIG.PREV_DAY_KEY)){
-    var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);
-    var fn2=function(){ kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' isn\'t marked complete on this device. Go back and click through to the end of '+prev+', then return here.'); };
-    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2(); return;
-  }
-  if(attendeeName){ kpRecordPresence(); }
-  else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',kpGateOpen); }
-  else { kpGateOpen(); }
-}
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(attendeeName){kpRecordPresence();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
 kpCheckAccess();
-
-function markAttendance(){
-  var inp=document.getElementById('attName'); var err=document.getElementById('attErr');
-  if(!kpSetName(inp?inp.value:'')){ if(err){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; } return; }
-  if(err) err.style.display='none';
-  kpRecordPresence();
-}
-
-function proceedNext(){
-  if(kpOnce('kp_done_'+TRACK.DAY)) kpTrack('completed', { nextDay: TRACK.NEXT });
-  setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
-}
-
-const sesNames = ['From Map to Build','Connectors','Build It Step by Step','Test & Stay Safe','Maintain & Recap'];
-
-const slides = [...document.querySelectorAll('.slide')];
-const navLinks = [...document.querySelectorAll('#nav a')];
-const pfill = document.getElementById('pfill'), ptext = document.getElementById('ptext');
-const dbLabel = document.getElementById('dbLabel'), dbCount = document.getElementById('dbCount');
-const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
-let cur = 0;
-
-function render(){
-  slides.forEach((s,i)=>s.classList.toggle('active', i===cur));
-  const ses = +slides[cur].dataset.ses;
-  navLinks.forEach((a,i)=>{a.classList.toggle('active', i===ses); a.classList.toggle('done', i<ses);});
-  pfill.style.width = Math.round(((cur+1)/slides.length)*100)+'%';
-  ptext.textContent = 'Slide '+(cur+1)+' of '+slides.length;
-  dbLabel.textContent = sesNames[ses];
-  dbCount.innerHTML = '<strong>'+(cur+1)+'</strong> / '+slides.length;
-  prevBtn.disabled = cur===0;
-  if(cur===slides.length-1){
-    nextBtn.innerHTML = 'Day 6 <svg><use href="#i-arrow"/></svg>';
-    nextBtn.onclick = proceedNext;
-  } else {
-    nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
-    nextBtn.onclick = next;
-  }
-  const sc = slides[cur]; sc.scrollTop = 0;
-}
-function next(){ if(cur<slides.length-1){ cur++; render(); } }
-function prev(){ if(cur>0){ cur--; render(); } }
-function goSession(s){ const i = slides.findIndex(sl=>+sl.dataset.ses===s); if(i>=0){ cur=i; render(); } closeNav(); }
-
-document.addEventListener('keydown', e=>{
-  const t = document.activeElement.tagName;
-  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
-  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); next(); }
-  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
-});
-
-function toggleNav(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('scrim').classList.toggle('show'); }
-function closeNav(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
-function quizPick(btn){
-  const quiz=btn.closest('.quiz'); if(quiz.classList.contains('answered'))return;
-  quiz.classList.add('answered');
-  const opts=[...quiz.querySelectorAll('.quiz-opt')];
-  const correctOpt=opts.find(o=>o.dataset.correct==='true');
-  const chose=btn.dataset.correct==='true';
-  opts.forEach(o=>{o.disabled=true; if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});
-  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}
-  const fb=quiz.querySelector('.quiz-fb');
-  fb.innerHTML = chose
-    ? '<strong class="ok">Correct.</strong> '+btn.dataset.why
-    : '<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;
-  fb.classList.add('show');
-  quiz.querySelector('.quiz-reset').style.display='inline-block';
-}
-function quizReset(btn){
-  const quiz=btn.closest('.quiz'); quiz.classList.remove('answered');
-  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});
-  const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
-  btn.style.display='none';
-}
+function markAttendance(){var inp=document.getElementById('attName');var err=document.getElementById('attErr');if(!kpSetName(inp?inp.value:'')){if(err){err.textContent='Please enter your name to mark attendance.';err.style.display='block';}return;}if(err)err.style.display='none';kpRecordPresence();}
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Welcome Back','Your Blueprint','Free Tool Build','Research Automation','Content & Social','Live Build','Recap'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 6 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function next(){if(cur<slides.length-1){cur++;render();}}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function quizPick(btn){const quiz=btn.closest('.quiz');if(quiz.classList.contains('answered'))return;quiz.classList.add('answered');const opts=[...quiz.querySelectorAll('.quiz-opt')];const correctOpt=opts.find(o=>o.dataset.correct==='true');const chose=btn.dataset.correct==='true';opts.forEach(o=>{o.disabled=true;if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}const fb=quiz.querySelector('.quiz-fb');fb.innerHTML=chose?'<strong class="ok">Correct.</strong> '+btn.dataset.why:'<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;fb.classList.add('show');quiz.querySelector('.quiz-reset').style.display='inline-block';}
+function quizReset(btn){const quiz=btn.closest('.quiz');quiz.classList.remove('answered');quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';btn.style.display='none';}
 render();
 </script>
 </body>
