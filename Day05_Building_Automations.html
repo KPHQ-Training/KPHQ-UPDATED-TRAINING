@@ -500,7 +500,7 @@
         <span class="cprompt">Step 3</span> <span class="ccmd">Start a new Zap</span><br>
         <span class="ccmt">  In Zapier: click "Create" &gt; "Zap" &gt; opens the visual builder</span><br><br>
         <span class="cprompt">Step 4</span> <span class="ccmd">Set your trigger app</span><br>
-        <span class="ccmt">  Search "Google Forms" &gt; Event: "New Response in Spreadsheet" &gt; connect account</span>
+        <span class="ccmt">  Search "Google Forms" &gt; Event: "New Form Response" &gt; connect account</span>
       </div>
     </div>
     <div class="card card-gold">
@@ -744,20 +744,73 @@
   <section class="slide" data-ses="5"><div class="slide-inner">
     <div class="eyebrow">Day 5 · Live Build Activity</div>
     <h1>Time to Build Yours</h1>
-    <p class="subtitle">You mapped it yesterday. Now you run it. Use your four-question map as the blueprint.</p>
-    <div class="exercise">
-      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Live activity (~20 min)</div><div class="ex-title">Build your own automation from scratch</div></div>
-      <p>Bring up your four-question map from Day 4:</p>
-      <table style="margin:8px 0 0"><tbody>
-        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>What starts it?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your trigger</td></tr>
-        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>Steps in order?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your action sequence</td></tr>
-        <tr><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border)"><strong>Any "only if" conditions?</strong></td><td style="padding:8px 10px;font-size:13px;border-bottom:1px solid var(--border);color:var(--dim)">Your filters</td></tr>
-        <tr><td style="padding:8px 10px;font-size:13px"><strong>Finished result?</strong></td><td style="padding:8px 10px;font-size:13px;color:var(--dim)">Your expected output</td></tr>
-      </tbody></table>
-    </div>
+    <p class="subtitle">Before you build, you need to know <em>what</em> to build. Today you use an AI evaluator to find out.</p>
     <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-book"/></svg> Did not map a task yesterday?</div>
-      <p style="margin:0">Pick one from Session 2's Common VA Automations table: "New lead alert" with Zapier + Gmail is the fastest to build and a great first automation.</p>
+      <div class="card-head"><svg><use href="#i-activity"/></svg> The 3-step activity today</div>
+      <ol style="margin:0">
+        <li><strong>List your tasks</strong> — write down 5 to 10 things you do repeatedly as a VA</li>
+        <li><strong>Run the Automation Evaluator</strong> — paste a prompt into Claude.ai and let it score your tasks</li>
+        <li><strong>Build the top pick</strong> — take the highest-scoring free task and build the automation right now</li>
+      </ol>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-spark"/></svg></div><div class="pl">Why this matters</div><p>Most VAs guess what to automate. You will know. The evaluator scores every task on data, decision, and repetition — so you build the right thing first.</p></div>
+  </div></section>
+
+  <!-- S5-1: THE EVALUATOR PROMPT -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Live Build — Step 1</div>
+    <h2>Run the Automation Evaluator</h2>
+    <p>Open <strong>claude.ai</strong> (free account). Copy the prompt below, paste it in, then add your task list at the bottom where it says [YOUR TASKS HERE].</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Automation Evaluator Prompt — copy this into Claude.ai</div></div>
+      <div class="terminal-body" style="font-size:12px;line-height:1.9;user-select:all">
+        <span class="ccmt">You are an automation evaluator. I will give you a list of tasks I do regularly as a VA.</span><br>
+        <span class="ccmt">Score each task out of 20 using these 4 dimensions (1-5 each):</span><br>
+        <span class="ccmt">- Repetitiveness: 1 = changes every time, 5 = identical every time</span><br>
+        <span class="ccmt">- Decision density: 1 = heavy judgment needed, 5 = no judgment, just execution</span><br>
+        <span class="ccmt">- Data clarity: 1 = messy unstructured input, 5 = clean predictable input</span><br>
+        <span class="ccmt">- Human touch: 1 = needs relationship or tone, 5 = no relationship needed</span><br><br>
+        <span class="ccmt">Add the 4 scores to get the Automation Potential Score (APS) out of 20.</span><br>
+        <span class="ccmt">Bucket each task:</span><br>
+        <span class="cprompt">🟢 16-20</span> <span class="ccmd">= Automate Now</span><br>
+        <span class="cprompt">🟡 11-15</span> <span class="ccmd">= AI-Assist (human in the loop)</span><br>
+        <span class="cprompt">🟠 6-10</span> <span class="ccmd">= Streamline First</span><br>
+        <span class="cprompt">🔴 4-5</span> <span class="ccmd">= Keep Human</span><br><br>
+        <span class="ccmt">For every 🟢 task: name the best FREE tool (Google Apps Script, Make.com free tier,</span><br>
+        <span class="ccmt">Zapier free tier, IFTTT, Notion Automations) and give numbered build steps.</span><br>
+        <span class="ccmt">For every 🔴 task: explain in one sentence why it must stay human.</span><br><br>
+        <span class="ccmt">End your response with TOP 3 QUICK WINS: highest score + simplest to build first.</span><br><br>
+        <span class="cprompt">Here are my tasks:</span><br>
+        <span class="ccmd">[YOUR TASKS HERE — list them one per line]</span>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> How to write your task list</div>
+      <p style="margin:0">One task per line. Be specific. Instead of "manage emails" write "forward all client inquiry emails to my tracker sheet." The more specific the task, the better the score.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-2: READ YOUR RESULTS -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 5 · Live Build — Step 2</div>
+    <h2>Read Your Results</h2>
+    <p>Claude will return a scored list. Here is how to use it.</p>
+    <table>
+      <thead><tr><th>What Claude returns</th><th>What to do with it</th></tr></thead>
+      <tbody>
+        <tr><td><span style="color:var(--accent);font-weight:600">🟢 Automate Now</span></td><td>This is your build target today. Pick the highest-scoring one.</td></tr>
+        <tr><td><span style="color:var(--gold);font-weight:600">🟡 AI-Assist</span></td><td>Claude drafts or prepares it. You review and approve before it sends.</td></tr>
+        <tr><td><span style="color:#FB923C;font-weight:600">🟠 Streamline First</span></td><td>Not ready to automate. Standardize the process first, revisit later.</td></tr>
+        <tr><td><span style="color:var(--danger);font-weight:600">🔴 Keep Human</span></td><td>Do not automate. This task needs your judgment, tone, or relationship.</td></tr>
+      </tbody>
+    </table>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-target"/></svg> Your pick</div><div class="ex-title">Choose your automation target</div></div>
+      <ol style="margin:0">
+        <li>Find the top 🟢 task in your results</li>
+        <li>Check the tool Claude recommended — is it in the free tier list?</li>
+        <li>Write it down: <strong>Task:</strong> ___ | <strong>Tool:</strong> ___ | <strong>Trigger:</strong> ___ | <strong>Output:</strong> ___</li>
+      </ol>
     </div>
   </div></section>
 
@@ -907,7 +960,7 @@
 </div>
 
 <script>
-const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 5',UNLOCK_DATE:'2026-06-12',PREV_DAY_KEY:'kp_done_Day 4'};
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 5',UNLOCK_DATE:'2026-06-12',PREV_DAY_KEY:''};
 const NEXT_DECK='https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html';
 const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 6',TOKEN:'',BEACON_ON_OPEN:true};
 let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
