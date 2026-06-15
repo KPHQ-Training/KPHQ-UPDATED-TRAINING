@@ -3,636 +3,843 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers HQ | Day 6: GoHighLevel Foundations</title>
+<title>KeyPlayers VA Academy | Day 6: GoHighLevel Foundations</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-deep: #010D07;
-    --bg-glow: #062817;
-    --accent: #22C55E;
-    --accent-hover: #16a34a;
-    --white: #FFFFFF;
-    --silver: #A1A1AA;
-    --gold: #EAB308;
-    --charcoal: #18181B;
-    --pill-bg: #166534;
-    --card-bg: #0f1a14;
-    --border: #1e2e26;
-    --red: #ef4444;
-    --sidebar-w: 260px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg-deep); color: var(--silver); line-height: 1.7; font-size: 15px; }
-
-  /* ── SIDEBAR ── */
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--charcoal); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
-  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
-  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
-  .sidebar-logo span { color: var(--accent); }
-  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
-  .sidebar-nav { flex: 1; padding: 12px 0; }
-  .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--silver); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s ease; border-left: 3px solid transparent; }
-  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
-  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
-  .sidebar-nav a .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--bg-deep); color: var(--silver); font-size: 11px; font-weight: 700; flex-shrink: 0; }
-  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
-  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
-  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
-  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
-  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
-  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
-  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
-  .course-nav a:hover { color: var(--white); }
-  .course-nav a.current { color: var(--accent); font-weight: 700; }
-
-  /* ── MAIN ── */
-  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
-  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
-
-  /* ── SECTIONS ── */
-  .section { display: none; animation: fadeIn 0.3s ease; }
-  .section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* ── TYPOGRAPHY ── */
-  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
-  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
-  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
-  p { margin-bottom: 14px; }
-  strong { color: var(--white); font-weight: 600; }
-  em { color: var(--accent); font-style: normal; }
-
-  /* ── CARDS ── */
-  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
-  .card-accent { border-left: 3px solid var(--accent); }
-  .card-gold { border-left: 3px solid var(--gold); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
-  .card-gold .card-title { color: var(--gold); }
-  .card-red .card-title { color: var(--red); }
-
-  /* ── REVIEW CARD ── */
-  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
-  .review-card h3 { color: var(--gold); margin-top: 0; }
-
-  /* ── LISTS ── */
-  ul, ol { margin: 10px 0 14px 20px; }
-  li { margin-bottom: 7px; padding-left: 4px; }
-  ul li::marker { color: var(--accent); }
-  ol li::marker { color: var(--accent); font-weight: 600; }
-
-  /* ── PROMPT BLOCKS ── */
-  .prompt-block { background: #0c0c0e; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; color: #d4d4d8; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; position: relative; }
-  .prompt-label { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: var(--pill-bg); padding: 2px 8px; border-radius: 4px; }
-
-  /* ── TABLES ── */
-  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
-  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
-  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
-  tr:hover td { background: rgba(34,197,94,0.03); }
-
-  /* ── EXERCISES ── */
-  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
-  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
-  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
-
-  /* ── COMPARISON ── */
-  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
-  .comparison-weak, .comparison-strong { padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
-  .comparison-weak { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
-  .comparison-strong { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
-  .comparison-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .comparison-weak .comparison-label { color: var(--red); }
-  .comparison-strong .comparison-label { color: var(--accent); }
-
-  /* ── PILLS ── */
-  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
-
-  /* ── NAV BUTTONS ── */
-  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
-  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
-  .btn-primary { background: var(--accent); color: var(--bg-deep); }
-  .btn-primary:hover { background: var(--accent-hover); }
-  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
-  .btn-secondary:hover { color: var(--white); }
-
-  /* ── BLOCK ITEM ── */
-  .block-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
-  .block-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-  .block-num { width: 32px; height: 32px; border-radius: 8px; background: var(--pill-bg); color: var(--accent); font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .block-name { font-size: 17px; font-weight: 700; color: var(--white); }
-  .block-body { padding: 16px 20px; }
-  .block-body p { margin-bottom: 10px; }
-
-  /* ── CALLOUT ── */
-  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
-  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .callout-body { font-size: 14px; line-height: 1.6; }
-  .callout-body strong { color: var(--white); }
-
-  /* ── TIMER ── */
-
-  /* ── STEP FLOW ── */
-  .step-flow { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
-  .step-item { display: flex; gap: 16px; position: relative; }
-  .step-item:not(:last-child) { padding-bottom: 20px; }
-  .step-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 36px; bottom: 0; width: 2px; background: var(--border); }
-  .step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--pill-bg); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-content { flex: 1; padding-top: 4px; }
-  .step-content strong { display: block; margin-bottom: 4px; }
-  .step-content p { margin: 0; font-size: 14px; }
-
-  /* ── DETAILS/SUMMARY ── */
-  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
-  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
-  summary:hover { background: rgba(34,197,94,0.04); }
-  details[open] summary { border-bottom: 1px solid var(--border); }
-  details > div { padding: 16px; }
-
-  /* ── MOBILE ── */
-  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
-  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
-  .overlay.show { display: block; }
-
-  @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
-    .sidebar.open { transform: translateX(0); }
-    .mobile-header { display: flex; }
-    .main { margin-left: 0; padding-top: 56px; }
-    .content { padding: 24px 16px 60px; }
-    .comparison { grid-template-columns: 1fr; }
-  }
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+  .footnote{margin-top:14px;padding-top:10px;border-top:1px solid var(--border)}
+  .table-compact th,.table-compact td{padding:7px 12px}
+  .table-compact{margin:6px 0 10px}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
+  .tag-badge{display:inline-block;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25);color:var(--accent);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;margin:2px 3px 2px 0}
+  .step-flow{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .step-item{display:flex;gap:16px;position:relative}
+  .step-item:not(:last-child){padding-bottom:20px}
+  .step-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .step-dot{width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content{flex:1;padding-top:4px}
+  .step-content strong{display:block;margin-bottom:4px;color:var(--ink)}
+  .step-content p{margin:0;font-size:14px}
+  .block-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:20px 0}
+  .block-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .block-num{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);color:var(--accent);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .block-name{font-size:17px;font-weight:700;color:var(--ink)}
+  .block-body{padding:16px 20px}
+  .block-body p{margin-bottom:10px}
+  .info-box{background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.18);border-radius:var(--r);padding:16px 18px;margin:16px 0;display:flex;gap:13px;align-items:flex-start}
+  .info-box-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+  .info-box-body{font-size:14px;line-height:1.6}
+  .info-box-body strong{color:var(--ink)}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}}
+  /* Replay button (shared) */
+  .anim-btn{background:none;border:1px solid var(--border);color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;padding:5px 14px;border-radius:8px;cursor:pointer;transition:color .15s,border-color .15s;letter-spacing:.3px}
+  .anim-btn:hover{color:var(--accent);border-color:var(--accent)}
+  /* --- Anim 1: Tool Collapse --- */
+  .ghl-merge-wrap{margin:22px 0;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .ghl-merge{position:relative;width:360px;height:130px}
+  .ghl-tc{position:absolute;padding:5px 12px;background:var(--panel-2);border:1px solid var(--border-2);border-radius:20px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;animation-fill-mode:both;animation-duration:1.0s;animation-timing-function:cubic-bezier(.4,0,.8,1)}
+  .ghl-tc.playing{animation-name:ghlChipGo}
+  @keyframes ghlChipGo{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.1)}}
+  .ghl-tc1{top:6px;left:0;--tx:128px;--ty:42px}
+  .ghl-tc2{top:6px;right:0;--tx:-100px;--ty:42px}
+  .ghl-tc3{top:46px;left:0;--tx:128px;--ty:6px}
+  .ghl-tc4{top:46px;right:0;--tx:-100px;--ty:6px}
+  .ghl-tc5{bottom:6px;left:10px;--tx:118px;--ty:-40px}
+  .ghl-tc6{bottom:6px;right:10px;--tx:-108px;--ty:-40px}
+  .ghl-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1);width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#1aa64f);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#04150B;letter-spacing:-.5px;font-family:var(--font-d)}
+  .ghl-badge.ghl-react{animation:ghlPulse .5s cubic-bezier(.34,1.45,.64,1)}
+  @keyframes ghlPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}45%{transform:translate(-50%,-50%) scale(1.35);filter:drop-shadow(0 0 10px rgba(34,197,94,.6))}}
+  /* --- Anim 2: Pipeline Deal Flow --- */
+  .pipe-anim-wrap{margin:20px 0}
+  .pipe-anim-board{display:flex;gap:6px;position:relative;height:120px;align-items:flex-start;padding-top:4px}
+  .pipe-col{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:8px 6px 10px;text-align:center;transition:border-color .35s,color .35s,background .35s}
+  .pipe-col-label{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--dim);margin-bottom:5px;transition:color .35s}
+  .pipe-col-name{font-size:12px;font-weight:600;color:var(--muted);transition:color .35s}
+  .pipe-col.pc-active{border-color:var(--accent);background:var(--accent-soft)}
+  .pipe-col.pc-active .pipe-col-label{color:var(--accent)}
+  .pipe-col.pc-active .pipe-col-name{color:var(--ink)}
+  .pipe-col.pc-done{border-color:rgba(34,197,94,.22)}
+  .pipe-col.pc-done .pipe-col-name{color:var(--accent)}
+  .pipe-deal{position:absolute;bottom:10px;background:linear-gradient(135deg,var(--accent),#1aa64f);border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:700;color:#04150B;white-space:nowrap;transition:left .52s cubic-bezier(.4,0,.2,1),opacity .3s;pointer-events:none;z-index:2;box-shadow:0 4px 14px rgba(34,197,94,.3);opacity:0}
+  /* --- Anim 3: Inbox Funnel --- */
+  .inbox-anim-wrap{margin:20px 0;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .inbox-anim{position:relative;width:380px;height:190px}
+  .inbox-bubble{position:absolute;padding:6px 15px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap;opacity:0;animation-fill-mode:both;animation-duration:8s;animation-timing-function:cubic-bezier(.4,0,.8,1)}
+  .inbox-bubble.playing{animation-name:ibFly}
+  @keyframes ibFly{0%{opacity:0;transform:translate(0,0) scale(1)}8%{opacity:1;transform:translate(0,0) scale(1)}65%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.3)}}
+  .ib-sms{top:16px;left:10px;background:rgba(34,197,94,.28);border:1px solid rgba(34,197,94,.6);color:var(--accent);--tx:124px;--ty:118px;animation-delay:0s}
+  .ib-email{top:8px;left:140px;background:rgba(93,169,244,.22);border:1px solid rgba(93,169,244,.6);color:var(--secure);--tx:6px;--ty:130px;animation-delay:.8s}
+  .ib-fb{top:22px;right:10px;background:rgba(130,108,255,.22);border:1px solid rgba(130,108,255,.55);color:#9989ff;--tx:-118px;--ty:114px;animation-delay:1.6s}
+  .ib-ig{top:100px;right:8px;background:rgba(240,96,160,.22);border:1px solid rgba(240,96,160,.55);color:#e878b8;--tx:-144px;--ty:50px;animation-delay:2.4s}
+  .ib-chat{top:100px;left:8px;background:rgba(234,179,8,.22);border:1px solid rgba(234,179,8,.55);color:var(--gold);--tx:152px;--ty:46px;animation-delay:3.2s}
+  .inbox-target{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:9px 22px;white-space:nowrap;transition:border-color .5s,box-shadow .5s}
+  .inbox-target.it-glow{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .inbox-target-icon{color:var(--accent)}
+  .inbox-target-icon svg{width:16px;height:16px}
+  .inbox-target-text{font-size:13px;font-weight:700;color:var(--ink)}
+  .inbox-target-sub{font-size:10.5px;color:var(--dim);margin-top:1px}
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-trending" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+</svg>
 
-<div class="mobile-header">
-  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
-  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
 </div>
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
-    <div class="sidebar-day">Day 6 &nbsp;|&nbsp; GoHighLevel Foundations</div>
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-grid"/></svg> Day 6 &middot; GoHighLevel Foundations</div>
   </div>
-  <div class="sidebar-nav">
-    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Week 1 Review</a>
-    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>What Is GoHighLevel?</a>
-    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>Navigating the Dashboard</a>
-    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>CRM &amp; Contacts</a>
-    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>Pipelines &amp; Opportunities</a>
-    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>The Communication Hub</a>
-    <a href="#" onclick="goTo(6);return false;" data-section="6"><span class="num">7</span>Hands-On Lab</a>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-refresh"/></svg></span>Week 1 Review</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-layers"/></svg></span>What Is GHL?</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Navigating the Dashboard</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-users"/></svg></span>CRM &amp; Contacts</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-trending"/></svg></span>Pipelines &amp; Opportunities</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-msg"/></svg></span>Communication Hub</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Hands-On Lab</a>
   </div>
-  <div class="sidebar-progress">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0 of 7 completed</div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
   </div>
-    <div class="course-nav">
-    <div class="course-nav-label">Course Navigation</div>
-    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
-    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
-    <a href="Day03_Tool_Selection.html">Day 3 &mdash; Tool Selection</a>
-    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
-    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
-    <a href="#" class="current">Day 6 &mdash; GoHighLevel Foundations</a>
-    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
-    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
-    <a href="GHL_Glossary.html" target="_blank" rel="noopener" style="color:var(--gold);margin-top:8px;padding-top:10px;border-top:1px solid var(--border);">&#128214; GoHighLevel Glossary</a>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a class="current"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
   </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
 </nav>
 
-<div class="main"><div class="content">
+<div class="main">
+  <div class="deck" id="deck">
 
-<!-- S0: WEEK 1 REVIEW -->
-<section class="section active" id="s0">
-  <h1>Welcome to Week 2</h1>
-  <p class="section-subtitle">Week 1 made you dangerous with AI. Week 2 makes you dangerous with the tools clients actually run their business on &mdash; starting with the single most important platform in the KeyPlayers stack: GoHighLevel.</p>
-
-  <div class="review-card">
-    <h3>Week 1 in One Breath</h3>
-    <p><strong>AI is a prediction engine, not a thinking machine.</strong> It drafts, summarises, and transforms at speed &mdash; but you own the judgment and the accuracy.</p>
-    <p><strong>Prompting is the core skill.</strong> Role, Task, Context, Constraints, Examples. The more context you give, the better the output.</p>
-    <p><strong>Claude is your primary partner.</strong> Projects give it persistent memory, Skills make it a specialist, Artifacts turn it into a document builder.</p>
-    <p style="margin:0;"><strong>Cowork turns Claude into a teammate.</strong> It acts across your real tools &mdash; with you reviewing at the right checkpoints. This is exactly the mindset you'll bring into GoHighLevel.</p>
-  </div>
-
-  <h2>Week 1, Day by Day</h2>
-  <p>Five days, five building blocks. Here's the single most important thing to carry out of each one &mdash; because you'll use every one of them inside GoHighLevel this week.</p>
-  <table>
-    <thead><tr><th>Day</th><th>Focus</th><th>The One Thing to Carry Forward</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--accent);font-weight:700;">1</td><td style="color:var(--white);">AI Foundations</td><td>AI predicts, <em>you</em> judge. Use the <strong>Trust Scale</strong> to decide how hard to check its work.</td></tr>
-      <tr><td style="color:var(--accent);font-weight:700;">2</td><td style="color:var(--white);">Prompting Mastery</td><td><strong>RTCCE</strong> &mdash; Role, Task, Context, Constraints, Examples. More context in, better output out.</td></tr>
-      <tr><td style="color:var(--accent);font-weight:700;">3</td><td style="color:var(--white);">Tool Selection</td><td>Match the tool to the job. Don't force one AI to do everything &mdash; pick the right one for the task.</td></tr>
-      <tr><td style="color:var(--accent);font-weight:700;">4</td><td style="color:var(--white);">Claude Deep Dive</td><td><strong>Projects</strong> = memory, <strong>Skills</strong> = specialism, <strong>Artifacts</strong> = finished deliverables.</td></tr>
-      <tr><td style="color:var(--accent);font-weight:700;">5</td><td style="color:var(--white);">Cowork &amp; Agentic AI</td><td>Claude can <em>act</em> across your real tools &mdash; with you reviewing at the right checkpoints.</td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#129504;</div>
-    <div class="callout-body"><strong>The two frameworks you'll reuse all week:</strong> Inside GHL you'll constantly ask AI to draft messages, summarise conversations, and sort leads. <strong>RTCCE</strong> gets you a strong draft; the <strong>Trust Scale</strong> tells you whether to send it or review it first. Almost every task in Days 6&ndash;8 is just one of these two Week 1 habits applied to a real client tool.</div>
-  </div>
-
-  <div class="review-card">
-    <h3>Quick self-check before you start</h3>
-    <p style="margin-bottom:8px;">If any of these feel shaky, it's worth a two-minute look back at the matching Week 1 day before you dive in:</p>
-    <p style="margin:0;">&#10003; Can you write a prompt with Role + Task + Context? &nbsp;&bull;&nbsp; &#10003; Can you place a task on the Trust Scale (Trust / Use Carefully / Avoid)? &nbsp;&bull;&nbsp; &#10003; Do you know the difference between a Claude Project and a Skill?</p>
-  </div>
-
-  <div class="card card-accent">
-    <div class="card-title">Why GoHighLevel Comes Next</div>
-    <p style="margin:0;">Most clients you support &mdash; agencies, coaches, real estate teams, local service businesses &mdash; run their entire operation inside GoHighLevel. Their leads, calendars, pipelines, emails, texts, and follow-ups all live there. If you master GHL, you become the person who keeps the business running. Days 6 and 7 make that happen.</p>
-  </div>
-
-  <h2>What Days 6 &amp; 7 Cover</h2>
-  <table>
-    <thead><tr><th>Day</th><th>Focus</th><th>What You'll Walk Away With</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--accent);font-weight:700;">6</td><td style="color:var(--white);">GHL Foundations</td><td>Confident navigation: dashboard, contacts, pipelines, conversations, calendars</td></tr>
-      <tr><td style="color:var(--accent);font-weight:700;">7</td><td style="color:var(--white);">GHL Automation</td><td>Workflows, triggers, APIs, webhooks, MCP, and AI-powered integrations</td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#127919;</div>
-    <div class="callout-body"><strong>Today's goal:</strong> By the end of Day 6, you should be able to log into any client's GoHighLevel account, find a contact, read a conversation, move a deal through a pipeline, and book an appointment &mdash; without panicking. That's the foundation everything else builds on.</div>
-  </div>
-
-  <div class="section-nav">
-    <a href="Day05_Cowork_Agentic_AI.html" class="btn btn-secondary">&larr; Day 5</a>
-    <button class="btn btn-primary" onclick="goTo(1)">What Is GoHighLevel? &rarr;</button>
-  </div>
-</section>
-
-<!-- S1: WHAT IS GOHIGHLEVEL -->
-<section class="section" id="s1">
-  <h1>What Is GoHighLevel?</h1>
-  <p class="section-subtitle">Before you click a single button, you need the mental model. GoHighLevel isn't one tool &mdash; it's a dozen tools fused into one platform. Understanding what it replaces is the fastest way to understand what it does.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">The one-line definition</div>
-    <p style="margin:0;color:var(--white);font-size:17px;font-weight:600;">GoHighLevel (GHL) is an all-in-one CRM and marketing platform that lets a business capture leads, nurture them, close deals, and keep customers &mdash; all in one place.</p>
-  </div>
-
-  <p>Most businesses used to stitch together 8&ndash;10 separate tools: one for email, one for texting, one for the calendar, one for the sales pipeline, one for landing pages, one for reviews. Each cost money, none of them talked to each other, and the VA had to log into all of them. GoHighLevel replaces that entire stack.</p>
-
-  <h2>What GHL Replaces</h2>
-  <table>
-    <thead><tr><th>Old Separate Tool</th><th>GHL Feature That Replaces It</th></tr></thead>
-    <tbody>
-      <tr><td>Mailchimp / ActiveCampaign (email)</td><td style="color:var(--accent);">Email campaigns &amp; automations</td></tr>
-      <tr><td>Calendly / Acuity (booking)</td><td style="color:var(--accent);">Calendars &amp; appointments</td></tr>
-      <tr><td>HubSpot / Pipedrive (sales CRM)</td><td style="color:var(--accent);">Contacts &amp; Opportunities (pipelines)</td></tr>
-      <tr><td>Twilio / texting tools (SMS)</td><td style="color:var(--accent);">2-way SMS in Conversations</td></tr>
-      <tr><td>ClickFunnels / Leadpages (pages)</td><td style="color:var(--accent);">Funnels &amp; Websites builder</td></tr>
-      <tr><td>Typeform / Jotform (forms)</td><td style="color:var(--accent);">Forms &amp; Surveys</td></tr>
-      <tr><td>Birdeye / reputation tools</td><td style="color:var(--accent);">Reviews &amp; Reputation Management</td></tr>
-      <tr><td>Later / Hootsuite (social)</td><td style="color:var(--accent);">Social Planner</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Agency vs. Sub-Account &mdash; The Most Important Concept</h2>
-  <p>This trips up almost every new VA, so get it clear now. GoHighLevel has two levels:</p>
-
-  <div class="block-item">
-    <div class="block-header">
-      <div class="block-num">A</div>
-      <div class="block-name">The Agency Account</div>
+  <!-- S0-0: WELCOME TO WEEK 2 -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Week 2 Begins</div>
+    <h1>Welcome to Week 2</h1>
+    <p class="subtitle">Week 1 made you dangerous with AI. Week 2 makes you dangerous with the tools clients actually run their business on -- starting with the single most important platform in the KeyPlayers stack: GoHighLevel.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-refresh"/></svg> Week 1 in one breath</div>
+      <p><strong>AI is a prediction engine, not a thinking machine.</strong> It drafts, summarises, and transforms at speed -- but you own the judgment and the accuracy.</p>
+      <p><strong>Prompting is the core skill.</strong> Role, Task, Context, Constraints, Examples. The more context you give, the better the output.</p>
+      <p><strong>Claude is your primary partner.</strong> Projects give it persistent memory, Skills make it a specialist, Artifacts turn it into a document builder.</p>
+      <p style="margin:0;"><strong>Cowork turns Claude into a teammate.</strong> It acts across your real tools -- with you reviewing at the right checkpoints. This is exactly the mindset you'll bring into GoHighLevel.</p>
     </div>
-    <div class="block-body">
-      <p style="margin:0;">The top level. This is owned by the agency (often your client, or KeyPlayers itself). From here you can see and manage <strong>every business that uses the platform</strong>. Think of it as the building manager's master key. You usually won't live here day-to-day &mdash; but you'll launch from it to jump into individual accounts.</p>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's goal</div>
+      <p style="margin:0;">By the end of Day 6, you should be able to log into any client's GoHighLevel account, find a contact, read a conversation, move a deal through a pipeline, and book an appointment -- without panicking. That's the foundation everything else builds on.</p>
     </div>
-  </div>
+  </div></section>
 
-  <div class="block-item">
-    <div class="block-header">
-      <div class="block-num">S</div>
-      <div class="block-name">The Sub-Account (Location)</div>
+  <!-- S0-1: WEEK 1 TABLE + WHY GHL -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Week 1 Recap</div>
+    <h2>Week 1, Day by Day</h2>
+    <p>Five days, five building blocks. Here's the single most important thing to carry out of each one -- because you'll use every one of them inside GoHighLevel this week.</p>
+    <table>
+      <thead><tr><th>Day</th><th>Focus</th><th>The One Thing to Carry Forward</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--accent);font-weight:700;">1</td><td><strong>AI Foundations</strong></td><td>AI predicts, <em>you</em> judge. Use the <strong>Trust Scale</strong> to decide how hard to check its work.</td></tr>
+        <tr><td style="color:var(--accent);font-weight:700;">2</td><td><strong>Prompting Mastery</strong></td><td><strong>RTCCE</strong> -- Role, Task, Context, Constraints, Examples. More context in, better output out.</td></tr>
+        <tr><td style="color:var(--accent);font-weight:700;">3</td><td><strong>Tool Selection</strong></td><td>Match the tool to the job. Don't force one AI to do everything -- pick the right one for the task.</td></tr>
+        <tr><td style="color:var(--accent);font-weight:700;">4</td><td><strong>Claude Deep Dive</strong></td><td><strong>Projects</strong> = memory, <strong>Skills</strong> = specialism, <strong>Artifacts</strong> = finished deliverables.</td></tr>
+        <tr><td style="color:var(--accent);font-weight:700;">5</td><td><strong>Cowork &amp; Agentic AI</strong></td><td>Claude can <em>act</em> across your real tools -- with you reviewing at the right checkpoints.</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box">
+      <div class="info-box-icon">&#129504;</div>
+      <div class="info-box-body"><strong>The two frameworks you'll reuse all week:</strong> Inside GHL you'll constantly ask AI to draft messages, summarise conversations, and sort leads. <strong>RTCCE</strong> gets you a strong draft; the <strong>Trust Scale</strong> tells you whether to send it or review it first. Almost every task in Days 6--8 is just one of these two Week 1 habits applied to a real client tool.</div>
     </div>
-    <div class="block-body">
-      <p style="margin:0;">Each individual business gets its own <strong>sub-account</strong> (also called a "location"). One sub-account = one client's business. Their contacts, pipelines, calendars, and messages live here, completely separate from every other business. <strong>99% of your daily work happens inside a sub-account.</strong> When a client says "go into my GHL," they mean their sub-account.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> Why GoHighLevel comes next</div>
+      <p style="margin:0;">Most clients you support -- agencies, coaches, real estate teams, local service businesses -- run their entire operation inside GoHighLevel. Their leads, calendars, pipelines, emails, texts, and follow-ups all live there. If you master GHL, you become the person who keeps the business running. Days 6 and 7 make that happen.</p>
     </div>
-  </div>
+    <table style="margin-top:18px">
+      <thead><tr><th>Day</th><th>Focus</th><th>What You'll Walk Away With</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--accent);font-weight:700;">6</td><td><strong>GHL Foundations</strong></td><td>Confident navigation: dashboard, contacts, pipelines, conversations, calendars</td></tr>
+        <tr><td style="color:var(--accent);font-weight:700;">7</td><td><strong>GHL Automation</strong></td><td>Workflows, triggers, APIs, webhooks, MCP, and AI-powered integrations</td></tr>
+      </tbody>
+    </table>
+  </div></section>
 
-  <div class="callout">
-    <div class="callout-icon">&#128273;</div>
-    <div class="callout-body"><strong>The golden rule of multi-client work:</strong> Always confirm which sub-account you're inside before you do anything. Sending a campaign or moving a deal in the wrong client's account is the kind of mistake that's hard to undo. The account name is always shown at the top &mdash; check it every time you switch.</div>
-  </div>
-
-  <h2>Why This Matters for You</h2>
-  <p>As a KeyPlayers VA, GHL is where a huge share of your billable work happens: adding leads, replying to messages, booking calls, moving deals, sending follow-ups, and pulling reports. The faster and more accurately you move inside it, the more valuable you are. And as you'll see on Day 7, AI makes you dramatically faster inside it.</p>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
-    <button class="btn btn-primary" onclick="goTo(2)">Navigating the Dashboard &rarr;</button>
-  </div>
-</section>
-
-<!-- S2: NAVIGATING THE DASHBOARD -->
-<section class="section" id="s2">
-  <h1>Navigating the Dashboard</h1>
-  <p class="section-subtitle">A tour of the left-hand menu &mdash; the map you'll use every single day. You don't need to master every feature today. You need to know what each menu item is for, so you always know where to go.</p>
-
-  <h2>The Left Sidebar Menu</h2>
-  <p>Inside a sub-account, everything is reached from the menu on the left. Here's what each item does, top to bottom:</p>
-
-  <table>
-    <thead><tr><th>Menu Item</th><th>What It's For</th><th>How Often You'll Use It</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Dashboard</td><td>At-a-glance stats: leads, pipeline value, revenue, appointments</td><td><span class="pill">Daily</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Conversations</td><td>The unified inbox &mdash; every SMS, email, and chat in one thread per contact</td><td><span class="pill">Constant</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Calendars</td><td>Booking links, appointments, availability</td><td><span class="pill">Daily</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Contacts</td><td>The full database of every lead and customer</td><td><span class="pill">Constant</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Opportunities</td><td>The sales pipelines &mdash; deals moving through stages</td><td><span class="pill">Daily</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Payments</td><td>Invoices, products, transactions</td><td>Occasional</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Marketing</td><td>Email campaigns, Social Planner, trigger links, templates</td><td>Weekly</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Automation</td><td>Workflows &mdash; the automation engine (this is all of Day 7)</td><td>Weekly</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Sites</td><td>Funnels, websites, forms, surveys, blogs</td><td>Project-based</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Reputation</td><td>Review requests and review monitoring</td><td>Weekly</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Reporting</td><td>Performance reports across all channels</td><td>Weekly</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Settings</td><td>Phone numbers, custom fields, team, integrations</td><td>Setup only</td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#128161;</div>
-    <div class="callout-body"><strong>Don't try to memorise everything.</strong> The four you'll live in are <strong>Conversations, Contacts, Opportunities, and Calendars.</strong> Master those four and you can handle 80% of daily VA work. The rest you learn as specific tasks come up.</div>
-  </div>
-
-  <h2>Switching Between Sub-Accounts</h2>
-  <ol class="step-list" style="list-style:none;margin:14px 0;padding:0;">
-    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span class="step-dot">1</span><div><strong>Find the account switcher.</strong> It's usually the account name at the bottom-left or top of the screen. Click it.</div></li>
-    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);"><span class="step-dot">2</span><div><strong>Search for the client.</strong> A list of all sub-accounts you have access to appears. Type the business name.</div></li>
-    <li style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;"><span class="step-dot">3</span><div><strong>Confirm the name at the top before working.</strong> Make this a reflex. The right account name in the corner = safe to proceed.</div></li>
-  </ol>
-
-  <div class="card card-gold">
-    <div class="card-title">First-day orientation task</div>
-    <p style="margin:0;">When a client gives you GHL access, spend 15 minutes just clicking through every menu item once. Don't change anything &mdash; just look. Build a mental map of where things live. This single habit will save you hours of "where do I find&hellip;?" later.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(1)">&larr; What Is GHL?</button>
-    <button class="btn btn-primary" onclick="goTo(3)">CRM &amp; Contacts &rarr;</button>
-  </div>
-</section>
-
-<!-- S3: CRM & CONTACTS -->
-<section class="section" id="s3">
-  <h1>CRM &amp; Contacts</h1>
-  <p class="section-subtitle">Contacts are the heart of GoHighLevel. Every lead, customer, and conversation connects back to a contact record. Master this section and the rest of the platform makes sense.</p>
-
-  <h2>The Contact Record</h2>
-  <p>Click any contact and you open their record &mdash; a complete profile of everything the business knows about that person. It contains:</p>
-  <ul>
-    <li><strong>Core details:</strong> name, email, phone, address, source (how they came in)</li>
-    <li><strong>Tags:</strong> labels you apply to organise and segment (more below)</li>
-    <li><strong>Custom fields:</strong> business-specific data &mdash; property type, budget, service requested, etc.</li>
-    <li><strong>Conversation history:</strong> every text, email, and call with this person</li>
-    <li><strong>Appointments:</strong> past and upcoming bookings</li>
-    <li><strong>Opportunities:</strong> which deals/pipelines they're part of</li>
-    <li><strong>Activity &amp; notes:</strong> a timeline of everything that's happened</li>
-  </ul>
-
-  <h2>Tags &mdash; Your Organisation Superpower</h2>
-  <div class="card card-accent">
-    <div class="card-title">What a tag is</div>
-    <p style="margin:0;">A tag is a simple label you stick on a contact &mdash; like <span class="pill">new-lead</span> <span class="pill">hot</span> <span class="pill">booked-call</span> <span class="pill">past-client</span>. Tags are how you group people so you can message, automate, and report on them. A contact can have many tags.</p>
-  </div>
-  <p>Tags are the connective tissue of GHL. Almost every automation you'll build on Day 7 starts with "when this tag is added&hellip;". Good tagging discipline is what separates an organised account from chaos.</p>
-
-  <div class="comparison">
-    <div class="comparison-weak">
-      <div class="comparison-label">Messy tagging</div>
-      Random tags like "John", "interested?", "call him", "MAYBE". No system. Nobody else can tell what they mean. Automations break.
+  <!-- S1-0: WHAT IS GOHIGHLEVEL -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 2</div>
+    <h1>What Is GoHighLevel?</h1>
+    <p class="subtitle">Before you click a single button, you need the mental model. GoHighLevel isn't one tool -- it's a dozen tools fused into one platform. Understanding what it replaces is the fastest way to understand what it does.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-layers"/></svg> The one-line definition</div>
+      <p style="margin:0;color:var(--ink);font-size:16px;font-weight:600;">GoHighLevel (GHL) is an all-in-one CRM and marketing platform that lets a business capture leads, nurture them, close deals, and keep customers -- all in one place.</p>
     </div>
-    <div class="comparison-strong">
-      <div class="comparison-label">Clean tagging</div>
-      A consistent system: lifecycle tags (lead / opportunity / customer), source tags (fb-ad / referral), and status tags (nurturing / booked / closed). Predictable and automatable.
+    <p>Most businesses used to stitch together 8--10 separate tools: one for email, one for texting, one for the calendar, one for the sales pipeline, one for landing pages, one for reviews. Each cost money, none of them talked to each other, and the VA had to log into all of them. GoHighLevel replaces that entire stack.</p>
+    <div class="ghl-merge-wrap">
+      <div class="ghl-merge" id="ghlMerge">
+        <div class="ghl-tc ghl-tc1">Mailchimp</div>
+        <div class="ghl-tc ghl-tc2">Calendly</div>
+        <div class="ghl-tc ghl-tc3">HubSpot</div>
+        <div class="ghl-tc ghl-tc4">Twilio</div>
+        <div class="ghl-tc ghl-tc5">Typeform</div>
+        <div class="ghl-tc ghl-tc6">Birdeye</div>
+        <div class="ghl-badge" id="ghlBadge">GHL</div>
+      </div>
+      <button class="anim-btn" onclick="replayCollapse()">&#8635; Replay</button>
     </div>
+    <h2>What GHL Replaces</h2>
+    <table>
+      <thead><tr><th>Old Separate Tool</th><th>GHL Feature That Replaces It</th></tr></thead>
+      <tbody>
+        <tr><td>Mailchimp / ActiveCampaign (email)</td><td style="color:var(--accent);">Email campaigns &amp; automations</td></tr>
+        <tr><td>Calendly / Acuity (booking)</td><td style="color:var(--accent);">Calendars &amp; appointments</td></tr>
+        <tr><td>HubSpot / Pipedrive (sales CRM)</td><td style="color:var(--accent);">Contacts &amp; Opportunities (pipelines)</td></tr>
+        <tr><td>Twilio / texting tools (SMS)</td><td style="color:var(--accent);">2-way SMS in Conversations</td></tr>
+        <tr><td>ClickFunnels / Leadpages (pages)</td><td style="color:var(--accent);">Funnels &amp; Websites builder</td></tr>
+        <tr><td>Typeform / Jotform (forms)</td><td style="color:var(--accent);">Forms &amp; Surveys</td></tr>
+        <tr><td>Birdeye / reputation tools</td><td style="color:var(--accent);">Reviews &amp; Reputation Management</td></tr>
+        <tr><td>Later / Hootsuite (social)</td><td style="color:var(--accent);">Social Planner</td></tr>
+      </tbody>
+    </table>
+    <p>As a KeyPlayers VA, GHL is where a huge share of your billable work happens: adding leads, replying to messages, booking calls, moving deals, sending follow-ups, and pulling reports. The faster and more accurately you move inside it, the more valuable you are.</p>
+  </div></section>
+
+  <!-- S1-1: AGENCY VS SUB-ACCOUNT -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 2</div>
+    <h2>Agency vs. Sub-Account -- The Most Important Concept</h2>
+    <p>This trips up almost every new VA, so get it clear now. GoHighLevel has two levels:</p>
+    <div class="block-item">
+      <div class="block-header">
+        <div class="block-num">A</div>
+        <div class="block-name">The Agency Account</div>
+      </div>
+      <div class="block-body">
+        <p style="margin:0;">The top level. This is owned by the agency (often your client, or KeyPlayers itself). From here you can see and manage <strong>every business that uses the platform</strong>. Think of it as the building manager's master key. You usually won't live here day-to-day -- but you'll launch from it to jump into individual accounts.</p>
+      </div>
+    </div>
+    <div class="block-item">
+      <div class="block-header">
+        <div class="block-num">S</div>
+        <div class="block-name">The Sub-Account (Location)</div>
+      </div>
+      <div class="block-body">
+        <p style="margin:0;">Each individual business gets its own <strong>sub-account</strong> (also called a "location"). One sub-account = one client's business. Their contacts, pipelines, calendars, and messages live here, completely separate from every other business. <strong>99% of your daily work happens inside a sub-account.</strong> When a client says "go into my GHL," they mean their sub-account.</p>
+      </div>
+    </div>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The golden rule of multi-client work</div>
+      <p style="margin:0;">Always confirm which sub-account you're inside before you do anything. Sending a campaign or moving a deal in the wrong client's account is the kind of mistake that's hard to undo. The account name is always shown at the top -- check it every time you switch.</p>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-shield"/></svg></div><div class="pl">The Standard</div><p>Right account name confirmed at the top = safe to proceed. If you're not sure, stop and check before touching anything.</p></div>
+  </div></section>
+
+  <!-- S2-0: NAVIGATING THE DASHBOARD -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 3</div>
+    <h1>Navigating the Dashboard</h1>
+    <p class="subtitle">A tour of the left-hand menu -- the map you'll use every single day. You don't need to master every feature today. You need to know what each menu item is for, so you always know where to go.</p>
+    <h2>The Left Sidebar Menu</h2>
+    <p>Inside a sub-account, everything is reached from the menu on the left. Here's what each item does, top to bottom:</p>
+    <table>
+      <thead><tr><th>Menu Item</th><th>What It's For</th><th>How Often You'll Use It</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dashboard</strong></td><td>At-a-glance stats: leads, pipeline value, revenue, appointments</td><td><span style="color:var(--accent);font-weight:600">Daily</span></td></tr>
+        <tr><td><strong>Conversations</strong></td><td>The unified inbox -- every SMS, email, and chat in one thread per contact</td><td><span style="color:var(--accent);font-weight:600">Constant</span></td></tr>
+        <tr><td><strong>Calendars</strong></td><td>Booking links, appointments, availability</td><td><span style="color:var(--accent);font-weight:600">Daily</span></td></tr>
+        <tr><td><strong>Contacts</strong></td><td>The full database of every lead and customer</td><td><span style="color:var(--accent);font-weight:600">Constant</span></td></tr>
+        <tr><td><strong>Opportunities</strong></td><td>The sales pipelines -- deals moving through stages</td><td><span style="color:var(--accent);font-weight:600">Daily</span></td></tr>
+        <tr><td><strong>Payments</strong></td><td>Invoices, products, transactions</td><td>Occasional</td></tr>
+        <tr><td><strong>Marketing</strong></td><td>Email campaigns, Social Planner, trigger links, templates</td><td>Weekly</td></tr>
+        <tr><td><strong>Automation</strong></td><td>Workflows -- the automation engine (this is all of Day 7)</td><td>Weekly</td></tr>
+        <tr><td><strong>Sites</strong></td><td>Funnels, websites, forms, surveys, blogs</td><td>Project-based</td></tr>
+        <tr><td><strong>Reputation</strong></td><td>Review requests and review monitoring</td><td>Weekly</td></tr>
+        <tr><td><strong>Reporting</strong></td><td>Performance reports across all channels</td><td>Weekly</td></tr>
+        <tr><td><strong>Settings</strong></td><td>Phone numbers, custom fields, team, integrations</td><td>Setup only</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box">
+      <div class="info-box-icon">&#128161;</div>
+      <div class="info-box-body"><strong>Don't try to memorise everything.</strong> The four you'll live in are <strong>Conversations, Contacts, Opportunities, and Calendars.</strong> Master those four and you can handle 80% of daily VA work. The rest you learn as specific tasks come up.</div>
+    </div>
+  </div></section>
+
+  <!-- S2-1: SWITCHING ACCOUNTS + ORIENTATION -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 3</div>
+    <h2>Switching Between Sub-Accounts</h2>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div class="step-content"><strong>Find the account switcher.</strong><p>It's usually the account name at the bottom-left or top of the screen. Click it.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-content"><strong>Search for the client.</strong><p>A list of all sub-accounts you have access to appears. Type the business name.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-content"><strong>Confirm the name at the top before working.</strong><p>Make this a reflex. The right account name in the corner = safe to proceed.</p></div>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> First-day orientation task</div>
+      <p style="margin:0;">When a client gives you GHL access, spend 15 minutes just clicking through every menu item once. Don't change anything -- just look. Build a mental map of where things live. This single habit will save you hours of "where do I find...?" later.</p>
+    </div>
+    <div class="card card-accent" style="margin-top:16px">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick self-check before you go deeper</div>
+      <p style="margin:0;">Can you write a prompt with Role + Task + Context? &nbsp;&bull;&nbsp; Can you place a task on the Trust Scale (Trust / Use Carefully / Avoid)? &nbsp;&bull;&nbsp; Do you know the difference between a Claude Project and a Skill? If any of these feel shaky, revisit the matching Week 1 day before continuing.</p>
+    </div>
+  </div></section>
+
+  <!-- S3-0: CRM & CONTACTS -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 4</div>
+    <h1>CRM &amp; Contacts</h1>
+    <p class="subtitle">Contacts are the heart of GoHighLevel. Every lead, customer, and conversation connects back to a contact record. Master this section and the rest of the platform makes sense.</p>
+    <h2>The Contact Record</h2>
+    <p>Click any contact and you open their record -- a complete profile of everything the business knows about that person. It contains:</p>
+    <ul>
+      <li><strong>Core details:</strong> name, email, phone, address, source (how they came in)</li>
+      <li><strong>Tags:</strong> labels you apply to organise and segment (more below)</li>
+      <li><strong>Custom fields:</strong> business-specific data -- property type, budget, service requested, etc.</li>
+      <li><strong>Conversation history:</strong> every text, email, and call with this person</li>
+      <li><strong>Appointments:</strong> past and upcoming bookings</li>
+      <li><strong>Opportunities:</strong> which deals/pipelines they're part of</li>
+      <li><strong>Activity &amp; notes:</strong> a timeline of everything that's happened</li>
+    </ul>
+    <h2>Tags -- Your Organisation Superpower</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> What a tag is</div>
+      <p style="margin:0;">A tag is a simple label you stick on a contact -- like <span class="tag-badge">new-lead</span> <span class="tag-badge">hot</span> <span class="tag-badge">booked-call</span> <span class="tag-badge">past-client</span>. Tags are how you group people so you can message, automate, and report on them. A contact can have many tags.</p>
+    </div>
+    <p>Tags are the connective tissue of GHL. Almost every automation you'll build on Day 7 starts with "when this tag is added...". Good tagging discipline is what separates an organised account from chaos.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Messy tagging</div>
+        Random tags like "John", "interested?", "call him", "MAYBE". No system. Nobody else can tell what they mean. Automations break.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Clean tagging</div>
+        A consistent system: lifecycle tags (lead / opportunity / customer), source tags (fb-ad / referral), and status tags (nurturing / booked / closed). Predictable and automatable.
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S3-1: SMART LISTS + IMPORTING -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 4</div>
+    <h2>Smart Lists -- Saved Filtered Views</h2>
+    <p>A <strong>Smart List</strong> is a saved filter over your contacts. Instead of scrolling thousands of records, you build a view like "all contacts tagged <em>hot-lead</em> who haven't booked a call." Save it, and it updates automatically as contacts match or stop matching.</p>
+    <p><strong>Common Smart Lists a VA maintains:</strong></p>
+    <ul>
+      <li>New leads from the last 7 days (to follow up)</li>
+      <li>Leads with no appointment booked (to chase)</li>
+      <li>No-shows (to re-engage)</li>
+      <li>Customers (for retention campaigns)</li>
+    </ul>
+    <h2>Adding &amp; Importing Contacts</h2>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div class="step-content"><strong>Add one contact manually</strong><p>Contacts &rarr; Add Contact. Fill in name, email, phone. Apply the correct source tag immediately.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-content"><strong>Import a list (CSV)</strong><p>Contacts &rarr; Import. Upload a spreadsheet, then map each column to a GHL field. Always apply a tag to the whole batch on import (e.g. <em>webinar-jan</em>) so you can find them later.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-content"><strong>Check for duplicates</strong><p>GHL merges by email/phone, but always sanity-check after a big import. Duplicate contacts cause double-messaging -- a fast way to annoy a client's leads.</p></div>
+      </div>
+    </div>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> High-stakes warning</div>
+      <p style="margin:0;">Contact data is real people's personal information, and a client's most valuable asset. Never export, share, or delete contacts without explicit permission. Never test automations on real leads. When practising, create a fake contact with your own details. Treat the database like it's irreplaceable -- because to the client, it is.</p>
+    </div>
+  </div></section>
+
+  <!-- S4-0: PIPELINES & OPPORTUNITIES -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 5</div>
+    <h1>Pipelines &amp; Opportunities</h1>
+    <p class="subtitle">A pipeline is the visual map of how a business turns a lead into a paying customer. Keeping it accurate is one of the highest-value things a VA does -- it's how the owner knows where the money is.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> The vocabulary</div>
+      <p style="margin-bottom:8px;"><strong>Pipeline</strong> = the whole journey, broken into stages (like a Kanban board).</p>
+      <p style="margin-bottom:8px;"><strong>Stage</strong> = one column/step in that journey (e.g. New Lead &rarr; Contacted &rarr; Booked &rarr; Won).</p>
+      <p style="margin:0;"><strong>Opportunity</strong> = one deal for one contact, sitting in one stage, usually with a dollar value attached.</p>
+    </div>
+    <div class="pipe-anim-wrap">
+      <div class="pipe-anim-board" id="pipeBoard">
+        <div class="pipe-col" data-pi="0"><div class="pipe-col-label">Stage 1</div><div class="pipe-col-name">New Lead</div></div>
+        <div class="pipe-col" data-pi="1"><div class="pipe-col-label">Stage 2</div><div class="pipe-col-name">Contacted</div></div>
+        <div class="pipe-col" data-pi="2"><div class="pipe-col-label">Stage 3</div><div class="pipe-col-name">Apt Booked</div></div>
+        <div class="pipe-col" data-pi="3"><div class="pipe-col-label">Stage 4</div><div class="pipe-col-name">Proposal</div></div>
+        <div class="pipe-col" data-pi="4"><div class="pipe-col-label">Stage 5</div><div class="pipe-col-name">Won &#10003;</div></div>
+        <div class="pipe-deal" id="pipeDeal">Sarah M.</div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px">
+        <button class="anim-btn" onclick="replayPipeline()">&#8635; Replay</button>
+      </div>
+    </div>
+    <h2>A Typical Sales Pipeline</h2>
+    <table>
+      <thead><tr><th>Stage</th><th>What It Means</th><th>VA Action</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--accent);font-weight:600;">New Lead</td><td>Just came in, no contact yet</td><td>Reach out within minutes; move to Contacted</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;">Contacted</td><td>You've reached out, waiting on a reply</td><td>Follow up on a schedule; log responses</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;">Appointment Booked</td><td>A call/meeting is scheduled</td><td>Send reminders; confirm the day before</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;">Proposal Sent</td><td>They've seen pricing/offer</td><td>Follow up; answer questions</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;">Won</td><td>They bought</td><td>Mark Won; trigger onboarding</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;">Lost</td><td>They said no / went cold</td><td>Mark Lost with a reason; move to nurture</td></tr>
+      </tbody>
+    </table>
+    <p>This is a core daily task. On the Opportunities board, you literally drag a deal's card from one stage to the next as its status changes. Each move can trigger an automation (covered Day 7) -- for example, moving to "Appointment Booked" can auto-send a confirmation text.</p>
+    <div class="info-box">
+      <div class="info-box-icon">&#128200;</div>
+      <div class="info-box-body"><strong>Why pipeline hygiene matters:</strong> The owner looks at this board to decide where to spend their time and money. A stale pipeline -- deals stuck in the wrong stage, no values, dead leads still marked "active" -- gives them bad information. A VA who keeps the pipeline clean and current is worth their weight in gold.</div>
+    </div>
+  </div></section>
+
+  <!-- S4-1: PIPELINE CHECKLIST -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 5</div>
+    <h2>The VA's Pipeline Checklist</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Keep every pipeline healthy</div>
+      <ul style="margin:0">
+        <li>Every new lead lands in the first stage with a source tag</li>
+        <li>No deal sits in a stage longer than its follow-up window without action</li>
+        <li>Every opportunity has a dollar value (so reports are accurate)</li>
+        <li>Won and Lost deals are marked promptly -- with a reason for Lost</li>
+        <li>Nothing is "stuck" with no next step</li>
+      </ul>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-trending"/></svg></div><div class="pl">The Value</div><p>Pipeline accuracy is directly tied to business revenue decisions. A VA who keeps it current is not just doing admin -- they are giving the owner reliable intel to act on.</p></div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Quick check</div>
+      <div class="quiz-q">A deal has been sitting in "Contacted" for 10 days with no activity. What should you do first?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Checking with the client or following up with the lead gets the deal moving again -- that's the VA's job. Stale pipelines give the owner bad data."><span class="qmark"></span><span class="qtext">Flag it to the client or follow up with the lead, then update the stage</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Leaving stale deals pollutes the owner's pipeline view and hides the true state of the business."><span class="qmark"></span><span class="qtext">Leave it -- it will get picked up eventually</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Marking Lost without checking is an assumption. The deal may still be warm -- just forgotten."><span class="qmark"></span><span class="qtext">Mark it Lost immediately to keep the pipeline tidy</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Deleting a contact removes their history permanently. Never delete without explicit permission."><span class="qmark"></span><span class="qtext">Delete the contact to declutter</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- S5-0: COMMUNICATION HUB - CONVERSATIONS -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 6</div>
+    <h1>The Communication Hub</h1>
+    <p class="subtitle">Conversations and Calendars are where a VA spends most of their GHL day. This is the front line of client communication -- and where careful, on-brand work is most visible.</p>
+    <div class="inbox-anim-wrap">
+      <div class="inbox-anim" id="inboxAnim">
+        <div class="inbox-bubble ib-sms" id="ibSms">&#128241; SMS</div>
+        <div class="inbox-bubble ib-email" id="ibEmail">&#9993; Email</div>
+        <div class="inbox-bubble ib-fb" id="ibFb">&#128172; Facebook</div>
+        <div class="inbox-bubble ib-ig" id="ibIg">&#128247; Instagram</div>
+        <div class="inbox-bubble ib-chat" id="ibChat">&#127760; Web Chat</div>
+        <div class="inbox-target" id="inboxTarget">
+          <span class="inbox-target-icon"><svg><use href="#i-msg"/></svg></span>
+          <div>
+            <div class="inbox-target-text">Conversations</div>
+            <div class="inbox-target-sub">All channels -- one inbox</div>
+          </div>
+        </div>
+      </div>
+      <button class="anim-btn" onclick="replayInbox()">&#8635; Replay</button>
+    </div>
+    <h2>Conversations -- The Unified Inbox</h2>
+    <p>GHL's <strong>Conversations</strong> tab pulls every channel into one thread per contact: SMS, email, Facebook/Instagram DMs, web chat, and WhatsApp (when connected). Instead of jumping between apps, you see the entire history with a person in one place and reply from the same window.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-msg"/></svg> Why this is powerful</div>
+      <p style="margin:0;">A lead texts on Monday, emails on Wednesday, and DMs on Friday. In most businesses those are three disconnected messages. In GHL they're one continuous conversation, so you always have full context before you reply. No more "sorry, who is this again?"</p>
+    </div>
+    <h3>Replying Like a Pro</h3>
+    <ul>
+      <li><strong>Read the full thread first.</strong> Context prevents embarrassing mistakes.</li>
+      <li><strong>Match the client's voice.</strong> This is where your Day 3 Project setup pays off -- Claude can draft replies in the client's exact tone.</li>
+      <li><strong>Use snippets/templates</strong> for common replies, but personalise the first line.</li>
+      <li><strong>Log the outcome</strong> -- update the tag or pipeline stage after the conversation moves forward.</li>
+    </ul>
+    <div class="standard"><div class="badge"><svg><use href="#i-alert"/></svg></div><div class="pl">Trust Scale Reminder (Day 1)</div><p>Messages to a client's leads are "Use Carefully." Someone real reads them. Always review AI-drafted replies for tone, accuracy, and the right name before you hit send. You represent the client with every message.</p></div>
+  </div></section>
+
+  <!-- S5-1: CALENDARS + MORNING ROUTINE -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 6</div>
+    <h2>Calendars &amp; Appointments</h2>
+    <p>GHL calendars replace Calendly. A booking link lets leads pick an available slot; the appointment lands on the calendar and on the contact's record automatically. As a VA you'll:</p>
+    <table>
+      <thead><tr><th>Task</th><th>What You Do</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Book an appointment</strong></td><td>Open the contact &rarr; add appointment &rarr; pick calendar, date, time</td></tr>
+        <tr><td><strong>Reschedule / cancel</strong></td><td>Open the appointment &rarr; change time or cancel &rarr; notify the contact</td></tr>
+        <tr><td><strong>Reduce no-shows</strong></td><td>Confirm the day before; rely on automated reminders (Day 7)</td></tr>
+        <tr><td><strong>Manage availability</strong></td><td>Block off the owner's busy times so leads can't double-book</td></tr>
+      </tbody>
+    </table>
+    <h2>A Realistic VA Morning in GHL</h2>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-clock"/></svg> The daily opening routine</div>
+      <p style="margin-bottom:8px;"><strong>1.</strong> Check the Dashboard -- new leads overnight, today's appointments.</p>
+      <p style="margin-bottom:8px;"><strong>2.</strong> Open Conversations -- reply to every unread message in the client's voice.</p>
+      <p style="margin-bottom:8px;"><strong>3.</strong> Tag and route new leads into the right pipeline stage.</p>
+      <p style="margin-bottom:8px;"><strong>4.</strong> Confirm today's appointments; chase anyone unconfirmed.</p>
+      <p style="margin:0;"><strong>5.</strong> Update the pipeline -- move deals, mark Won/Lost, add next steps.</p>
+    </div>
+    <p>That entire routine is something AI will help you compress dramatically -- which is exactly where Day 7 picks up.</p>
+  </div></section>
+
+  <!-- S6-0: HANDS-ON LAB PART 1 -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 7</div>
+    <h1>Hands-On Lab</h1>
+    <p class="subtitle">Time to get inside the platform. These exercises build the muscle memory you'll use every day. Use a practice/demo sub-account or a fake contact with your own details -- never test on real client leads.</p>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-compass"/></svg> Exercise 1</div><div class="ex-title">Map the Menu</div></div>
+      <p style="margin:0;">Log into a GHL sub-account. Without changing anything, click through all 12 left-menu items once. For each, write one sentence describing what it does in your own words. This becomes your personal cheat-sheet.</p>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-users"/></svg> Exercise 2</div><div class="ex-title">Create a Test Contact</div></div>
+      <p>Add a contact using your own name and details. Then:</p>
+      <ol style="margin:0">
+        <li>Apply three tags using a clean system (e.g. <em>lead</em>, <em>referral</em>, <em>nurturing</em>)</li>
+        <li>Add a custom note: "Practice contact -- do not message"</li>
+        <li>Find your contact again using a Smart List filter</li>
+      </ol>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-trending"/></svg> Exercise 3</div><div class="ex-title">Run a Deal Through a Pipeline</div></div>
+      <p style="margin:0;">Create an opportunity for your test contact in the first stage of a pipeline. Give it a dollar value. Then drag it through three stages, noting what (if anything) happens at each move. Finally, mark it Won.</p>
+    </div>
+  </div></section>
+
+  <!-- S6-1: HANDS-ON LAB PART 2 + HOMEWORK -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 6 &middot; Session 7</div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-spark"/></svg> Exercise 4</div><div class="ex-title">Draft a Reply with Claude</div></div>
+      <p>Imagine a lead messaged: <em>"Hey, saw your ad -- how much do you charge?"</em> Use Claude (with a client Project from Day 3 if you have one) to draft three reply options in different tones. Then choose the best and explain why it fits the client's voice.</p>
+      <div class="terminal" style="margin-top:8px">
+        <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Try this prompt in Claude</div></div>
+        <div class="terminal-body" style="font-size:12.5px;line-height:1.9;user-select:all">
+          <span class="ccmt">You're replying to a lead in [client name]'s voice (warm, professional, no jargon).</span><br>
+          <span class="ccmt">The lead asked about pricing but we don't quote prices over text -- we book a quick</span><br>
+          <span class="ccmt">call first. Write 3 short SMS replies (under 30 words each) that answer warmly</span><br>
+          <span class="ccmt">and steer toward booking a call.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-calendar"/></svg> Exercise 5</div><div class="ex-title">Book &amp; Reschedule</div></div>
+      <p style="margin:0;">Book a test appointment for your contact on a calendar. Then reschedule it to a different time, and finally cancel it. Notice how each action updates the contact record. This is the exact flow you'll do for real leads daily.</p>
+    </div>
+    <div class="card card-accent" style="margin-top:20px">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Homework Before Day 7</div>
+      <p><strong>Task 1:</strong> Spend 20 minutes inside a real (or demo) sub-account just navigating. Get comfortable switching accounts and confirming which one you're in.</p>
+      <p><strong>Task 2:</strong> Write down the three GHL tasks you think you'll do most often. Tomorrow you'll learn to automate them.</p>
+      <p style="margin:0;"><strong>Task 3:</strong> List one repetitive thing in GHL that feels like it should be automatic (e.g. "every new lead should get a welcome text"). Bring it to Day 7.</p>
+    </div>
+    <div class="qa" style="margin-top:10px;padding:16px">
+      <h3>Day 6 Complete</h3>
+      <p>You can now navigate GoHighLevel with confidence: dashboard, contacts, tags, pipelines, conversations, and calendars. You know where everything lives and how the daily VA workflow runs. Tomorrow: <strong>we make it run itself -- workflows, automations, APIs, MCP, and AI inside GHL.</strong></p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 7 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Week 1 Review</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 14</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
-
-  <h2>Smart Lists &mdash; Saved Filtered Views</h2>
-  <p>A <strong>Smart List</strong> is a saved filter over your contacts. Instead of scrolling thousands of records, you build a view like "all contacts tagged <em>hot-lead</em> who haven't booked a call." Save it, and it updates automatically as contacts match or stop matching.</p>
-  <p><strong>Common Smart Lists a VA maintains:</strong></p>
-  <ul>
-    <li>New leads from the last 7 days (to follow up)</li>
-    <li>Leads with no appointment booked (to chase)</li>
-    <li>No-shows (to re-engage)</li>
-    <li>Customers (for retention campaigns)</li>
-  </ul>
-
-  <h2>Adding &amp; Importing Contacts</h2>
-  <div class="step-flow">
-    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Add one contact manually</strong><p>Contacts &rarr; Add Contact. Fill in name, email, phone. Apply the correct source tag immediately.</p></div></div>
-    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Import a list (CSV)</strong><p>Contacts &rarr; Import. Upload a spreadsheet, then map each column to a GHL field. Always apply a tag to the whole batch on import (e.g. <em>webinar-jan</em>) so you can find them later.</p></div></div>
-    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Check for duplicates</strong><p>GHL merges by email/phone, but always sanity-check after a big import. Duplicate contacts cause double-messaging &mdash; a fast way to annoy a client's leads.</p></div></div>
-  </div>
-
-  <div class="card card-red">
-    <div class="card-title">High-stakes warning</div>
-    <p style="margin:0;">Contact data is real people's personal information, and a client's most valuable asset. Never export, share, or delete contacts without explicit permission. Never test automations on real leads. When practising, create a fake contact with your own details. Treat the database like it's irreplaceable &mdash; because to the client, it is.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Dashboard</button>
-    <button class="btn btn-primary" onclick="goTo(4)">Pipelines &amp; Opportunities &rarr;</button>
-  </div>
-</section>
-
-<!-- S4: PIPELINES & OPPORTUNITIES -->
-<section class="section" id="s4">
-  <h1>Pipelines &amp; Opportunities</h1>
-  <p class="section-subtitle">A pipeline is the visual map of how a business turns a lead into a paying customer. Keeping it accurate is one of the highest-value things a VA does &mdash; it's how the owner knows where the money is.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">The vocabulary</div>
-    <p style="margin-bottom:8px;"><strong>Pipeline</strong> = the whole journey, broken into stages (like a Kanban board).</p>
-    <p style="margin-bottom:8px;"><strong>Stage</strong> = one column/step in that journey (e.g. New Lead &rarr; Contacted &rarr; Booked &rarr; Won).</p>
-    <p style="margin:0;"><strong>Opportunity</strong> = one deal for one contact, sitting in one stage, usually with a dollar value attached.</p>
-  </div>
-
-  <h2>A Typical Sales Pipeline</h2>
-  <table>
-    <thead><tr><th>Stage</th><th>What It Means</th><th>VA Action</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--accent);font-weight:600;">New Lead</td><td>Just came in, no contact yet</td><td>Reach out within minutes; move to Contacted</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Contacted</td><td>You've reached out, waiting on a reply</td><td>Follow up on a schedule; log responses</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Appointment Booked</td><td>A call/meeting is scheduled</td><td>Send reminders; confirm the day before</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Proposal Sent</td><td>They've seen pricing/offer</td><td>Follow up; answer questions</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Won</td><td>They bought</td><td>Mark Won; trigger onboarding</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Lost</td><td>They said no / went cold</td><td>Mark Lost with a reason; move to nurture</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Moving a Deal Through the Pipeline</h2>
-  <p>This is a core daily task. On the Opportunities board, you literally drag a deal's card from one stage to the next as its status changes. Each move can trigger an automation (covered Day 7) &mdash; for example, moving to "Appointment Booked" can auto-send a confirmation text.</p>
-
-  <div class="callout">
-    <div class="callout-icon">&#128200;</div>
-    <div class="callout-body"><strong>Why pipeline hygiene matters:</strong> The owner looks at this board to decide where to spend their time and money. A stale pipeline &mdash; deals stuck in the wrong stage, no values, dead leads still marked "active" &mdash; gives them bad information. A VA who keeps the pipeline clean and current is worth their weight in gold.</div>
-  </div>
-
-  <h2>The VA's Pipeline Checklist</h2>
-  <ul>
-    <li>Every new lead lands in the first stage with a source tag</li>
-    <li>No deal sits in a stage longer than its follow-up window without action</li>
-    <li>Every opportunity has a dollar value (so reports are accurate)</li>
-    <li>Won and Lost deals are marked promptly &mdash; with a reason for Lost</li>
-    <li>Nothing is "stuck" with no next step</li>
-  </ul>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(3)">&larr; Contacts</button>
-    <button class="btn btn-primary" onclick="goTo(5)">The Communication Hub &rarr;</button>
-  </div>
-</section>
-
-<!-- S5: COMMUNICATION HUB -->
-<section class="section" id="s5">
-  <h1>The Communication Hub</h1>
-  <p class="section-subtitle">Conversations and Calendars are where a VA spends most of their GHL day. This is the front line of client communication &mdash; and where careful, on-brand work is most visible.</p>
-
-  <h2>Conversations &mdash; The Unified Inbox</h2>
-  <p>GHL's <strong>Conversations</strong> tab pulls every channel into one thread per contact: SMS, email, Facebook/Instagram DMs, web chat, and WhatsApp (when connected). Instead of jumping between apps, you see the entire history with a person in one place and reply from the same window.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">Why this is powerful</div>
-    <p style="margin:0;">A lead texts on Monday, emails on Wednesday, and DMs on Friday. In most businesses those are three disconnected messages. In GHL they're one continuous conversation, so you always have full context before you reply. No more "sorry, who is this again?"</p>
-  </div>
-
-  <h3>Replying Like a Pro</h3>
-  <ul>
-    <li><strong>Read the full thread first.</strong> Context prevents embarrassing mistakes.</li>
-    <li><strong>Match the client's voice.</strong> This is where your Day 3 Project setup pays off &mdash; Claude can draft replies in the client's exact tone.</li>
-    <li><strong>Use snippets/templates</strong> for common replies, but personalise the first line.</li>
-    <li><strong>Log the outcome</strong> &mdash; update the tag or pipeline stage after the conversation moves forward.</li>
-  </ul>
-
-  <div class="callout">
-    <div class="callout-icon">&#9888;</div>
-    <div class="callout-body"><strong>Trust Scale reminder (Day 1):</strong> Messages to a client's leads are <em>"Use Carefully."</em> Someone real reads them. Always review AI-drafted replies for tone, accuracy, and the right name before you hit send. You represent the client with every message.</div>
-  </div>
-
-  <h2>Calendars &amp; Appointments</h2>
-  <p>GHL calendars replace Calendly. A booking link lets leads pick an available slot; the appointment lands on the calendar and on the contact's record automatically. As a VA you'll:</p>
-  <table>
-    <thead><tr><th>Task</th><th>What You Do</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Book an appointment</td><td>Open the contact &rarr; add appointment &rarr; pick calendar, date, time</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Reschedule / cancel</td><td>Open the appointment &rarr; change time or cancel &rarr; notify the contact</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Reduce no-shows</td><td>Confirm the day before; rely on automated reminders (Day 7)</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Manage availability</td><td>Block off the owner's busy times so leads can't double-book</td></tr>
-    </tbody>
-  </table>
-
-  <h2>A Realistic VA Morning in GHL</h2>
-  <div class="card">
-    <p style="margin-bottom:8px;"><strong>1.</strong> Check the Dashboard &mdash; new leads overnight, today's appointments.</p>
-    <p style="margin-bottom:8px;"><strong>2.</strong> Open Conversations &mdash; reply to every unread message in the client's voice.</p>
-    <p style="margin-bottom:8px;"><strong>3.</strong> Tag and route new leads into the right pipeline stage.</p>
-    <p style="margin-bottom:8px;"><strong>4.</strong> Confirm today's appointments; chase anyone unconfirmed.</p>
-    <p style="margin:0;"><strong>5.</strong> Update the pipeline &mdash; move deals, mark Won/Lost, add next steps.</p>
-  </div>
-  <p>That entire routine is something AI will help you compress dramatically &mdash; which is exactly where Day 7 picks up.</p>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(4)">&larr; Pipelines</button>
-    <button class="btn btn-primary" onclick="goTo(6)">Hands-On Lab &rarr;</button>
-  </div>
-</section>
-
-<!-- S6: HANDS-ON LAB -->
-<section class="section" id="s6">
-  <h1>Hands-On Lab</h1>
-  <p class="section-subtitle">Time to get inside the platform. These exercises build the muscle memory you'll use every day. Use a practice/demo sub-account or a fake contact with your own details &mdash; never test on real client leads.</p>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Map the Menu</span></div>
-    <p>Log into a GHL sub-account. Without changing anything, click through all 12 left-menu items once. For each, write one sentence describing what it does in your own words. This becomes your personal cheat-sheet.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Create a Test Contact</span></div>
-    <p>Add a contact using your own name and details. Then:</p>
-    <ol>
-      <li>Apply three tags using a clean system (e.g. <em>lead</em>, <em>referral</em>, <em>nurturing</em>)</li>
-      <li>Add a custom note: "Practice contact &mdash; do not message"</li>
-      <li>Find your contact again using a Smart List filter</li>
-    </ol>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Run a Deal Through a Pipeline</span></div>
-    <p>Create an opportunity for your test contact in the first stage of a pipeline. Give it a dollar value. Then drag it through three stages, noting what (if anything) happens at each move. Finally, mark it Won.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Draft a Reply with Claude</span></div>
-    <p>Imagine a lead messaged: <em>"Hey, saw your ad &mdash; how much do you charge?"</em> Use Claude (with a client Project from Day 3 if you have one) to draft three reply options in different tones. Then choose the best and explain why it fits the client's voice.</p>
-    <div class="prompt-block"><span class="prompt-label">Try This</span>You're replying to a lead in [client name]'s voice (warm, professional, no jargon). The lead asked about pricing but we don't quote prices over text — we book a quick call first. Write 3 short SMS replies (under 30 words each) that answer warmly and steer toward booking a call.</div>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Book &amp; Reschedule</span></div>
-    <p>Book a test appointment for your contact on a calendar. Then reschedule it to a different time, and finally cancel it. Notice how each action updates the contact record. This is the exact flow you'll do for real leads daily.</p>
-  </div>
-
-  <div class="card card-accent">
-    <div class="card-title">Homework Before Day 7</div>
-    <p><strong>Task 1:</strong> Spend 20 minutes inside a real (or demo) sub-account just navigating. Get comfortable switching accounts and confirming which one you're in.</p>
-    <p><strong>Task 2:</strong> Write down the three GHL tasks you think you'll do most often. Tomorrow you'll learn to automate them.</p>
-    <p style="margin:0;"><strong>Task 3:</strong> List one repetitive thing in GHL that feels like it <em>should</em> be automatic (e.g. "every new lead should get a welcome text"). Bring it to Day 7.</p>
-  </div>
-
-  <div class="card card-gold">
-    <div class="card-title">Day 6 Complete</div>
-    <p style="margin:0;">You can now navigate GoHighLevel with confidence: dashboard, contacts, tags, pipelines, conversations, and calendars. You know where everything lives and how the daily VA workflow runs. Tomorrow: <strong>we make it run itself &mdash; workflows, automations, APIs, MCP, and AI inside GHL.</strong></p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(5)">&larr; Communication Hub</button>
-    <a href="Day07_GHL_Automation_Workflows.html" class="btn btn-primary">Day 7: GHL Automation &rarr;</a>
-  </div>
-</section>
-
-</div></div>
+</div>
 
 <script>
-let currentSection = 0;
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.sidebar-nav a');
-const totalSections = sections.length;
-const completed = new Set();
-
-function goTo(n) {
-  completed.add(currentSection);
-  currentSection = n;
-  sections.forEach((el, i) => el.classList.toggle('active', i === n));
-  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
-  const pct = Math.round((completed.size / totalSections) * 100);
-  const fill = document.getElementById('progressFill');
-  const label = document.getElementById('progressLabel');
-  if (fill) fill.style.width = pct + '%';
-  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  document.getElementById('sidebar')?.classList.remove('open');
-  document.getElementById('overlay')?.classList.remove('show');
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 6',UNLOCK_DATE:'2026-06-13',PREV_DAY_KEY:''};
+const NEXT_DECK='https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 7',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpTrack('attendance',{firstName:f,lastName:l});localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+function markAttendance(){var inp=document.getElementById('attName');var err=document.getElementById('attErr');if(!kpSetName(inp?inp.value:'')){if(err){err.textContent='Please enter your name to mark attendance.';err.style.display='block';}return;}if(err)err.style.display='none';kpRecordPresence();}
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Week 1 Review','What Is GHL?','Navigating the Dashboard','CRM & Contacts','Pipelines & Opportunities','Communication Hub','Hands-On Lab'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 7 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;triggerSlideAnims(cur);}
+function next(){if(cur<slides.length-1){cur++;render();}}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function quizPick(btn){const quiz=btn.closest('.quiz');if(quiz.classList.contains('answered'))return;quiz.classList.add('answered');const opts=[...quiz.querySelectorAll('.quiz-opt')];const correctOpt=opts.find(o=>o.dataset.correct==='true');const chose=btn.dataset.correct==='true';opts.forEach(o=>{o.disabled=true;if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}const fb=quiz.querySelector('.quiz-fb');fb.innerHTML=chose?'<strong class="ok">Correct.</strong> '+btn.dataset.why:'<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;fb.classList.add('show');quiz.querySelector('.quiz-reset').style.display='inline-block';}
+function quizReset(btn){const quiz=btn.closest('.quiz');quiz.classList.remove('answered');quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';btn.style.display='none';}
+render();
+function replayCollapse(){
+  var chips=[...document.querySelectorAll('.ghl-tc')];
+  var badge=document.getElementById('ghlBadge');
+  chips.forEach(function(c){c.classList.remove('playing');void c.offsetWidth;});
+  badge.classList.remove('ghl-react');void badge.offsetWidth;
+  chips.forEach(function(c,i){
+    var t=i*950;
+    setTimeout(function(){c.classList.add('playing');},t);
+    setTimeout(function(){badge.classList.remove('ghl-react');void badge.offsetWidth;badge.classList.add('ghl-react');},t+920);
+  });
 }
-
-function toggleSidebar() {
-  document.getElementById('sidebar')?.classList.toggle('open');
-  document.getElementById('overlay')?.classList.toggle('show');
+function replayPipeline(){
+  var deal=document.getElementById('pipeDeal');
+  var board=document.getElementById('pipeBoard');
+  var cols=[...board.querySelectorAll('.pipe-col')];
+  if(!deal||!cols.length)return;
+  cols.forEach(function(c){c.classList.remove('pc-active','pc-done');});
+  deal.style.transition='none';
+  deal.style.opacity='0';
+  function moveToStage(i){
+    cols.forEach(function(c,ci){
+      c.classList.toggle('pc-done',ci<i);
+      c.classList.toggle('pc-active',ci===i);
+    });
+    var boardRect=board.getBoundingClientRect();
+    var colRect=cols[i].getBoundingClientRect();
+    var dw=deal.offsetWidth||60;
+    var targetLeft=(colRect.left-boardRect.left)+(colRect.width/2)-(dw/2);
+    deal.style.transition=i===0?'opacity .3s':'left .52s cubic-bezier(.4,0,.2,1),opacity .3s';
+    deal.style.left=targetLeft+'px';
+    deal.style.opacity='1';
+    if(i<4)setTimeout(function(){moveToStage(i+1);},900);
+  }
+  setTimeout(function(){moveToStage(0);},120);
+}
+function replayInbox(){
+  var bubbles=['ibSms','ibEmail','ibFb','ibIg','ibChat'].map(function(id){return document.getElementById(id);});
+  var target=document.getElementById('inboxTarget');
+  bubbles.forEach(function(b){if(b){b.classList.remove('playing');void b.offsetWidth;b.classList.add('playing');}});
+  if(target){target.classList.remove('it-glow');setTimeout(function(){target.classList.add('it-glow');},11000);}
+}
+var _animPlayed={};
+function triggerSlideAnims(idx){
+  if(!_animPlayed[idx]){_animPlayed[idx]=true;if(idx===2)setTimeout(replayCollapse,300);if(idx===8)setTimeout(replayPipeline,300);if(idx===10)setTimeout(replayInbox,300);}
 }
 </script>
 </body>

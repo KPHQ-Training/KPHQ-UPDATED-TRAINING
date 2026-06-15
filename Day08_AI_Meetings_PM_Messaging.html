@@ -3,579 +3,1292 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers HQ | Day 8: AI Meetings, PM Tools &amp; Messaging</title>
+<title>KeyPlayers VA Academy | Day 8: AI Meetings, PM &amp; Messaging</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-deep: #010D07;
-    --bg-glow: #062817;
-    --accent: #22C55E;
-    --accent-hover: #16a34a;
-    --white: #FFFFFF;
-    --silver: #A1A1AA;
-    --gold: #EAB308;
-    --charcoal: #18181B;
-    --pill-bg: #166534;
-    --card-bg: #0f1a14;
-    --border: #1e2e26;
-    --red: #ef4444;
-    --sidebar-w: 260px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg-deep); color: var(--silver); line-height: 1.7; font-size: 15px; }
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0;counter-reset:n8nstep}
+  .n8n-node{flex:1;min-width:0;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node::before{counter-increment:n8nstep;content:counter(n8nstep);position:absolute;top:7px;right:9px;font-size:9px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:.5px;font-family:var(--font-d)}
+  .n8n-node.n8n-active{border-color:#22c55e;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards, n8nShimmer 2.4s 1.2s ease-in-out infinite;animation-delay:var(--d,0s),1.2s}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 40px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:2px;flex:1;background:rgba(255,255,255,.1);position:relative;overflow:hidden;border-radius:1px}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:n8nPulse 2.2s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid rgba(255,255,255,.3)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:110%}}
+  @keyframes n8nShimmer{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.1)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.04),0 0 20px rgba(34,197,94,.1)}}
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+  .footnote{margin-top:14px;padding-top:10px;border-top:1px solid var(--border)}
+  .table-compact th,.table-compact td{padding:7px 12px}
+  .table-compact{margin:6px 0 10px}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
+  .step-flow{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .step-item{display:flex;gap:16px;position:relative}
+  .step-item:not(:last-child){padding-bottom:20px}
+  .step-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .step-dot{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content{flex:1;padding-top:4px}
+  .step-content strong{display:block;margin-bottom:4px;color:var(--ink)}
+  .step-content p{margin:0;font-size:14px}
+  .block-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:20px 0}
+  .block-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .block-num{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);color:var(--accent);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .block-name{font-size:17px;font-weight:700;color:var(--ink)}
+  .block-body{padding:16px 20px}
+  .block-body p{margin-bottom:10px}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}}
 
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--charcoal); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
-  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
-  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
-  .sidebar-logo span { color: var(--accent); }
-  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
-  .sidebar-nav { flex: 1; padding: 12px 0; }
-  .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--silver); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s ease; border-left: 3px solid transparent; }
-  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
-  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
-  .sidebar-nav a .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--bg-deep); color: var(--silver); font-size: 11px; font-weight: 700; flex-shrink: 0; }
-  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
-  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
-  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
-  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
-  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
-  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
-  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
-  .course-nav a:hover { color: var(--white); }
-  .course-nav a.current { color: var(--accent); font-weight: 700; }
+  /* ============================================================
+     KC MOTION GRAPHICS (S5 KeyCommand session)
+     ============================================================ */
 
-  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
-  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
+  /* --- MG1: Convergence Strip (S5-0) --- */
+  @keyframes kcSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes kcDotMove{0%{left:-100%}60%,100%{left:110%}}
+  @keyframes kcCenterAppear{0%{opacity:0;transform:scale(.8)}55%{opacity:1;transform:scale(1.06);box-shadow:0 0 28px rgba(34,197,94,.45)}80%{transform:scale(1);box-shadow:0 0 18px rgba(34,197,94,.25)}100%{opacity:1;transform:scale(1);box-shadow:0 0 10px rgba(34,197,94,.15)}}
+  .kc-converge-wrap{margin:16px 0 10px}
+  .kc-converge{display:flex;align-items:center;justify-content:center;gap:0;padding:12px 0;flex-wrap:nowrap;overflow:hidden}
+  .kc-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;flex-shrink:0;opacity:0;animation:kcSlideIn .4s ease forwards;animation-delay:var(--d,0s)}
+  .kc-pill svg{width:12px;height:12px;color:var(--accent);flex-shrink:0}
+  .kc-flow-line{flex:1 1 22px;min-width:16px;max-width:42px;height:2px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;border-radius:1px}
+  .kc-flow-dot{position:absolute;top:0;left:-100%;width:70%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:kcDotMove 1.6s linear infinite;animation-delay:var(--pd,0s)}
+  .kc-kc-badge{display:flex;align-items:center;gap:8px;background:var(--accent);color:#04150B;font-size:13px;font-weight:800;border-radius:20px;padding:8px 16px;white-space:nowrap;flex-shrink:0;opacity:0;animation:kcCenterAppear 1s cubic-bezier(.34,1.1,.64,1) forwards;animation-delay:.95s}
+  .kc-kc-badge svg{width:14px;height:14px}
+  .kc-converge-label{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:var(--dim);font-weight:700;margin-top:4px}
 
-  .section { display: none; animation: fadeIn 0.3s ease; }
-  .section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  /* --- MG2: Animated Org Hierarchy (S5-2) --- */
+  @keyframes kcFadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes kcConnGrow{from{height:0;opacity:0}to{height:22px;opacity:1}}
+  @keyframes kcT1Pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.1)}50%{box-shadow:0 0 0 8px rgba(34,197,94,.05),0 0 18px rgba(34,197,94,.12)}}
+  .kc-hierarchy{background:rgba(255,255,255,.018);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:0 0 18px}
+  .kc-h-row{display:flex;align-items:center;gap:10px;opacity:0;animation:kcFadeDown .45s ease forwards;animation-delay:var(--hd,0s)}
+  .kc-h-node{flex:1;display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.35}
+  .kc-h-node svg{width:15px;height:15px;flex-shrink:0}
+  .kc-h-t1{background:var(--accent-soft);border:1px solid rgba(34,197,94,.3);color:var(--accent);animation:kcT1Pulse 3s 1.2s ease-in-out infinite}
+  .kc-h-t1 svg{color:var(--accent)}
+  .kc-h-t2{background:rgba(93,169,244,.07);border:1px solid rgba(93,169,244,.2);color:var(--secure)}
+  .kc-h-t2 svg{color:var(--secure)}
+  .kc-h-t3{background:var(--panel-2);border:1px solid var(--border);color:var(--muted)}
+  .kc-h-t3 svg{color:var(--dim)}
+  .kc-h-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;white-space:nowrap;min-width:60px;text-align:right}
+  .kc-h-badge.kc-green{color:var(--accent)}.kc-h-badge.kc-blue{color:var(--secure)}.kc-h-badge.kc-gray{color:var(--dim)}
+  .kc-h-conn{width:2px;height:0;background:linear-gradient(180deg,var(--accent),rgba(34,197,94,.2));margin-left:23px;animation:kcConnGrow .28s ease forwards;animation-delay:var(--cd,.2s)}
 
-  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
-  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
-  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
-  p { margin-bottom: 14px; }
-  strong { color: var(--white); font-weight: 600; }
-  em { color: var(--accent); font-style: normal; }
-
-  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
-  .card-accent { border-left: 3px solid var(--accent); }
-  .card-gold { border-left: 3px solid var(--gold); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
-  .card-gold .card-title { color: var(--gold); }
-  .card-red .card-title { color: var(--red); }
-
-  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
-  .review-card h3 { color: var(--gold); margin-top: 0; }
-
-  ul, ol { margin: 10px 0 14px 20px; }
-  li { margin-bottom: 7px; padding-left: 4px; }
-  ul li::marker { color: var(--accent); }
-  ol li::marker { color: var(--accent); font-weight: 600; }
-
-  .prompt-block { background: #0c0c0e; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; color: #d4d4d8; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; position: relative; }
-  .prompt-label { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: var(--pill-bg); padding: 2px 8px; border-radius: 4px; }
-
-  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
-  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
-  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
-  tr:hover td { background: rgba(34,197,94,0.03); }
-
-  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
-  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
-  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
-
-  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
-  .comparison-weak, .comparison-strong { padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
-  .comparison-weak { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
-  .comparison-strong { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
-  .comparison-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .comparison-weak .comparison-label { color: var(--red); }
-  .comparison-strong .comparison-label { color: var(--accent); }
-
-  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
-
-  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
-  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
-  .btn-primary { background: var(--accent); color: var(--bg-deep); }
-  .btn-primary:hover { background: var(--accent-hover); }
-  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
-  .btn-secondary:hover { color: var(--white); }
-
-  .block-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
-  .block-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-  .block-num { width: 32px; height: 32px; border-radius: 8px; background: var(--pill-bg); color: var(--accent); font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .block-name { font-size: 17px; font-weight: 700; color: var(--white); }
-  .block-body { padding: 16px 20px; }
-  .block-body p { margin-bottom: 10px; }
-
-  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
-  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .callout-body { font-size: 14px; line-height: 1.6; }
-  .callout-body strong { color: var(--white); }
-
-
-  .step-flow { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
-  .step-item { display: flex; gap: 16px; position: relative; }
-  .step-item:not(:last-child) { padding-bottom: 20px; }
-  .step-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 36px; bottom: 0; width: 2px; background: var(--border); }
-  .step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--pill-bg); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-content { flex: 1; padding-top: 4px; }
-  .step-content strong { display: block; margin-bottom: 4px; }
-  .step-content p { margin: 0; font-size: 14px; }
-
-  .flow-diagram { display: flex; align-items: stretch; gap: 0; margin: 18px 0; flex-wrap: wrap; }
-  .flow-node { flex: 1; min-width: 120px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
-  .flow-node .flow-kind { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 6px; }
-  .flow-node .flow-text { font-size: 13px; color: var(--white); font-weight: 600; }
-  .flow-arrow { display: flex; align-items: center; color: var(--accent); font-size: 22px; font-weight: 700; padding: 0 8px; }
-  .flow-node.flow-trigger { border-left: 3px solid var(--gold); }
-  .flow-node.flow-trigger .flow-kind { color: var(--gold); }
-
-  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
-  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
-  summary:hover { background: rgba(34,197,94,0.04); }
-  details[open] summary { border-bottom: 1px solid var(--border); }
-  details > div { padding: 16px; }
-
-  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
-  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
-  .overlay.show { display: block; }
-
-  @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
-    .sidebar.open { transform: translateX(0); }
-    .mobile-header { display: flex; }
-    .main { margin-left: 0; padding-top: 56px; }
-    .content { padding: 24px 16px 60px; }
-    .comparison { grid-template-columns: 1fr; }
-    .flow-diagram { flex-direction: column; }
-    .flow-arrow { transform: rotate(90deg); padding: 4px 0; justify-content: center; }
-  }
+  /* --- MG3: Daily Rhythm Timeline (S5-5) --- */
+  @keyframes kcTrackFill{from{width:0}to{width:100%}}
+  @keyframes kcDotPop{0%{transform:scale(0)}65%{transform:scale(1.3)}100%{transform:scale(1)}}
+  @keyframes kcDotGlow{0%,100%{box-shadow:0 0 5px rgba(34,197,94,.5)}50%{box-shadow:0 0 14px rgba(34,197,94,.95)}}
+  @keyframes kcPhaseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .kc-timeline{margin:16px 0}
+  .kc-tl-header{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:8px}
+  .kc-tl-header svg{width:14px;height:14px}
+  .kc-tl-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px}
+  .kc-tl-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:kcTrackFill 1.6s cubic-bezier(.4,0,.2,1) .2s forwards}
+  .kc-tl-phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .kc-tl-phase{opacity:0;animation:kcPhaseIn .45s ease forwards;animation-delay:var(--tpd,0s)}
+  .kc-tl-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);margin-bottom:10px;flex-shrink:0;transform:scale(0);animation:kcDotPop .35s cubic-bezier(.34,1.45,.64,1) forwards, kcDotGlow 2s ease-in-out infinite;animation-delay:var(--tpd,0s), calc(var(--tpd,0s) + .5s)}
+  .kc-tl-phase-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:6px}
+  .kc-tl-phase-body{font-size:12.5px;line-height:1.65;color:var(--muted)}
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+</svg>
 
-<div class="mobile-header">
-  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
-  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
 </div>
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
-    <div class="sidebar-day">Day 8 &nbsp;|&nbsp; AI Meetings &amp; Integrations</div>
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-msg"/></svg> Day 8 -- AI Meetings &amp; PM</div>
   </div>
-  <div class="sidebar-nav">
-    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Day 7 Review</a>
-    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>AI Meeting Note-Takers</a>
-    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>From Notes to Action</a>
-    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>Project Management Tools</a>
-    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>Messaging Automations</a>
-    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>The Command Center</a>
-    <a href="#" onclick="goTo(6);return false;" data-section="6"><span class="num">7</span>Hands-On Lab</a>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Opener</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-msg"/></svg></span>AI Meeting Tools</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-clock"/></svg></span>tl;dv Automation</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-grid"/></svg></span>KeyCommand</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Hands-On Lab</a>
   </div>
-  <div class="sidebar-progress">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0 of 7 completed</div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
   </div>
-    <div class="course-nav">
-    <div class="course-nav-label">Course Navigation</div>
-    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
-    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
-    <a href="Day03_Tool_Selection.html">Day 3 &mdash; Tool Selection</a>
-    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
-    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
-    <a href="Day06_GoHighLevel_Foundations.html">Day 6 &mdash; GoHighLevel Foundations</a>
-    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
-    <a href="#" class="current">Day 8 &mdash; AI Meetings &amp; Integrations</a>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a class="current"><span class="cn">Day 8</span> AI Meetings &amp; PM</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
   </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
 </nav>
 
-<div class="main"><div class="content">
+<div class="main">
+  <div class="deck" id="deck">
 
-<!-- S0: DAY 7 REVIEW -->
-<section class="section active" id="s0">
-  <h1>Day 7 Review</h1>
-  <p class="section-subtitle">You can now make GoHighLevel run itself. Today we connect everything <em>around</em> GHL &mdash; meetings, projects, and team messaging &mdash; into one AI-powered command center.</p>
-
-  <div class="review-card">
-    <h3>Yesterday's Key Points</h3>
-    <p><strong>Workflows</strong> = Trigger (when) &rarr; Actions (do) &rarr; Conditions (only if). Always test on a fake contact before going live.</p>
-    <p><strong>The recipes</strong> &mdash; instant lead follow-up, appointment reminders, nurture, review requests, internal alerts &mdash; cover most client needs.</p>
-    <p><strong>API = you ask; webhook = it tells you.</strong> MCP is the bridge that lets Claude work directly inside GHL.</p>
-    <p style="margin:0;"><strong>Integrations</strong> connect GHL to other tools: native first, then Zapier/Make, then custom API. Today we use those connections to build a full stack.</p>
-  </div>
-
-  <div class="card card-accent">
-    <div class="card-title">The big picture for today</div>
-    <p style="margin:0;">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together so nothing falls through the cracks. That's the skill we build today &mdash; and it's the capstone of the whole program.</p>
-  </div>
-
-  <div class="section-nav">
-    <a href="Day07_GHL_Automation_Workflows.html" class="btn btn-secondary">&larr; Day 7</a>
-    <button class="btn btn-primary" onclick="goTo(1)">AI Meeting Note-Takers &rarr;</button>
-  </div>
-</section>
-
-<!-- S1: AI MEETING NOTE-TAKERS -->
-<section class="section" id="s1">
-  <h1>AI Meeting Note-Takers</h1>
-  <p class="section-subtitle">Meetings are where decisions get made &mdash; and where action items get forgotten. AI note-takers capture everything so you don't have to scramble. For a VA, this is one of the highest-leverage tools you can offer a client.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">What an AI note-taker does</div>
-    <p style="margin:0;">It joins a meeting (Zoom, Google Meet, Teams), records and transcribes everything spoken, then produces a clean summary with <strong>key decisions, action items, and who's responsible</strong> &mdash; automatically, within minutes of the call ending.</p>
-  </div>
-
-  <h2>The Main Tools</h2>
-  <table>
-    <thead><tr><th>Tool</th><th>Known For</th><th>Best For</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Fathom</td><td>Free, fast, clean summaries; great Zoom/Meet integration</td><td>VAs &amp; small teams wanting zero-cost, high quality</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Otter.ai</td><td>Live transcription, searchable archive</td><td>Detailed word-for-word records</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Fireflies.ai</td><td>Strong CRM/automation integrations, searchable "knowledge base"</td><td>Teams that pipe notes into other tools</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Zoom AI Companion</td><td>Built into Zoom &mdash; no extra bot to add</td><td>Clients who live in Zoom already</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">tl;dv</td><td>Timestamped highlights &amp; clips</td><td>Reviewing key moments by video</td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#128161;</div>
-    <div class="callout-body"><strong>KeyPlayers default:</strong> Most VAs start with <strong>Fathom</strong> &mdash; it's free, reliable, and produces excellent summaries with action items already separated out. Learn one tool deeply before worrying about the rest. The skill transfers; the buttons just move.</div>
-  </div>
-
-  <h2>How It Works, Step by Step</h2>
-  <div class="step-flow">
-    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Connect &amp; admit the notetaker</strong><p>Link the tool to the client's calendar. It auto-joins scheduled calls, or you add the bot manually. It appears as a participant.</p></div></div>
-    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>It records &amp; transcribes live</strong><p>During the call it captures audio and builds a full transcript in real time.</p></div></div>
-    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>It generates a summary</strong><p>Minutes after the call: a recap, key points, decisions, and a clean action-item list with owners.</p></div></div>
-    <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>You review &amp; route</strong><p>The VA's job: verify accuracy, then send the summary where it belongs &mdash; a PM tool, Slack, email, or the client's inbox.</p></div></div>
-  </div>
-
-  <div class="card card-red">
-    <div class="card-title">Consent &amp; privacy &mdash; non-negotiable</div>
-    <p style="margin:0;">Recording people has legal and ethical rules that vary by region. Always make sure participants know the meeting is being recorded &mdash; most tools announce the bot, but confirm the client is comfortable and that consent is given. Never deploy a notetaker into sensitive calls (legal, HR, medical) without explicit approval. When in doubt, ask first.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
-    <button class="btn btn-primary" onclick="goTo(2)">From Notes to Action &rarr;</button>
-  </div>
-</section>
-
-<!-- S2: FROM NOTES TO ACTION -->
-<section class="section" id="s2">
-  <h1>From Notes to Action</h1>
-  <p class="section-subtitle">A transcript that nobody acts on is worthless. The real value &mdash; and your real skill &mdash; is turning raw meeting output into tasks, follow-ups, and updates that actually move work forward. This is where Claude shines.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">The transformation that makes you valuable</div>
-    <p style="margin:0;color:var(--white);font-size:16px;font-weight:600;">Notetaker captures &rarr; Claude structures &rarr; you verify &rarr; it lands in the right tool. The AI does the heavy lifting; you own the accuracy and the routing.</p>
-  </div>
-
-  <h2>The Meeting-to-Action Pipeline</h2>
-  <div class="flow-diagram">
-    <div class="flow-node flow-trigger"><div class="flow-kind">Meeting ends</div><div class="flow-text">Notetaker produces transcript</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Claude</div><div class="flow-text">Extract decisions &amp; action items</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">You</div><div class="flow-text">Review &amp; correct</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Destination</div><div class="flow-text">Tasks in PM tool + recap in Slack</div></div>
-  </div>
-
-  <h2>Claude as Your Meeting Processor</h2>
-  <p>Drop a transcript into Claude (a Project for that client gives it voice and context) and it can produce exactly the output you need:</p>
-
-  <div class="prompt-block"><span class="prompt-label">Meeting Processor Prompt</span>Here's the transcript from [client]'s team call.
-
-Produce four things:
-1. A 5-bullet executive summary
-2. KEY DECISIONS made (with who decided)
-3. ACTION ITEMS as a table: Task | Owner | Due Date | Priority
-4. OPEN QUESTIONS that still need answers
-
-Only include action items that were actually stated — do not invent tasks. Flag anything ambiguous as "needs confirmation."</div>
-
-  <div class="callout">
-    <div class="callout-icon">&#9888;</div>
-    <div class="callout-body"><strong>The hallucination trap (Day 1).</strong> AI note summaries sometimes invent action items or misattribute who said what. <strong>Always cross-check the action list against what was actually said</strong> before you send tasks to people. A made-up task assigned to a real person damages trust fast. The notetaker and Claude draft; you are the fact-checker.</div>
-  </div>
-
-  <h2>Where the Output Goes</h2>
-  <table>
-    <thead><tr><th>Output</th><th>Destination</th><th>Why</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Action items</td><td>Project management tool (ClickUp/Asana/etc.)</td><td>So tasks get owners, due dates, and tracking</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Quick recap</td><td>Slack / Telegram channel</td><td>So the team sees outcomes instantly</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Client-facing summary</td><td>Email</td><td>For the polished, on-brand record</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Follow-up tasks for leads</td><td>GoHighLevel</td><td>If the meeting generated sales actions</td></tr>
-    </tbody>
-  </table>
-  <p>Notice how this ties the whole week together: a meeting can end up creating tasks in a PM tool, a recap in Slack, <em>and</em> a follow-up in GHL &mdash; all from one transcript.</p>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(1)">&larr; Note-Takers</button>
-    <button class="btn btn-primary" onclick="goTo(3)">Project Management Tools &rarr;</button>
-  </div>
-</section>
-
-<!-- S3: PROJECT MANAGEMENT TOOLS -->
-<section class="section" id="s3">
-  <h1>Project Management Tools</h1>
-  <p class="section-subtitle">PM tools are where work gets tracked. As a VA you'll live in whichever one your client uses &mdash; so you need to be fluent in the concepts that all of them share, and know how AI plugs in.</p>
-
-  <h2>The Major Tools</h2>
-  <table>
-    <thead><tr><th>Tool</th><th>Personality</th><th>Best Fit</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">ClickUp</td><td>Powerful, highly customisable, does everything</td><td>Teams wanting one tool for all work</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Asana</td><td>Clean, task-focused, easy to learn</td><td>Marketing &amp; ops teams</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Trello</td><td>Simple Kanban boards, very visual</td><td>Small teams, simple workflows</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Monday.com</td><td>Colourful, spreadsheet-style, flexible</td><td>Visual teams who like dashboards</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Notion</td><td>Docs + databases + tasks in one workspace</td><td>Knowledge-heavy teams &amp; wikis</td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#128161;</div>
-    <div class="callout-body"><strong>Don't get overwhelmed by the choices.</strong> They all share the same core ideas: tasks, assignees, due dates, statuses, and boards/lists. Learn those concepts once and you can work in <em>any</em> PM tool within an hour. The differences are mostly cosmetic.</div>
-  </div>
-
-  <h2>The Universal Concepts</h2>
-  <div class="comparison">
-    <div class="comparison-strong">
-      <div class="comparison-label">Always the same</div>
-      <strong style="color:var(--white);">Task</strong> (a unit of work), <strong style="color:var(--white);">Assignee</strong> (who owns it), <strong style="color:var(--white);">Due date</strong>, <strong style="color:var(--white);">Status</strong> (To Do / Doing / Done), <strong style="color:var(--white);">Board or List</strong> (the container).
+  <!-- S0-0: DAY 7 REVIEW -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Opener</div>
+    <h1>Day 7 Review</h1>
+    <p class="subtitle">You can now make GoHighLevel run itself. Today we connect everything around GHL -- meetings, projects, and team messaging -- into one AI-powered command center.</p>
+    <div class="card" style="background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(234,179,8,0.04));border:1px solid rgba(34,197,94,0.2)">
+      <div class="card-head" style="color:var(--gold)"><svg><use href="#i-book"/></svg> Yesterday's Key Points</div>
+      <p><strong>Workflows</strong> = Trigger (when) -- Actions (do) -- Conditions (only if). Always test on a fake contact before going live.</p>
+      <p><strong>The recipes</strong> -- instant lead follow-up, appointment reminders, nurture, review requests, internal alerts -- cover most client needs.</p>
+      <p><strong>API = you ask; webhook = it tells you.</strong> MCP is the bridge that lets Claude work directly inside GHL.</p>
+      <p style="margin:0"><strong>Integrations</strong> connect GHL to other tools: native first, then Zapier/Make, then custom API. Today we use those connections to build a full stack.</p>
     </div>
-    <div class="comparison-strong" style="background:rgba(234,179,8,0.08);border-color:rgba(234,179,8,0.2);">
-      <div class="comparison-label" style="color:var(--gold);">Just different names</div>
-      ClickUp "Spaces", Asana "Projects", Trello "Boards", Notion "Databases", Monday "Boards". Same idea, different label. Don't let the vocabulary intimidate you.
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> The big picture for today</div>
+      <p style="margin:0">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together -- and in Session 6 you'll see the platform where it all runs: <strong>KeyCommand</strong>, the KeyPlayers proprietary command center you'll operate with every client.</p>
     </div>
-  </div>
+  </div></section>
 
-  <h2>AI + PM Tools</h2>
-  <p>This is where the meeting pipeline pays off. With Cowork or an MCP connection (Days 4&ndash;5), Claude can work directly in the PM tool:</p>
-  <ul>
-    <li><strong>Create tasks from a transcript</strong> &mdash; "Add these 6 action items to Asana with owners and due dates"</li>
-    <li><strong>Check status</strong> &mdash; "What's overdue in the client workspace?"</li>
-    <li><strong>Summarise progress</strong> &mdash; "Write a weekly progress update from this board"</li>
-    <li><strong>Triage &amp; organise</strong> &mdash; "Sort these new tasks by priority and assign owners"</li>
-  </ul>
-
-  <div class="prompt-block"><span class="prompt-label">Try This (Cowork / MCP)</span>From the action items we just verified, create tasks in [PM tool] under the "[Project]" board. For each: set the owner, a realistic due date, and priority. Then give me a list of what you created so I can double-check before it's final.</div>
-
-  <div class="card card-gold">
-    <div class="card-title">The VA's PM responsibility</div>
-    <p style="margin:0;">You're often the person who keeps the board honest &mdash; tasks have owners, due dates are realistic, nothing is stuck, and the owner can see the true state of work at a glance. AI helps you create and organise tasks fast, but the discipline of an accurate board is a human habit. That habit is part of what clients pay for.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(2)">&larr; From Notes to Action</button>
-    <button class="btn btn-primary" onclick="goTo(4)">Messaging Automations &rarr;</button>
-  </div>
-</section>
-
-<!-- S4: MESSAGING AUTOMATIONS -->
-<section class="section" id="s4">
-  <h1>Messaging Automations</h1>
-  <p class="section-subtitle">Slack, WhatsApp, and Telegram are where teams and customers actually talk. Connecting them to your AI stack means the right message reaches the right place automatically &mdash; no manual copy-paste, nothing missed.</p>
-
-  <h2>The Three Platforms &mdash; and What They're For</h2>
-
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">&#128172;</div><div class="block-name">Slack &mdash; internal team comms</div></div>
-    <div class="block-body">
-      <p>The team's HQ. Used for internal coordination, alerts, and updates. As a VA you'll route notifications here: hot-lead alerts, meeting recaps, daily summaries, task updates.</p>
-      <p style="margin:0;"><strong>Automation examples:</strong> "New high-value lead in GHL &rarr; post to #sales." "Meeting ended &rarr; post the recap to #team." "Task marked done &rarr; notify the owner."</p>
+  <!-- S0-1: CHECK-IN / ATTENDANCE -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Check-in</div>
+    <h1>Mark Your Attendance</h1>
+    <p class="subtitle">Takes 30 seconds. This logs your participation for today's session.</p>
+    <div id="attDone" style="display:none">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Marked present</div><p style="margin:0">Your Day 8 attendance is logged. Let's get into it.</p></div>
     </div>
-  </div>
-
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">&#128241;</div><div class="block-name">WhatsApp &mdash; customer conversations</div></div>
-    <div class="block-body">
-      <p>The world's most-used messaging app &mdash; often the main channel to <em>customers</em>, especially outside the US. Via the WhatsApp Business API (or GHL's WhatsApp integration), you can automate confirmations, reminders, and replies.</p>
-      <p style="margin:0;"><strong>Automation examples:</strong> appointment confirmations, order updates, and 2-way support &mdash; with a human (you) stepping in for anything nuanced.</p>
+    <div id="attForm">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Ready to begin?</div><p style="margin:0">Your name was entered at login. Click below to confirm your attendance for today.</p></div>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="kpRecordPresence()">Mark me present <svg><use href="#i-check"/></svg></button>
     </div>
-  </div>
-
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">&#9989;</div><div class="block-name">Telegram &mdash; alerts &amp; bots</div></div>
-    <div class="block-body">
-      <p>Developer-friendly and great for instant notifications via bots. Popular for personal alert channels and lightweight community groups.</p>
-      <p style="margin:0;"><strong>Automation examples:</strong> a bot that pings the owner the second a big deal closes, or a daily-metrics bot that posts numbers every morning.</p>
+    <div class="card" style="margin-top:18px">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Today's agenda</div>
+      <ul style="margin:0">
+        <li><strong>30 min</strong> — AI Meeting Tools (Note-takers, Notes to Action, PM Tools, Messaging)</li>
+        <li><strong>20 min</strong> — tl;dv + Email Automation (live build)</li>
+        <li><strong>1h 30 min</strong> — KeyCommand (your operating platform)</li>
+        <li><strong>Open</strong> — Hands-On Lab</li>
+      </ul>
     </div>
+  </div></section>
+
+  <!-- S0-2: WHY THIS MATTERS -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Why This Matters</div>
+    <h1>Meetings Are Broken. You're the Fix.</h1>
+    <p class="subtitle">Most meetings produce good conversation and terrible follow-through. An AI-enabled VA changes both.</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">71<span style="font-size:18px;font-weight:600">%</span></div><div class="stat-label">of professionals say most meetings are unproductive — nothing gets tracked after the call ends</div><div class="stat-src">Harvard Business Review, 2022</div></div>
+      <div class="stat-card"><div class="stat-num">$37<span style="font-size:18px;font-weight:600">B</span></div><div class="stat-label">lost per year in the US due to unproductive meetings with no clear outcomes</div><div class="stat-src">Atlassian State of Teams, 2023</div></div>
+      <div class="stat-card"><div class="stat-num">31<span style="font-size:18px;font-weight:600">hrs</span></div><div class="stat-label">the average worker spends in unproductive meetings every single month</div><div class="stat-src">Atlassian State of Teams, 2023</div></div>
+      <div class="stat-card"><div class="stat-num">70<span style="font-size:18px;font-weight:600">%+</span></div><div class="stat-label">reduction in post-meeting follow-up time when an AI note-taker is in the loop</div><div class="stat-src">KeyPlayers VA Academy data</div></div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Shift</div><p>Every meeting your client runs is a decision point. If the output disappears into someone's notes app, nothing gets acted on. Your job: make the output land in the right tool, with the right owners, every time.</p></div>
+  </div></section>
+
+  <!-- S1-INTRO: AI MEETING TOOLS OVERVIEW -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Session 2</div>
+    <h1>AI Meeting Tools</h1>
+    <p class="subtitle">Four topics, 30 minutes, free tier only. We move fast — this is your quick-reference foundation. Deep dives come in the lab and on the job.</p>
+    <div class="stat-grid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat-card" style="padding:14px">
+        <div class="stat-num" style="font-size:16px;color:var(--accent);margin-bottom:6px">01</div>
+        <div class="stat-label"><strong style="color:var(--ink);display:block;margin-bottom:3px">AI Note-Takers</strong>Which tools exist, what they do, free tier picks</div>
+      </div>
+      <div class="stat-card" style="padding:14px">
+        <div class="stat-num" style="font-size:16px;color:var(--accent);margin-bottom:6px">02</div>
+        <div class="stat-label"><strong style="color:var(--ink);display:block;margin-bottom:3px">Notes to Action</strong>Turning transcripts into tasks, decisions, and routing</div>
+      </div>
+      <div class="stat-card" style="padding:14px">
+        <div class="stat-num" style="font-size:16px;color:var(--accent);margin-bottom:6px">03</div>
+        <div class="stat-label"><strong style="color:var(--ink);display:block;margin-bottom:3px">PM Tools</strong>Universal concepts, free tiers, and AI integration</div>
+      </div>
+      <div class="stat-card" style="padding:14px">
+        <div class="stat-num" style="font-size:16px;color:var(--accent);margin-bottom:6px">04</div>
+        <div class="stat-label"><strong style="color:var(--ink);display:block;margin-bottom:3px">Messaging</strong>Slack, WhatsApp, Telegram — connecting the stack</div>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Free tier only — reminder</div>
+      <p style="margin:0">Everything in this session runs on free plans. Fathom (note-taker), Trello or Notion (PM), Slack (messaging) — no subscription required. Your job is to learn the skill, not the pricing page. Master the free version first; upgrades are a conversation for after the client's workflow is proven.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-0: AI MEETING NOTE-TAKERS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · AI Note-Takers</div>
+    <h1>AI Meeting Note-Takers</h1>
+    <p class="subtitle">Meetings are where decisions get made -- and where action items get forgotten. AI note-takers capture everything so you don't have to scramble. For a VA, this is one of the highest-leverage tools you can offer a client.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> What an AI note-taker does</div>
+      <p style="margin:0">It joins a meeting (Zoom, Google Meet, Teams), records and transcribes everything spoken, then produces a clean summary with <strong>key decisions, action items, and who's responsible</strong> -- automatically, within minutes of the call ending.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-1: THE MAIN TOOLS TABLE -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The Main Tools</h2>
+    <table>
+      <thead><tr><th>Tool</th><th>Known For</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Fathom</strong></td><td>Free, fast, clean summaries; great Zoom/Meet integration</td><td>VAs &amp; small teams wanting zero-cost, high quality</td></tr>
+        <tr><td><strong>Otter.ai</strong></td><td>Live transcription, searchable archive</td><td>Detailed word-for-word records</td></tr>
+        <tr><td><strong>Fireflies.ai</strong></td><td>Strong CRM/automation integrations, searchable "knowledge base"</td><td>Teams that pipe notes into other tools</td></tr>
+        <tr><td><strong>Zoom AI Companion</strong></td><td>Built into Zoom -- no extra bot to add</td><td>Clients who live in Zoom already</td></tr>
+        <tr><td><strong>tl;dv</strong></td><td>Timestamped highlights &amp; clips</td><td>Reviewing key moments by video</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Where to start</div>
+      <p style="margin:0">Most VAs start with <strong>Fathom</strong> -- it's free, reliable, and produces excellent summaries with action items already separated out. Learn one tool deeply before worrying about the rest. The skill transfers; the buttons just move.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-D: DRILL -- Note-Taker Tools & Consent -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">AI Note-Takers · Quick Drill</div>
+    <h2>Check Your Understanding</h2>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Tool Selection</div>
+      <div class="quiz-q">A client runs all their meetings on Zoom and wants a free, minimal-setup AI note-taker. Which tool do you recommend first?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Fathom -- free, native Zoom integration, clean action-item summaries</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Fireflies.ai -- most popular, works with any meeting platform</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>tl;dv -- specializes in Zoom with a simple setup</button>
+      </div>
+      <div class="quiz-fb"><strong>Fathom</strong> is the right starting point. It's free, integrates natively with Zoom, and produces clean summaries with action items already separated. Fireflies is better for teams that need CRM integrations. tl;dv is built for reviewing video clips -- not the quick action-item output a solo client needs.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+    <div class="quiz" style="margin-top:20px">
+      <div class="quiz-tag"><svg><use href="#i-shield"/></svg> Consent Scenario</div>
+      <div class="quiz-q">A client asks you to add an AI note-taker to their upcoming call with an employment lawyer about a staff dispute. What is the right move?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Add it -- the client authorized it, so consent is covered</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Use a tool that records more discreetly without announcing itself</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Pause and confirm explicit consent from all parties before recording a sensitive legal call</button>
+      </div>
+      <div class="quiz-fb">Legal, HR, and medical calls require extra care. "The client said yes" is not enough -- recording laws vary by region, and every participant has rights. Always get all-party consent confirmed before recording sensitive calls. When in doubt, skip the bot and take manual notes instead.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S1-2: HOW IT WORKS STEP BY STEP -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>How It Works, Step by Step</h2>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div class="step-content"><strong>Connect &amp; admit the notetaker</strong><p>Link the tool to the client's calendar. It auto-joins scheduled calls, or you add the bot manually. It appears as a participant.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-content"><strong>It records &amp; transcribes live</strong><p>During the call it captures audio and builds a full transcript in real time.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-content"><strong>It generates a summary</strong><p>Minutes after the call: a recap, key points, decisions, and a clean action-item list with owners.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">4</div>
+        <div class="step-content"><strong>You review &amp; route</strong><p>The VA's job: verify accuracy, then send the summary where it belongs -- a PM tool, Slack, email, or the client's inbox.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S2-0: FROM NOTES TO ACTION -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Notes to Action</div>
+    <h1>From Notes to Action</h1>
+    <p class="subtitle">A transcript that nobody acts on is worthless. The real value -- and your real skill -- is turning raw meeting output into tasks, follow-ups, and updates that actually move work forward. This is where Claude shines.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The transformation that makes you valuable</div>
+      <p style="margin:0;color:var(--ink);font-size:15.5px;font-weight:500">Notetaker captures -- Claude structures -- you verify -- it lands in the right tool. The AI does the heavy lifting; you own the accuracy and the routing.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-1: PIPELINE CANVAS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The Meeting-to-Action Pipeline</h2>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-clock"/></svg></div><div><div class="n8n-node-title">Meeting Ends</div><div class="n8n-node-sub">Notetaker transcript</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.35s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-spark"/></svg></div><div><div class="n8n-node-title">Claude</div><div class="n8n-node-sub">Extract decisions &amp; actions</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.6s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">You</div><div class="n8n-node-sub">Review &amp; correct</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.85s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Destination</div><div class="n8n-node-sub">PM + Slack + GHL</div></div></div>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The hallucination trap</div>
+      <p style="margin:0">AI note summaries sometimes invent action items or misattribute who said what. <strong>Always cross-check the action list against what was actually said</strong> before you send tasks to people. A made-up task assigned to a real person damages trust fast. The notetaker and Claude draft; you are the fact-checker.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-2: CLAUDE AS MEETING PROCESSOR -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Claude as Your Meeting Processor</h2>
+    <p>Drop a transcript into Claude (a Project for that client gives it voice and context) and it can produce exactly the output you need:</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Meeting Processor Prompt</div></div>
+      <div class="terminal-body" style="user-select:all">
+        <span class="ccmt">Here's the transcript from [client]'s team call.</span><br><br>
+        <span class="ccmd">Produce four things:</span><br>
+        <span class="ccmt">1. A 5-bullet executive summary</span><br>
+        <span class="ccmt">2. KEY DECISIONS made (with who decided)</span><br>
+        <span class="ccmt">3. ACTION ITEMS as a table: Task | Owner | Due Date | Priority</span><br>
+        <span class="ccmt">4. OPEN QUESTIONS that still need answers</span><br><br>
+        <span class="cprompt">Only include action items that were actually stated</span> <span class="ccmt">-- do not invent tasks.</span><br>
+        <span class="ccmt">Flag anything ambiguous as "needs confirmation."</span>
+      </div>
+    </div>
+    <h2>Where the Output Goes</h2>
+    <table>
+      <thead><tr><th>Output</th><th>Destination</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Action items</strong></td><td>Project management tool (ClickUp/Asana/etc.)</td><td>So tasks get owners, due dates, and tracking</td></tr>
+        <tr><td><strong>Quick recap</strong></td><td>Slack / Telegram channel</td><td>So the team sees outcomes instantly</td></tr>
+        <tr><td><strong>Client-facing summary</strong></td><td>Email</td><td>For the polished, on-brand record</td></tr>
+        <tr><td><strong>Follow-up tasks for leads</strong></td><td>GoHighLevel</td><td>If the meeting generated sales actions</td></tr>
+      </tbody>
+    </table>
+    <p>Notice how this ties the whole week together: a meeting can end up creating tasks in a PM tool, a recap in Slack, <em>and</em> a follow-up in GHL -- all from one transcript.</p>
+  </div></section>
+
+  <!-- S2-D: DRILL -- Hallucination Spotting -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Notes to Action · Quick Drill</div>
+    <h2>Spot the Hallucination</h2>
+    <p>This is a core VA skill. Claude processed the transcript below and produced four action items. One was never actually stated in the meeting. Which one?</p>
+    <div class="card" style="background:var(--panel-2);border:1px solid var(--border);margin-bottom:4px">
+      <div class="card-head" style="color:var(--dim)"><svg><use href="#i-book"/></svg> Meeting transcript summary</div>
+      <p style="margin:0;font-size:14px;line-height:1.7"><strong>Alex</strong> confirmed he'll send the updated campaign brief to the team by Thursday. The group agreed to delay the podcast launch by two weeks to allow more prep time. <strong>Maria</strong> offered to loop in the design team once the brief is finalized.</p>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Which item did nobody actually say?</div>
+      <div class="quiz-q">Claude's action items from the above call -- identify the hallucination.</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Alex to send updated campaign brief to team by Thursday</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Podcast launch to be pushed back by two weeks</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Schedule a strategy retreat before Q4 to re-align the team</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Maria to loop in the design team once the brief is finalized</button>
+      </div>
+      <div class="quiz-fb">Nobody mentioned a strategy retreat. Claude inferred something plausible-sounding but completely unsupported by the transcript -- a textbook hallucination. The other three were stated explicitly. This is exactly why you never forward action items without reading the transcript yourself. A made-up task assigned to a real person damages trust quickly.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S3-0: PROJECT MANAGEMENT TOOLS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · PM Tools</div>
+    <h1>Project Management Tools</h1>
+    <p class="subtitle">PM tools are where work gets tracked. As a VA you'll live in whichever one your client uses -- so you need to be fluent in the concepts that all of them share, and know how AI plugs in.</p>
+    <h2>The Major Tools</h2>
+    <table>
+      <thead><tr><th>Tool</th><th>Personality</th><th>Best Fit</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ClickUp</strong></td><td>Powerful, highly customizable, does everything</td><td>Teams wanting one tool for all work</td></tr>
+        <tr><td><strong>Asana</strong></td><td>Clean, task-focused, easy to learn</td><td>Marketing &amp; ops teams</td></tr>
+        <tr><td><strong>Trello</strong></td><td>Simple Kanban boards, very visual</td><td>Small teams, simple workflows</td></tr>
+        <tr><td><strong>Monday.com</strong></td><td>Colorful, spreadsheet-style, flexible</td><td>Visual teams who like dashboards</td></tr>
+        <tr><td><strong>Notion</strong></td><td>Docs + databases + tasks in one workspace</td><td>Knowledge-heavy teams &amp; wikis</td></tr>
+      </tbody>
+    </table>
+    <div class="standard"><div class="badge"><svg><use href="#i-spark"/></svg></div><div class="pl">The Insight</div><p>Don't get overwhelmed by the choices. They all share the same core ideas: tasks, assignees, due dates, statuses, and boards/lists. Learn those concepts once and you can work in any PM tool within an hour. The differences are mostly cosmetic.</p></div>
+  </div></section>
+
+  <!-- S3-1: UNIVERSAL CONCEPTS + AI -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The Universal Concepts</h2>
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Always the same</div>
+        <strong>Task</strong> (a unit of work), <strong>Assignee</strong> (who owns it), <strong>Due date</strong>, <strong>Status</strong> (To Do / Doing / Done), <strong>Board or List</strong> (the container).
+      </div>
+      <div class="col" style="background:var(--gold-soft);border:1px solid rgba(234,179,8,0.22)">
+        <div class="col-label" style="color:var(--gold)"><svg><use href="#i-book"/></svg> Just different names</div>
+        ClickUp "Spaces", Asana "Projects", Trello "Boards", Notion "Databases", Monday "Boards". Same idea, different label. Don't let the vocabulary intimidate you.
+      </div>
+    </div>
+    <h2>AI + PM Tools</h2>
+    <p>This is where the meeting pipeline pays off. With Cowork or an MCP connection (Days 4--5), Claude can work directly in the PM tool:</p>
+    <ul>
+      <li><strong>Create tasks from a transcript</strong> -- "Add these 6 action items to Asana with owners and due dates"</li>
+      <li><strong>Check status</strong> -- "What's overdue in the client workspace?"</li>
+      <li><strong>Summarize progress</strong> -- "Write a weekly progress update from this board"</li>
+      <li><strong>Triage &amp; organize</strong> -- "Sort these new tasks by priority and assign owners"</li>
+    </ul>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Try This (Cowork / MCP)</div></div>
+      <div class="terminal-body" style="user-select:all">
+        <span class="ccmt">From the action items we just verified, create tasks in [PM tool] under the</span><br>
+        <span class="ccmt">"[Project]" board. For each: set the owner, a realistic due date, and priority.</span><br>
+        <span class="ccmt">Then give me a list of what you created so I can double-check before it's final.</span>
+      </div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Rule</div><p>Every tool here drafts, captures, or routes. Not one of them decides. That's still you. An accurate board is a reflection of human judgment -- not AI output.</p></div>
+  </div></section>
+
+  <!-- S4-0: MESSAGING AUTOMATIONS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Messaging Automations</div>
+    <h1>Messaging Automations</h1>
+    <p class="subtitle">Slack, WhatsApp, and Telegram are where teams and customers actually talk. Connecting them to your AI stack means the right message reaches the right place automatically -- no manual copy-paste, nothing missed.</p>
+    <h2>The Three Platforms -- and What They're For</h2>
+    <div class="block-item">
+      <div class="block-header">
+        <div class="block-num"><svg><use href="#i-msg"/></svg></div>
+        <div class="block-name">Slack -- internal team comms</div>
+      </div>
+      <div class="block-body">
+        <p>The team's HQ. Used for internal coordination, alerts, and updates. As a VA you'll route notifications here: hot-lead alerts, meeting recaps, daily summaries, task updates.</p>
+        <p style="margin:0"><strong>Automation examples:</strong> "New high-value lead in GHL -- post to #sales." "Meeting ended -- post the recap to #team." "Task marked done -- notify the owner."</p>
+      </div>
+    </div>
+    <div class="block-item">
+      <div class="block-header">
+        <div class="block-num"><svg><use href="#i-grid"/></svg></div>
+        <div class="block-name">WhatsApp -- customer conversations</div>
+      </div>
+      <div class="block-body">
+        <p>Often the main channel to <em>customers</em>, especially outside the US. Via GHL's WhatsApp integration or the Business API, you can automate confirmations, reminders, and 2-way support.</p>
+        <p style="margin:0"><strong>Automation examples:</strong> appointment confirmations, order updates, and follow-up sequences -- with a human stepping in for anything nuanced.</p>
+      </div>
+    </div>
+    <div class="block-item">
+      <div class="block-header">
+        <div class="block-num"><svg><use href="#i-bolt"/></svg></div>
+        <div class="block-name">Telegram -- alerts &amp; bots</div>
+      </div>
+      <div class="block-body">
+        <p>Developer-friendly and great for instant notifications via bots. Popular for personal alert channels and lightweight community groups.</p>
+        <p style="margin:0"><strong>Automation examples:</strong> a bot that pings the owner the second a big deal closes, or a daily-metrics bot that posts numbers every morning.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S4-1: HOW THESE CONNECT + MULTI-TOOL AUTOMATION -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>How These Connect to Your Stack</h2>
+    <p>You rarely connect these by hand-coding. You use the connectors from Day 7:</p>
+    <table>
+      <thead><tr><th>Connection Method</th><th>When to Use</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent)">Native (GHL to WhatsApp, GHL to Slack)</strong></td><td>First choice when GHL offers it directly</td></tr>
+        <tr><td><strong style="color:var(--accent)">Zapier / Make</strong></td><td>To connect any app to Slack/Telegram/WhatsApp with no code</td></tr>
+        <tr><td><strong style="color:var(--accent)">Claude via MCP</strong></td><td>When you want AI to draft and post messages intelligently, with your approval</td></tr>
+        <tr><td><strong style="color:var(--accent)">Platform bots / API</strong></td><td>Telegram bots and WhatsApp Business API for custom flows</td></tr>
+      </tbody>
+    </table>
+    <h2>A Real Multi-Tool Automation</h2>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-target"/></svg></div><div><div class="n8n-node-title">Trigger</div><div class="n8n-node-sub">Deal Won in GHL</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-grid"/></svg></div><div><div class="n8n-node-title">ClickUp</div><div class="n8n-node-sub">Create onboarding tasks</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.55s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-msg"/></svg></div><div><div class="n8n-node-title">Slack</div><div class="n8n-node-sub">Post "New client!" alert</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.8s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">WhatsApp</div><div class="n8n-node-sub">Welcome to customer</div></div></div>
+      </div>
+    </div>
+    <p>One event, three tools, zero manual work -- built with a webhook from GHL into Make, which fans out to ClickUp, Slack, and WhatsApp. This is the integrated VA at full power.</p>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Oversight still applies</div>
+      <p style="margin:0">Messages going to <em>customers</em> (WhatsApp) need more review than internal pings (Slack). Automate the routine confirmations, but keep a human on anything sensitive or unusual. And test every multi-tool automation on yourself first -- a misfire here hits multiple platforms at once.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-WRAP: AI MEETING TOOLS BLOCK SUMMARY -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">AI Meeting Tools · Block Wrap</div>
+    <h2>The Full Stack — Free Tier Summary</h2>
+    <p>Every tool in this session has a solid free option. Here's what to recommend when a client is starting out:</p>
+    <table>
+      <thead><tr><th>Category</th><th>Free Pick</th><th>Free Tier Limit</th><th>When to Upgrade</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Note-taker</strong></td><td>Fathom</td><td>Unlimited meetings, 1 workspace</td><td>Team access or CRM integrations needed</td></tr>
+        <tr><td><strong>Note-taker (video)</strong></td><td>tl;dv</td><td>Unlimited recordings, 10 AI recaps/month</td><td>Unlimited AI recaps + Slack/Zapier push</td></tr>
+        <tr><td><strong>PM tool</strong></td><td>Trello or Notion</td><td>Unlimited cards; limited automation on free</td><td>Automations, advanced views, team features</td></tr>
+        <tr><td><strong>Messaging</strong></td><td>Slack</td><td>90-day message history, 10 integrations</td><td>Full message history or more integrations</td></tr>
+      </tbody>
+    </table>
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Rule</div><p>Master one free tool per category before a client ever pays for an upgrade. The skill transfers. The upgrade is only worth it once the workflow is proven and the client is getting value.</p></div>
+    <div class="card card-accent" style="margin-top:16px">
+      <div class="card-head"><svg><use href="#i-check"/></svg> What's next</div>
+      <p style="margin:0">You'll now build a real tl;dv → email automation using only free tools (~20 min). Then Session 3 puts everything through <strong>KeyCommand</strong> — the platform where all of this runs at the client level every day.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-0: tl;dv + EMAIL AUTOMATION — WHAT WE'RE BUILDING -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · tl;dv Automation</div>
+    <h1>Build: tl;dv → Email</h1>
+    <p class="subtitle">15–20 minutes. Free tier only. By the end you'll have a working automation: meeting ends → tl;dv records → AI summary emails you → you review and route it. No Zapier. No code.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-clock"/></svg></div><div><div class="n8n-node-title">Meeting Ends</div><div class="n8n-node-sub">Zoom or Google Meet</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-book"/></svg></div><div><div class="n8n-node-title">tl;dv Records</div><div class="n8n-node-sub">Full transcript + AI summary</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.55s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#16a34a"><svg><use href="#i-msg"/></svg></div><div><div class="n8n-node-title">Email Arrives</div><div class="n8n-node-sub">Summary + action items</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.8s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">You Review</div><div class="n8n-node-sub">Verify → route to PM / client</div></div></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="col" style="background:rgba(93,169,244,.05);border:1px solid rgba(93,169,244,.18)">
+        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-check"/></svg> What's free</div>
+        Unlimited recordings, full transcripts, AI meeting summaries, and automatic email delivery — all on tl;dv's free plan. No credit card needed.
+      </div>
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> What's NOT free</div>
+        Slack/Zapier integrations, unlimited AI recaps (10/month on free), team workspaces, and CRM push — those are paid tiers. We don't need them today.
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S2-1: tl;dv STEP 1 — SIGN UP & CONNECT -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">tl;dv · Step 1</div>
+    <h2>Sign Up and Connect Your Calendar</h2>
+    <p>Five minutes. Do this now so tl;dv can auto-join your next meeting.</p>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Setup guide</div></div>
+      <div class="terminal-body">
+        <span class="cprompt">Step 1</span> <span class="ccmd">Create your free account</span><br>
+        <span class="ccmt">  Go to tldv.io → click "Get started free" → sign in with Google</span><br><br>
+        <span class="cprompt">Step 2</span> <span class="ccmd">Connect your calendar</span><br>
+        <span class="ccmt">  After login → Settings → Integrations → Google Calendar (or Outlook)</span><br>
+        <span class="ccmt">  Click Connect → allow access → tl;dv now sees your upcoming meetings</span><br><br>
+        <span class="cprompt">Step 3</span> <span class="ccmd">Enable email notifications</span><br>
+        <span class="ccmt">  Settings → Notifications → "Meeting summary email" → toggle ON</span><br>
+        <span class="ccmt">  Set delivery: "Send immediately after meeting ends"</span>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Auto-join vs manual join — consent matters</div>
+      <p style="margin:0">After connecting your calendar, tl;dv will appear as a bot participant in meetings. If a client's call is private and the bot joins without warning, that is a consent problem. Always tell all participants before the first recorded call. For client meetings: confirm consent before tl;dv joins, not after.</p>
+    </div>
+    <div class="footnote">
+      <div class="footnote-label">Free tier limits at a glance</div>
+      <div class="footnote-list">
+        <div class="fn-item"><strong>Recordings</strong><span>Unlimited</span></div>
+        <div class="fn-item"><strong>Transcripts</strong><span>Unlimited</span></div>
+        <div class="fn-item"><strong>AI recaps</strong><span>10/month free</span></div>
+        <div class="fn-item"><strong>Video clips</strong><span>5 per meeting</span></div>
+        <div class="fn-item"><strong>Integrations</strong><span>Paid only</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S2-2: tl;dv STEP 2 — RECORD A TEST MEETING -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">tl;dv · Step 2</div>
+    <h2>Record a Test Meeting</h2>
+    <p>You do not need another person. A solo 3-minute Zoom or Meet call is enough to trigger the full pipeline.</p>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Do this now (5 min)</div><div class="ex-title">Run your first tl;dv recording</div></div>
+      <ol style="margin:0">
+        <li>Start a Zoom or Google Meet solo — talk for 2–3 minutes: describe a fake project, make up decisions, assign imaginary tasks to imaginary people.</li>
+        <li>tl;dv appears in the meeting as a bot within 30 seconds. If it doesn't auto-join, go to tldv.io → "Record new meeting" → paste the link.</li>
+        <li>End the meeting.</li>
+        <li>Wait 5–10 minutes, then check your inbox for the tl;dv summary email.</li>
+      </ol>
+    </div>
+    <h2>What the Email Contains</h2>
+    <table>
+      <thead><tr><th>Section</th><th>What It Shows</th><th>Your Job</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AI Summary</strong></td><td>3–5 bullet overview of what was discussed</td><td>Verify accuracy — does it match what was actually said?</td></tr>
+        <tr><td><strong>Action Items</strong></td><td>Tasks tl;dv identified, with owners if mentioned</td><td>Cross-check against transcript — remove anything invented</td></tr>
+        <tr><td><strong>Full Transcript</strong></td><td>Word-for-word record of everything spoken</td><td>Source of truth — use this to fact-check the summary</td></tr>
+        <tr><td><strong>Recording Link</strong></td><td>Timestamped video of the call</td><td>Share with participants or clip key moments for the client</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S2-3: tl;dv STEP 3 — ROUTE THE OUTPUT -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow" style="color:var(--secure)">tl;dv · Step 3</div>
+    <h2>Route the Output — Your VA Workflow</h2>
+    <p>The email is the source. You are the router. Here is what to do with it after every meeting.</p>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div class="step-content"><strong>Read the summary and action items</strong><p>Don't forward anything until you've read it. Check the action items against the transcript. Did tl;dv invent anything? Remove it before it reaches anyone.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-content"><strong>Paste into Claude for structured output</strong><p>Use the Meeting Processor prompt from Session 2. Claude reformats the action items into a clean table (Task | Owner | Due | Priority) ready to drop into any PM tool.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-content"><strong>Route each piece to the right destination</strong><p>Action items → PM tool. Quick recap → Slack or team channel. Client-facing summary → your own words, not a raw AI dump. Sales follow-ups → GHL.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">4</div>
+        <div class="step-content"><strong>Label tl;dv emails in Gmail (one-time setup)</strong><p>Gmail → Settings → Filters → Create new filter → From: tldv.io → Apply label "Meeting Recaps." Every future summary is auto-organized, not buried.</p></div>
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The complete free pipeline — no paid tools required</div>
+      <p style="margin:0"><strong>tl;dv free</strong> records + transcribes → <strong>email</strong> delivers the summary → <strong>you</strong> verify + route → <strong>Claude free</strong> structures it → <strong>Trello/Notion free</strong> tracks the tasks. Zero subscription cost for the VA side of this workflow.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-4: tl;dv QA DRILL -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">tl;dv · Quick Drill</div>
+    <h2>QA Checklist + Free Tier Scenario</h2>
+    <p>Run this checklist every time before you forward a tl;dv summary to a client or team.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> 6-point QA checklist</div>
+      <ol style="margin:0">
+        <li>Consent announced — all participants knew they were being recorded before the call started</li>
+        <li>Tested with a dummy meeting first — never a live client call for setup testing</li>
+        <li>Summary email arrived — check spam if it's been more than 10 minutes</li>
+        <li>Action items verified against the transcript — nothing invented or misattributed</li>
+        <li>Speaker names and owners correct — tl;dv sometimes misidentifies who said what</li>
+        <li>Forwarded in your own words — not a raw AI output pasted directly to the client</li>
+      </ol>
+    </div>
+    <div class="quiz" style="margin-top:20px">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Free Tier Scenario</div>
+      <div class="quiz-q">You've used all 10 of your free tl;dv AI recaps for the month. A client meeting is in two hours. What's the right move?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Upgrade tl;dv to a paid plan immediately</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>tl;dv still records and transcribes for free — use Fathom or Claude to process the transcript instead</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Skip the note-taker for this meeting and take manual notes</button>
+      </div>
+      <div class="quiz-fb">The recording and full transcript remain free on tl;dv — only the AI recap generation is capped at 10/month. Download the transcript and run it through Fathom (unlimited free) or paste it into Claude with the Meeting Processor prompt. A capped tool does not mean the meeting goes undocumented. Always have a fallback — that's the VA standard.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S5-0: KEYCOMMAND INTRO -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Session 3 — KeyCommand</div>
+    <h1>KeyCommand</h1>
+    <p class="subtitle">Once placed with a client, this is the platform you'll operate every day. KeyCommand is the KeyPlayers proprietary AI command center -- a full marketing and ops stack run by specialized AI agents, with you as the operator who keeps everything accurate, on-brand, and moving.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> What it is</div>
+      <p style="margin-bottom:10px">A marketing command center that pairs a team of AI agents with the client's social and tooling accounts. It handles competitor monitoring, content generation, outreach, engagement, and CRM signals -- all in one platform. Every agent drafts. You decide what ships.</p>
+      <p style="margin:0">Everything you've learned this week converges inside KeyCommand. It's the operating layer where you run it all.</p>
+    </div>
+    <div class="kc-converge-wrap">
+      <div class="kc-converge">
+        <div class="kc-pill" style="--d:.1s"><svg><use href="#i-spark"/></svg> Claude</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.0s"></div></div>
+        <div class="kc-pill" style="--d:.22s"><svg><use href="#i-msg"/></svg> GHL</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.45s"></div></div>
+        <div class="kc-pill" style="--d:.34s"><svg><use href="#i-clock"/></svg> Meetings</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.9s"></div></div>
+        <div class="kc-pill" style="--d:.46s"><svg><use href="#i-align"/></svg> PM Tools</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:1.35s"></div></div>
+        <div class="kc-pill" style="--d:.58s"><svg><use href="#i-msg"/></svg> Messaging</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:1.8s"></div></div>
+        <div class="kc-kc-badge"><svg><use href="#i-grid"/></svg> KeyCommand</div>
+      </div>
+      <div class="kc-converge-label">All roads lead here</div>
+    </div>
+    <h2 style="margin-top:12px">The Five Dashboard Tabs</h2>
+    <table>
+      <thead><tr><th>Tab</th><th>What It Covers</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Leadership</strong></td><td>System status, agent activity, operator queue, goal progress, weekly snapshot</td></tr>
+        <tr><td><strong>Marketing</strong></td><td>Campaigns, content pipeline, competitor intel, reel performance</td></tr>
+        <tr><td><strong>Revenue</strong></td><td>CRM pipeline, deal stages, outreach sequences</td></tr>
+        <tr><td><strong>Operations</strong></td><td>Agent jobs, scheduled tasks, integrations, usage and spend</td></tr>
+        <tr><td><strong>Client Experience</strong></td><td>Community signals, engagement triage, inbox</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S5-1: THE LEADERSHIP DASHBOARD -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The Leadership Dashboard -- Five Metrics at a Glance</h2>
+    <p>Your home screen. Check it at the start of every working session -- these five numbers tell you the state of play.</p>
+    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="stat-card"><div class="stat-num" style="font-size:20px;color:var(--accent)">Optimal</div><div class="stat-label"><strong>System Status</strong><br>All core agents connected and ready. If this shows a warning, investigate before running tasks.</div></div>
+      <div class="stat-card"><div class="stat-num">23</div><div class="stat-label"><strong>Agents Active</strong><br>How many agents are running right now. Brief more when the queue is light.</div></div>
+      <div class="stat-card"><div class="stat-num">0</div><div class="stat-label"><strong>In Flight</strong><br>Tasks currently being processed by an agent. If this is stuck high, check the Tasks Board for errors.</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--gold)">1</div><div class="stat-label"><strong style="color:var(--gold)">Approvals Needed</strong><br>Drafts in the Operator Queue waiting for your review. Your highest priority every session.</div></div>
+      <div class="stat-card"><div class="stat-num">30%</div><div class="stat-label"><strong>Goal Progress</strong><br>How far the client is toward the North Star. Your approved outputs are what move this number.</div></div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The Operator Queue is your priority inbox</div>
+      <p style="margin:0">Every agent output lands here before anything goes anywhere. Think of it as draft emails that need your signature before they send. If you don't clear it, the client's output pipeline stalls. Each item shows the draft and two buttons: <strong>Approve</strong> (routes it on) and <strong>Publish</strong> (sends it live). You decide -- never the agent.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-2: AGENT HIERARCHY -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The Agent System -- Three Tiers</h2>
+    <p>23 agents, three roles. Understanding the hierarchy tells you who to brief for what task.</p>
+    <div class="kc-hierarchy">
+      <div class="kc-h-row" style="--hd:.1s">
+        <div class="kc-h-node kc-h-t1"><svg><use href="#i-bolt"/></svg> Orchestrator (KeyPlayer) -- routes all work and runs the operating loop</div>
+        <span class="kc-h-badge kc-green">Tier 1</span>
+      </div>
+      <div class="kc-h-conn" style="--cd:.28s"></div>
+      <div class="kc-h-row" style="--hd:.4s">
+        <div class="kc-h-node kc-h-t2"><svg><use href="#i-spark"/></svg> AI CEO &bull; AI CMO &bull; AI COO &bull; AI CRO &bull; AI CXO -- strategy, oversight &amp; audit (Boardroom)</div>
+        <span class="kc-h-badge kc-blue">Tier 2</span>
+      </div>
+      <div class="kc-h-conn" style="--cd:.58s"></div>
+      <div class="kc-h-row" style="--hd:.7s">
+        <div class="kc-h-node kc-h-t3"><svg><use href="#i-tool"/></svg> 17 Specialists: Reel Analyst, Content Writer, Content Cascade, Inbox Triage, Deliverable QA, Lead Research + more</div>
+        <span class="kc-h-badge kc-gray">Tier 3</span>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="col" style="background:rgba(93,169,244,.05);border:1px solid rgba(93,169,244,.18)">
+        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-spark"/></svg> Exec Layer -- how to use it</div>
+        These 5 agents run strategy reviews in the Boardroom. As a VA, you'll read their outputs and action their gaps using Specialists. Example: AI CMO flags a content gap -- you brief Content Cascade to fill it.
+      </div>
+      <div class="col" style="background:rgba(255,255,255,.02);border:1px solid var(--border)">
+        <div class="col-label" style="color:var(--dim)"><svg><use href="#i-tool"/></svg> Specialists -- your daily loop</div>
+        One job each. These are the agents you brief, review, and approve every day. They draft only -- never post, send, or publish without your explicit go-ahead.
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S5-3: SPECIALIST AGENTS TABLE -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Specialist Agents -- Your Daily Tools</h2>
+    <p>17 specialists. Each produces a draft and nothing more. These are the ones a VA uses most:</p>
+    <table>
+      <thead><tr><th>Agent</th><th>Produces</th><th>Never Does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Reel Analyst</strong></td><td>Competitor reel teardown -- hook, key phrases, winning angle</td><td>Never suggests copying it verbatim</td></tr>
+        <tr><td><strong>Reel Ideator</strong></td><td>Fresh reel concepts from live trends (ideas only)</td><td>Never writes the finished script</td></tr>
+        <tr><td><strong>Reel Optimizer</strong></td><td>Scored rewrite of the client's OWN reel with timestamped weak points</td><td>Never publishes the revision</td></tr>
+        <tr><td><strong>Content Writer</strong></td><td>Social post drafts across X, LinkedIn, IG, Facebook, YouTube</td><td>Never publishes</td></tr>
+        <tr><td><strong>Content Cascade</strong></td><td>Repurposes one pillar piece into 5 platform-native drafts</td><td>Never publishes</td></tr>
+        <tr><td><strong>Carousel Generator</strong></td><td>Multi-slide IG/LinkedIn carousel script (hook to CTA)</td><td>Never builds the visual</td></tr>
+        <tr><td><strong>Inbox Triage</strong></td><td>act_now / draft_reply / delegate / archive verdict per email</td><td>Never sends a reply</td></tr>
+        <tr><td><strong>Deliverable QA</strong></td><td>Adversarial score of any draft against company brief and brand voice</td><td>Never approves or publishes</td></tr>
+        <tr><td><strong>Lead Research</strong></td><td>One-page prospect profile from public signals</td><td>Never contacts the lead</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-danger" style="margin-top:12px">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> Every agent has a hard constraint</div>
+      <p style="margin:0">No agent posts, sends, contacts, or publishes. That is a deliberate design choice -- not a limitation. All action requires a human approval step. This is the safety architecture you operate inside.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-3b: GENES -- MEMORY LAYER -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Genes -- KeyCommand's Memory Layer</h2>
+    <p>Genes is the adaptive memory system built into KeyCommand. Every brief you write, every output you approve, and every correction you make trains it. The more you use it, the smarter your agents get.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What Genes stores</div>
+      <p style="margin-bottom:10px">Genes builds a running memory profile for each client: their tone and voice, content formats that land, brief structures that produce good output, and what you approve vs. send back for rework. It's per-client -- what it learns for one account stays in that account.</p>
+      <p style="margin:0">You don't configure it. It runs in the background and surfaces what it's learned through progressively tighter agent output over time.</p>
+    </div>
+    <div class="n8n-canvas" style="margin:16px 0">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">You Interact</div><div class="n8n-node-sub">Brief, approve, correct</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-activity"/></svg></div><div><div class="n8n-node-title">Genes Logs It</div><div class="n8n-node-sub">Builds client memory profile</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.55s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-spark"/></svg></div><div><div class="n8n-node-title">Agents Improve</div><div class="n8n-node-sub">Tighter output, fewer rebriefs</div></div></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="col" style="background:rgba(255,255,255,.02);border:1px solid var(--border)">
+        <div class="col-label" style="color:var(--dim)"><svg><use href="#i-clock"/></svg> First weeks</div>
+        Agents produce reasonable drafts but need frequent corrections. Genes is still building the client's profile from your interactions.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-bolt"/></svg> After 30 days</div>
+        Agents produce on-brief output faster. Rebriefs drop sharply. Genes has mapped the client's voice, preferred formats, and your approval patterns.
+      </div>
+    </div>
+    <div class="card card-danger" style="margin-top:12px">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Your approvals are the training signal</div>
+      <p style="margin:0">Genes learns from what you approve. Approve sloppy work and it reinforces that standard. Be consistent and rigorous every session -- your quality bar is what makes the system sharper, not just time.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-D: DRILL -- Brief the Right Agent -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">KeyCommand · Quick Drill</div>
+    <h2>Brief the Right Agent</h2>
+    <p>Each Specialist does one job. Briefing the wrong one wastes time and produces useless output.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 1</div>
+      <div class="quiz-q">The client asks: "Can we find out why that competitor's reel got 200K views last week?" Which Specialist do you brief?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Reel Ideator -- generates fresh reel concepts from live trends</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Reel Analyst -- competitor reel teardown: hook, key phrases, winning angle</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Reel Optimizer -- scored rewrite of the client's own reel</button>
+      </div>
+      <div class="quiz-fb"><strong>Reel Analyst</strong> is the competitor teardown agent. Give it the competitor's handle or reel URL and it returns the hook structure, key phrases, and winning angle. Reel Ideator comes next -- once you know what's working, brief it for new concept ideas. Reel Optimizer is only for improving the client's own existing content.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+    <div class="quiz" style="margin-top:20px">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 2</div>
+      <div class="quiz-q">You have an approved pillar LinkedIn article. The client wants Instagram, Facebook, X, and YouTube versions. Which agent handles that?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Content Writer -- drafts social posts across platforms</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Content Cascade -- repurposes one pillar piece into 5 platform-native drafts</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Carousel Generator -- builds multi-slide carousel scripts</button>
+      </div>
+      <div class="quiz-fb"><strong>Content Cascade</strong> is purpose-built for this -- one approved pillar piece becomes five platform-native drafts in one brief. Content Writer creates new posts from scratch. Carousel Generator is specifically for the multi-slide carousel format, not cross-platform distribution.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S5-4: APPROVAL WORKFLOW -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The Approval Workflow -- Where You Live</h2>
+    <p>Every agent output follows the same path. Your role sits at the critical gate.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Agent Runs</div><div class="n8n-node-sub">Produces a draft</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-alert"/></svg></div><div><div class="n8n-node-title">Operator Queue</div><div class="n8n-node-sub">Awaits your review</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.55s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">You Review</div><div class="n8n-node-sub">Check, correct, approve</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.2s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.8s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-check"/></svg></div><div><div class="n8n-node-title">Publish</div><div class="n8n-node-sub">Routes to destination</div></div></div>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Approve</div>
+        Content is accurate, on-brand, and ready. Click Approve -- it routes to the social scheduler, email draft, or client report.
+      </div>
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Fix &amp; rebrief</div>
+        Agent missed the brief, invented a stat, or got the tone wrong. Edit the draft directly or rebrief the agent with clearer instructions.
+      </div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">Non-Negotiable</div><p>This is not rubber-stamping. The client's brand goes out on every approved piece. A VA who clicks Approve without reading is a liability, not an asset. Read every draft.</p></div>
+  </div></section>
+
+  <!-- S5-5: RUNNING AGENTS + OPERATING RHYTHM -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Running Agents -- Your Daily Rhythm</h2>
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-dot">1</div>
+        <div class="step-content"><strong>Pick the agent</strong><p>Go to Agents, find the right Specialist, click Open Workspace. Each card shows its purpose and when it last ran.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">2</div>
+        <div class="step-content"><strong>Brief it clearly</strong><p>Give it what it needs: a URL, a transcript, a content brief, a prospect name. Specific brief = tight output. Vague brief = rework.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot">3</div>
+        <div class="step-content"><strong>Review in the Operator Queue</strong><p>Draft appears within seconds to minutes. Check it against the client's company playbook and the brief. Approve or rebrief.</p></div>
+      </div>
+    </div>
+    <h2>VA Operating Rhythm in KeyCommand</h2>
+    <div class="kc-timeline">
+      <div class="kc-tl-header"><svg><use href="#i-clock"/></svg> Daily Pattern</div>
+      <div class="kc-tl-track"><div class="kc-tl-fill"></div></div>
+      <div class="kc-tl-phases">
+        <div class="kc-tl-phase" style="--tpd:.25s">
+          <div class="kc-tl-dot"></div>
+          <div class="kc-tl-phase-label">Morning</div>
+          <div class="kc-tl-phase-body">Open Leadership dashboard. Check Goal Progress and Operator Queue. Brief Reel Ideator for today's concept batch and Inbox Triage on overnight emails.</div>
+        </div>
+        <div class="kc-tl-phase" style="--tpd:.8s">
+          <div class="kc-tl-dot"></div>
+          <div class="kc-tl-phase-label">Mid-day</div>
+          <div class="kc-tl-phase-body">Review and approve queued drafts. Run Content Cascade on any approved pillar post. Brief Deliverable QA on complex or client-facing items.</div>
+        </div>
+        <div class="kc-tl-phase" style="--tpd:1.35s">
+          <div class="kc-tl-dot"></div>
+          <div class="kc-tl-phase-label">Close-out</div>
+          <div class="kc-tl-phase-body">Clear the Operator Queue. Check Tasks Board for overdue items. Post the weekly snapshot metrics to the client's Slack channel.</div>
+        </div>
+      </div>
+    </div>
+    <div class="standard"><div class="badge"><svg><use href="#i-spark"/></svg></div><div class="pl">The KeyPlayers Standard</div><p>A VA fluent in KeyCommand runs a client's full content and marketing ops from one dashboard, with every output reviewed before it ships. That's the standard you're building toward.</p></div>
+  </div></section>
+
+  <!-- S6-0: HANDS-ON LAB INTRO -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 8 · Session 5 — Hands-On Lab</div>
+    <h1>Hands-On Lab</h1>
+    <p class="subtitle">The final lab of the core curriculum. These exercises bring the whole stack together. Use test data and your own accounts -- never live client meetings or customers while practicing.</p>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Exercise 1</div><div class="ex-title">Set Up an AI Note-Taker</div></div>
+      <p style="margin:0">Sign up for Fathom (free) and connect it to your calendar. Record a short test call -- even a 3-minute solo Zoom where you talk through a fake meeting. Review the summary it produces. How accurate is the action-item list?</p>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-spark"/></svg> Exercise 2</div><div class="ex-title">Transcript to Structured Output</div></div>
+      <p>Take the transcript from Exercise 1 (or a sample) and run it through Claude with the Meeting Processor prompt. Then <strong>fact-check the action items against what was actually said.</strong> Did Claude invent or misattribute anything? Document what you caught.</p>
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Meeting Processor</div></div>
+        <div class="terminal-body" style="user-select:all">
+          <span class="ccmt">Here's a meeting transcript.</span><br>
+          <span class="ccmd">Produce: (1) a 5-bullet summary, (2) key decisions with who decided,</span><br>
+          <span class="ccmd">(3) action items as a table (Task | Owner | Due | Priority),</span><br>
+          <span class="ccmd">(4) open questions.</span><br>
+          <span class="cprompt">Only include action items actually stated.</span><br>
+          <span class="ccmt">Flag anything ambiguous as "needs confirmation."</span>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S6-1: EXERCISES 3-5 -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-grid"/></svg> Exercise 3</div><div class="ex-title">Build a PM Workflow</div></div>
+      <p style="margin:0">In any PM tool (free Trello or Notion works), create a board. Take your verified action items and turn them into tasks -- each with an owner, due date, and status. If you have Cowork/MCP, have Claude create them and then check its work.</p>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-msg"/></svg> Exercise 4</div><div class="ex-title">Design a Messaging Automation</div></div>
+      <p>Map (don't necessarily build) a multi-tool automation for this scenario: "A client wants their team notified in Slack and a task created whenever a meeting recap is ready." Write it as:</p>
+      <ol>
+        <li>Trigger -- what kicks it off?</li>
+        <li>Tool(s) -- native, Zapier/Make, or MCP?</li>
+        <li>Flow -- <strong>Trigger -- Step 1 -- Step 2 -- End result</strong></li>
+        <li>Oversight -- where does a human need to check before anything sends?</li>
+      </ol>
+    </div>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-grid"/></svg> Exercise 5</div><div class="ex-title">Explore KeyCommand</div></div>
+      <p>Your trainer will share the KeyCommand link. Log in, navigate the Leadership dashboard, and locate:</p>
+      <ol>
+        <li>The <strong>Operator Queue</strong> -- how many items are pending? Open one and read the draft.</li>
+        <li>The <strong>Agents page</strong> -- find one Specialist agent, read its description, and note what it never does.</li>
+        <li>The <strong>Drafts &amp; Approvals</strong> section -- review a draft against its brief. Would you approve it as-is? What would you fix?</li>
+      </ol>
+      <p style="margin:0">Then write down: which <strong>three Specialist agents</strong> would you use most for an imagined client, and why? One sentence per agent.</p>
+    </div>
+  </div></section>
+
+  <!-- S6-LAB-TLDV: tl;dv BUILD EXERCISE -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-clock"/></svg> Exercise 6</div><div class="ex-title">Build the Full tl;dv → Email Pipeline</div></div>
+      <p>This is the complete build from Session 2. If you ran it live, repeat it here for a real meeting. If you skipped it, do it now — this is a required skill.</p>
+      <ol>
+        <li>Sign up for a free tl;dv account at tldv.io (use your own Google account)</li>
+        <li>Connect your Google Calendar in Settings → Integrations</li>
+        <li>Enable "Meeting summary email" in Settings → Notifications</li>
+        <li>Start a 3-minute solo Zoom or Meet — talk through a fake project brief, make decisions, assign tasks to imaginary people</li>
+        <li>After the call ends, wait for the tl;dv summary email (max 5–10 min)</li>
+        <li>Read the action items — did tl;dv invent or misattribute anything? Document what you caught</li>
+        <li>Paste the transcript into Claude with the Meeting Processor prompt from Session 2 — compare Claude's output to tl;dv's. Which was more accurate?</li>
+        <li>Set up the Gmail filter: From tldv.io → apply label "Meeting Recaps"</li>
+      </ol>
+    </div>
+    <div class="card card-gold" style="margin-top:4px">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> What to submit</div>
+      <p style="margin:0">Write one sentence on what tl;dv got right and one on what it got wrong in your test meeting. Bring this to Day 9 — it feeds directly into the full-stack challenge.</p>
+    </div>
+  </div></section>
+
+  <!-- S6-2: HOMEWORK + WRAP-UP -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Homework Before Day 9</div>
+      <p><strong>Task 1:</strong> Run one real meeting (with consent) through an AI note-taker and process it with Claude end-to-end. Save the result.</p>
+      <p><strong>Task 2:</strong> Using your three Specialist agent picks from Exercise 5, write a one-paragraph plan for how you would use them in a real client's first week.</p>
+      <p style="margin:0"><strong>Task 3:</strong> In KeyCommand, brief the Content Writer agent with a topic idea for an imagined client. Review the draft in the Operator Queue and write one sentence on what you would fix and one on what landed well.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Day 8 Complete -- Core Curriculum Done</div>
+      <p style="margin:0">You've now mastered the full AI-enabled VA stack -- and you've seen the platform where it all runs: <strong>KeyCommand</strong>. Claude as the brain, GHL as the engine, AI note-takers for meetings, PM tools for tracking, and messaging platforms for team and customers -- all connected, all operating through KeyCommand, all under your oversight. <strong>Days 9 &amp; 10 put it to the test: a full real-world workflow challenge, gap analysis, and certification.</strong></p>
+    </div>
+    <div class="qa" style="margin-top:8px;padding:16px">
+      <h3>Day 8 Q&amp;A</h3>
+      <p>Bring your questions on AI note-takers, PM tools, messaging automations, and KeyCommand. Day 9 is a full review and real-world workflow challenge -- bring your notes from today's KeyCommand session.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 9 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Day 7 Review</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 20</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
-
-  <h2>How These Connect to Your Stack</h2>
-  <p>You rarely connect these by hand-coding. You use the connectors from Day 7:</p>
-  <table>
-    <thead><tr><th>Connection Method</th><th>When to Use</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--accent);font-weight:600;">Native (GHL &harr; WhatsApp, GHL &harr; Slack)</td><td>First choice when GHL offers it directly</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Zapier / Make</td><td>To connect any app to Slack/Telegram/WhatsApp with no code</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Claude via MCP</td><td>When you want AI to draft and post messages intelligently, with your approval</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Platform bots / API</td><td>Telegram bots and WhatsApp Business API for custom flows</td></tr>
-    </tbody>
-  </table>
-
-  <h2>A Real Multi-Tool Automation</h2>
-  <div class="flow-diagram">
-    <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Deal marked Won in GHL</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Create onboarding tasks in ClickUp</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Post "&#127881; New client!" to Slack</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">WhatsApp welcome to the customer</div></div>
-  </div>
-  <p>One event, three tools, zero manual work &mdash; built with a webhook from GHL into Make, which fans out to ClickUp, Slack, and WhatsApp. This is the integrated VA at full power.</p>
-
-  <div class="callout">
-    <div class="callout-icon">&#9888;</div>
-    <div class="callout-body"><strong>Oversight still applies.</strong> Messages going to <em>customers</em> (WhatsApp) need more review than internal pings (Slack). Automate the routine confirmations, but keep a human on anything sensitive or unusual. And test every multi-tool automation on yourself first &mdash; a misfire here hits multiple platforms at once.</div>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(3)">&larr; PM Tools</button>
-    <button class="btn btn-primary" onclick="goTo(5)">The Command Center &rarr;</button>
-  </div>
-</section>
-
-<!-- S5: THE COMMAND CENTER -->
-<section class="section" id="s5">
-  <h1>The Integrated Command Center</h1>
-  <p class="section-subtitle">Everything in this program comes together here. This is the picture of a fully AI-enabled VA &mdash; one person orchestrating an entire connected stack with judgment at every checkpoint.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">The whole stack in one view</div>
-    <p style="margin-bottom:8px;"><strong>Claude</strong> &mdash; the brain. Drafts, summarises, decides what matters. (Week 1)</p>
-    <p style="margin-bottom:8px;"><strong>GoHighLevel</strong> &mdash; the CRM engine. Leads, pipelines, conversations, workflows. (Days 6&ndash;7)</p>
-    <p style="margin-bottom:8px;"><strong>AI Note-Takers</strong> &mdash; capture every meeting into structured output. (Today)</p>
-    <p style="margin-bottom:8px;"><strong>PM Tools</strong> &mdash; where action items become tracked work. (Today)</p>
-    <p style="margin-bottom:8px;"><strong>Slack / WhatsApp / Telegram</strong> &mdash; the messaging layer to team and customers. (Today)</p>
-    <p style="margin:0;"><strong>Zapier / Make / MCP</strong> &mdash; the connective tissue that ties it all together. (Days 5 &amp; 7)</p>
-  </div>
-
-  <h2>A Day in the Life of the Integrated VA</h2>
-  <div class="step-flow">
-    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Morning briefing</strong><p>Claude pulls overnight GHL leads, unread Slack, and today's calendar into one summary. You scan it in 2 minutes.</p></div></div>
-    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Lead handling</strong><p>New leads were auto-followed-up by a GHL workflow overnight. You review the AI-drafted replies to hot leads and approve.</p></div></div>
-    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Client call</strong><p>Fathom captures the meeting. Minutes later, Claude turns the transcript into decisions and action items.</p></div></div>
-    <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Routing</strong><p>You verify the action items, then Claude creates the tasks in ClickUp and posts a recap to Slack. A sales follow-up lands in GHL.</p></div></div>
-    <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Close-out</strong><p>A Won deal fires a multi-tool automation: onboarding tasks, a Slack celebration, and a WhatsApp welcome to the new customer.</p></div></div>
-  </div>
-
-  <p>That entire day &mdash; which would have buried a traditional VA &mdash; is calm and controlled, because the routine runs automatically and you focus your attention only where judgment is required.</p>
-
-  <div class="card card-gold">
-    <div class="card-title">The principle that ties it all together</div>
-    <p style="margin:0;">Every tool in this stack <em>drafts, captures, routes, or automates.</em> Not one of them <em>decides.</em> That's still you. The integrated VA isn't valuable because they use the most tools &mdash; they're valuable because they orchestrate the tools with judgment, catch the errors AI makes, and own every output that reaches a client or a customer.</p>
-  </div>
-
-  <div class="callout">
-    <div class="callout-icon">&#128170;</div>
-    <div class="callout-body"><strong>This is the competitive edge.</strong> A VA who can stand up this whole command center &mdash; CRM, meetings, projects, and messaging, all AI-connected &mdash; operates at a level most never reach. That's the KeyPlayers standard, and you've now seen the entire map.</div>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(4)">&larr; Messaging</button>
-    <button class="btn btn-primary" onclick="goTo(6)">Hands-On Lab &rarr;</button>
-  </div>
-</section>
-
-<!-- S6: HANDS-ON LAB -->
-<section class="section" id="s6">
-  <h1>Hands-On Lab</h1>
-  <p class="section-subtitle">The final lab of the core curriculum. These exercises bring the whole stack together. Use test data and your own accounts &mdash; never live client meetings or customers while practising.</p>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Set Up an AI Note-Taker</span></div>
-    <p>Sign up for Fathom (free) and connect it to your calendar. Record a short test call &mdash; even a 3-minute solo Zoom where you talk through a fake meeting. Review the summary it produces. How accurate is the action-item list?</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Transcript &rarr; Structured Output</span></div>
-    <p>Take the transcript from Exercise 1 (or a sample) and run it through Claude with the Meeting Processor prompt. Then <strong>fact-check the action items against what was actually said.</strong> Did Claude invent or misattribute anything? Document what you caught.</p>
-    <div class="prompt-block"><span class="prompt-label">Meeting Processor</span>Here's a meeting transcript. Produce: (1) a 5-bullet summary, (2) key decisions with who decided, (3) action items as a table (Task | Owner | Due | Priority), (4) open questions. Only include action items actually stated. Flag anything ambiguous as "needs confirmation."</div>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Build a PM Workflow</span></div>
-    <p>In any PM tool (free Trello or Notion works), create a board. Take your verified action items and turn them into tasks &mdash; each with an owner, due date, and status. If you have Cowork/MCP, have Claude create them and then check its work.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Design a Messaging Automation</span></div>
-    <p>Map (don't necessarily build) a multi-tool automation for this scenario: "A client wants their team notified in Slack and a task created whenever a meeting recap is ready." Write it as:</p>
-    <ol>
-      <li>Trigger &mdash; what kicks it off?</li>
-      <li>Tool(s) &mdash; native, Zapier/Make, or MCP?</li>
-      <li>Flow &mdash; <strong>Trigger &rarr; Step 1 &rarr; Step 2 &rarr; End result</strong></li>
-      <li>Oversight &mdash; where does a human need to check before anything sends?</li>
-    </ol>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Map Your Command Center</span></div>
-    <p>For a real or imagined client, draw their full stack: CRM (GHL), note-taker, PM tool, and messaging platforms. Draw arrows showing how information flows between them. Mark every point where <em>you</em> &mdash; the human &mdash; review before something goes out. This map is a deliverable you can show a client.</p>
-  </div>
-
-  <div class="card card-accent">
-    <div class="card-title">Homework Before Day 9</div>
-    <p><strong>Task 1:</strong> Run one real meeting (with consent) through an AI note-taker and process it with Claude end-to-end. Save the result.</p>
-    <p><strong>Task 2:</strong> Finish your Command Center map from Exercise 5 &mdash; you'll use it in the Week 2 assessment.</p>
-    <p style="margin:0;"><strong>Task 3:</strong> Pick the one integration from this week that would save a client the most time, and write a 3-sentence pitch for why they should let you set it up.</p>
-  </div>
-
-  <div class="card card-gold">
-    <div class="card-title">Day 8 Complete &mdash; Core Curriculum Done</div>
-    <p style="margin:0;">You've now mastered the full AI-enabled VA stack: Claude as your brain, GoHighLevel as the engine, AI note-takers for meetings, PM tools for tracking, and Slack/WhatsApp/Telegram for messaging &mdash; all connected, all under your oversight. <strong>Days 9 &amp; 10 put it to the test: a full real-world workflow challenge, gap analysis, and certification.</strong></p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(5)">&larr; Command Center</button>
-    <span style="color:var(--silver);font-size:13px;padding:10px;">End of Day 8 &nbsp;/&nbsp; On to Assessment</span>
-  </div>
-</section>
-
-</div></div>
+</div>
 
 <script>
-let currentSection = 0;
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.sidebar-nav a');
-const totalSections = sections.length;
-const completed = new Set();
-
-function goTo(n) {
-  completed.add(currentSection);
-  currentSection = n;
-  sections.forEach((el, i) => el.classList.toggle('active', i === n));
-  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
-  const pct = Math.round((completed.size / totalSections) * 100);
-  const fill = document.getElementById('progressFill');
-  const label = document.getElementById('progressLabel');
-  if (fill) fill.style.width = pct + '%';
-  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  document.getElementById('sidebar')?.classList.remove('open');
-  document.getElementById('overlay')?.classList.remove('show');
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 8',UNLOCK_DATE:'2026-06-19',PREV_DAY_KEY:''};
+const NEXT_DECK='https://kphq-updated-training.vercel.app/Day09_Review.html';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 9',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpTrack('attendance',{firstName:f,lastName:l});localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Opener','AI Meeting Tools','tl;dv Automation','KeyCommand','Hands-On Lab'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 9 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function savePos(){try{localStorage.setItem('kp_slide_Day8',cur);}catch(e){}}
+function next(){if(cur<slides.length-1){cur++;savePos();render();}}
+function prev(){if(cur>0){cur--;savePos();render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;savePos();render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function qCheck(btn,correct){
+  const quiz=btn.closest('.quiz');
+  if(quiz.dataset.answered)return;
+  quiz.dataset.answered='1';
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>o.disabled=true);
+  btn.classList.add(correct?'correct':'wrong');
+  if(!correct)quiz.querySelectorAll('[data-correct="true"]').forEach(o=>o.classList.add('correct'));
+  quiz.querySelector('.quiz-fb').classList.add('show');
+  const r=quiz.querySelector('.quiz-reset');
+  if(r)r.style.display='block';
 }
-
-function toggleSidebar() {
-  document.getElementById('sidebar')?.classList.toggle('open');
-  document.getElementById('overlay')?.classList.toggle('show');
+function qReset(btn){
+  const quiz=btn.closest('.quiz');
+  delete quiz.dataset.answered;
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.classList.remove('correct','wrong');o.disabled=false;});
+  quiz.querySelector('.quiz-fb').classList.remove('show');
+  btn.style.display='none';
 }
+(function(){try{var s=parseInt(localStorage.getItem('kp_slide_Day8')||'0');if(s>0&&s<slides.length)cur=s;}catch(e){}})();
+render();
 </script>
 </body>
 </html>

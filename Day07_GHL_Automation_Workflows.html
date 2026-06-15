@@ -3,698 +3,808 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeyPlayers HQ | Day 7: GHL Automation, API &amp; MCP</title>
+<title>KeyPlayers VA Academy | Day 7: GHL Automation Workflows</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-deep: #010D07;
-    --bg-glow: #062817;
-    --accent: #22C55E;
-    --accent-hover: #16a34a;
-    --white: #FFFFFF;
-    --silver: #A1A1AA;
-    --gold: #EAB308;
-    --charcoal: #18181B;
-    --pill-bg: #166534;
-    --card-bg: #0f1a14;
-    --border: #1e2e26;
-    --red: #ef4444;
-    --sidebar-w: 260px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg-deep); color: var(--silver); line-height: 1.7; font-size: 15px; }
-
-  .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--charcoal); border-right: 1px solid var(--border); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
-  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
-  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
-  .sidebar-logo span { color: var(--accent); }
-  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
-  .sidebar-nav { flex: 1; padding: 12px 0; }
-  .sidebar-nav a { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: var(--silver); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s ease; border-left: 3px solid transparent; }
-  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
-  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
-  .sidebar-nav a .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: var(--bg-deep); color: var(--silver); font-size: 11px; font-weight: 700; flex-shrink: 0; }
-  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
-  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
-  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
-  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
-  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
-  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
-  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
-  .course-nav a:hover { color: var(--white); }
-  .course-nav a.current { color: var(--accent); font-weight: 700; }
-
-  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
-  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
-
-  .section { display: none; animation: fadeIn 0.3s ease; }
-  .section.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
-  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
-  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
-  p { margin-bottom: 14px; }
-  strong { color: var(--white); font-weight: 600; }
-  em { color: var(--accent); font-style: normal; }
-
-  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
-  .card-accent { border-left: 3px solid var(--accent); }
-  .card-gold { border-left: 3px solid var(--gold); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
-  .card-gold .card-title { color: var(--gold); }
-  .card-red .card-title { color: var(--red); }
-
-  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
-  .review-card h3 { color: var(--gold); margin-top: 0; }
-
-  ul, ol { margin: 10px 0 14px 20px; }
-  li { margin-bottom: 7px; padding-left: 4px; }
-  ul li::marker { color: var(--accent); }
-  ol li::marker { color: var(--accent); font-weight: 600; }
-
-  .prompt-block { background: #0c0c0e; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin: 14px 0; font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; color: #d4d4d8; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; position: relative; }
-  .prompt-label { position: absolute; top: 8px; right: 12px; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); background: var(--pill-bg); padding: 2px 8px; border-radius: 4px; }
-
-  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
-  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
-  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
-  tr:hover td { background: rgba(34,197,94,0.03); }
-
-  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
-  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
-  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
-
-  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
-  .comparison-weak, .comparison-strong { padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
-  .comparison-weak { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
-  .comparison-strong { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
-  .comparison-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .comparison-weak .comparison-label { color: var(--red); }
-  .comparison-strong .comparison-label { color: var(--accent); }
-
-  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
-
-  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
-  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
-  .btn-primary { background: var(--accent); color: var(--bg-deep); }
-  .btn-primary:hover { background: var(--accent-hover); }
-  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
-  .btn-secondary:hover { color: var(--white); }
-
-  .block-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 20px 0; }
-  .block-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-  .block-num { width: 32px; height: 32px; border-radius: 8px; background: var(--pill-bg); color: var(--accent); font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .block-name { font-size: 17px; font-weight: 700; color: var(--white); }
-  .block-body { padding: 16px 20px; }
-  .block-body p { margin-bottom: 10px; }
-
-  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
-  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-  .callout-body { font-size: 14px; line-height: 1.6; }
-  .callout-body strong { color: var(--white); }
-
-
-  .step-flow { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
-  .step-item { display: flex; gap: 16px; position: relative; }
-  .step-item:not(:last-child) { padding-bottom: 20px; }
-  .step-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 36px; bottom: 0; width: 2px; background: var(--border); }
-  .step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--pill-bg); color: var(--accent); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-content { flex: 1; padding-top: 4px; }
-  .step-content strong { display: block; margin-bottom: 4px; }
-  .step-content p { margin: 0; font-size: 14px; }
-
-  /* ── FLOW DIAGRAM (trigger → action) ── */
-  .flow-diagram { display: flex; align-items: stretch; gap: 0; margin: 18px 0; flex-wrap: wrap; }
-  .flow-node { flex: 1; min-width: 120px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
-  .flow-node .flow-kind { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 6px; }
-  .flow-node .flow-text { font-size: 13px; color: var(--white); font-weight: 600; }
-  .flow-arrow { display: flex; align-items: center; color: var(--accent); font-size: 22px; font-weight: 700; padding: 0 8px; }
-  .flow-node.flow-trigger { border-left: 3px solid var(--gold); }
-  .flow-node.flow-trigger .flow-kind { color: var(--gold); }
-
-  /* ── SPECTRUM ── */
-  .spectrum-row { display: flex; gap: 0; margin: 20px 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .spectrum-cell { flex: 1; padding: 16px; border-right: 1px solid var(--border); }
-  .spectrum-cell:last-child { border-right: none; }
-  .spectrum-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .spectrum-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-  .spectrum-desc { font-size: 12px; color: var(--silver); }
-  .spectrum-chat { background: rgba(161,161,170,0.06); }
-  .spectrum-chat .spectrum-label, .spectrum-chat .spectrum-name { color: var(--silver); }
-  .spectrum-assistant { background: rgba(34,197,94,0.06); }
-  .spectrum-assistant .spectrum-label, .spectrum-assistant .spectrum-name { color: var(--accent); }
-  .spectrum-agent { background: rgba(234,179,8,0.08); }
-  .spectrum-agent .spectrum-label, .spectrum-agent .spectrum-name { color: var(--gold); }
-
-  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
-  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
-  summary:hover { background: rgba(34,197,94,0.04); }
-  details[open] summary { border-bottom: 1px solid var(--border); }
-  details > div { padding: 16px; }
-
-  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
-  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
-  .overlay.show { display: block; }
-
-  @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
-    .sidebar.open { transform: translateX(0); }
-    .mobile-header { display: flex; }
-    .main { margin-left: 0; padding-top: 56px; }
-    .content { padding: 24px 16px 60px; }
-    .comparison { grid-template-columns: 1fr; }
-    .spectrum-row { flex-direction: column; }
-    .spectrum-cell { border-right: none; border-bottom: 1px solid var(--border); }
-    .spectrum-cell:last-child { border-bottom: none; }
-    .flow-diagram { flex-direction: column; }
-    .flow-arrow { transform: rotate(90deg); padding: 4px 0; justify-content: center; }
-  }
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto;white-space:pre-wrap}
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+  .footnote{margin-top:14px;padding-top:10px;border-top:1px solid var(--border)}
+  .table-compact th,.table-compact td{padding:7px 12px}
+  .table-compact{margin:6px 0 10px}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
+  /* Flow diagram */
+  .flow-diagram{display:flex;align-items:stretch;gap:0;margin:18px 0;flex-wrap:wrap}
+  .flow-node{flex:1;min-width:120px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+  .flow-node .flow-kind{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:6px}
+  .flow-node .flow-text{font-size:13px;color:var(--ink);font-weight:600}
+  .flow-arrow{display:flex;align-items:center;color:var(--accent);font-size:20px;font-weight:700;padding:0 8px}
+  .flow-node.flow-trigger{border-left:3px solid var(--gold)}
+  .flow-node.flow-trigger .flow-kind{color:var(--gold)}
+  /* Spectrum row */
+  .spectrum-row{display:flex;gap:0;margin:20px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .spectrum-cell{flex:1;padding:16px;border-right:1px solid var(--border)}
+  .spectrum-cell:last-child{border-right:none}
+  .spectrum-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
+  .spectrum-name{font-size:16px;font-weight:700;margin-bottom:6px}
+  .spectrum-desc{font-size:12px;color:var(--muted)}
+  .spectrum-dim{background:rgba(94,107,98,0.08)}
+  .spectrum-dim .spectrum-label,.spectrum-dim .spectrum-name{color:var(--muted)}
+  .spectrum-mid{background:var(--accent-soft)}
+  .spectrum-mid .spectrum-label,.spectrum-mid .spectrum-name{color:var(--accent)}
+  .spectrum-hi{background:var(--gold-soft)}
+  .spectrum-hi .spectrum-label,.spectrum-hi .spectrum-name{color:var(--gold)}
+  /* Step flow */
+  .step-flow{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .step-item{display:flex;gap:16px;position:relative}
+  .step-item:not(:last-child){padding-bottom:20px}
+  .step-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .step-dot{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content{flex:1;padding-top:4px}
+  .step-content strong{display:block;color:var(--ink);margin-bottom:4px}
+  .step-content p{margin:0;font-size:14px}
+  /* Block items */
+  .block-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:20px 0}
+  .block-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .block-num{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .block-name{font-size:17px;font-weight:700;color:var(--ink)}
+  .block-body{padding:16px 20px}
+  .block-body p{margin-bottom:10px}
+  /* Callout */
+  .callout{display:flex;gap:14px;align-items:flex-start;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.2);border-radius:9px;padding:14px 16px;margin:16px 0}
+  .callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+  .callout-body{font-size:14px;line-height:1.6}
+  .callout-body strong{color:var(--ink)}
+  /* Pill tag */
+  .tag-badge{display:inline-block;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin:2px 3px 2px 0}
+  .tag-badge-gold{background:var(--gold-soft);border-color:rgba(234,179,8,0.25);color:var(--gold)}
+  /* Review card */
+  .review-card{background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(234,179,8,0.04));border:1px solid rgba(34,197,94,0.2);border-radius:var(--r);padding:24px;margin:20px 0}
+  .review-card h3{color:var(--gold);margin-top:0}
+  /* Details/summary */
+  details{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;margin:14px 0;overflow:hidden}
+  summary{padding:13px 18px;color:var(--accent);font-weight:600;cursor:pointer;font-size:14px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'+ ';color:var(--accent)}
+  details[open] summary::before{content:'- '}
+  summary:hover{background:var(--accent-soft)}
+  details[open] summary{border-bottom:1px solid var(--border)}
+  details > div{padding:16px 18px}
+  /* Mobile */
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}.spectrum-row{flex-direction:column}.spectrum-cell{border-right:none;border-bottom:1px solid var(--border)}.spectrum-cell:last-child{border-bottom:none}.flow-diagram{flex-direction:column}.flow-arrow{transform:rotate(90deg);padding:4px 0;justify-content:center}h1{font-size:25px}h2{font-size:21px}}
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></symbol>
+</svg>
 
-<div class="mobile-header">
-  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
-  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
 </div>
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
 
 <nav class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
-    <div class="sidebar-day">Day 7 &nbsp;|&nbsp; GHL Automation &amp; API</div>
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-bolt"/></svg> Day 7 &middot; GHL Automation Workflows</div>
   </div>
-  <div class="sidebar-nav">
-    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Day 6 Review</a>
-    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>Workflow Fundamentals</a>
-    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>VA Workflow Recipes</a>
-    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>APIs &amp; Webhooks</a>
-    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>MCP &amp; AI in GHL</a>
-    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>Integrations</a>
-    <a href="#" onclick="goTo(6);return false;" data-section="6"><span class="num">7</span>Hands-On Lab</a>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-refresh"/></svg></span>Day 6 Review</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Workflow Fundamentals</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-grid"/></svg></span>VA Workflow Recipes</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-link"/></svg></span>APIs &amp; Webhooks</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>MCP &amp; AI in GHL</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Integrations</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Hands-On Lab</a>
   </div>
-  <div class="sidebar-progress">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-label" id="progressLabel">0 of 7 completed</div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
   </div>
-    <div class="course-nav">
-    <div class="course-nav-label">Course Navigation</div>
-    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
-    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
-    <a href="Day03_Tool_Selection.html">Day 3 &mdash; Tool Selection</a>
-    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
-    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
-    <a href="Day06_GoHighLevel_Foundations.html">Day 6 &mdash; GoHighLevel Foundations</a>
-    <a href="#" class="current">Day 7 &mdash; GHL Automation &amp; API</a>
-    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
-    <a href="GHL_Glossary.html" target="_blank" rel="noopener" style="color:var(--gold);margin-top:8px;padding-top:10px;border-top:1px solid var(--border);">&#128214; GoHighLevel Glossary</a>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a class="current"><span class="cn">Day 7</span> GHL Automation Workflows</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
   </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
 </nav>
 
-<div class="main"><div class="content">
+<div class="main">
+  <div class="deck" id="deck">
 
-<!-- S0: DAY 6 REVIEW -->
-<section class="section active" id="s0">
-  <h1>Day 6 Review</h1>
-  <p class="section-subtitle">Yesterday you learned to drive GoHighLevel by hand. Today you teach it to drive itself &mdash; while you stay in the driver's seat.</p>
+  <!-- S0: DAY 6 REVIEW -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Review</div>
+    <h1>Day 6 Review</h1>
+    <p class="subtitle">Yesterday you learned to drive GoHighLevel by hand. Today you teach it to drive itself -- while you stay in the driver's seat.</p>
 
-  <div class="review-card">
-    <h3>Yesterday's Key Points</h3>
-    <p><strong>GHL is an all-in-one CRM</strong> that replaces a whole stack of separate tools. Work happens inside a <strong>sub-account</strong> (one per client) &mdash; always confirm which one you're in.</p>
-    <p><strong>Contacts are the heart.</strong> Tags organise them, Smart Lists filter them, custom fields store business-specific data.</p>
-    <p><strong>Pipelines</strong> track deals through stages. Keeping them clean gives the owner accurate information.</p>
-    <p style="margin:0;"><strong>Conversations</strong> unify SMS, email, and DMs into one thread; <strong>Calendars</strong> handle booking. This is where most VA hours go &mdash; and exactly what we'll automate today.</p>
-  </div>
-
-  <details>
-    <summary>Quick Check — Do You Remember?</summary>
-    <div>
-      <p><strong>Q: What's the difference between the agency account and a sub-account?</strong><br>The agency account is the top level that manages all businesses; a sub-account is one individual client's business, where your daily work happens.</p>
-      <p><strong>Q: What's a tag used for?</strong><br>A label on a contact to group, segment, message, and automate. Most automations start with "when a tag is added."</p>
-      <p style="margin:0;"><strong>Q: What lives in the Automation menu?</strong><br>Workflows &mdash; the automation engine. That's today's entire focus.</p>
+    <div class="review-card">
+      <h3>Yesterday's Key Points</h3>
+      <p><strong>GHL is an all-in-one CRM</strong> that replaces a whole stack of separate tools. Work happens inside a <strong>sub-account</strong> (one per client) -- always confirm which one you're in.</p>
+      <p><strong>Contacts are the heart.</strong> Tags organise them, Smart Lists filter them, custom fields store business-specific data.</p>
+      <p><strong>Pipelines</strong> track deals through stages. Keeping them clean gives the owner accurate information.</p>
+      <p style="margin:0;"><strong>Conversations</strong> unify SMS, email, and DMs into one thread; <strong>Calendars</strong> handle booking. This is where most VA hours go -- and exactly what we'll automate today.</p>
     </div>
-  </details>
 
-  <div class="card card-accent">
-    <div class="card-title">Today's promise</div>
-    <p style="margin:0;">By the end of Day 7, you'll understand how to build a workflow, recognise the recipes that save the most time, and know how GHL connects to the outside world through APIs, webhooks, MCP, and integration tools &mdash; with AI making the whole thing smarter.</p>
-  </div>
+    <details>
+      <summary>Quick Check -- Do You Remember?</summary>
+      <div>
+        <p><strong>Q: What's the difference between the agency account and a sub-account?</strong><br>The agency account is the top level that manages all businesses; a sub-account is one individual client's business, where your daily work happens.</p>
+        <p><strong>Q: What's a tag used for?</strong><br>A label on a contact to group, segment, message, and automate. Most automations start with "when a tag is added."</p>
+        <p style="margin:0;"><strong>Q: What lives in the Automation menu?</strong><br>Workflows -- the automation engine. That's today's entire focus.</p>
+      </div>
+    </details>
 
-  <div class="section-nav">
-    <a href="Day06_GoHighLevel_Foundations.html" class="btn btn-secondary">&larr; Day 6</a>
-    <button class="btn btn-primary" onclick="goTo(1)">Workflow Fundamentals &rarr;</button>
-  </div>
-</section>
-
-<!-- S1: WORKFLOW FUNDAMENTALS -->
-<section class="section" id="s1">
-  <h1>Workflow Fundamentals</h1>
-  <p class="section-subtitle">A workflow is GoHighLevel's automation builder. Once you understand its three moving parts, you can read and build almost any automation a client needs.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">The whole concept in one sentence</div>
-    <p style="margin:0;color:var(--white);font-size:17px;font-weight:600;">A workflow says: "WHEN this happens (trigger), DO these things (actions), sometimes only IF certain conditions are met."</p>
-  </div>
-
-  <h2>The Three Building Blocks</h2>
-
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">1</div><div class="block-name">Trigger &mdash; the "when"</div></div>
-    <div class="block-body">
-      <p>The event that starts the workflow. Nothing happens until a trigger fires. Common triggers:</p>
-      <ul style="margin-bottom:0;">
-        <li>A tag is added (e.g. <em>new-lead</em>)</li>
-        <li>A form or survey is submitted</li>
-        <li>An appointment is booked, or status changes</li>
-        <li>A contact replies to a message</li>
-        <li>An opportunity moves to a new stage</li>
-      </ul>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's promise</div>
+      <p style="margin:0;">By the end of Day 7, you'll understand how to build a workflow, recognise the recipes that save the most time, and know how GHL connects to the outside world through APIs, webhooks, MCP, and integration tools -- with AI making the whole thing smarter.</p>
     </div>
-  </div>
+  </div></section>
 
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">2</div><div class="block-name">Actions &mdash; the "do"</div></div>
-    <div class="block-body">
-      <p>What the workflow does once triggered. Actions run in order, top to bottom. Common actions:</p>
-      <ul style="margin-bottom:0;">
-        <li>Send an SMS or email</li>
-        <li>Wait (a delay &mdash; e.g. "wait 1 day")</li>
-        <li>Add or remove a tag</li>
-        <li>Create or move an opportunity</li>
-        <li>Notify the team / assign a task</li>
-        <li>Send data to another tool (webhook)</li>
-      </ul>
+  <!-- S1: WORKFLOW FUNDAMENTALS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 2</div>
+    <h1>Workflow Fundamentals</h1>
+    <p class="subtitle">A workflow is GoHighLevel's automation builder. Once you understand its three moving parts, you can read and build almost any automation a client needs.</p>
+
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> The whole concept in one sentence</div>
+      <p style="margin:0;color:var(--ink);font-size:17px;font-weight:600;">A workflow says: "WHEN this happens (trigger), DO these things (actions), sometimes only IF certain conditions are met."</p>
     </div>
-  </div>
 
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">3</div><div class="block-name">Conditions &mdash; the "only if"</div></div>
-    <div class="block-body">
-      <p style="margin:0;">Logic that branches the path. "If/else" splits let a workflow behave differently for different contacts &mdash; e.g. <em>if</em> the lead booked a call, send a confirmation; <em>else</em>, keep following up. Conditions are what make automations feel smart instead of robotic.</p>
+    <h2>The Three Building Blocks</h2>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">1</div><div class="block-name">Trigger -- the "when"</div></div>
+      <div class="block-body">
+        <p>The event that starts the workflow. Nothing happens until a trigger fires. Common triggers:</p>
+        <ul style="margin-bottom:0;">
+          <li>A tag is added (e.g. <em>new-lead</em>)</li>
+          <li>A form or survey is submitted</li>
+          <li>An appointment is booked, or status changes</li>
+          <li>A contact replies to a message</li>
+          <li>An opportunity moves to a new stage</li>
+        </ul>
+      </div>
     </div>
-  </div>
 
-  <h2>A Workflow You Can Picture</h2>
-  <p>Here's the most common automation in all of GHL &mdash; the instant new-lead follow-up:</p>
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">2</div><div class="block-name">Actions -- the "do"</div></div>
+      <div class="block-body">
+        <p>What the workflow does once triggered. Actions run in order, top to bottom. Common actions:</p>
+        <ul style="margin-bottom:0;">
+          <li>Send an SMS or email</li>
+          <li>Wait (a delay -- e.g. "wait 1 day")</li>
+          <li>Add or remove a tag</li>
+          <li>Create or move an opportunity</li>
+          <li>Notify the team / assign a task</li>
+          <li>Send data to another tool (webhook)</li>
+        </ul>
+      </div>
+    </div>
 
-  <div class="flow-diagram">
-    <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Tag "new-lead" added</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send welcome SMS</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Wait 5 minutes</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send booking-link email</div></div>
-  </div>
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">3</div><div class="block-name">Conditions -- the "only if"</div></div>
+      <div class="block-body">
+        <p style="margin:0;">Logic that branches the path. "If/else" splits let a workflow behave differently for different contacts -- e.g. <em>if</em> the lead booked a call, send a confirmation; <em>else</em>, keep following up. Conditions are what make automations feel smart instead of robotic.</p>
+      </div>
+    </div>
+  </div></section>
 
-  <p>The moment a new lead is tagged, they get a text within seconds and an email with a booking link &mdash; 24/7, with zero VA effort. Speed-to-lead like this can double a business's conversion rate.</p>
+  <!-- S1 continued: Build steps + warning -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 2</div>
+    <h2>A Workflow You Can Picture</h2>
+    <p>Here's the most common automation in all of GHL -- the instant new-lead follow-up:</p>
 
-  <h2>How to Build One</h2>
-  <div class="step-flow">
-    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Automation &rarr; Workflows &rarr; Create Workflow</strong><p>Start from a recipe template or a blank workflow.</p></div></div>
-    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Add your trigger</strong><p>Click "Add New Trigger," choose the event, and set its filters (e.g. only when source = Facebook).</p></div></div>
-    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Add actions in order</strong><p>Click the + to add each step. Use Wait steps to space messages out so they feel human.</p></div></div>
-    <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Test before publishing</strong><p>Enroll your own test contact and watch it run. Confirm every message and tag fires correctly.</p></div></div>
-    <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Publish &amp; monitor</strong><p>Toggle the workflow live. Check the enrollment history daily for the first week to catch anything odd.</p></div></div>
-  </div>
+    <div class="flow-diagram">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Tag "new-lead" added</div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send welcome SMS</div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Wait 5 minutes</div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send booking-link email</div></div>
+    </div>
 
-  <div class="card card-red">
-    <div class="card-title">The #1 automation mistake</div>
-    <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly &mdash; it can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
-  </div>
+    <p>The moment a new lead is tagged, they get a text within seconds and an email with a booking link -- 24/7, with zero VA effort. Speed-to-lead like this can double a business's conversion rate.</p>
 
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
-    <button class="btn btn-primary" onclick="goTo(2)">VA Workflow Recipes &rarr;</button>
-  </div>
-</section>
+    <h2>How to Build One</h2>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Automation &rarr; Workflows &rarr; Create Workflow</strong><p>Start from a recipe template or a blank workflow.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Add your trigger</strong><p>Click "Add New Trigger," choose the event, and set its filters (e.g. only when source = Facebook).</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Add actions in order</strong><p>Click the + to add each step. Use Wait steps to space messages out so they feel human.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Test before publishing</strong><p>Enroll your own test contact and watch it run. Confirm every message and tag fires correctly.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Publish &amp; monitor</strong><p>Toggle the workflow live. Check the enrollment history daily for the first week to catch anything odd.</p></div></div>
+    </div>
 
-<!-- S2: VA WORKFLOW RECIPES -->
-<section class="section" id="s2">
-  <h1>VA Workflow Recipes</h1>
-  <p class="section-subtitle">You don't need to invent automations from scratch. These are the proven recipes that cover the vast majority of client needs. Learn these patterns and you can build what 90% of businesses ask for.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The #1 automation mistake</div>
+      <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly -- it can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
+    </div>
+  </div></section>
 
-  <h2>Recipe 1: Instant Lead Follow-Up (Speed to Lead)</h2>
-  <table>
-    <tbody>
-      <tr><td style="color:var(--gold);font-weight:600;width:110px;">Trigger</td><td>New contact created / <em>new-lead</em> tag added</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Actions</td><td>SMS within seconds &rarr; wait 5 min &rarr; email with booking link &rarr; if no booking in 1 day, follow-up text</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Why it matters</td><td>Responding in under 5 minutes vs. an hour can multiply conversions. This runs 24/7.</td></tr>
-    </tbody>
-  </table>
+  <!-- S2: VA WORKFLOW RECIPES -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 3</div>
+    <h1>VA Workflow Recipes</h1>
+    <p class="subtitle">You don't need to invent automations from scratch. These are the proven recipes that cover the vast majority of client needs. Learn these patterns and you can build what 90% of businesses ask for.</p>
 
-  <h2>Recipe 2: Appointment Reminders (No-Show Killer)</h2>
-  <table>
-    <tbody>
-      <tr><td style="color:var(--gold);font-weight:600;width:110px;">Trigger</td><td>Appointment booked</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Actions</td><td>Confirmation SMS now &rarr; reminder 24h before &rarr; reminder 1h before</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Why it matters</td><td>Automated reminders are the single biggest lever for cutting no-shows &mdash; often by half.</td></tr>
-    </tbody>
-  </table>
+    <h2>Recipe 1: Instant Lead Follow-Up (Speed to Lead)</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>New contact created / <em>new-lead</em> tag added</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>SMS within seconds &rarr; wait 5 min &rarr; email with booking link &rarr; if no booking in 1 day, follow-up text</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Responding in under 5 minutes vs. an hour can multiply conversions. This runs 24/7.</td></tr>
+      </tbody>
+    </table>
 
-  <h2>Recipe 3: Long-Term Nurture</h2>
-  <table>
-    <tbody>
-      <tr><td style="color:var(--gold);font-weight:600;width:110px;">Trigger</td><td>Lead marked "not ready" / <em>nurture</em> tag added</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Actions</td><td>Value email every few days for weeks; if they reply or click, notify the VA and move to active</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Why it matters</td><td>Most leads aren't ready today. Nurture keeps the business top-of-mind until they are.</td></tr>
-    </tbody>
-  </table>
+    <h2>Recipe 2: Appointment Reminders (No-Show Killer)</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Appointment booked</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Confirmation SMS now &rarr; reminder 24h before &rarr; reminder 1h before</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Automated reminders are the single biggest lever for cutting no-shows -- often by half.</td></tr>
+      </tbody>
+    </table>
 
-  <h2>Recipe 4: Review Request</h2>
-  <table>
-    <tbody>
-      <tr><td style="color:var(--gold);font-weight:600;width:110px;">Trigger</td><td>Opportunity marked "Won"</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Actions</td><td>Wait 2 days &rarr; send review request with a Google link &rarr; if no review in 5 days, gentle reminder</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Why it matters</td><td>More 5-star reviews = more trust = more leads. Fully hands-off once built.</td></tr>
-    </tbody>
-  </table>
+    <h2>Recipe 3: Long-Term Nurture</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Lead marked "not ready" / <em>nurture</em> tag added</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Value email every few days for weeks; if they reply or click, notify the VA and move to active</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Most leads aren't ready today. Nurture keeps the business top-of-mind until they are.</td></tr>
+      </tbody>
+    </table>
+  </div></section>
 
-  <h2>Recipe 5: Internal Notifications</h2>
-  <table>
-    <tbody>
-      <tr><td style="color:var(--gold);font-weight:600;width:110px;">Trigger</td><td>Hot lead replies / high-value form submitted</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Actions</td><td>Instantly notify the owner/VA by SMS, email, or Slack so a human jumps in fast</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Why it matters</td><td>Automation handles the routine; humans handle the moments that need judgment. This bridges the two.</td></tr>
-    </tbody>
-  </table>
+  <!-- S2 continued: Recipes 4-5 + prompt -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 3</div>
+    <h2>Recipe 4: Review Request</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Opportunity marked "Won"</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Wait 2 days &rarr; send review request with a Google link &rarr; if no review in 5 days, gentle reminder</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>More 5-star reviews = more trust = more leads. Fully hands-off once built.</td></tr>
+      </tbody>
+    </table>
 
-  <div class="callout">
-    <div class="callout-icon">&#129504;</div>
-    <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence &mdash; the welcome SMS, the reminder texts, the nurture emails &mdash; in the client's voice, then paste them into the workflow steps. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
-  </div>
+    <h2>Recipe 5: Internal Notifications</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Hot lead replies / high-value form submitted</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Instantly notify the owner/VA by SMS, email, or Slack so a human jumps in fast</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Automation handles the routine; humans handle the moments that need judgment. This bridges the two.</td></tr>
+      </tbody>
+    </table>
 
-  <div class="prompt-block"><span class="prompt-label">Try This</span>Write a 4-message appointment reminder sequence for [client name]'s GHL workflow:
+    <div class="callout">
+      <div class="callout-icon">&#129504;</div>
+      <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence -- the welcome SMS, the reminder texts, the nurture emails -- in the client's voice, then paste them into the workflow steps. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Try This Prompt in Claude</div></div>
+      <div class="terminal-body"><span class="ccmt">Write a 4-message appointment reminder sequence for [client name]'s GHL workflow:
 1. Booking confirmation (SMS, friendly, under 25 words)
 2. 24-hour reminder (SMS, includes "reply C to confirm")
 3. 1-hour reminder (SMS, short, includes location/link placeholder)
 4. No-show follow-up (SMS, warm, offers to rebook)
-Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}} merge fields where natural.</div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(1)">&larr; Fundamentals</button>
-    <button class="btn btn-primary" onclick="goTo(3)">APIs &amp; Webhooks &rarr;</button>
-  </div>
-</section>
-
-<!-- S3: APIs & WEBHOOKS -->
-<section class="section" id="s3">
-  <h1>APIs &amp; Webhooks</h1>
-  <p class="section-subtitle">These two words scare a lot of VAs. They shouldn't. You don't need to be a programmer &mdash; you need to understand what they do so you can talk about them, set them up from instructions, and know when to reach for them.</p>
-
-  <h2>What's an API? (The Restaurant Analogy)</h2>
-  <div class="card card-accent">
-    <div class="card-title">API = the waiter</div>
-    <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen &mdash; you tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
-  </div>
-  <p>When someone says "GHL has an API," they mean: other tools can ask GHL for data (like a contact) or tell GHL to do something (like create a contact) automatically, without a human clicking buttons.</p>
-
-  <h2>Webhook vs. API &mdash; The Key Distinction</h2>
-  <div class="comparison">
-    <div class="comparison-strong">
-      <div class="comparison-label">API call — you ASK (pull)</div>
-      Your tool reaches out and requests something: "Hey GHL, give me this contact's details." You initiate it. Like phoning the kitchen to ask if the food is ready.
+Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}} merge fields where natural.</span></div>
     </div>
-    <div class="comparison-strong" style="background:rgba(234,179,8,0.08);border-color:rgba(234,179,8,0.2);">
-      <div class="comparison-label" style="color:var(--gold);">Webhook — it TELLS you (push)</div>
-      GHL automatically pushes data the moment something happens: "A new lead just came in &mdash; here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
+  </div></section>
+
+  <!-- S3: APIs & WEBHOOKS -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 4</div>
+    <h1>APIs &amp; Webhooks</h1>
+    <p class="subtitle">These two words scare a lot of VAs. They shouldn't. You don't need to be a programmer -- you need to understand what they do so you can talk about them, set them up from instructions, and know when to reach for them.</p>
+
+    <h2>What's an API? (The Restaurant Analogy)</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-link"/></svg> API = the waiter</div>
+      <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen -- you tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
     </div>
-  </div>
+    <p>When someone says "GHL has an API," they mean: other tools can ask GHL for data (like a contact) or tell GHL to do something (like create a contact) automatically, without a human clicking buttons.</p>
 
-  <p><strong>Simple rule:</strong> A <em>webhook</em> is an action <em>inside</em> a GHL workflow that sends data <em>out</em> to another tool the instant a trigger fires. It's the most common way you'll connect GHL to the outside world &mdash; and you set it up by pasting in a URL, not by coding.</p>
-
-  <h2>What This Looks Like in Practice</h2>
-  <div class="flow-diagram">
-    <div class="flow-node flow-trigger"><div class="flow-kind">In GHL</div><div class="flow-text">New lead form submitted</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Webhook action</div><div class="flow-text">Push lead data to a URL</div></div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-node"><div class="flow-kind">Other tool</div><div class="flow-text">Make / Zapier receives it &amp; reacts</div></div>
-  </div>
-
-  <h2>Where You'll Actually Meet APIs &amp; Webhooks</h2>
-  <table>
-    <thead><tr><th>Scenario</th><th>What's Happening</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Connecting GHL to Make/Zapier</td><td>You paste a webhook URL into a workflow step &mdash; data flows out automatically</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Setting up an API key</td><td>In Settings, you generate a key that lets another tool securely talk to GHL</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Following a setup guide</td><td>A tutorial says "add this webhook URL" &mdash; now you know exactly what that means and why</td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Troubleshooting</td><td>If data isn't flowing, you can check whether the webhook fired and what it sent</td></tr>
-    </tbody>
-  </table>
-
-  <div class="card card-red">
-    <div class="card-title">Security: API keys are passwords</div>
-    <p style="margin:0;">An API key gives full programmatic access to a client's account. Treat it like a password: never paste it into a public chat, never email it in plain text, never store it where others can see it. If you ever expose one by accident, tell the client immediately so it can be regenerated. This is non-negotiable professional hygiene.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Recipes</button>
-    <button class="btn btn-primary" onclick="goTo(4)">MCP &amp; AI in GHL &rarr;</button>
-  </div>
-</section>
-
-<!-- S4: MCP & AI IN GHL -->
-<section class="section" id="s4">
-  <h1>MCP &amp; AI in GHL</h1>
-  <p class="section-subtitle">This is where Week 1 and Week 2 finally connect. MCP is the bridge that lets Claude reach directly into GoHighLevel &mdash; so the AI partner you mastered in Week 1 can now work inside the CRM you mastered this week.</p>
-
-  <div class="card card-accent">
-    <div class="card-title">Quick recap from Day 4 &amp; 5</div>
-    <p style="margin:0;"><strong>MCP (Model Context Protocol)</strong> is the standard layer that connects Claude to your tools &mdash; Slack, Gmail, files, and yes, CRMs. With an MCP connection, you can ask Claude in plain English to read or do things inside another app, and it acts &mdash; confirming before anything irreversible.</p>
-  </div>
-
-  <h2>The Three Levels of AI Inside GHL</h2>
-  <p>"AI in GHL" can mean three different things. Knowing which is which keeps you clear:</p>
-
-  <div class="spectrum-row">
-    <div class="spectrum-cell spectrum-chat">
-      <div class="spectrum-label">Level 1</div>
-      <div class="spectrum-name">GHL's built-in AI</div>
-      <div class="spectrum-desc">Native features inside GHL: Conversation AI (auto-replies to leads), Content AI (writes emails/posts), and the AI Employee add-ons.</div>
+    <h2>Webhook vs. API -- The Key Distinction</h2>
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-arrow"/></svg> API call -- you ASK (pull)</div>
+        Your tool reaches out and requests something: "Hey GHL, give me this contact's details." You initiate it. Like phoning the kitchen to ask if the food is ready.
+      </div>
+      <div class="col" style="background:var(--gold-soft);border:1px solid rgba(234,179,8,0.25);">
+        <div class="col-label" style="color:var(--gold);"><svg><use href="#i-bolt"/></svg> Webhook -- it TELLS you (push)</div>
+        GHL automatically pushes data the moment something happens: "A new lead just came in -- here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
+      </div>
     </div>
-    <div class="spectrum-cell spectrum-assistant">
-      <div class="spectrum-label">Level 2</div>
-      <div class="spectrum-name">Claude alongside GHL</div>
-      <div class="spectrum-desc">You draft in Claude, paste into GHL. No connection, just copy-paste. The workhorse approach you'll use most.</div>
+
+    <p><strong>Simple rule:</strong> A <em>webhook</em> is an action <em>inside</em> a GHL workflow that sends data <em>out</em> to another tool the instant a trigger fires. It's the most common way you'll connect GHL to the outside world -- and you set it up by pasting in a URL, not by coding.</p>
+
+    <h2>What This Looks Like in Practice</h2>
+    <div class="flow-diagram">
+      <div class="flow-node flow-trigger"><div class="flow-kind">In GHL</div><div class="flow-text">New lead form submitted</div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node"><div class="flow-kind">Webhook action</div><div class="flow-text">Push lead data to a URL</div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-node"><div class="flow-kind">Other tool</div><div class="flow-text">Make / Zapier receives it &amp; reacts</div></div>
     </div>
-    <div class="spectrum-cell spectrum-agent">
-      <div class="spectrum-label">Level 3</div>
-      <div class="spectrum-name">Claude connected via MCP</div>
-      <div class="spectrum-desc">Claude reaches into GHL directly &mdash; reads contacts, drafts replies, updates records &mdash; from one instruction, with your approval.</div>
+  </div></section>
+
+  <!-- S3 continued: Where you'll meet APIs + security -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 4</div>
+    <h2>Where You'll Actually Meet APIs &amp; Webhooks</h2>
+    <table>
+      <thead><tr><th>Scenario</th><th>What's Happening</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Connecting GHL to Make/Zapier</strong></td><td>You paste a webhook URL into a workflow step -- data flows out automatically</td></tr>
+        <tr><td><strong>Setting up an API key</strong></td><td>In Settings, you generate a key that lets another tool securely talk to GHL</td></tr>
+        <tr><td><strong>Following a setup guide</strong></td><td>A tutorial says "add this webhook URL" -- now you know exactly what that means and why</td></tr>
+        <tr><td><strong>Troubleshooting</strong></td><td>If data isn't flowing, you can check whether the webhook fired and what it sent</td></tr>
+      </tbody>
+    </table>
+
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> Security: API keys are passwords</div>
+      <p style="margin:0;">An API key gives full programmatic access to a client's account. Treat it like a password: never paste it into a public chat, never email it in plain text, never store it where others can see it. If you ever expose one by accident, tell the client immediately so it can be regenerated. This is non-negotiable professional hygiene.</p>
     </div>
-  </div>
 
-  <h2>Level 1: GHL's Native AI Suite (&ldquo;AI Employee&rdquo;)</h2>
-  <p>GHL bundles its built-in AI under the <strong>AI Employee</strong> umbrella. You won't switch all of these on for every client, but you should know what each one does and where it fits. <em>Feature set current as of June 2026 &mdash; GHL ships AI changes almost monthly, so always confirm in-app.</em></p>
-  <table>
-    <thead><tr><th>AI Feature</th><th>What It Does</th><th>Your Role as VA</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--accent);font-weight:600;">Ask AI</td><td>Talk to the CRM in plain English &mdash; &ldquo;show today's unbooked leads,&rdquo; &ldquo;draft replies for the hot ones.&rdquo; It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Conversation AI</td><td>Auto-responds to leads and books appointments 24/7 across SMS, email, web chat, Facebook/Instagram DMs &amp; Google Business messages</td><td>Train it on the client's FAQs, set guardrails, review its chats</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Voice AI</td><td>Answers and makes phone calls to qualify leads and book appointments &mdash; now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Reviews AI</td><td>Automatically drafts replies to Google/Facebook reviews</td><td>Approve the tone before replies post</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Content AI</td><td>Generates emails, social posts &amp; images inside GHL (long-form up to ~2,000 words, plus AI subject-line suggestions)</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Workflow AI</td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations &mdash; summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Funnel &amp; Website AI</td><td>Builds and edits funnels and websites from prompts</td><td>Prompt, then refine layout &amp; copy</td></tr>
-      <tr><td style="color:var(--accent);font-weight:600;">Agent Studio</td><td>Build custom AI agents with multimodal skills (text, image, video, speech, web search)</td><td>Advanced &mdash; design &amp; test agents; billed separately</td></tr>
-    </tbody>
-  </table>
+    <div class="principle"><div class="badge"><svg><use href="#i-lock"/></svg></div><div class="pl">The Rule</div><p>API keys are credentials, not code. Store them in a password manager or your client's secure settings -- never in a chat message, a doc, or a spreadsheet that others can access.</p></div>
+  </div></section>
 
-  <div class="card card-accent">
-    <div class="card-title">What's new in GHL AI &mdash; 2026</div>
-    <p style="margin-bottom:8px;">GHL releases AI updates almost every month. The recent ones, so a client can't surprise you:</p>
-    <ul style="margin:0;">
-      <li><strong>Ask AI moved into AI Employee with unlimited usage</strong> &mdash; the &ldquo;talk to your CRM&rdquo; assistant is now front-and-centre.</li>
-      <li><strong>Voice AI expanded to 27 languages</strong> (added Portuguese, Italian &amp; German) with sub-second, near-real-time responses.</li>
-      <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic &mdash; describe it in plain English and AI assembles the automation.</li>
-      <li><strong>Content AI 2.0</strong> &mdash; longer, more on-brand content plus automatic email subject-line suggestions.</li>
-      <li><strong>AI Usage Dashboard</strong> &mdash; an agency-level view of AI spend, tokens and usage per sub-account.</li>
-      <li><strong>Billing simplified (May 2026)</strong> &mdash; most &ldquo;AI Employee Plus&rdquo; extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
-    </ul>
-  </div>
+  <!-- S4: MCP & AI IN GHL -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 5</div>
+    <h1>MCP &amp; AI in GHL</h1>
+    <p class="subtitle">This is where Week 1 and Week 2 finally connect. MCP is the bridge that lets Claude reach directly into GoHighLevel -- so the AI partner you mastered in Week 1 can now work inside the CRM you mastered this week.</p>
 
-  <div class="card card-gold">
-    <div class="card-title">Pricing in one breath (so you can answer a client)</div>
-    <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing &mdash; but knowing what's roughly included keeps you credible when a client asks &ldquo;is this extra?&rdquo;</p>
-  </div>
-
-  <h2>Level 3: Connecting Claude to GHL via MCP</h2>
-  <p>This is the frontier. When GHL is connected to Claude through an MCP server, you can do things like:</p>
-  <div class="prompt-block"><span class="prompt-label">Imagine asking Claude</span>Pull the 5 newest leads from [client]'s GHL account. For each, draft a personalised first-touch SMS in their voice, and tell me which look highest-intent based on the form answers. Don't send anything yet — show me first.</div>
-  <p>Claude reads the CRM, drafts the work, and queues it for your review &mdash; the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
-
-  <div class="step-flow">
-    <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup &mdash; you may follow a guide or have it provided.</p></div></div>
-    <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>You ask in plain English</strong><p>No code. "Show me today's unanswered conversations." "Draft replies for the hot leads."</p></div></div>
-    <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Claude acts, you approve</strong><p>It reads and drafts freely, but confirms before sending, updating, or deleting anything. You remain the human in the loop.</p></div></div>
-  </div>
-
-  <div class="callout">
-    <div class="callout-icon">&#9888;</div>
-    <div class="callout-body"><strong>Oversight scales with power (Day 5).</strong> An AI that can act inside a live CRM is powerful &mdash; which means your review matters <em>more</em>, not less. Connected AI is for drafting and surfacing; sending to real leads and changing records still passes through you. Never let Conversation AI or an MCP action run unsupervised on a new client until you've watched it behave correctly.</div>
-  </div>
-
-  <div class="card card-gold">
-    <div class="card-title">What you actually need to know today</div>
-    <p style="margin:0;">You don't have to build MCP connections from scratch. You need to (1) understand that the bridge exists, (2) know what becomes possible when Claude and GHL are connected, and (3) apply the same oversight discipline you already learned. The setup is technical; the judgment is yours &mdash; and the judgment is the valuable part.</p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(3)">&larr; APIs &amp; Webhooks</button>
-    <button class="btn btn-primary" onclick="goTo(5)">Integrations &rarr;</button>
-  </div>
-</section>
-
-<!-- S5: INTEGRATIONS -->
-<section class="section" id="s5">
-  <h1>Integrations</h1>
-  <p class="section-subtitle">No tool does everything. The power comes from connecting GHL to the other apps a business already uses. Here's the integration landscape and how to choose the right connector.</p>
-
-  <h2>Three Ways to Connect GHL to Other Tools</h2>
-
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">1</div><div class="block-name">Native integrations</div></div>
-    <div class="block-body">
-      <p style="margin:0;">Built right into GHL &mdash; connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-cpu"/></svg> Quick recap from Day 4 &amp; 5</div>
+      <p style="margin:0;"><strong>MCP (Model Context Protocol)</strong> is the standard layer that connects Claude to your tools -- Slack, Gmail, files, and yes, CRMs. With an MCP connection, you can ask Claude in plain English to read or do things inside another app, and it acts -- confirming before anything irreversible.</p>
     </div>
-  </div>
 
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">2</div><div class="block-name">No-code connectors (Zapier &amp; Make)</div></div>
-    <div class="block-body">
-      <p style="margin:0;">When there's no native option, Zapier or Make bridge GHL to thousands of apps using triggers and webhooks. Example: "When a deal is Won in GHL &rarr; create a project in ClickUp &rarr; post a message in Slack." This is the VA's everyday integration toolkit (from Day 5).</p>
+    <h2>The Three Levels of AI Inside GHL</h2>
+    <p>"AI in GHL" can mean three different things. Knowing which is which keeps you clear:</p>
+
+    <div class="spectrum-row">
+      <div class="spectrum-cell spectrum-dim">
+        <div class="spectrum-label">Level 1</div>
+        <div class="spectrum-name">GHL's built-in AI</div>
+        <div class="spectrum-desc">Native features inside GHL: Conversation AI (auto-replies to leads), Content AI (writes emails/posts), and the AI Employee add-ons.</div>
+      </div>
+      <div class="spectrum-cell spectrum-mid">
+        <div class="spectrum-label">Level 2</div>
+        <div class="spectrum-name">Claude alongside GHL</div>
+        <div class="spectrum-desc">You draft in Claude, paste into GHL. No connection, just copy-paste. The workhorse approach you'll use most.</div>
+      </div>
+      <div class="spectrum-cell spectrum-hi">
+        <div class="spectrum-label">Level 3</div>
+        <div class="spectrum-name">Claude connected via MCP</div>
+        <div class="spectrum-desc">Claude reaches into GHL directly -- reads contacts, drafts replies, updates records -- from one instruction, with your approval.</div>
+      </div>
     </div>
-  </div>
+  </div></section>
 
-  <div class="block-item">
-    <div class="block-header"><div class="block-num">3</div><div class="block-name">Direct API / webhook</div></div>
-    <div class="block-body">
-      <p style="margin:0;">For custom or developer-built connections, tools talk to GHL directly through its API. You generally won't build these, but you'll recognise them and can follow a guide to plug things in.</p>
+  <!-- S4 continued: GHL Native AI Suite -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 5</div>
+    <h2>Level 1: GHL's Native AI Suite ("AI Employee")</h2>
+    <p>GHL bundles its built-in AI under the <strong>AI Employee</strong> umbrella. You won't switch all of these on for every client, but you should know what each one does and where it fits. <em>Feature set current as of June 2026 -- GHL ships AI changes almost monthly, so always confirm in-app.</em></p>
+    <table>
+      <thead><tr><th>AI Feature</th><th>What It Does</th><th>Your Role as VA</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Ask AI</strong></td><td>Talk to the CRM in plain English -- "show today's unbooked leads," "draft replies for the hot ones." It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
+        <tr><td><strong>Conversation AI</strong></td><td>Auto-responds to leads and books appointments 24/7 across SMS, email, web chat, Facebook/Instagram DMs &amp; Google Business messages</td><td>Train it on the client's FAQs, set guardrails, review its chats</td></tr>
+        <tr><td><strong>Voice AI</strong></td><td>Answers and makes phone calls to qualify leads and book appointments -- now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
+        <tr><td><strong>Reviews AI</strong></td><td>Automatically drafts replies to Google/Facebook reviews</td><td>Approve the tone before replies post</td></tr>
+        <tr><td><strong>Content AI</strong></td><td>Generates emails, social posts &amp; images inside GHL (long-form up to ~2,000 words, plus AI subject-line suggestions)</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
+        <tr><td><strong>Workflow AI</strong></td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations -- summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
+        <tr><td><strong>Funnel &amp; Website AI</strong></td><td>Builds and edits funnels and websites from prompts</td><td>Prompt, then refine layout &amp; copy</td></tr>
+        <tr><td><strong>Agent Studio</strong></td><td>Build custom AI agents with multimodal skills (text, image, video, speech, web search)</td><td>Advanced -- design &amp; test agents; billed separately</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S4 continued: What's new + pricing + MCP Level 3 -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 5</div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> What's new in GHL AI -- 2026</div>
+      <p style="margin-bottom:8px;">GHL releases AI updates almost every month. The recent ones, so a client can't surprise you:</p>
+      <ul style="margin:0;">
+        <li><strong>Ask AI moved into AI Employee with unlimited usage</strong> -- the "talk to your CRM" assistant is now front-and-centre.</li>
+        <li><strong>Voice AI expanded to 27 languages</strong> (added Portuguese, Italian &amp; German) with sub-second, near-real-time responses.</li>
+        <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic -- describe it in plain English and AI assembles the automation.</li>
+        <li><strong>Content AI 2.0</strong> -- longer, more on-brand content plus automatic email subject-line suggestions.</li>
+        <li><strong>AI Usage Dashboard</strong> -- an agency-level view of AI spend, tokens and usage per sub-account.</li>
+        <li><strong>Billing simplified (May 2026)</strong> -- most "AI Employee Plus" extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
+      </ul>
     </div>
+
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Pricing in one breath (so you can answer a client)</div>
+      <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing -- but knowing what's roughly included keeps you credible when a client asks "is this extra?"</p>
+    </div>
+
+    <h2>Level 3: Connecting Claude to GHL via MCP</h2>
+    <p>This is the frontier. When GHL is connected to Claude through an MCP server, you can do things like:</p>
+
+    <div class="terminal">
+      <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Imagine asking Claude</div></div>
+      <div class="terminal-body"><span class="ccmt">Pull the 5 newest leads from [client]'s GHL account. For each, draft a personalised
+first-touch SMS in their voice, and tell me which look highest-intent based on the
+form answers. Don't send anything yet -- show me first.</span></div>
+    </div>
+
+    <p>Claude reads the CRM, drafts the work, and queues it for your review -- the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
+
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup -- you may follow a guide or have it provided.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>You ask in plain English</strong><p>No code. "Show me today's unanswered conversations." "Draft replies for the hot leads."</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Claude acts, you approve</strong><p>It reads and drafts freely, but confirms before sending, updating, or deleting anything. You remain the human in the loop.</p></div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">&#9888;</div>
+      <div class="callout-body"><strong>Oversight scales with power (Day 5).</strong> An AI that can act inside a live CRM is powerful -- which means your review matters <em>more</em>, not less. Connected AI is for drafting and surfacing; sending to real leads and changing records still passes through you. Never let Conversation AI or an MCP action run unsupervised on a new client until you've watched it behave correctly.</div>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What you actually need to know today</div>
+      <p style="margin:0;">You don't have to build MCP connections from scratch. You need to (1) understand that the bridge exists, (2) know what becomes possible when Claude and GHL are connected, and (3) apply the same oversight discipline you already learned. The setup is technical; the judgment is yours -- and the judgment is the valuable part.</p>
+    </div>
+  </div></section>
+
+  <!-- S5: INTEGRATIONS -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 6</div>
+    <h1>Integrations</h1>
+    <p class="subtitle">No tool does everything. The power comes from connecting GHL to the other apps a business already uses. Here's the integration landscape and how to choose the right connector.</p>
+
+    <h2>Three Ways to Connect GHL to Other Tools</h2>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">1</div><div class="block-name">Native integrations</div></div>
+      <div class="block-body">
+        <p style="margin:0;">Built right into GHL -- connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
+      </div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">2</div><div class="block-name">No-code connectors (Zapier &amp; Make)</div></div>
+      <div class="block-body">
+        <p style="margin:0;">When there's no native option, Zapier or Make bridge GHL to thousands of apps using triggers and webhooks. Example: "When a deal is Won in GHL &rarr; create a project in ClickUp &rarr; post a message in Slack." This is the VA's everyday integration toolkit (from Day 5).</p>
+      </div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">3</div><div class="block-name">Direct API / webhook</div></div>
+      <div class="block-body">
+        <p style="margin:0;">For custom or developer-built connections, tools talk to GHL directly through its API. You generally won't build these, but you'll recognise them and can follow a guide to plug things in.</p>
+      </div>
+    </div>
+
+    <h2>Common Integrations You'll Set Up</h2>
+    <table>
+      <thead><tr><th>Connect GHL To&hellip;</th><th>So That&hellip;</th><th>Method</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Google Calendar</strong></td><td>Bookings sync both ways; no double-bookings</td><td><span class="tag-badge">Native</span></td></tr>
+        <tr><td><strong>Stripe</strong></td><td>Payments &amp; invoices process inside GHL</td><td><span class="tag-badge">Native</span></td></tr>
+        <tr><td><strong>Facebook/Instagram</strong></td><td>Lead ads flow straight into Contacts</td><td><span class="tag-badge">Native</span></td></tr>
+        <tr><td><strong>Slack</strong></td><td>Hot-lead alerts post to a channel</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
+        <tr><td><strong>ClickUp / Notion</strong></td><td>Won deals create onboarding tasks</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
+        <tr><td><strong>Google Sheets</strong></td><td>Leads log to a sheet for reporting</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-icon">&#128161;</div>
+      <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job -- flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
+    </div>
+  </div></section>
+
+  <!-- S6: HANDS-ON LAB -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
+    <h1>Hands-On Lab</h1>
+    <p class="subtitle">Today's exercises move from reading automations to designing them. Build on test contacts only -- never publish an untested workflow against real leads.</p>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-book"/></svg> Exercise 1</div><div class="ex-title">Read a Workflow</div></div>
+      <p style="margin:0;">Open an existing workflow in a sub-account (or a recipe template). Trace it out on paper as <strong>Trigger &rarr; Action &rarr; Action</strong>. Identify the trigger, every action, and any conditions. Explain in one sentence what the whole thing accomplishes.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-tool"/></svg> Exercise 2</div><div class="ex-title">Design (and Build) the Lead Follow-Up</div></div>
+      <p>Build Recipe 1 from scratch in a test workflow:</p>
+      <ol>
+        <li>Trigger: a tag like <em>test-lead</em> is added</li>
+        <li>Action: send an SMS to your test contact (your own number)</li>
+        <li>Action: wait 5 minutes</li>
+        <li>Action: send a follow-up email</li>
+      </ol>
+      <p style="margin:0;">Enroll your test contact, watch it run end-to-end, and confirm you received both messages.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-spark"/></svg> Exercise 3</div><div class="ex-title">Write the Copy with Claude</div></div>
+      <p style="margin:0;">Use the prompt from the Recipes section (or write your own) to have Claude draft a full appointment-reminder sequence in a client's voice. Then paste each message into the matching workflow step. Notice how you build the logic and Claude supplies the words.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-msg"/></svg> Exercise 4</div><div class="ex-title">Explain It Back</div></div>
+      <p style="margin:0;">In your own words, write 2-3 sentences each for: <strong>API</strong>, <strong>webhook</strong>, and <strong>MCP</strong>. Imagine you're explaining to a client who's nervous about "tech stuff." If you can explain it simply, you understand it.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-grid"/></svg> Exercise 5</div><div class="ex-title">Map an Integration</div></div>
+      <p>Pick a real scenario: "When a deal is Won in GHL, the client wants a task created in their PM tool and an alert in Slack." Map it out:</p>
+      <ol>
+        <li>What's the trigger in GHL?</li>
+        <li>Native, Zapier/Make, or custom API?</li>
+        <li>Write the flow: <strong>Trigger &rarr; Step 1 &rarr; Step 2 &rarr; End result.</strong></li>
+      </ol>
+      <p style="margin:0;">This is a direct warm-up for Day 8, where PM tools and Slack/messaging integrations take center stage.</p>
+    </div>
+  </div></section>
+
+  <!-- S6 continued: Homework + completion -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
+    <h2>Homework Before Day 8</h2>
+
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Three tasks before Day 8</div>
+      <p><strong>Task 1:</strong> Build and test one complete workflow on a test contact. Screenshot the enrollment history showing it ran.</p>
+      <p><strong>Task 2:</strong> Take the repetitive task you identified after Day 6 and sketch the workflow that would automate it.</p>
+      <p style="margin:0;"><strong>Task 3:</strong> List the apps a client of yours uses beyond GHL (PM tool, Slack, WhatsApp, etc.). Tomorrow we connect them all into one command center.</p>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Day 7 Complete</div>
+      <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations -- the full integrated command center.</strong></p>
+    </div>
+
+    <div class="qa" style="margin-top:8px;padding:16px">
+      <h3>Day 7 Q&amp;A</h3>
+      <p>Bring your questions on workflows, webhooks, and MCP. Day 8 builds on everything you've done this week -- the full connected VA command center.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 8 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Day 6 Review</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 13</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
-
-  <h2>Common Integrations You'll Set Up</h2>
-  <table>
-    <thead><tr><th>Connect GHL To&hellip;</th><th>So That&hellip;</th><th>Method</th></tr></thead>
-    <tbody>
-      <tr><td style="color:var(--white);font-weight:600;">Google Calendar</td><td>Bookings sync both ways; no double-bookings</td><td><span class="pill">Native</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Stripe</td><td>Payments &amp; invoices process inside GHL</td><td><span class="pill">Native</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Facebook/Instagram</td><td>Lead ads flow straight into Contacts</td><td><span class="pill">Native</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Slack</td><td>Hot-lead alerts post to a channel</td><td><span class="pill" style="background:rgba(234,179,8,0.2);color:var(--gold);">Zapier/Make</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">ClickUp / Notion</td><td>Won deals create onboarding tasks</td><td><span class="pill" style="background:rgba(234,179,8,0.2);color:var(--gold);">Zapier/Make</span></td></tr>
-      <tr><td style="color:var(--white);font-weight:600;">Google Sheets</td><td>Leads log to a sheet for reporting</td><td><span class="pill" style="background:rgba(234,179,8,0.2);color:var(--gold);">Zapier/Make</span></td></tr>
-    </tbody>
-  </table>
-
-  <div class="callout">
-    <div class="callout-icon">&#128161;</div>
-    <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job &mdash; flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(4)">&larr; MCP &amp; AI</button>
-    <button class="btn btn-primary" onclick="goTo(6)">Hands-On Lab &rarr;</button>
-  </div>
-</section>
-
-<!-- S6: HANDS-ON LAB -->
-<section class="section" id="s6">
-  <h1>Hands-On Lab</h1>
-  <p class="section-subtitle">Today's exercises move from reading automations to designing them. Build on test contacts only &mdash; never publish an untested workflow against real leads.</p>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Read a Workflow</span></div>
-    <p>Open an existing workflow in a sub-account (or a recipe template). Trace it out on paper as <strong>Trigger &rarr; Action &rarr; Action</strong>. Identify the trigger, every action, and any conditions. Explain in one sentence what the whole thing accomplishes.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Design (and Build) the Lead Follow-Up</span></div>
-    <p>Build Recipe 1 from scratch in a test workflow:</p>
-    <ol>
-      <li>Trigger: a tag like <em>test-lead</em> is added</li>
-      <li>Action: send an SMS to your test contact (your own number)</li>
-      <li>Action: wait 5 minutes</li>
-      <li>Action: send a follow-up email</li>
-    </ol>
-    <p style="margin:0;">Enroll your test contact, watch it run end-to-end, and confirm you received both messages.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Write the Copy with Claude</span></div>
-    <p>Use the prompt from the Recipes section (or write your own) to have Claude draft a full appointment-reminder sequence in a client's voice. Then paste each message into the matching workflow step. Notice how you build the logic and Claude supplies the words.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Explain It Back</span></div>
-    <p>In your own words, write 2&ndash;3 sentences each for: <strong>API</strong>, <strong>webhook</strong>, and <strong>MCP</strong>. Imagine you're explaining to a client who's nervous about "tech stuff." If you can explain it simply, you understand it.</p>
-  </div>
-
-  <div class="exercise">
-    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Map an Integration</span></div>
-    <p>Pick a real scenario: "When a deal is Won in GHL, the client wants a task created in their PM tool and an alert in Slack." Map it out:</p>
-    <ol>
-      <li>What's the trigger in GHL?</li>
-      <li>Native, Zapier/Make, or custom API?</li>
-      <li>Write the flow: <strong>Trigger &rarr; Step 1 &rarr; Step 2 &rarr; End result.</strong></li>
-    </ol>
-    <p style="margin:0;">This is a direct warm-up for Day 8, where PM tools and Slack/messaging integrations take center stage.</p>
-  </div>
-
-  <div class="card card-accent">
-    <div class="card-title">Homework Before Day 8</div>
-    <p><strong>Task 1:</strong> Build and test one complete workflow on a test contact. Screenshot the enrollment history showing it ran.</p>
-    <p><strong>Task 2:</strong> Take the repetitive task you identified after Day 6 and sketch the workflow that would automate it.</p>
-    <p style="margin:0;"><strong>Task 3:</strong> List the apps a client of yours uses beyond GHL (PM tool, Slack, WhatsApp, etc.). Tomorrow we connect them all into one command center.</p>
-  </div>
-
-  <div class="card card-gold">
-    <div class="card-title">Day 7 Complete</div>
-    <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations &mdash; the full integrated command center.</strong></p>
-  </div>
-
-  <div class="section-nav">
-    <button class="btn btn-secondary" onclick="goTo(5)">&larr; Integrations</button>
-    <a href="Day08_AI_Meetings_PM_Messaging.html" class="btn btn-primary">Day 8: AI Meetings &amp; Integrations &rarr;</a>
-  </div>
-</section>
-
-</div></div>
+</div>
 
 <script>
-let currentSection = 0;
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.sidebar-nav a');
-const totalSections = sections.length;
-const completed = new Set();
-
-function goTo(n) {
-  completed.add(currentSection);
-  currentSection = n;
-  sections.forEach((el, i) => el.classList.toggle('active', i === n));
-  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
-  const pct = Math.round((completed.size / totalSections) * 100);
-  const fill = document.getElementById('progressFill');
-  const label = document.getElementById('progressLabel');
-  if (fill) fill.style.width = pct + '%';
-  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  document.getElementById('sidebar')?.classList.remove('open');
-  document.getElementById('overlay')?.classList.remove('show');
-}
-
-function toggleSidebar() {
-  document.getElementById('sidebar')?.classList.toggle('open');
-  document.getElementById('overlay')?.classList.toggle('show');
-}
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 7',UNLOCK_DATE:'2026-06-12',PREV_DAY_KEY:''};
+const NEXT_DECK='https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 8',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpTrack('attendance',{firstName:f,lastName:l});localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Day 6 Review','Workflow Fundamentals','VA Workflow Recipes','APIs & Webhooks','MCP & AI in GHL','Integrations','Hands-On Lab'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 8 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function next(){if(cur<slides.length-1){cur++;render();}}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function quizPick(btn){const quiz=btn.closest('.quiz');if(quiz.classList.contains('answered'))return;quiz.classList.add('answered');const opts=[...quiz.querySelectorAll('.quiz-opt')];const correctOpt=opts.find(o=>o.dataset.correct==='true');const chose=btn.dataset.correct==='true';opts.forEach(o=>{o.disabled=true;if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}const fb=quiz.querySelector('.quiz-fb');fb.innerHTML=chose?'<strong class="ok">Correct.</strong> '+btn.dataset.why:'<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;fb.classList.add('show');quiz.querySelector('.quiz-reset').style.display='inline-block';}
+function quizReset(btn){const quiz=btn.closest('.quiz');quiz.classList.remove('answered');quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';btn.style.display='none';}
+render();
 </script>
 </body>
 </html>
