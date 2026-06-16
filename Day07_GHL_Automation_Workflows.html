@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -157,6 +157,46 @@
   .flow-arrow{display:flex;align-items:center;color:var(--accent);font-size:20px;font-weight:700;padding:0 8px}
   .flow-node.flow-trigger{border-left:3px solid var(--gold)}
   .flow-node.flow-trigger .flow-kind{color:var(--gold)}
+  /* Vertical flow (GHL-builder style) */
+  .flow-diagram.flow-v{flex-direction:column;align-items:center;flex-wrap:nowrap;gap:0}
+  .flow-v .flow-node{flex:none;width:100%;max-width:380px;text-align:left}
+  .flow-v .flow-node.flow-wait{border-left:3px solid var(--border-2);background:var(--panel-2)}
+  .flow-v .flow-node.flow-wait .flow-kind{color:var(--dim)}
+  .flow-connector{width:2px;height:26px;background:var(--border-2);position:relative}
+  .flow-connector::after{content:'+';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--panel);border:1px solid var(--border-2);color:var(--dim);font-size:12px;line-height:16px;text-align:center}
+  /* ============================================================
+     MOTION GRAPHICS
+     ============================================================ */
+  /* --- MG: animated node chain (n8n-style) --- */
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0;counter-reset:n8nstep}
+  .n8n-node{flex:1;min-width:0;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node::before{counter-increment:n8nstep;content:counter(n8nstep);position:absolute;top:7px;right:9px;font-size:9px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:.5px;font-family:var(--font-d)}
+  .n8n-node.n8n-active{border-color:#22c55e;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards, n8nShimmer 2.4s 1.2s ease-in-out infinite;animation-delay:var(--d,0s),1.2s}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 40px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:2px;flex:1;background:rgba(255,255,255,.1);position:relative;overflow:hidden;border-radius:1px}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:n8nPulse 2.2s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid rgba(255,255,255,.3)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:110%}}
+  @keyframes n8nShimmer{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.1)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.04),0 0 20px rgba(34,197,94,.1)}}
+  /* --- MG: convergence strip (pills flowing into a center badge) --- */
+  @keyframes kcSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes kcDotMove{0%{left:-100%}60%,100%{left:110%}}
+  @keyframes kcCenterAppear{0%{opacity:0;transform:scale(.8)}55%{opacity:1;transform:scale(1.06);box-shadow:0 0 28px rgba(34,197,94,.45)}80%{transform:scale(1);box-shadow:0 0 18px rgba(34,197,94,.25)}100%{opacity:1;transform:scale(1);box-shadow:0 0 10px rgba(34,197,94,.15)}}
+  .kc-converge-wrap{margin:16px 0 10px}
+  .kc-converge{display:flex;align-items:center;justify-content:center;gap:0;padding:12px 0;flex-wrap:nowrap;overflow:hidden}
+  .kc-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;flex-shrink:0;opacity:0;animation:kcSlideIn .4s ease forwards;animation-delay:var(--d,0s)}
+  .kc-pill svg{width:12px;height:12px;color:var(--accent);flex-shrink:0}
+  .kc-flow-line{flex:1 1 22px;min-width:16px;max-width:42px;height:2px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;border-radius:1px}
+  .kc-flow-dot{position:absolute;top:0;left:-100%;width:70%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:kcDotMove 1.6s linear infinite;animation-delay:var(--pd,0s)}
+  .kc-kc-badge{display:flex;align-items:center;gap:8px;background:var(--accent);color:#04150B;font-size:13px;font-weight:800;border-radius:20px;padding:8px 16px;white-space:nowrap;flex-shrink:0;opacity:0;animation:kcCenterAppear 1s cubic-bezier(.34,1.1,.64,1) forwards;animation-delay:.95s}
+  .kc-kc-badge svg{width:14px;height:14px}
+  .kc-converge-label{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:var(--dim);font-weight:700;margin-top:4px}
   /* Spectrum row */
   .spectrum-row{display:flex;gap:0;margin:20px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
   .spectrum-cell{flex:1;padding:16px;border-right:1px solid var(--border)}
@@ -257,11 +297,14 @@
     <div class="nav-label">Today's Sessions</div>
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-refresh"/></svg></span>Day 6 Review</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Workflow Fundamentals</a>
-    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-grid"/></svg></span>VA Workflow Recipes</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-link"/></svg></span>APIs &amp; Webhooks</a>
-    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>MCP &amp; AI in GHL</a>
-    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Integrations</a>
-    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Hands-On Lab</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-target"/></svg></span>Triggers &amp; Actions</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-grid"/></svg></span>VA Workflow Recipes</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-msg"/></svg></span>Campaigns vs. Workflows</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-link"/></svg></span>APIs &amp; Webhooks</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>MCP &amp; AI in GHL</a>
+    <a onclick="goSession(7)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Integrations</a>
+    <a onclick="goSession(8)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Funnels &amp; Forms</a>
+    <a onclick="goSession(9)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Hands-On Lab</a>
   </div>
   <div class="progress">
     <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
@@ -295,28 +338,28 @@
   <section class="slide active" data-ses="0"><div class="slide-inner">
     <div class="eyebrow">Day 7 &middot; Review</div>
     <h1>Day 6 Review</h1>
-    <p class="subtitle">Yesterday you learned to drive GoHighLevel by hand. Today you teach it to drive itself -- while you stay in the driver's seat.</p>
+    <p class="subtitle">Yesterday you learned to drive GoHighLevel by hand. Today you teach it to drive itself, while you stay in the driver's seat.</p>
 
     <div class="review-card">
       <h3>Yesterday's Key Points</h3>
-      <p><strong>GHL is an all-in-one CRM</strong> that replaces a whole stack of separate tools. Work happens inside a <strong>sub-account</strong> (one per client) -- always confirm which one you're in.</p>
+      <p><strong>GHL is an all-in-one CRM</strong> that replaces a whole stack of separate tools. Work happens inside a <strong>sub-account</strong> (one per client). Always confirm which one you're in.</p>
       <p><strong>Contacts are the heart.</strong> Tags organise them, Smart Lists filter them, custom fields store business-specific data.</p>
       <p><strong>Pipelines</strong> track deals through stages. Keeping them clean gives the owner accurate information.</p>
-      <p style="margin:0;"><strong>Conversations</strong> unify SMS, email, and DMs into one thread; <strong>Calendars</strong> handle booking. This is where most VA hours go -- and exactly what we'll automate today.</p>
+      <p style="margin:0;"><strong>Conversations</strong> unify SMS, email, and DMs into one thread; <strong>Calendars</strong> handle booking. This is where most VA hours go, and exactly what we'll automate today.</p>
     </div>
 
     <details>
-      <summary>Quick Check -- Do You Remember?</summary>
+      <summary>Quick Check: Do You Remember?</summary>
       <div>
         <p><strong>Q: What's the difference between the agency account and a sub-account?</strong><br>The agency account is the top level that manages all businesses; a sub-account is one individual client's business, where your daily work happens.</p>
         <p><strong>Q: What's a tag used for?</strong><br>A label on a contact to group, segment, message, and automate. Most automations start with "when a tag is added."</p>
-        <p style="margin:0;"><strong>Q: What lives in the Automation menu?</strong><br>Workflows -- the automation engine. That's today's entire focus.</p>
+        <p style="margin:0;"><strong>Q: What lives in the Automation menu?</strong><br>Workflows: the automation engine. That's today's entire focus.</p>
       </div>
     </details>
 
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-target"/></svg> Today's promise</div>
-      <p style="margin:0;">By the end of Day 7, you'll understand how to build a workflow, recognise the recipes that save the most time, and know how GHL connects to the outside world through APIs, webhooks, MCP, and integration tools -- with AI making the whole thing smarter.</p>
+      <p style="margin:0;">By the end of Day 7, you'll understand how to build a workflow, recognise the recipes that save the most time, and know how GHL connects to the outside world through APIs, webhooks, MCP, and integration tools, with AI making the whole thing smarter.</p>
     </div>
   </div></section>
 
@@ -334,7 +377,7 @@
     <h2>The Three Building Blocks</h2>
 
     <div class="block-item">
-      <div class="block-header"><div class="block-num">1</div><div class="block-name">Trigger -- the "when"</div></div>
+      <div class="block-header"><div class="block-num">1</div><div class="block-name">Trigger: the "when"</div></div>
       <div class="block-body">
         <p>The event that starts the workflow. Nothing happens until a trigger fires. Common triggers:</p>
         <ul style="margin-bottom:0;">
@@ -348,12 +391,12 @@
     </div>
 
     <div class="block-item">
-      <div class="block-header"><div class="block-num">2</div><div class="block-name">Actions -- the "do"</div></div>
+      <div class="block-header"><div class="block-num">2</div><div class="block-name">Actions: the "do"</div></div>
       <div class="block-body">
         <p>What the workflow does once triggered. Actions run in order, top to bottom. Common actions:</p>
         <ul style="margin-bottom:0;">
           <li>Send an SMS or email</li>
-          <li>Wait (a delay -- e.g. "wait 1 day")</li>
+          <li>Wait (a delay, e.g. "wait 1 day")</li>
           <li>Add or remove a tag</li>
           <li>Create or move an opportunity</li>
           <li>Notify the team / assign a task</li>
@@ -363,9 +406,9 @@
     </div>
 
     <div class="block-item">
-      <div class="block-header"><div class="block-num">3</div><div class="block-name">Conditions -- the "only if"</div></div>
+      <div class="block-header"><div class="block-num">3</div><div class="block-name">Conditions: the "only if"</div></div>
       <div class="block-body">
-        <p style="margin:0;">Logic that branches the path. "If/else" splits let a workflow behave differently for different contacts -- e.g. <em>if</em> the lead booked a call, send a confirmation; <em>else</em>, keep following up. Conditions are what make automations feel smart instead of robotic.</p>
+        <p style="margin:0;">Logic that branches the path. "If/else" splits let a workflow behave differently for different contacts, e.g. <em>if</em> the lead booked a call, send a confirmation; <em>else</em>, keep following up. Conditions are what make automations feel smart instead of robotic.</p>
       </div>
     </div>
   </div></section>
@@ -374,19 +417,21 @@
   <section class="slide" data-ses="1"><div class="slide-inner">
     <div class="eyebrow">Day 7 &middot; Session 2</div>
     <h2>A Workflow You Can Picture</h2>
-    <p>Here's the most common automation in all of GHL -- the instant new-lead follow-up:</p>
+    <p>Here's a simple automation you'll see constantly in GHL: a welcome sequence with a wait step built in, shown the way it actually looks in the workflow builder (top to bottom, one step at a time):</p>
 
-    <div class="flow-diagram">
-      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Tag "new-lead" added</div></div>
-      <div class="flow-arrow">&#8594;</div>
-      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send welcome SMS</div></div>
-      <div class="flow-arrow">&#8594;</div>
-      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Wait 5 minutes</div></div>
-      <div class="flow-arrow">&#8594;</div>
-      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send booking-link email</div></div>
+    <div class="flow-diagram flow-v">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">New contact added</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send welcome email</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node flow-wait"><div class="flow-kind">Wait</div><div class="flow-text">Wait 1 day</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send text reminder</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Notify team on Slack</div></div>
     </div>
 
-    <p>The moment a new lead is tagged, they get a text within seconds and an email with a booking link -- 24/7, with zero VA effort. Speed-to-lead like this can double a business's conversion rate.</p>
+    <p>The wait step is what keeps this from feeling robotic: the contact gets a welcome email right away, then a text nudge a full day later, not both at once, while your team gets pinged in Slack to keep an eye on the conversation.</p>
 
     <h2>How to Build One</h2>
     <div class="step-flow">
@@ -399,13 +444,95 @@
 
     <div class="card card-danger">
       <div class="card-head"><svg><use href="#i-alert"/></svg> The #1 automation mistake</div>
-      <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly -- it can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
+      <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly, it can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
     </div>
   </div></section>
 
-  <!-- S2: VA WORKFLOW RECIPES -->
+  <!-- S2: TRIGGERS & ACTIONS REFERENCE -->
   <section class="slide" data-ses="2"><div class="slide-inner">
     <div class="eyebrow">Day 7 &middot; Session 3</div>
+    <h1>Triggers &amp; Actions, the Full Picture</h1>
+    <p class="subtitle">You've seen a handful of triggers and actions already. Here's the fuller reference list, so a client's request never catches you without a starting point.</p>
+
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.05s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#EAB308"><svg><use href="#i-bolt"/></svg></div><div class="n8n-node-title">Trigger</div></div>
+        <div class="n8n-node-sub">Tag added</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.25s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22C55E"><svg><use href="#i-msg"/></svg></div><div class="n8n-node-title">Action</div></div>
+        <div class="n8n-node-sub">Send SMS</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.4s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.45s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#5DA9F4"><svg><use href="#i-clock"/></svg></div><div class="n8n-node-title">Wait</div></div>
+        <div class="n8n-node-sub">5 minutes</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.8s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.65s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22C55E"><svg><use href="#i-check"/></svg></div><div class="n8n-node-title">Action</div></div>
+        <div class="n8n-node-sub">Add tag</div>
+      </div>
+    </div>
+
+    <h2>Common Trigger Types</h2>
+    <table>
+      <thead><tr><th>Trigger</th><th>Fires When&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tag added/removed</strong></td><td>A contact gets (or loses) a specific tag, manually or by another workflow</td></tr>
+        <tr><td><strong>Form/survey submitted</strong></td><td>A lead fills out a form on a funnel, website, or landing page</td></tr>
+        <tr><td><strong>Appointment status changed</strong></td><td>Booked, confirmed, cancelled, or no-show</td></tr>
+        <tr><td><strong>Opportunity stage changed</strong></td><td>A deal moves to a new pipeline stage (e.g. "Won")</td></tr>
+        <tr><td><strong>Inbound call/SMS/email</strong></td><td>A contact reaches out, including missed calls</td></tr>
+        <tr><td><strong>Customer replied</strong></td><td>A contact responds to any message, useful for routing replies to a human</td></tr>
+        <tr><td><strong>Birthday / custom date field</strong></td><td>A stored date matches today, e.g. an anniversary</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Common Action Types</h2>
+    <table>
+      <thead><tr><th>Action</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Send SMS / Email</strong></td><td>Delivers a message, can include merge fields like {{contact.first_name}}</td></tr>
+        <tr><td><strong>Wait</strong></td><td>Pauses for a set time, or until a specific date/condition</td></tr>
+        <tr><td><strong>Add/remove tag</strong></td><td>Updates the contact's tags, often used to hand off to another workflow</td></tr>
+        <tr><td><strong>If/else condition</strong></td><td>Splits the path based on a rule, e.g. "if no reply in 2 days"</td></tr>
+        <tr><td><strong>Create/update opportunity</strong></td><td>Moves a deal through the pipeline automatically</td></tr>
+        <tr><td><strong>Internal notification</strong></td><td>Alerts a team member by SMS, email, or Slack</td></tr>
+        <tr><td><strong>Webhook</strong></td><td>Sends the contact's data out to another tool (covered next session)</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <!-- S2 continued: Reading workflow logic -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 3</div>
+    <h2>Reading the Logic, Not Just the Steps</h2>
+    <p>A workflow with conditions branches into more than one path. The skill isn't memorising every block, it's reading the shape of the logic so you can predict what happens to any given contact.</p>
+
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> Read it like a flowchart</div>
+      <p style="margin:0;">Ask three questions for any workflow: <strong>(1) What starts it?</strong> (the trigger), <strong>(2) Where can it branch?</strong> (every if/else), <strong>(3) Where does each path end?</strong> A contact either reaches the end, gets handed to another workflow via a tag, or sits in a wait step. If you can answer all three, you understand the automation.</p>
+    </div>
+
+    <h2>Quick Drill, Triggers &amp; Actions</h2>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Check Yourself</div>
+      <div class="quiz-q">A client says: "When someone misses our call, text them back automatically." What's the trigger, and what's the action?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="Close, but the contact isn't replying to anything yet, so this can't be the trigger."><span class="qmark"></span><span class="qtext">Trigger: customer replied. Action: send SMS.</span></button>
+        <button class="quiz-opt" data-correct="true" onclick="quizPick(this)" data-why="A missed call is its own trigger type in GHL, and the action that follows is the text-back."><span class="qmark"></span><span class="qtext">Trigger: inbound call missed. Action: send SMS.</span></button>
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A tag isn't involved here at all, nothing in the scenario mentions one."><span class="qmark"></span><span class="qtext">Trigger: tag added. Action: wait 5 minutes.</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S3: VA WORKFLOW RECIPES -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 4</div>
     <h1>VA Workflow Recipes</h1>
     <p class="subtitle">You don't need to invent automations from scratch. These are the proven recipes that cover the vast majority of client needs. Learn these patterns and you can build what 90% of businesses ask for.</p>
 
@@ -423,7 +550,7 @@
       <tbody>
         <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Appointment booked</td></tr>
         <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Confirmation SMS now &rarr; reminder 24h before &rarr; reminder 1h before</td></tr>
-        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Automated reminders are the single biggest lever for cutting no-shows -- often by half.</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>Automated reminders are the single biggest lever for cutting no-shows, often by half.</td></tr>
       </tbody>
     </table>
 
@@ -437,9 +564,9 @@
     </table>
   </div></section>
 
-  <!-- S2 continued: Recipes 4-5 + prompt -->
-  <section class="slide" data-ses="2"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 3</div>
+  <!-- S3 continued: Recipes 4-5 + prompt -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 4</div>
     <h2>Recipe 4: Review Request</h2>
     <table>
       <tbody>
@@ -460,7 +587,7 @@
 
     <div class="callout">
       <div class="callout-icon">&#129504;</div>
-      <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence -- the welcome SMS, the reminder texts, the nurture emails -- in the client's voice, then paste them into the workflow steps. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
+      <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence: the welcome SMS, the reminder texts, the nurture emails, in the client's voice, then paste them into the workflow steps. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
     </div>
 
     <div class="terminal">
@@ -474,53 +601,131 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
     </div>
   </div></section>
 
-  <!-- S3: APIs & WEBHOOKS -->
+  <!-- S3 continued: Recipes 6-7 + quiz -->
   <section class="slide" data-ses="3"><div class="slide-inner">
     <div class="eyebrow">Day 7 &middot; Session 4</div>
+    <h2>Recipe 6: Database Reactivation</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Manually run, or a scheduled tag added to contacts with no activity in 6+ months</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>"We miss you" email with a fresh offer &rarr; wait 3 days &rarr; follow-up text if no click</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>The list a business already has is cheaper to revive than new leads are to acquire.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Recipe 7: Missed-Call Text-Back</h2>
+    <table>
+      <tbody>
+        <tr><td style="color:var(--gold);font-weight:600;width:110px;"><strong>Trigger</strong></td><td>Inbound call goes unanswered</td></tr>
+        <tr><td style="color:var(--accent);font-weight:600;"><strong>Actions</strong></td><td>Instant SMS: "Sorry we missed you, how can we help?" with a booking link</td></tr>
+        <tr><td style="color:var(--ink);font-weight:600;"><strong>Why it matters</strong></td><td>A missed call is a near-lost lead. This recovers a meaningful share of them automatically.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Quick Drill, Pick the Recipe</h2>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Check Yourself</div>
+      <div class="quiz-q">A client says: "Half our old leads from last year never bought. Can we do something with them?" Which recipe fits?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="Internal Notifications is about alerting your team fast, not re-engaging old contacts."><span class="qmark"></span><span class="qtext">Recipe 5: Internal Notifications</span></button>
+        <button class="quiz-opt" data-correct="true" onclick="quizPick(this)" data-why="Cold contacts with no recent activity are exactly what Database Reactivation is built for."><span class="qmark"></span><span class="qtext">Recipe 6: Database Reactivation</span></button>
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="Missed-Call Text-Back responds to a specific event (an unanswered call), not a stale list."><span class="qmark"></span><span class="qtext">Recipe 7: Missed-Call Text-Back</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- S4: BULK CAMPAIGNS VS WORKFLOWS -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 5</div>
+    <h1>Bulk Campaigns vs. Workflows</h1>
+    <p class="subtitle">Before moving past automations, settle one mix-up that trips up almost every new VA: a Campaign and a Workflow look similar but solve opposite problems.</p>
+
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-bolt"/></svg> Workflow, ongoing &amp; triggered</div>
+        Runs continuously in the background. Each contact enters on their own schedule, whenever their trigger fires. Built once, runs forever (recipes 1-7 are all workflows).
+      </div>
+      <div class="col" style="background:var(--gold-soft);border:1px solid rgba(234,179,8,0.25);">
+        <div class="col-label" style="color:var(--gold);"><svg><use href="#i-msg"/></svg> Campaign, one-off &amp; scheduled</div>
+        A single broadcast sent once to a chosen list, e.g. "email everyone on the November newsletter list this Friday at 9am." Everyone gets it at the same time, then it's done.
+      </div>
+    </div>
+
+    <h2>How to Decide</h2>
+    <table>
+      <thead><tr><th>If the request is&hellip;</th><th>Use&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td>"Every new lead should get a welcome text"</td><td><span class="tag-badge">Workflow</span></td></tr>
+        <tr><td>"Tell our whole list about Friday's sale"</td><td><span class="tag-badge tag-badge-gold">Campaign</span></td></tr>
+        <tr><td>"Remind people 24 hours before their appointment"</td><td><span class="tag-badge">Workflow</span></td></tr>
+        <tr><td>"Send this month's newsletter to all subscribers"</td><td><span class="tag-badge tag-badge-gold">Campaign</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-icon">&#128161;</div>
+      <div class="callout-body"><strong>The one-line test:</strong> if it depends on <em>when something happens to a specific contact</em>, it's a Workflow. If it depends on <em>a calendar date for a whole list</em>, it's a Campaign. A client asking for "automation" sometimes really means a one-time blast, ask which one before you build.</div>
+    </div>
+  </div></section>
+
+  <!-- S5: APIs & WEBHOOKS -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 6</div>
     <h1>APIs &amp; Webhooks</h1>
-    <p class="subtitle">These two words scare a lot of VAs. They shouldn't. You don't need to be a programmer -- you need to understand what they do so you can talk about them, set them up from instructions, and know when to reach for them.</p>
+    <p class="subtitle">These two words scare a lot of VAs. They shouldn't. You don't need to be a programmer. You need to understand what they do so you can talk about them, set them up from instructions, and know when to reach for them.</p>
 
     <h2>What's an API? (The Restaurant Analogy)</h2>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-link"/></svg> API = the waiter</div>
-      <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen -- you tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
+      <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen, you tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
     </div>
     <p>When someone says "GHL has an API," they mean: other tools can ask GHL for data (like a contact) or tell GHL to do something (like create a contact) automatically, without a human clicking buttons.</p>
 
-    <h2>Webhook vs. API -- The Key Distinction</h2>
+    <h2>Webhook vs. API: The Key Distinction</h2>
     <div class="compare">
       <div class="col col-strong">
-        <div class="col-label"><svg><use href="#i-arrow"/></svg> API call -- you ASK (pull)</div>
+        <div class="col-label"><svg><use href="#i-arrow"/></svg> API call: you ASK (pull)</div>
         Your tool reaches out and requests something: "Hey GHL, give me this contact's details." You initiate it. Like phoning the kitchen to ask if the food is ready.
       </div>
       <div class="col" style="background:var(--gold-soft);border:1px solid rgba(234,179,8,0.25);">
-        <div class="col-label" style="color:var(--gold);"><svg><use href="#i-bolt"/></svg> Webhook -- it TELLS you (push)</div>
-        GHL automatically pushes data the moment something happens: "A new lead just came in -- here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
+        <div class="col-label" style="color:var(--gold);"><svg><use href="#i-bolt"/></svg> Webhook: it TELLS you (push)</div>
+        GHL automatically pushes data the moment something happens: "A new lead just came in, here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
       </div>
     </div>
 
-    <p><strong>Simple rule:</strong> A <em>webhook</em> is an action <em>inside</em> a GHL workflow that sends data <em>out</em> to another tool the instant a trigger fires. It's the most common way you'll connect GHL to the outside world -- and you set it up by pasting in a URL, not by coding.</p>
-
-    <h2>What This Looks Like in Practice</h2>
-    <div class="flow-diagram">
-      <div class="flow-node flow-trigger"><div class="flow-kind">In GHL</div><div class="flow-text">New lead form submitted</div></div>
-      <div class="flow-arrow">&#8594;</div>
-      <div class="flow-node"><div class="flow-kind">Webhook action</div><div class="flow-text">Push lead data to a URL</div></div>
-      <div class="flow-arrow">&#8594;</div>
-      <div class="flow-node"><div class="flow-kind">Other tool</div><div class="flow-text">Make / Zapier receives it &amp; reacts</div></div>
-    </div>
+    <p><strong>Simple rule:</strong> A <em>webhook</em> is an action <em>inside</em> a GHL workflow that sends data <em>out</em> to another tool the instant a trigger fires. It's the most common way you'll connect GHL to the outside world, and you set it up by pasting in a URL, not by coding.</p>
   </div></section>
 
-  <!-- S3 continued: Where you'll meet APIs + security -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 4</div>
+  <!-- S5 continued: Where you'll meet APIs + security -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 6</div>
+    <h2>What This Looks Like in Practice</h2>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.05s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#EAB308"><svg><use href="#i-bolt"/></svg></div><div class="n8n-node-title">In GHL</div></div>
+        <div class="n8n-node-sub">New lead form submitted</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.25s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#5DA9F4"><svg><use href="#i-link"/></svg></div><div class="n8n-node-title">Webhook action</div></div>
+        <div class="n8n-node-sub">Push lead data to a URL</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.4s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.45s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22C55E"><svg><use href="#i-refresh"/></svg></div><div class="n8n-node-title">Other tool</div></div>
+        <div class="n8n-node-sub">Make / Zapier receives it &amp; reacts</div>
+      </div>
+    </div>
+
     <h2>Where You'll Actually Meet APIs &amp; Webhooks</h2>
     <table>
       <thead><tr><th>Scenario</th><th>What's Happening</th></tr></thead>
       <tbody>
-        <tr><td><strong>Connecting GHL to Make/Zapier</strong></td><td>You paste a webhook URL into a workflow step -- data flows out automatically</td></tr>
+        <tr><td><strong>Connecting GHL to Make/Zapier</strong></td><td>You paste a webhook URL into a workflow step, data flows out automatically</td></tr>
         <tr><td><strong>Setting up an API key</strong></td><td>In Settings, you generate a key that lets another tool securely talk to GHL</td></tr>
-        <tr><td><strong>Following a setup guide</strong></td><td>A tutorial says "add this webhook URL" -- now you know exactly what that means and why</td></tr>
+        <tr><td><strong>Following a setup guide</strong></td><td>A tutorial says "add this webhook URL." Now you know exactly what that means and why</td></tr>
         <tr><td><strong>Troubleshooting</strong></td><td>If data isn't flowing, you can check whether the webhook fired and what it sent</td></tr>
       </tbody>
     </table>
@@ -530,18 +735,18 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       <p style="margin:0;">An API key gives full programmatic access to a client's account. Treat it like a password: never paste it into a public chat, never email it in plain text, never store it where others can see it. If you ever expose one by accident, tell the client immediately so it can be regenerated. This is non-negotiable professional hygiene.</p>
     </div>
 
-    <div class="principle"><div class="badge"><svg><use href="#i-lock"/></svg></div><div class="pl">The Rule</div><p>API keys are credentials, not code. Store them in a password manager or your client's secure settings -- never in a chat message, a doc, or a spreadsheet that others can access.</p></div>
+    <div class="principle"><div class="badge"><svg><use href="#i-lock"/></svg></div><div class="pl">The Rule</div><p>API keys are credentials, not code. Store them in a password manager or your client's secure settings. Never in a chat message, a doc, or a spreadsheet that others can access.</p></div>
   </div></section>
 
-  <!-- S4: MCP & AI IN GHL -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 5</div>
+  <!-- S6: MCP & AI IN GHL -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
     <h1>MCP &amp; AI in GHL</h1>
-    <p class="subtitle">This is where Week 1 and Week 2 finally connect. MCP is the bridge that lets Claude reach directly into GoHighLevel -- so the AI partner you mastered in Week 1 can now work inside the CRM you mastered this week.</p>
+    <p class="subtitle">This is where Week 1 and Week 2 finally connect. MCP is the bridge that lets Claude reach directly into GoHighLevel, so the AI partner you mastered in Week 1 can now work inside the CRM you mastered this week.</p>
 
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-cpu"/></svg> Quick recap from Day 4 &amp; 5</div>
-      <p style="margin:0;"><strong>MCP (Model Context Protocol)</strong> is the standard layer that connects Claude to your tools -- Slack, Gmail, files, and yes, CRMs. With an MCP connection, you can ask Claude in plain English to read or do things inside another app, and it acts -- confirming before anything irreversible.</p>
+      <p style="margin:0;"><strong>MCP (Model Context Protocol)</strong> is the standard layer that connects Claude to your tools: Slack, Gmail, files, and yes, CRMs. With an MCP connection, you can ask Claude in plain English to read or do things inside another app, and it acts, confirming before anything irreversible.</p>
     </div>
 
     <h2>The Three Levels of AI Inside GHL</h2>
@@ -561,93 +766,144 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       <div class="spectrum-cell spectrum-hi">
         <div class="spectrum-label">Level 3</div>
         <div class="spectrum-name">Claude connected via MCP</div>
-        <div class="spectrum-desc">Claude reaches into GHL directly -- reads contacts, drafts replies, updates records -- from one instruction, with your approval.</div>
+        <div class="spectrum-desc">Claude reaches into GHL directly: reads contacts, drafts replies, updates records, from one instruction, with your approval.</div>
       </div>
     </div>
   </div></section>
 
-  <!-- S4 continued: GHL Native AI Suite -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 5</div>
+  <!-- S6 continued: GHL Native AI Suite -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
     <h2>Level 1: GHL's Native AI Suite ("AI Employee")</h2>
-    <p>GHL bundles its built-in AI under the <strong>AI Employee</strong> umbrella. You won't switch all of these on for every client, but you should know what each one does and where it fits. <em>Feature set current as of June 2026 -- GHL ships AI changes almost monthly, so always confirm in-app.</em></p>
+    <p>GHL bundles its built-in AI under the <strong>AI Employee</strong> umbrella. You won't switch all of these on for every client, but you should know what each one does and where it fits. <em>Feature set current as of June 2026. GHL ships AI changes almost monthly, so always confirm in-app.</em></p>
     <table>
       <thead><tr><th>AI Feature</th><th>What It Does</th><th>Your Role as VA</th></tr></thead>
       <tbody>
-        <tr><td><strong>Ask AI</strong></td><td>Talk to the CRM in plain English -- "show today's unbooked leads," "draft replies for the hot ones." It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
+        <tr><td><strong>Ask AI</strong></td><td>Talk to the CRM in plain English: "show today's unbooked leads," "draft replies for the hot ones." It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
         <tr><td><strong>Conversation AI</strong></td><td>Auto-responds to leads and books appointments 24/7 across SMS, email, web chat, Facebook/Instagram DMs &amp; Google Business messages</td><td>Train it on the client's FAQs, set guardrails, review its chats</td></tr>
-        <tr><td><strong>Voice AI</strong></td><td>Answers and makes phone calls to qualify leads and book appointments -- now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
+        <tr><td><strong>Voice AI</strong></td><td>Answers and makes phone calls to qualify leads and book appointments, now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
         <tr><td><strong>Reviews AI</strong></td><td>Automatically drafts replies to Google/Facebook reviews</td><td>Approve the tone before replies post</td></tr>
         <tr><td><strong>Content AI</strong></td><td>Generates emails, social posts &amp; images inside GHL (long-form up to ~2,000 words, plus AI subject-line suggestions)</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
-        <tr><td><strong>Workflow AI</strong></td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations -- summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
+        <tr><td><strong>Workflow AI</strong></td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations: summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
         <tr><td><strong>Funnel &amp; Website AI</strong></td><td>Builds and edits funnels and websites from prompts</td><td>Prompt, then refine layout &amp; copy</td></tr>
-        <tr><td><strong>Agent Studio</strong></td><td>Build custom AI agents with multimodal skills (text, image, video, speech, web search)</td><td>Advanced -- design &amp; test agents; billed separately</td></tr>
+        <tr><td><strong>Agent Studio</strong></td><td>Build custom AI agents with multimodal skills (text, image, video, speech, web search)</td><td>Advanced: design &amp; test agents; billed separately</td></tr>
       </tbody>
     </table>
   </div></section>
 
-  <!-- S4 continued: What's new + pricing + MCP Level 3 -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 5</div>
+  <!-- S6 continued: What's new + pricing + MCP Level 3 -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
     <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-spark"/></svg> What's new in GHL AI -- 2026</div>
+      <div class="card-head"><svg><use href="#i-spark"/></svg> What's new in GHL AI, 2026</div>
       <p style="margin-bottom:8px;">GHL releases AI updates almost every month. The recent ones, so a client can't surprise you:</p>
       <ul style="margin:0;">
-        <li><strong>Ask AI moved into AI Employee with unlimited usage</strong> -- the "talk to your CRM" assistant is now front-and-centre.</li>
+        <li><strong>Ask AI moved into AI Employee with unlimited usage</strong>, the "talk to your CRM" assistant is now front-and-centre.</li>
         <li><strong>Voice AI expanded to 27 languages</strong> (added Portuguese, Italian &amp; German) with sub-second, near-real-time responses.</li>
-        <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic -- describe it in plain English and AI assembles the automation.</li>
-        <li><strong>Content AI 2.0</strong> -- longer, more on-brand content plus automatic email subject-line suggestions.</li>
-        <li><strong>AI Usage Dashboard</strong> -- an agency-level view of AI spend, tokens and usage per sub-account.</li>
-        <li><strong>Billing simplified (May 2026)</strong> -- most "AI Employee Plus" extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
+        <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic, describe it in plain English and AI assembles the automation.</li>
+        <li><strong>Content AI 2.0</strong>: longer, more on-brand content plus automatic email subject-line suggestions.</li>
+        <li><strong>AI Usage Dashboard</strong>: an agency-level view of AI spend, tokens and usage per sub-account.</li>
+        <li><strong>Billing simplified (May 2026)</strong>: most "AI Employee Plus" extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
       </ul>
     </div>
 
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-alert"/></svg> Pricing in one breath (so you can answer a client)</div>
-      <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing -- but knowing what's roughly included keeps you credible when a client asks "is this extra?"</p>
+      <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing, but knowing what's roughly included keeps you credible when a client asks "is this extra?"</p>
     </div>
 
     <h2>Level 3: Connecting Claude to GHL via MCP</h2>
-    <p>This is the frontier. When GHL is connected to Claude through an MCP server, you can do things like:</p>
+    <p>This is the frontier. MCP is the bridge that lets one AI reach into many of your tools at once, GHL is just one of them:</p>
+
+    <div class="kc-converge-wrap">
+      <div class="kc-converge">
+        <div class="kc-pill" style="--d:.05s"><svg><use href="#i-cpu"/></svg>GHL</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:0s"></div></div>
+        <div class="kc-pill" style="--d:.2s"><svg><use href="#i-msg"/></svg>Slack</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.3s"></div></div>
+        <div class="kc-kc-badge"><svg><use href="#i-link"/></svg>MCP</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.6s"></div></div>
+        <div class="kc-pill" style="--d:.35s"><svg><use href="#i-book"/></svg>Files</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.9s"></div></div>
+        <div class="kc-pill" style="--d:.5s"><svg><use href="#i-grid"/></svg>Gmail</div>
+      </div>
+      <div class="kc-converge-label">One Claude conversation, many connected tools</div>
+    </div>
 
     <div class="terminal">
       <div class="terminal-bar"><div class="terminal-dot red"></div><div class="terminal-dot yellow"></div><div class="terminal-dot green"></div><div class="terminal-title">Imagine asking Claude</div></div>
       <div class="terminal-body"><span class="ccmt">Pull the 5 newest leads from [client]'s GHL account. For each, draft a personalised
 first-touch SMS in their voice, and tell me which look highest-intent based on the
-form answers. Don't send anything yet -- show me first.</span></div>
+form answers. Don't send anything yet. Show me first.</span></div>
     </div>
 
-    <p>Claude reads the CRM, drafts the work, and queues it for your review -- the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
+    <p>Claude reads the CRM, drafts the work, and queues it for your review, the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
 
     <div class="step-flow">
-      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup -- you may follow a guide or have it provided.</p></div></div>
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup, you may follow a guide or have it provided.</p></div></div>
       <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>You ask in plain English</strong><p>No code. "Show me today's unanswered conversations." "Draft replies for the hot leads."</p></div></div>
       <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Claude acts, you approve</strong><p>It reads and drafts freely, but confirms before sending, updating, or deleting anything. You remain the human in the loop.</p></div></div>
     </div>
 
     <div class="callout">
       <div class="callout-icon">&#9888;</div>
-      <div class="callout-body"><strong>Oversight scales with power (Day 5).</strong> An AI that can act inside a live CRM is powerful -- which means your review matters <em>more</em>, not less. Connected AI is for drafting and surfacing; sending to real leads and changing records still passes through you. Never let Conversation AI or an MCP action run unsupervised on a new client until you've watched it behave correctly.</div>
+      <div class="callout-body"><strong>Oversight scales with power (Day 5).</strong> An AI that can act inside a live CRM is powerful, which means your review matters <em>more</em>, not less. Connected AI is for drafting and surfacing; sending to real leads and changing records still passes through you. Never let Conversation AI or an MCP action run unsupervised on a new client until you've watched it behave correctly.</div>
     </div>
 
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-book"/></svg> What you actually need to know today</div>
-      <p style="margin:0;">You don't have to build MCP connections from scratch. You need to (1) understand that the bridge exists, (2) know what becomes possible when Claude and GHL are connected, and (3) apply the same oversight discipline you already learned. The setup is technical; the judgment is yours -- and the judgment is the valuable part.</p>
+      <p style="margin:0;">You don't have to build MCP connections from scratch. You need to (1) understand that the bridge exists, (2) know what becomes possible when Claude and GHL are connected, and (3) apply the same oversight discipline you already learned. The setup is technical; the judgment is yours, and the judgment is the valuable part.</p>
     </div>
   </div></section>
 
-  <!-- S5: INTEGRATIONS -->
-  <section class="slide" data-ses="5"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 6</div>
+  <!-- S6 continued: Terminology quiz -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 7</div>
+    <h2>Quick Drill, Name the Layer</h2>
+    <p>Three terms came up this session: API, webhook, and MCP. Each describes a different kind of connection. Test which is which.</p>
+
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Check Yourself</div>
+      <div class="quiz-q">"Claude reads your GHL conversations and drafts replies, right inside your chat with it." Which layer makes this possible?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A webhook only pushes data out the instant a trigger fires, it can't hold an open back-and-forth with Claude."><span class="qmark"></span><span class="qtext">A webhook inside a GHL workflow</span></button>
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A raw API call is a single request/response, not the kind of ongoing, plain-English connection described here."><span class="qmark"></span><span class="qtext">A direct API call</span></button>
+        <button class="quiz-opt" data-correct="true" onclick="quizPick(this)" data-why="This is exactly Level 3, MCP, the standard bridge that lets Claude read and act inside a connected tool from plain English."><span class="qmark"></span><span class="qtext">An MCP connection</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Try again</button>
+    </div>
+
+    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">Tell them apart</div><p>API: you ask, it answers. Webhook: it tells you, unprompted, the moment something happens. MCP: a standing bridge that lets an AI use either of those, in plain English, with your approval.</p></div>
+  </div></section>
+
+  <!-- S7: INTEGRATIONS -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 8</div>
     <h1>Integrations</h1>
     <p class="subtitle">No tool does everything. The power comes from connecting GHL to the other apps a business already uses. Here's the integration landscape and how to choose the right connector.</p>
+
+    <div class="kc-converge-wrap">
+      <div class="kc-converge">
+        <div class="kc-pill" style="--d:.05s"><svg><use href="#i-msg"/></svg>Slack</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:0s"></div></div>
+        <div class="kc-pill" style="--d:.2s"><svg><use href="#i-grid"/></svg>Sheets</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.3s"></div></div>
+        <div class="kc-kc-badge"><svg><use href="#i-cpu"/></svg>GHL</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.6s"></div></div>
+        <div class="kc-pill" style="--d:.35s"><svg><use href="#i-book"/></svg>ClickUp</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.9s"></div></div>
+        <div class="kc-pill" style="--d:.5s"><svg><use href="#i-bolt"/></svg>Stripe</div>
+      </div>
+      <div class="kc-converge-label">One CRM, connected to everything a client already runs</div>
+    </div>
 
     <h2>Three Ways to Connect GHL to Other Tools</h2>
 
     <div class="block-item">
       <div class="block-header"><div class="block-num">1</div><div class="block-name">Native integrations</div></div>
       <div class="block-body">
-        <p style="margin:0;">Built right into GHL -- connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
+        <p style="margin:0;">Built right into GHL, connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
       </div>
     </div>
 
@@ -665,6 +921,13 @@ form answers. Don't send anything yet -- show me first.</span></div>
       </div>
     </div>
 
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">4</div><div class="block-name">Marketplace apps</div></div>
+      <div class="block-body">
+        <p style="margin:0;">Third-party tools built specifically for GHL (call tracking, proposal software, review widgets) listed in the GHL App Marketplace. They install with an API key or one-click auth, more setup than a native toggle, but no middleman tool required.</p>
+      </div>
+    </div>
+
     <h2>Common Integrations You'll Set Up</h2>
     <table>
       <thead><tr><th>Connect GHL To&hellip;</th><th>So That&hellip;</th><th>Method</th></tr></thead>
@@ -675,20 +938,93 @@ form answers. Don't send anything yet -- show me first.</span></div>
         <tr><td><strong>Slack</strong></td><td>Hot-lead alerts post to a channel</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
         <tr><td><strong>ClickUp / Notion</strong></td><td>Won deals create onboarding tasks</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
         <tr><td><strong>Google Sheets</strong></td><td>Leads log to a sheet for reporting</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
+        <tr><td><strong>QuickBooks</strong></td><td>Invoices &amp; payments sync to the books automatically</td><td><span class="tag-badge tag-badge-gold">Zapier/Make</span></td></tr>
       </tbody>
     </table>
 
     <div class="callout">
       <div class="callout-icon">&#128161;</div>
-      <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job -- flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
+      <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job, flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
     </div>
   </div></section>
 
-  <!-- S6: HANDS-ON LAB -->
-  <section class="slide" data-ses="6"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 7</div>
+  <!-- S7 continued: Integration troubleshooting -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 8</div>
+    <h2>When an Integration Stops Working</h2>
+    <p>Integrations break quietly, not loudly. A Zapier connection can sit "on" for weeks after a step inside it silently fails. Knowing how to triage saves you from guessing.</p>
+
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Confirm the trigger actually fired</strong><p>In GHL, check the workflow's enrollment history. If the contact never entered the workflow, the problem is upstream of the integration entirely.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Check the webhook log</strong><p>Most workflow steps show whether the webhook fired and what data it sent. If it fired but the other tool didn't react, the problem is on the receiving end.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Open the Zapier/Make run history</strong><p>Both tools log every run, including failed ones, with the exact error. This is usually where the real answer is.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Re-test with a fresh test contact</strong><p>Reproduce it live rather than guessing. If it works for the test contact, ask what's different about the original one (missing field, bad phone format, etc.).</p></div></div>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The most common culprit</div>
+      <p style="margin:0;">A field GHL sends as blank or differently formatted than the other tool expects, e.g. a phone number missing a country code. Most "broken integration" tickets turn out to be a data-format mismatch, not a connection failure.</p>
+    </div>
+  </div></section>
+
+  <!-- S8: FUNNELS & FORMS AS AUTOMATION ENTRY POINTS -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 9</div>
+    <h1>Funnels &amp; Forms, Where Triggers Start</h1>
+    <p class="subtitle">Every recipe today started with a trigger. Forms and funnels are where most of those triggers are actually born, so a quick look at both closes the loop.</p>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">1</div><div class="block-name">Forms &amp; surveys</div></div>
+      <div class="block-body">
+        <p style="margin:0;">A form is a single page of fields (name, email, "what service do you need?"). A survey is a multi-step version of the same idea. Both live inside a funnel or website page, and submitting one is one of the most common workflow triggers there is.</p>
+      </div>
+    </div>
+
+    <div class="block-item">
+      <div class="block-header"><div class="block-num">2</div><div class="block-name">Funnels</div></div>
+      <div class="block-body">
+        <p style="margin:0;">A funnel is a small sequence of pages built to move a visitor toward one action, e.g. a landing page &rarr; a booking page &rarr; a thank-you page. GHL's funnel builder is drag-and-drop, no coding required.</p>
+      </div>
+    </div>
+
+    <h2>The Chain You Now Understand End to End</h2>
+    <div class="flow-diagram flow-v">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Funnel</div><div class="flow-text">Visitor lands on a page</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Form</div><div class="flow-text">Visitor submits their info</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Trigger</div><div class="flow-text">Form submitted fires the workflow</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Recipe 1 takes over from here</div></div>
+    </div>
+
+    <p style="margin:0;">This is the full picture: a funnel brings the visitor in, a form captures them, a trigger hands them to a workflow, and the recipes you learned today take it from there.</p>
+  </div></section>
+
+  <!-- S8 continued: Your role with funnels and forms -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 9</div>
+    <h2>Your Role as a VA</h2>
+    <p>You're rarely designing a funnel from scratch. You're far more often editing one, adding a field to a form, or troubleshooting why a submission didn't trigger anything.</p>
+
+    <table>
+      <thead><tr><th>Task</th><th>What You're Actually Doing</th></tr></thead>
+      <tbody>
+        <tr><td><strong>"Add a phone field to the form"</strong></td><td>Open the form editor, drag in a phone field, mark it required, save</td></tr>
+        <tr><td><strong>"The funnel isn't capturing leads"</strong></td><td>Check the form's submit action is linked to a workflow trigger, not just saving silently</td></tr>
+        <tr><td><strong>"Swap this image on the landing page"</strong></td><td>Open the funnel's page editor, replace the element, republish</td></tr>
+        <tr><td><strong>"Duplicate this funnel for a new offer"</strong></td><td>Clone it, update copy and the linked workflow trigger, publish under a new URL</td></tr>
+      </tbody>
+    </table>
+
+    <div class="principle"><div class="badge"><svg><use href="#i-link"/></svg></div><div class="pl">The connection that matters</div><p>A funnel without a form can't trigger anything. A form without a linked workflow just sits in a contact record doing nothing. Always trace the full chain: page &rarr; form &rarr; trigger &rarr; workflow.</p></div>
+  </div></section>
+
+  <!-- S9: HANDS-ON LAB -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 10</div>
     <h1>Hands-On Lab</h1>
-    <p class="subtitle">Today's exercises move from reading automations to designing them. Build on test contacts only -- never publish an untested workflow against real leads.</p>
+    <p class="subtitle">Today's exercises move from reading automations to designing them. Build on test contacts only. Never publish an untested workflow against real leads.</p>
 
     <div class="exercise">
       <div class="ex-head"><div class="ex-badge"><svg><use href="#i-book"/></svg> Exercise 1</div><div class="ex-title">Read a Workflow</div></div>
@@ -707,6 +1043,11 @@ form answers. Don't send anything yet -- show me first.</span></div>
       <p style="margin:0;">Enroll your test contact, watch it run end-to-end, and confirm you received both messages.</p>
     </div>
 
+  </div></section>
+
+  <!-- S9 continued: Exercises 3-6 -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 10</div>
     <div class="exercise">
       <div class="ex-head"><div class="ex-badge"><svg><use href="#i-spark"/></svg> Exercise 3</div><div class="ex-title">Write the Copy with Claude</div></div>
       <p style="margin:0;">Use the prompt from the Recipes section (or write your own) to have Claude draft a full appointment-reminder sequence in a client's voice. Then paste each message into the matching workflow step. Notice how you build the logic and Claude supplies the words.</p>
@@ -727,11 +1068,16 @@ form answers. Don't send anything yet -- show me first.</span></div>
       </ol>
       <p style="margin:0;">This is a direct warm-up for Day 8, where PM tools and Slack/messaging integrations take center stage.</p>
     </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-link"/></svg> Exercise 6</div><div class="ex-title">Trace a Form to Its Trigger</div></div>
+      <p style="margin:0;">Find a form or survey in a sub-account. Submit it as a test contact, then go check: did a workflow actually trigger? If yes, which one, and what did it do? If nothing happened, that's a real "form without a linked workflow" case, exactly what today's Funnels &amp; Forms session warned about.</p>
+    </div>
   </div></section>
 
-  <!-- S6 continued: Homework + completion -->
-  <section class="slide" data-ses="6"><div class="slide-inner">
-    <div class="eyebrow">Day 7 &middot; Session 7</div>
+  <!-- S9 continued: Homework + completion -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 7 &middot; Session 10</div>
     <h2>Homework Before Day 8</h2>
 
     <div class="card card-accent">
@@ -743,12 +1089,12 @@ form answers. Don't send anything yet -- show me first.</span></div>
 
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-target"/></svg> Day 7 Complete</div>
-      <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations -- the full integrated command center.</strong></p>
+      <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations, the full integrated command center.</strong></p>
     </div>
 
     <div class="qa" style="margin-top:8px;padding:16px">
       <h3>Day 7 Q&amp;A</h3>
-      <p>Bring your questions on workflows, webhooks, and MCP. Day 8 builds on everything you've done this week -- the full connected VA command center.</p>
+      <p>Bring your questions on workflows, webhooks, and MCP. Day 8 builds on everything you've done this week, the full connected VA command center.</p>
       <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 8 <svg><use href="#i-arrow"/></svg></button>
     </div>
   </div></section>
@@ -758,7 +1104,7 @@ form answers. Don't send anything yet -- show me first.</span></div>
   <div class="deckbar">
     <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
     <div class="db-label" id="dbLabel">Day 6 Review</div>
-    <div class="db-count" id="dbCount"><strong>1</strong> / 13</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 22</div>
     <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
 </div>
@@ -788,7 +1134,7 @@ function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBad
 function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
 kpCheckAccess();
 function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
-const sesNames=['Day 6 Review','Workflow Fundamentals','VA Workflow Recipes','APIs & Webhooks','MCP & AI in GHL','Integrations','Hands-On Lab'];
+const sesNames=['Day 6 Review','Workflow Fundamentals','Triggers & Actions','VA Workflow Recipes','Campaigns vs. Workflows','APIs & Webhooks','MCP & AI in GHL','Integrations','Funnels & Forms','Hands-On Lab'];
 const slides=[...document.querySelectorAll('.slide')];
 const navLinks=[...document.querySelectorAll('#nav a')];
 const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
