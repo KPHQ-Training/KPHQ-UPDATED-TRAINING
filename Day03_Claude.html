@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -441,11 +441,10 @@
     <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
     <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
     <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
-    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
     <div class="ref">
-      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
       <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
-      <a href="https://kphq-updated-training.vercel.app/Tools_By_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
       <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
     </div>
   </div>
@@ -1028,7 +1027,7 @@
 </div>
 
 <script>
-const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 3', UNLOCK_DATE:'2026-06-10', PREV_DAY_KEY:'' };
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 3', UNLOCK_DATE:'2026-06-24', PREV_DAY_KEY:'' };
 const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html';
 
 /* ---- KeyPlayers attendance + completion tracking ---- */
@@ -1156,8 +1155,9 @@ function kpShowAdminBadge(){
 }
 function kpCheckAccess(){
   if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
-  var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');
-  if(new Date()<unlock){
+  if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}
+  var unlock=new Date(CONFIG.UNLOCK_DATE+'T07:30:00');
+  if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
     var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
     document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
@@ -1312,3 +1312,4 @@ setInterval(function(){
 </script>
 </body>
 </html>
+

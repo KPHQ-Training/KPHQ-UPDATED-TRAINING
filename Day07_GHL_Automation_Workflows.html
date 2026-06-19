@@ -321,9 +321,8 @@
     <a class="current"><span class="cn">Day 7</span> GHL Automation Workflows</a>
     <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
     <a href="https://kphq-updated-training.vercel.app/Day09_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
-    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Assessment</a>
     <div class="ref">
-      <a href="https://kphq-updated-training.vercel.app/Security_And_Compliance.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Compliance</a>
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
       <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
       <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
     </div>
@@ -444,7 +443,7 @@
 
     <div class="card card-danger">
       <div class="card-head"><svg><use href="#i-alert"/></svg> The #1 automation mistake</div>
-      <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly, it can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
+      <p style="margin:0;">Never publish a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly. It can text hundreds of real leads the wrong message, at 3am, on repeat. Test, watch it run end-to-end, <em>then</em> go live. (Remember Day 5: "I automated too early" is a real and costly mistake.)</p>
     </div>
   </div></section>
 
@@ -509,7 +508,7 @@
   <section class="slide" data-ses="2"><div class="slide-inner">
     <div class="eyebrow">Day 7 &middot; Session 3</div>
     <h2>Reading the Logic, Not Just the Steps</h2>
-    <p>A workflow with conditions branches into more than one path. The skill isn't memorising every block, it's reading the shape of the logic so you can predict what happens to any given contact.</p>
+    <p>A workflow with conditions branches into more than one path. The skill isn't memorising every block. It's reading the shape of the logic so you can predict what happens to any given contact.</p>
 
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-compass"/></svg> Read it like a flowchart</div>
@@ -523,7 +522,7 @@
       <div class="quiz-opts">
         <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="Close, but the contact isn't replying to anything yet, so this can't be the trigger."><span class="qmark"></span><span class="qtext">Trigger: customer replied. Action: send SMS.</span></button>
         <button class="quiz-opt" data-correct="true" onclick="quizPick(this)" data-why="A missed call is its own trigger type in GHL, and the action that follows is the text-back."><span class="qmark"></span><span class="qtext">Trigger: inbound call missed. Action: send SMS.</span></button>
-        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A tag isn't involved here at all, nothing in the scenario mentions one."><span class="qmark"></span><span class="qtext">Trigger: tag added. Action: wait 5 minutes.</span></button>
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A tag isn't involved here at all; nothing in the scenario mentions one."><span class="qmark"></span><span class="qtext">Trigger: tag added. Action: wait 5 minutes.</span></button>
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Try again</button>
@@ -587,7 +586,7 @@
 
     <div class="callout">
       <div class="callout-icon">&#129504;</div>
-      <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence: the welcome SMS, the reminder texts, the nurture emails, in the client's voice, then paste them into the workflow steps. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
+      <div class="callout-body"><strong>Where Claude fits:</strong> You don't have to write all that copy yourself. Ask Claude to draft the full message sequence (the welcome SMS, the reminder texts, the nurture emails) in the client's voice, then paste each into the matching workflow step. You build the logic; Claude writes the words. (This is the AI + Automation stack from Day 5, applied to GHL.)</div>
     </div>
 
     <div class="terminal">
@@ -666,7 +665,7 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
 
     <div class="callout">
       <div class="callout-icon">&#128161;</div>
-      <div class="callout-body"><strong>The one-line test:</strong> if it depends on <em>when something happens to a specific contact</em>, it's a Workflow. If it depends on <em>a calendar date for a whole list</em>, it's a Campaign. A client asking for "automation" sometimes really means a one-time blast, ask which one before you build.</div>
+      <div class="callout-body"><strong>The one-line test:</strong> if it depends on <em>when something happens to a specific contact</em>, it's a Workflow. If it depends on <em>a calendar date for a whole list</em>, it's a Campaign. A client asking for "automation" sometimes really means a one-time blast. Ask which one before you build.</div>
     </div>
   </div></section>
 
@@ -679,7 +678,7 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
     <h2>What's an API? (The Restaurant Analogy)</h2>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-link"/></svg> API = the waiter</div>
-      <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen, you tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
+      <p style="margin:0;">You (one app) sit at a table. The kitchen (another app) has what you want. You don't barge into the kitchen. You tell the <strong>waiter (the API)</strong> your order, and the waiter brings back exactly what you asked for. An <em>API</em> (Application Programming Interface) is just the messenger that lets two apps talk to each other in a structured, agreed-upon way.</p>
     </div>
     <p>When someone says "GHL has an API," they mean: other tools can ask GHL for data (like a contact) or tell GHL to do something (like create a contact) automatically, without a human clicking buttons.</p>
 
@@ -691,7 +690,7 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       </div>
       <div class="col" style="background:var(--gold-soft);border:1px solid rgba(234,179,8,0.25);">
         <div class="col-label" style="color:var(--gold);"><svg><use href="#i-bolt"/></svg> Webhook: it TELLS you (push)</div>
-        GHL automatically pushes data the moment something happens: "A new lead just came in, here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
+        GHL automatically pushes data the moment something happens: "A new lead just came in. Here are their details." You don't ask; it notifies you. Like the kitchen ringing a bell when the food's up.
       </div>
     </div>
 
@@ -766,7 +765,7 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       <div class="spectrum-cell spectrum-hi">
         <div class="spectrum-label">Level 3</div>
         <div class="spectrum-name">Claude connected via MCP</div>
-        <div class="spectrum-desc">Claude reaches into GHL directly: reads contacts, drafts replies, updates records, from one instruction, with your approval.</div>
+        <div class="spectrum-desc">Claude reaches into GHL directly: it reads contacts, drafts replies, and updates records, all from one instruction, with your approval.</div>
       </div>
     </div>
   </div></section>
@@ -781,7 +780,7 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       <tbody>
         <tr><td><strong>Ask AI</strong></td><td>Talk to the CRM in plain English: "show today's unbooked leads," "draft replies for the hot ones." It can prepare and take actions across the account, with your approval.</td><td>Your fastest way to operate GHL; always review prepared actions before approving</td></tr>
         <tr><td><strong>Conversation AI</strong></td><td>Auto-responds to leads and books appointments 24/7 across SMS, email, web chat, Facebook/Instagram DMs &amp; Google Business messages</td><td>Train it on the client's FAQs, set guardrails, review its chats</td></tr>
-        <tr><td><strong>Voice AI</strong></td><td>Answers and makes phone calls to qualify leads and book appointments, now 27 languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
+        <tr><td><strong>Voice AI</strong></td><td>Answers and makes phone calls to qualify leads and book appointments, supports 50+ languages, near-real-time responses</td><td>Write/optimise its prompt; monitor call outcomes</td></tr>
         <tr><td><strong>Reviews AI</strong></td><td>Automatically drafts replies to Google/Facebook reviews</td><td>Approve the tone before replies post</td></tr>
         <tr><td><strong>Content AI</strong></td><td>Generates emails, social posts &amp; images inside GHL (long-form up to ~2,000 words, plus AI subject-line suggestions)</td><td>Prompt it, then edit for voice &amp; accuracy</td></tr>
         <tr><td><strong>Workflow AI</strong></td><td>Builds workflows from a plain-English prompt (Workflow AI Builder) and adds AI steps inside automations: summarise, translate, detect intent, decide</td><td>Describe the automation; check the logic it builds</td></tr>
@@ -798,22 +797,22 @@ Match [client name]'s voice. Use {{contact.first_name}} and {{appointment.time}}
       <div class="card-head"><svg><use href="#i-spark"/></svg> What's new in GHL AI, 2026</div>
       <p style="margin-bottom:8px;">GHL releases AI updates almost every month. The recent ones, so a client can't surprise you:</p>
       <ul style="margin:0;">
-        <li><strong>Ask AI moved into AI Employee with unlimited usage</strong>, the "talk to your CRM" assistant is now front-and-centre.</li>
-        <li><strong>Voice AI expanded to 27 languages</strong> (added Portuguese, Italian &amp; German) with sub-second, near-real-time responses.</li>
+        <li><strong>Ask AI is available on every plan</strong>, with extra included usage on AI Employee Unlimited, the "talk to your CRM" assistant is now front-and-centre.</li>
+        <li><strong>Voice AI now supports 50+ languages</strong>, with sub-second, near-real-time responses.</li>
         <li><strong>Workflow AI Builder</strong> now handles more complex, conditional logic, describe it in plain English and AI assembles the automation.</li>
-        <li><strong>Content AI 2.0</strong>: longer, more on-brand content plus automatic email subject-line suggestions.</li>
-        <li><strong>AI Usage Dashboard</strong>: an agency-level view of AI spend, tokens and usage per sub-account.</li>
-        <li><strong>Billing simplified (May 2026)</strong>: most "AI Employee Plus" extras (Voice AI Outbound, Voice Widget, Prompt Optimizer) are now included in the main plan; Agent Studio stays pay-per-use.</li>
+        <li><strong>Content AI</strong>: longer, more on-brand content plus automatic email subject-line suggestions.</li>
+        <li><strong>AI Suite</strong> (the AI usage dashboard): an agency-level view of AI spend, tokens, transactions and usage per sub-account.</li>
+        <li><strong>Voice AI Outbound, the Voice Widget, and the Prompt Optimizer are all unlimited on the $97/month plan</strong>; Agent Studio is the one feature that stays pay-per-use on every plan.</li>
       </ul>
     </div>
 
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-alert"/></svg> Pricing in one breath (so you can answer a client)</div>
-      <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, inbound Voice AI, Reviews AI, Content AI and Ask AI under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing, but knowing what's roughly included keeps you credible when a client asks "is this extra?"</p>
+      <p style="margin:0;"><strong>AI Employee Unlimited</strong> is about <strong>$97/month per sub-account</strong> and covers Conversation AI, Voice AI (inbound, outbound &amp; widget), Reviews AI, Content AI, and extra Ask AI usage, under fair-use limits. A few things are pay-per-use (token-based), and <strong>Agent Studio is always billed separately</strong>. Phone calls still cost normal telephony charges on top. You don't set the pricing, but knowing what's roughly included keeps you credible when a client asks "is this extra?"</p>
     </div>
 
     <h2>Level 3: Connecting Claude to GHL via MCP</h2>
-    <p>This is the frontier. MCP is the bridge that lets one AI reach into many of your tools at once, GHL is just one of them:</p>
+    <p>This is the frontier. MCP is the bridge that lets one AI reach into many of your tools at once; GHL is just one of them:</p>
 
     <div class="kc-converge-wrap">
       <div class="kc-converge">
@@ -837,10 +836,10 @@ first-touch SMS in their voice, and tell me which look highest-intent based on t
 form answers. Don't send anything yet. Show me first.</span></div>
     </div>
 
-    <p>Claude reads the CRM, drafts the work, and queues it for your review, the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
+    <p>Claude reads the CRM, drafts the work, and queues it for your review: the agentic pattern from Day 5, now pointed at GoHighLevel.</p>
 
     <div class="step-flow">
-      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup, you may follow a guide or have it provided.</p></div></div>
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>A connection is set up</strong><p>An MCP server links Claude to GHL (often via the GHL API key or an official connector). This is usually a one-time technical setup. You may follow a guide or have it provided.</p></div></div>
       <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>You ask in plain English</strong><p>No code. "Show me today's unanswered conversations." "Draft replies for the hot leads."</p></div></div>
       <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Claude acts, you approve</strong><p>It reads and drafts freely, but confirms before sending, updating, or deleting anything. You remain the human in the loop.</p></div></div>
     </div>
@@ -866,7 +865,7 @@ form answers. Don't send anything yet. Show me first.</span></div>
       <div class="quiz-tag"><svg><use href="#i-target"/></svg> Check Yourself</div>
       <div class="quiz-q">"Claude reads your GHL conversations and drafts replies, right inside your chat with it." Which layer makes this possible?</div>
       <div class="quiz-opts">
-        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A webhook only pushes data out the instant a trigger fires, it can't hold an open back-and-forth with Claude."><span class="qmark"></span><span class="qtext">A webhook inside a GHL workflow</span></button>
+        <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A webhook only pushes data out the instant a trigger fires; it can't hold an open back-and-forth with Claude."><span class="qmark"></span><span class="qtext">A webhook inside a GHL workflow</span></button>
         <button class="quiz-opt" data-correct="false" onclick="quizPick(this)" data-why="A raw API call is a single request/response, not the kind of ongoing, plain-English connection described here."><span class="qmark"></span><span class="qtext">A direct API call</span></button>
         <button class="quiz-opt" data-correct="true" onclick="quizPick(this)" data-why="This is exactly Level 3, MCP, the standard bridge that lets Claude read and act inside a connected tool from plain English."><span class="qmark"></span><span class="qtext">An MCP connection</span></button>
       </div>
@@ -903,7 +902,7 @@ form answers. Don't send anything yet. Show me first.</span></div>
     <div class="block-item">
       <div class="block-header"><div class="block-num">1</div><div class="block-name">Native integrations</div></div>
       <div class="block-body">
-        <p style="margin:0;">Built right into GHL, connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
+        <p style="margin:0;">Built right into GHL. Connect with a few clicks in Settings. Examples: Google/Outlook calendar sync, Stripe payments, Facebook &amp; Instagram, Google My Business, Mailgun. Always check for a native integration first; it's the most reliable.</p>
       </div>
     </div>
 
@@ -944,7 +943,7 @@ form answers. Don't send anything yet. Show me first.</span></div>
 
     <div class="callout">
       <div class="callout-icon">&#128161;</div>
-      <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job, flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
+      <div class="callout-body"><strong>The decision order:</strong> (1) Is there a native integration? Use it. (2) No? Can Zapier or Make connect them? Use that. (3) Still no? It's a custom API job. Flag it to the client or a developer. Working top-down keeps things simple and reliable.</div>
     </div>
   </div></section>
 
@@ -1089,12 +1088,12 @@ form answers. Don't send anything yet. Show me first.</span></div>
 
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-target"/></svg> Day 7 Complete</div>
-      <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations, the full integrated command center.</strong></p>
+      <p style="margin:0;">You can now read and build GHL workflows, you understand APIs, webhooks, and MCP without fear, and you know how to connect GHL to the rest of a business's stack. You've turned GoHighLevel from a tool you operate into a system that runs itself. Tomorrow: <strong>AI meeting note-takers, project-management tools, and Slack / WhatsApp / Telegram automations: the full integrated command center.</strong></p>
     </div>
 
     <div class="qa" style="margin-top:8px;padding:16px">
       <h3>Day 7 Q&amp;A</h3>
-      <p>Bring your questions on workflows, webhooks, and MCP. Day 8 builds on everything you've done this week, the full connected VA command center.</p>
+      <p>Bring your questions on workflows, webhooks, and MCP. Day 8 builds on everything you've done this week: the full connected VA command center.</p>
       <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 8 <svg><use href="#i-arrow"/></svg></button>
     </div>
   </div></section>
@@ -1110,7 +1109,7 @@ form answers. Don't send anything yet. Show me first.</span></div>
 </div>
 
 <script>
-const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 7',UNLOCK_DATE:'2026-06-12',PREV_DAY_KEY:''};
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 7',UNLOCK_DATE:'2026-06-30',PREV_DAY_KEY:''};
 const NEXT_DECK='https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html';
 const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 8',TOKEN:'',BEACON_ON_OPEN:true};
 let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
@@ -1131,7 +1130,7 @@ const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations
 function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
 function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
-function kpCheckAccess(){if(new URLSearchParams(window.location.search).has('admin')){kpShowAdminBadge();return;}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00');if(new Date()<unlock){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+function kpCheckAccess(){var _p=new URLSearchParams(window.location.search);if(_p.has('admin')){kpShowAdminBadge();return;}if(_p.has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=new Date(CONFIG.UNLOCK_DATE+'T07:30:00');if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
 kpCheckAccess();
 function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
 const sesNames=['Day 6 Review','Workflow Fundamentals','Triggers & Actions','VA Workflow Recipes','Campaigns vs. Workflows','APIs & Webhooks','MCP & AI in GHL','Integrations','Funnels & Forms','Hands-On Lab'];
@@ -1154,3 +1153,4 @@ render();
 </script>
 </body>
 </html>
+
