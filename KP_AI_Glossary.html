@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
 <title>KeyPlayers VA Academy | AI Glossary</title>
@@ -9,140 +6,77 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#070B09; --panel:#0E1512; --panel-2:#121A15; --surface:#0A100D;
-    --border:#1A2620; --border-2:#24332C;
-    --ink:#EAF0EC; --text:#B8C5BD; --muted:#94A49B; --dim:#5C6B62;
-    --accent:#22C55E; --accent-2:#34D399;
-    --blue:#5DA9F4; --violet:#A78BFA; --teal:#2DD4BF; --gold:#EAB308; --red:#F87171;
-  }
-  *{ box-sizing:border-box; }
-  body{
-    font-family:'Inter',system-ui,-apple-system,sans-serif;
-    font-size:15px; color:var(--text); background:var(--bg);
-    margin:0; padding:0; line-height:1.7; -webkit-font-smoothing:antialiased;
-  }
-
-  /* COVER */
-  .cover{
-    background:radial-gradient(900px 400px at 50% -20%,rgba(34,197,94,0.10),transparent 60%),linear-gradient(180deg,#0A100D,#070B09);
-    border-bottom:1px solid var(--border);
-    text-align:center; padding:54px 40px 46px;
-  }
-  .wordmark{ font-size:17px; font-weight:700; letter-spacing:-0.3px; color:var(--ink); }
-  .wordmark span{ color:var(--accent); }
-  .wordmark-sub{ font-size:10px; font-weight:700; letter-spacing:2.5px; color:var(--dim); text-transform:uppercase; margin-top:6px; }
-  .cover h1{ font-size:34px; font-weight:800; letter-spacing:-1px; color:var(--ink); margin:22px 0 12px; }
-  .cover .sub{ font-size:15px; color:var(--muted); margin:0 0 6px; }
-  .cover .count{ font-size:12.5px; color:var(--dim); margin:0; }
-
-  .intro{ max-width:780px; margin:34px auto; padding:0 40px; color:var(--muted); font-size:14.5px; line-height:1.75; }
-
-  /* ALPHA INDEX */
-  .alpha-index{ max-width:780px; margin:0 auto 28px; padding:0 40px; display:flex; flex-wrap:wrap; gap:6px; }
-  .alpha-index a, .alpha-index span{
-    display:inline-block; width:32px; height:32px; line-height:32px; text-align:center;
-    border-radius:8px; font-weight:700; font-size:12px;
-  }
-  .alpha-index a{ background:rgba(34,197,94,0.12); color:var(--accent); text-decoration:none; border:1px solid rgba(34,197,94,0.25); transition:all .15s; }
-  .alpha-index a:hover{ background:var(--accent); color:#04150B; }
-  .alpha-index span{ background:var(--panel); color:var(--dim); border:1px solid var(--border); }
-
-  /* LEGEND */
-  .legend{ max-width:780px; margin:0 auto 30px; padding:0 40px; display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); }
-  .legend-item{ display:flex; align-items:center; gap:7px; }
-  .legend-swatch{ width:12px; height:12px; border-radius:3px; flex-shrink:0; }
-
-  /* SECTIONS */
-  .section{ max-width:780px; margin:0 auto 8px; padding:0 40px; }
-  .letter-heading{
-    font-size:22px; font-weight:800; color:var(--accent);
-    border-bottom:1px solid var(--border-2); padding-bottom:6px; margin:36px 0 16px; letter-spacing:-0.5px;
-  }
-
-  /* ── Category colour system (matches the training decks) ──
-     1 Core AI / General    green   #22C55E
-     2 Claude & Prompting   blue    #5DA9F4
-     3 Advanced / Technical violet  #A78BFA
-     4 GHL / Automation     teal    #2DD4BF
-     5 Formats / Files      gold    #EAB308
-     6 Security / Privacy    red    #F87171
-  */
-  .term-card{
-    background:var(--panel); border:1px solid var(--border); border-left:4px solid var(--accent);
-    border-radius:12px; padding:16px 20px; margin-bottom:12px;
-  }
-  .term-card.claude   { border-left-color:var(--blue); }
-  .term-card.advanced { border-left-color:var(--violet); }
-  .term-card.ghl      { border-left-color:var(--teal); }
-  .term-card.format   { border-left-color:var(--gold); }
-  .term-card.security { border-left-color:var(--red); }
-
-  .term-name{ font-size:16px; font-weight:700; color:var(--accent-2); margin:0 0 7px; letter-spacing:-0.2px; }
-  .term-card.claude   .term-name{ color:var(--blue); }
-  .term-card.advanced .term-name{ color:var(--violet); }
-  .term-card.ghl      .term-name{ color:var(--teal); }
-  .term-card.format   .term-name{ color:var(--gold); }
-  .term-card.security .term-name{ color:var(--red); }
-
-  .term-plain{ font-size:14px; color:var(--text); line-height:1.68; margin:0 0 10px; }
-  .term-plain strong{ color:var(--ink); }
-  .term-plain code{ background:var(--panel-2); border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-family:'Courier New',monospace; font-size:12.5px; color:var(--accent-2); }
-
-  .metaphor{
-    background:rgba(34,197,94,0.07); border:1px solid rgba(34,197,94,0.16); border-left:3px solid var(--accent);
-    padding:9px 13px; font-size:13px; color:#9FD8B8; border-radius:0 8px 8px 0; margin:0;
-  }
-  .metaphor::before{ content:"💡 Think of it like: "; font-weight:700; color:var(--accent-2); }
-
-  .code-block{
-    background:var(--surface); border:1px solid var(--border); border-radius:8px;
-    padding:11px 14px; font-family:'Courier New',monospace; font-size:12.5px; color:var(--text);
-    margin:8px 0 0; white-space:pre; overflow-x:auto;
-  }
-
-  .tag{ display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle; text-transform:uppercase; }
-  .tag-ai{ background:rgba(34,197,94,0.12); color:var(--accent-2); }
-  .tag-claude{ background:rgba(93,169,244,0.13); color:var(--blue); }
-  .tag-advanced{ background:rgba(167,139,250,0.14); color:var(--violet); }
-  .tag-ghl{ background:rgba(45,212,191,0.13); color:var(--teal); }
-  .tag-automation{ background:rgba(45,212,191,0.13); color:var(--teal); }
-  .tag-format{ background:rgba(234,179,8,0.14); color:var(--gold); }
-  .tag-security{ background:rgba(248,113,113,0.13); color:var(--red); }
-
-  .back-to-top{ text-align:right; font-size:11.5px; margin:2px 0 0; }
-  .back-to-top a{ color:var(--dim); text-decoration:none; }
-  .back-to-top a:hover{ color:var(--accent); }
-
-  .footer{ max-width:780px; margin:50px auto 40px; padding:24px 40px 0; border-top:1px solid var(--border); text-align:center; color:var(--dim); font-size:11.5px; }
-
-  @media (max-width:600px){
-    .cover{ padding:40px 22px 34px; }
-    .cover h1{ font-size:27px; }
-    .intro, .alpha-index, .legend, .section, .footer{ padding-left:20px; padding-right:20px; }
-  }
-  @media print{
-    body{ background:white; color:#1a1a1a; }
-    .alpha-index, .legend{ display:none; }
-  }
+:root { --bg: #070B09; --panel: #0E1512; --panel-2: #121A15; --surface: #0A100D; --border: #1A2620; --border-2: #24332C; --ink: #EAF0EC; --text: #B8C5BD; --muted: #94A49B; --dim: #5C6B62; --accent: #22C55E; --accent-2: #34D399; --blue: #5DA9F4; --violet: #A78BFA; --teal: #2DD4BF; --gold: #EAB308; --red: #F87171; }
+* { box-sizing: border-box; }
+body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px; color: var(--text); background: var(--bg); margin: 0; padding: 0; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+.cover { background: radial-gradient(900px 400px at 50% -20%, rgba(34,197,94,0.1), transparent 60%), linear-gradient(#0A100D, #070B09); border-bottom: 1px solid var(--border); text-align: center; padding: 54px 40px 46px; }
+.wordmark { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--ink); }
+.wordmark span { color: var(--accent); }
+.wordmark-sub { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; color: var(--dim); text-transform: uppercase; margin-top: 6px; }
+.cover h1 { font-size: 34px; font-weight: 800; letter-spacing: -1px; color: var(--ink); margin: 22px 0 12px; }
+.cover .sub { font-size: 15px; color: var(--muted); margin: 0 0 6px; }
+.cover .count { font-size: 12.5px; color: var(--dim); margin: 0; }
+.intro { max-width: 780px; margin: 34px auto; padding: 0 40px; color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+.alpha-index { max-width: 780px; margin: 0 auto 28px; padding: 0 40px; display: flex; flex-wrap: wrap; gap: 6px; }
+.alpha-index a, .alpha-index span { display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; border-radius: 8px; font-weight: 700; font-size: 12px; }
+.alpha-index a { background: rgba(34,197,94,0.12); color: var(--accent); text-decoration: none; border: 1px solid rgba(34,197,94,0.25); transition: 0.15s; }
+.alpha-index a:hover { background: var(--accent); color: #04150B; }
+.alpha-index span { background: var(--panel); color: var(--dim); border: 1px solid var(--border); }
+.legend { max-width: 780px; margin: 0 auto 30px; padding: 0 40px; display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
+.legend-item { display: flex; align-items: center; gap: 7px; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+.section { max-width: 780px; margin: 0 auto 8px; padding: 0 40px; }
+.letter-heading { font-size: 22px; font-weight: 800; color: var(--accent); border-bottom: 1px solid var(--border-2); padding-bottom: 6px; margin: 36px 0 16px; letter-spacing: -0.5px; }
+.term-card { background: var(--panel); border-left: 4px solid var(--accent); border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+.term-card.claude { border-left-color: var(--blue); }
+.term-card.advanced { border-left-color: var(--violet); }
+.term-card.ghl { border-left-color: var(--teal); }
+.term-card.format { border-left-color: var(--gold); }
+.term-card.security { border-left-color: var(--red); }
+.term-name { font-size: 16px; font-weight: 700; color: var(--accent-2); margin: 0 0 7px; letter-spacing: -0.2px; }
+.term-card.claude .term-name { color: var(--blue); }
+.term-card.advanced .term-name { color: var(--violet); }
+.term-card.ghl .term-name { color: var(--teal); }
+.term-card.format .term-name { color: var(--gold); }
+.term-card.security .term-name { color: var(--red); }
+.term-plain { font-size: 14px; color: var(--text); line-height: 1.68; margin: 0 0 10px; }
+.term-plain strong { color: var(--ink); }
+.term-plain code { background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--accent-2); }
+.metaphor { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.16); border-left: 3px solid var(--accent); padding: 9px 13px; font-size: 13px; color: #9FD8B8; border-radius: 0 8px 8px 0; margin: 0; }
+.metaphor::before { content: "💡 Think of it like: "; font-weight: 700; color: var(--accent-2); }
+.code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 11px 14px; font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--text); margin: 8px 0 0; white-space: pre; overflow-x: auto; }
+.tag { display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: 0.4px; padding: 2px 9px; border-radius: 20px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; }
+.tag-ai { background: rgba(34,197,94,0.12); color: var(--accent-2); }
+.tag-claude { background: rgba(93,169,244,0.13); color: var(--blue); }
+.tag-advanced { background: rgba(167,139,250,0.14); color: var(--violet); }
+.tag-ghl { background: rgba(45,212,191,0.13); color: var(--teal); }
+.tag-automation { background: rgba(45,212,191,0.13); color: var(--teal); }
+.tag-format { background: rgba(234,179,8,0.14); color: var(--gold); }
+.tag-security { background: rgba(248,113,113,0.13); color: var(--red); }
+.back-to-top { text-align: right; font-size: 11.5px; margin: 2px 0 0; }
+.back-to-top a { color: var(--dim); text-decoration: none; }
+.back-to-top a:hover { color: var(--accent); }
+.footer { max-width: 780px; margin: 50px auto 40px; padding: 24px 40px 0; border-top: 1px solid var(--border); text-align: center; color: var(--dim); font-size: 11.5px; }
+@media (max-width: 600px) {
+  .cover { padding: 40px 22px 34px; } .cover h1 { font-size: 27px; }
+  .intro, .alpha-index, .legend, .section, .footer { padding-left: 20px; padding-right: 20px; }
+}
 </style>
 </head>
 <body>
 
-<!-- COVER -->
 <div class="cover" id="top">
   <div class="wordmark">Key<span>Players</span> HQ</div>
   <div class="wordmark-sub">VA AI Academy</div>
   <h1>AI Glossary</h1>
   <p class="sub">Plain-language definitions for every AI term in the program.</p>
-  <p class="count">55+ terms &middot; Weeks 1 &amp; 2 reference &middot; No jargon, just clarity.</p>
+  <p class="count">60+ terms &middot; Weeks 1 &amp; 2 reference &middot; No jargon, just clarity.</p>
 </div>
 
 <div class="intro">
   <p>If a word in the course confused you, it is in here. Every definition is written the way you would explain it to a friend, with no tech background required. Where a metaphor helps, we used one. You do not need to memorize these. Keep this page open and refer to it whenever you need it.</p>
 </div>
 
-<!-- LEGEND -->
 <div class="legend">
   <div class="legend-item"><div class="legend-swatch" style="background:#22C55E;"></div> Core AI / General</div>
   <div class="legend-item"><div class="legend-swatch" style="background:#5DA9F4;"></div> Claude &amp; Prompting</div>
@@ -152,7 +86,6 @@
   <div class="legend-item"><div class="legend-swatch" style="background:#F87171;"></div> Security / Privacy</div>
 </div>
 
-<!-- ALPHA INDEX -->
 <div class="alpha-index">
   <a href="#A">A</a><a href="#B">B</a><a href="#C">C</a><a href="#D">D</a>
   <a href="#E">E</a><a href="#F">F</a><a href="#G">G</a><a href="#H">H</a>
@@ -163,7 +96,7 @@
   <span>Y</span><a href="#Z">Z</a>
 </div>
 
-<!-- ═══ A ═══ -->
+<!-- A -->
 <div class="section">
   <div class="letter-heading" id="A">A</div>
 
@@ -205,16 +138,16 @@
     <div class="term-plain">A digital character that speaks on screen in AI-generated videos, used in tools like HeyGen. You write the script, choose an avatar, and it delivers the message visually, with no camera or recording required.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ B ═══ -->
+<!-- B -->
 <div class="section">
   <div class="letter-heading" id="B">B</div>
 
   <div class="term-card">
     <div class="term-name">Benchmarking <span class="tag tag-ai">AI</span></div>
-    <div class="term-plain">A way of testing and comparing AI models to see which performs best on specific tasks. Think of it as a standardized test for AI. Benchmarks measure things like accuracy, reasoning, and speed. When you hear that a new model "tops the benchmarks" or "beats GPT-5," it means it scored higher on those standard tests. Useful to know when choosing which model to use for a task.</div>
+    <div class="term-plain">A way of testing and comparing AI models to see which performs best on specific tasks. Think of it as a standardized test for AI. Benchmarks measure things like accuracy, reasoning, and speed. When you hear that a new model "tops the benchmarks," it means it scored higher on those standard tests. Useful to know when choosing which model to use for a task.</div>
   </div>
 
   <div class="term-card ghl">
@@ -222,10 +155,10 @@
     <div class="term-plain">A program that runs automated tasks, usually repetitive ones. A chatbot responds to messages. A workflow bot might send emails or update records. Bots follow fixed rules, so they are not the same as AI agents, which can reason and adapt.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ C ═══ -->
+<!-- C -->
 <div class="section">
   <div class="letter-heading" id="C">C</div>
 
@@ -283,10 +216,10 @@
     <div class="term-plain">Software for tracking client and lead information: contacts, conversations, deals, and tasks. The KP stack uses GoHighLevel (GHL) as its primary CRM, with HubSpot or Zoho depending on the client.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ D ═══ -->
+<!-- D -->
 <div class="section">
   <div class="letter-heading" id="D">D</div>
 
@@ -295,15 +228,10 @@
     <div class="term-plain">OpenAI's original image generation tool. You describe an image in words and it creates one. Inside ChatGPT, image generation is now built directly into OpenAI's main models, which replaced the standalone DALL-E, and it is available to both free and paid users, with higher limits on paid plans. You will still hear the DALL-E name used as shorthand for AI image creation.</div>
   </div>
 
-  <div class="term-card claude">
-    <div class="term-name">Drafting <span class="tag tag-claude">Claude</span></div>
-    <div class="term-plain">When Claude writes a first version of something (an email, report, summary, or message) for you to review and edit before using. Drafting is one of the most time-saving things Claude does. Always review before sending to a client.</div>
-  </div>
-
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ E ═══ -->
+<!-- E -->
 <div class="section">
   <div class="letter-heading" id="E">E</div>
 
@@ -313,10 +241,10 @@
     <div class="metaphor">putting a letter in a locked box where only the recipient has the key. Even the delivery person cannot read it.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ F ═══ -->
+<!-- F -->
 <div class="section">
   <div class="letter-heading" id="F">F</div>
 
@@ -325,10 +253,16 @@
     <div class="term-plain">A prompting technique where you include a few examples in your prompt to show the AI the format or style you want. Example: "Here are two examples of how I write follow-up emails: [example 1] [example 2]. Now write one for this situation: [situation]." Giving examples produces more consistent results than describing the format in words.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="term-card advanced">
+    <div class="term-name">Fine-tuning <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">The process of taking a base AI model and retraining it on a specific dataset so it specializes for a particular task, style, or domain. Unlike prompting — which shapes what the model does in a conversation — fine-tuning changes what the model fundamentally knows and how it responds. It requires technical access and significant data. As a VA, awareness only: if a client asks to "train AI on our brand voice," this is what they mean, and it is an engineering project, not a VA task.</div>
+    <div class="metaphor">the difference between coaching an employee with instructions every day (prompting) versus putting them through a full specialized training program that changes how they think (fine-tuning).</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ G ═══ -->
+<!-- G -->
 <div class="section">
   <div class="letter-heading" id="G">G</div>
 
@@ -342,10 +276,10 @@
     <div class="term-plain">The primary CRM and automation platform in the KP stack. GHL manages leads, pipelines, appointments, SMS and email campaigns, sub-accounts, and automations for clients.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ H ═══ -->
+<!-- H -->
 <div class="section">
   <div class="letter-heading" id="H">H</div>
 
@@ -360,10 +294,10 @@
     <div class="term-plain">An AI video tool that uses digital avatars to deliver spoken scripts. You write the script, choose an avatar, and HeyGen creates the video, with no camera or recording required.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ I ═══ -->
+<!-- I -->
 <div class="section">
   <div class="letter-heading" id="I">I</div>
 
@@ -377,15 +311,21 @@
     <div class="term-plain">A feature in tools like Kling, Runway, and Google Veo that takes a still image and adds motion, such as a slow zoom, a camera pan, or animation. Used to create video content from AI-generated images.</div>
   </div>
 
+  <div class="term-card advanced">
+    <div class="term-name">Inference <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">The act of running a trained AI model to generate a response. When you send a message to Claude and it replies, that is inference happening. The model was trained once on massive data; inference is what happens every single time you use it. This is where the compute cost comes from — each reply is processed on powerful servers in real time, not on your device. Faster, cheaper models are optimized for faster inference. Premium models run heavier inference for more complex reasoning.</div>
+    <div class="metaphor">a musician performing live. The years of practice were the training. Every concert is inference — applying what was learned, on demand.</div>
+  </div>
+
   <div class="term-card claude">
     <div class="term-name">Iteration <span class="tag tag-claude">Prompting</span></div>
     <div class="term-plain">Going through multiple rounds of feedback and revision with an AI tool. Example: Claude gives you a draft, you ask it to shorten it, then you ask it to make the tone warmer. Each change is an iteration. Good prompts often take two or three iterations to get right. Knowing how to refine is as important as knowing how to prompt.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ J ═══ -->
+<!-- J -->
 <div class="section">
   <div class="letter-heading" id="J">J</div>
 
@@ -395,10 +335,10 @@
     <div class="code-block">{"client": "Acme Corp", "status": "active", "leads": 24}</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ L ═══ -->
+<!-- L -->
 <div class="section">
   <div class="letter-heading" id="L">L</div>
 
@@ -414,10 +354,10 @@
     <div class="metaphor">someone who has read millions of books and can write in any style, on any topic, but still needs to be given specific direction to do useful work.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ M ═══ -->
+<!-- M -->
 <div class="section">
   <div class="letter-heading" id="M">M</div>
 
@@ -454,10 +394,10 @@
     <div class="term-plain">An AI that can handle more than one type of input, such as text, images, audio, or video. Claude is multimodal: you can paste an image and ask Claude to describe or analyze it, not just type questions. A multimodal model is more versatile than one that only works with text.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ O ═══ -->
+<!-- O -->
 <div class="section">
   <div class="letter-heading" id="O">O</div>
 
@@ -466,10 +406,10 @@
     <div class="term-plain">Software where the code is made publicly available. Anyone can read it, study it, modify it, or build their own version. Open source tools are often free and community-supported. Being open source does not automatically mean the AI is better or safer; it just means it is more transparent about how it works.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ P ═══ -->
+<!-- P -->
 <div class="section">
   <div class="letter-heading" id="P">P</div>
 
@@ -499,16 +439,16 @@
     <div class="term-plain">A personal collection of prompts that have worked well for recurring tasks. Building a Prompt Library saves you from rewriting instructions every time and helps maintain quality and consistency across clients. You will build and maintain one as part of this course.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ R ═══ -->
+<!-- R -->
 <div class="section">
   <div class="letter-heading" id="R">R</div>
 
   <div class="term-card advanced">
     <div class="term-name">RAG (Retrieval-Augmented Generation) <span class="tag tag-advanced">Advanced</span></div>
-    <div class="term-plain">A technique where an AI retrieves relevant information from a specific source (such as your company documents, client files, or a database) before generating a response. Instead of relying only on what it learned during training, it looks things up in real time. This makes answers more accurate and grounded in current, specific information. KeyBrain uses this approach.</div>
+    <div class="term-plain">A technique where an AI retrieves relevant information from a specific source (such as your company documents, client files, or a database) before generating a response. Instead of relying only on what it learned during training, it looks things up in real time. This makes answers more accurate and grounded in current, specific information.</div>
     <div class="metaphor">an open-book exam. The AI can look up the right information before answering, rather than relying only on what it memorized.</div>
   </div>
 
@@ -522,10 +462,10 @@
     <div class="term-plain">The process of a computer converting code or instructions into a finished video file. When you render a video in Remotion or HeyGen, the tool is processing all the frames and producing the final MP4.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ S ═══ -->
+<!-- S -->
 <div class="section">
   <div class="letter-heading" id="S">S</div>
 
@@ -550,12 +490,18 @@
     <div class="metaphor">an employee handbook given to a new hire before their first shift. It sets expectations before any work starts.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ T ═══ -->
+<!-- T -->
 <div class="section">
   <div class="letter-heading" id="T">T</div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Temperature <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A setting that controls how creative or predictable an AI's responses are. Low temperature = more focused, consistent, factual answers. High temperature = more varied, creative, and sometimes surprising responses. Most AI chat tools manage this automatically, but if you ever configure an AI via API or automation, temperature is one of the key settings to know.</div>
+    <div class="metaphor">the difference between a strict recipe (low temperature) and a chef freestyling in the kitchen (high temperature). Both can work depending on what you need.</div>
+  </div>
 
   <div class="term-card">
     <div class="term-name">Token <span class="tag tag-ai">AI</span></div>
@@ -565,7 +511,7 @@
 
   <div class="term-card advanced">
     <div class="term-name">Training Data <span class="tag tag-advanced">Advanced</span></div>
-    <div class="term-plain">The text, images, and other content that an AI model was exposed to during the learning phase, before it was released. Claude was trained on a large portion of publicly available internet text, books, and other sources. The quality and range of training data largely determines what an AI knows and how it reasons. After training, the model is fixed: it does not learn from your conversations in real time. One important note: some providers, including Anthropic, may use saved consumer conversations to train future models unless you opt out in settings, so check the data settings on any account that handles client information.</div>
+    <div class="term-plain">The text, images, and other content that an AI model was exposed to during the learning phase, before it was released. Claude was trained on a large portion of publicly available internet text, books, and other sources. After training, the model is fixed: it does not learn from your conversations in real time. Note: some providers, including Anthropic, may use saved consumer conversations to train future models unless you opt out in settings, so check the data settings on any account that handles client information.</div>
   </div>
 
   <div class="term-card ghl">
@@ -573,10 +519,10 @@
     <div class="term-plain">In automation, a trigger is the event that starts an automated workflow. Example: "when a new lead fills out a form" is a trigger. Everything after that (the email, the CRM update, the notification) is what the automation does in response.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ W ═══ -->
+<!-- W -->
 <div class="section">
   <div class="letter-heading" id="W">W</div>
 
@@ -591,10 +537,10 @@
     <div class="term-plain">A sequence of steps that gets a task done from start to finish. In GHL, a Workflow is the automation builder where you set triggers, conditions, and actions. In the broader VA context, a workflow is the combination of tools and prompts you use to complete a specific type of task, like producing a client report or posting social media content.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
-<!-- ═══ Z ═══ -->
+<!-- Z -->
 <div class="section">
   <div class="letter-heading" id="Z">Z</div>
 
@@ -603,12 +549,11 @@
     <div class="term-plain">Asking an AI to complete a task without giving it any examples, just the instruction. Most basic prompts are zero-shot. Example: "Write a follow-up email for a lead who went quiet." This works well for simple tasks. For more specific or formatted outputs, few-shot prompting (giving examples) tends to produce better results.</div>
   </div>
 
-  <div class="back-to-top"><a href="#top">↑ Back to top</a></div>
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
 </div>
 
 <div class="footer">
   KeyPlayers HQ &middot; KP VA AI Academy &middot; Reference Document &middot; Not for distribution outside the program
 </div>
 
-</body>
-</html>
+</body></html>
