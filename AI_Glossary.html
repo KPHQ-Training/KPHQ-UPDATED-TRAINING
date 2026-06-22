@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | AI Glossary & Tools Reference</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
+    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
+    --border:#1A2620; --border-2:#24332C;
+    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
+    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
+    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
+    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
+    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
+    --sidebar-w:268px; --maxw:860px; --r:14px;
+    --font-d:'Inter',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
+    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
+    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
+    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+
+  /* DECK */
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}
+  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
+    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+
+  /* TYPOGRAPHY */
+  h1{font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px}
+
+  /* ACCORDION */
+  .acc{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+  .acc-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
+  .acc-item:hover{border-color:var(--border-2)}
+  .acc-item.open{border-color:rgba(34,197,94,0.28)}
+  .acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;
+    background:var(--panel);gap:14px;user-select:none}
+  .acc-head:hover{background:var(--panel-2)}
+  .acc-item.open .acc-head{background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .acc-left{display:flex;align-items:center;gap:12px;min-width:0}
+  .acc-term{font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .acc-short{font-size:13px;color:var(--dim);margin-left:4px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .acc-badges{display:flex;gap:6px;flex-shrink:0}
+  .badge-cat{font-size:10px;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;
+    padding:3px 9px;border-radius:10px;white-space:nowrap}
+  .cat-concept{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(34,197,94,0.22)}
+  .cat-tool{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(234,179,8,0.22)}
+  .cat-platform{background:var(--secure-soft);color:var(--secure);border:1px solid rgba(93,169,244,0.22)}
+  .cat-kp{background:rgba(163,66,160,0.10);color:#C084FC;border:1px solid rgba(163,66,160,0.22)}
+  .tier-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px;white-space:nowrap}
+  .tier-free{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(34,197,94,0.22)}
+  .tier-paid{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(234,179,8,0.22)}
+  .tier-both{background:rgba(99,102,241,0.08);color:#818cf8;border:1px solid rgba(99,102,241,0.22)}
+  .acc-chevron{width:18px;height:18px;color:var(--dim);flex-shrink:0;transition:transform .22s cubic-bezier(.4,0,.2,1)}
+  .acc-item.open .acc-chevron{transform:rotate(180deg);color:var(--accent)}
+  .acc-body{display:none;padding:18px 18px 20px;background:var(--bg-2);animation:fade .22s ease}
+  .acc-item.open .acc-body{display:block}
+  .acc-def{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:14px}
+  .acc-meta{display:flex;flex-direction:column;gap:10px}
+  .acc-row{display:flex;gap:10px;align-items:flex-start}
+  .acc-row-label{font-size:10px;font-weight:700;letter-spacing:0.9px;text-transform:uppercase;color:var(--accent);
+    min-width:80px;flex-shrink:0;margin-top:3px}
+  .acc-row.gold .acc-row-label{color:var(--gold)}
+  .acc-row.secure .acc-row-label{color:var(--secure)}
+  .acc-row-body{font-size:13.5px;color:var(--muted);line-height:1.6}
+  .acc-row-body strong{color:var(--ink)}
+  .acc-divider{height:1px;background:var(--border);margin:14px 0}
+
+  /* INTRO CARDS */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}
+  .card>*:last-child{margin-bottom:0}
+  .search-hint{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--panel);border:1px solid var(--border);
+    border-radius:10px;font-size:13px;color:var(--dim);margin-bottom:20px}
+  .search-hint svg{width:14px;height:14px;flex-shrink:0}
+  .count-chip{display:inline-flex;align-items:center;gap:5px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.2);
+    color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:10px;vertical-align:middle}
+
+  /* SVG SPRITE (inline icons) */
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+</style>
+</head>
+<body>
+
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+</svg>
+
+<div class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-book"/></svg> Reference</div>
+  </div>
+  <div class="nav">
+    <div class="nav-label">Categories</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-spark"/></svg></span>AI Concepts</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>Claude Ecosystem</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-msg"/></svg></span>Other AI Tools</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Automation & CRM</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>Meetings & Comms</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-star"/></svg></span>KeyCommand</a>
+  </div>
+  <div class="course">
+    <div class="course-label">Course</div>
+    <a href="index.html">← Back to Course Home</a>
+  </div>
+  <div class="confid">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Internal reference — not for distribution.
+  </div>
+</div>
+
+<div class="main">
+<div class="deck">
+
+  <!-- SESSION 0: AI CONCEPTS -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Reference · AI Concepts</div>
+    <h1>AI Terms & Concepts<span class="count-chip">14 terms</span></h1>
+    <p class="subtitle">The vocabulary behind every tool in this course. Tap any term to expand its definition, a real-world example, and what it means for you as a VA.</p>
+    <div class="card card-accent" style="margin-bottom:20px">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Why this matters</div>
+      <p style="margin:0">When clients, developers, or colleagues use these words, you should understand what they mean. You do not need to be able to explain them technically — you need to know when they are relevant to your work.</p>
+    </div>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left">
+            <div class="acc-term">LLM</div>
+            <span class="acc-short">Large Language Model</span>
+          </div>
+          <div class="acc-badges">
+            <span class="badge-cat cat-concept">Concept</span>
+            <svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An AI model trained on massive amounts of text to predict the next word in a sequence. That prediction process is how it generates coherent answers. Claude, ChatGPT, and Gemini are all LLMs.</p>
+          <div class="acc-meta">
+            <div class="acc-row">
+              <span class="acc-row-label">VA Note</span>
+              <span class="acc-row-body">Every AI tool you use in this course runs on an LLM underneath. When someone says "the model," they mean the LLM.</span>
+            </div>
+            <div class="acc-row gold">
+              <span class="acc-row-label">Key fact</span>
+              <span class="acc-row-body">LLMs predict. They don't retrieve facts from a database — they generate plausible-sounding text. That's why hallucination happens.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Token</div><span class="acc-short">how AI counts text</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The smallest unit an LLM processes. One token ≈ ¾ of a word. "Hello world" = 2 tokens. AI pricing, context windows, and speed are all measured in tokens, not words or characters.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">Claude's context window of 200,000 tokens ≈ 150,000 words ≈ roughly 500 pages of text.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You won't count tokens manually. But if you're on a BYOK plan (paying per token), large file uploads cost more. Trim unnecessary context before pasting.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Context Window</div><span class="acc-short">the AI's working memory</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The total amount of text an LLM can hold in view at once — your messages, its replies, uploaded files, and system prompt. Think of it as a whiteboard that fills up. When it's full, older content drops off.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">VA Note</span><span class="acc-row-body">If output starts drifting or the AI seems to "forget" instructions in a long session — start a fresh conversation and paste only what matters now.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Key fact</span><span class="acc-row-body">Each new conversation = a fresh context. The AI has no memory of previous chats unless you use Projects or CLAUDE.md.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Hallucination</div><span class="acc-short">AI inventing facts</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">When an AI generates confidently-stated information that is factually wrong or completely made up — names, quotes, statistics, dates, URLs. It's not lying; it's predicting what a plausible answer looks like, even when it doesn't know.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">"The 2022 McKinsey study found that 74% of VAs..." — sounds authoritative, may be entirely invented.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Rule</span><span class="acc-row-body">Never send AI-generated statistics, quotes, names, or dates to a client without checking against a real source. Confident ≠ correct.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">System Prompt</div><span class="acc-short">standing instructions before the chat</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A block of instructions fed to the AI before the conversation starts. It sets the role, tone, rules, and constraints that apply to every message in that session. You never see it in the chat — it runs silently underneath.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">"You are a concise executive assistant. Never use bullet points. Keep all replies under 80 words. Never invent figures." — set once, active in every message.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You set system prompts in Claude Projects (the "Instructions" field) or in CLAUDE.md for Claude Code. KeyCommand's Company Playbook is effectively a shared system prompt for all agents.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">RAG</div><span class="acc-short">Retrieval-Augmented Generation</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A technique where the AI searches an external knowledge base before answering — grounding its response in real documents rather than relying on training data alone. The result is more accurate and verifiable answers.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">You upload a client's 50-page brand guide to Claude Projects. When you ask "what's our content tone?", Claude searches that file first before responding.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Uploading files to Claude Projects or the KeyCommand Knowledge Map is a simple form of RAG. You're giving AI a reliable source to search instead of guessing.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Agent</div><span class="acc-short">AI that takes actions, not just replies</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An AI that can plan a goal into steps and then execute those steps — opening tools, reading data, writing content, sending outputs — without waiting for a new instruction between each action. An agent acts; a chatbot replies.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">You brief an agent: "Analyze this competitor's reels and draft 3 content ideas." The agent searches, reads, analyzes, and writes — all in one run.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">KeyCommand runs on a team of agents. Your job is to brief them (give the goal), review their output, and decide what ships.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Orchestrator</div><span class="acc-short">the agent that manages other agents</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A lead agent that receives a high-level goal, breaks it into tasks, and dispatches specialist agents to handle each one. The orchestrator coordinates the work; specialists execute it.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">KeyCommand</span><span class="acc-row-body">KeyPlayer is the orchestrator. When you brief it in the Boardroom, it routes work to the right specialist agents automatically.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">MCP</div><span class="acc-short">Model Context Protocol</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An open standard created by Anthropic that lets AI models connect to external tools and data sources consistently. Each app publishes an MCP "menu" of what it allows; any compatible AI can read it without custom integration work.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Analogy</span><span class="acc-row-body">API = the menu of what an app allows. MCP = the universal translator so AI can read any menu without learning each app separately.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You don't configure MCP directly. When Claude Cowork or KeyCommand connects to Slack or Gmail, MCP is the plumbing making it work.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">BYOK</div><span class="acc-short">Bring Your Own Key</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A model where you supply your own API key to a platform rather than using shared capacity. You pay the AI provider (Anthropic, OpenAI) directly for usage. The platform uses your key to run AI calls on your behalf.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">KeyCommand</span><span class="acc-row-body">KeyCommand requires you to connect your Anthropic API key before agents will run. All AI usage bills to your Anthropic account, not KP's.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Rule</span><span class="acc-row-body">Never share an API key in a Slack message, doc, or email. It's as sensitive as a password.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">API Key</div><span class="acc-short">authentication token for software</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A private authentication token that grants access to an AI provider's models programmatically. Different from a login password — it's meant for software, not people. One leaked key can run up significant charges.</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">VA Rule</span><span class="acc-row-body">Never paste an API key into a chat, doc, or email. If you're given one to configure a tool, use it only in the settings field it's meant for, then close the window.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">CLAUDE.md</div><span class="acc-short">persistent memory file for Claude Code</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A special text file that Claude Code reads every time it opens a project folder. It contains persistent instructions — client rules, file-naming conventions, what not to touch. The code-level equivalent of a Project system prompt.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Example</span><span class="acc-row-body">"Always write email subjects in sentence case. Never delete files — archive them to /archive. The client's brand color is #C9A84C."</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">If a developer asks you to update the CLAUDE.md file in a project, you're setting Claude Code's standing instructions for that project. Write clearly — Claude follows this literally.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Prompt Caching</div><span class="acc-short">reusing repeated context for speed + cost</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An API-level feature that stores repeated prompt sections (like a long system prompt or uploaded file) so the AI doesn't reprocess them on every message. Reduces cost and latency for heavy repeated context.</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You can't toggle this from Claude.ai's chat interface — it's handled at the API level. You benefit from it indirectly when tools like KeyCommand reuse a shared system prompt across many agent runs.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Fine-tuning</div><span class="acc-short">retraining a model on specific data</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-concept">Concept</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The process of taking a base AI model and retraining it on a specific dataset so it specializes for a particular task or style. Unlike prompting, which shapes what the model does — fine-tuning changes what the model is. Requires technical expertise and API access.</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Awareness only. You will not fine-tune models as a VA. But if a client asks whether you can "train AI on our brand voice" — this is what they mean, and it's an engineering project, not a VA task.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /acc -->
+  </div></section>
+
+  <!-- SESSION 1: CLAUDE ECOSYSTEM -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Reference · Claude Ecosystem</div>
+    <h1>Claude Ecosystem<span class="count-chip">4 tools</span></h1>
+    <p class="subtitle">Claude is not one product — it's a family. Knowing which version to open for which job is the skill.</p>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Claude Chat</div><span class="acc-short">claude.ai</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Pro</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The browser-based chat interface. The starting point for almost everything. You type, Claude replies. Supports file uploads, artifact creation, and voice (on mobile).</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Drafts, quick Q&A, summarising documents, one-off tasks, learning, experimenting. If you don't know which Claude tool to use — start here.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Free limit</span><span class="acc-row-body">Daily message limits apply on the free tier. Shared training account resets daily. Use Claude Pro when available.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Claude Projects</div><span class="acc-short">inside Claude Chat — Pro</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-paid">Pro</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A saved workspace inside Claude Chat. Stores a system prompt, uploaded files, and shared chat history for a specific client or recurring job. Claude arrives pre-briefed — no re-explaining needed.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Ongoing client work. Each client gets their own Project: brand guide, tone examples, SOPs, and context all stored there. Open it, start tasking.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">One Project per client or recurring responsibility. Do not mix client information across Projects — data stays clean and context stays sharp.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Claude Cowork</div><span class="acc-short">desktop app — Pro</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-paid">Pro</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">Anthropic's desktop app. Connects Claude to your real tools — Slack, Gmail, Google Drive, Canva — and can act across them in sequence without you switching tabs. The difference from Claude Chat: Cowork can actually use the apps, not just write about them.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Multi-step tasks that span tools. "Draft the email, save it in Docs, post the summary to Slack." One instruction, Cowork executes the full chain.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Cowork requires a connected integration for each app it touches. Set up your connectors in Settings before expecting it to read your Gmail or write to Drive.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Claude Code / CLI</div><span class="acc-short">terminal — technical use</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Pro</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">Claude running inside a terminal window (CLI = Command Line Interface). Can read and edit actual files on your computer, run scripts, install tools, and build automations directly — not just generate text about them.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Building automations, batch-processing files, working alongside developers, setting up persistent memory via CLAUDE.md. Not for daily chat tasks.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You will encounter Claude Code when working with a developer or setting up a CLAUDE.md file. You don't need to master it on Day 3 — you need to recognize it and know when to ask your tech lead.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></section>
+
+  <!-- SESSION 2: OTHER AI TOOLS -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Reference · AI Tools</div>
+    <h1>Other AI Tools<span class="count-chip">4 tools</span></h1>
+    <p class="subtitle">Claude is your primary tool. These are the others you will encounter — when to reach for them and what they do differently.</p>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">ChatGPT</div><span class="acc-short">OpenAI</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">OpenAI's general-purpose AI assistant. Strong at conversational tasks, image generation (DALL-E), web browsing, and data analysis (Advanced Data Analysis). The most widely adopted AI tool globally as of mid-2026.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Image generation (free via DALL-E), quick web research, cross-checking Claude's output with a different model, generating certificate content.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Model note</span><span class="acc-row-body">Latest model as of mid-2026: GPT-4o. Free tier limits apply and are more restrictive than Claude's free tier for long-form tasks.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Gemini</div><span class="acc-short">Google</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">Google's AI assistant. Best choice when working inside Google Workspace. Native integration with Docs, Sheets, Gmail, and Drive makes it the fastest option for tasks that stay inside the Google ecosystem.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Google Docs and Gmail drafts, summarising Google Sheets data, tasks that live entirely in Google. Use Gemini in Docs sidepanel instead of copy-pasting to Claude.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Model note</span><span class="acc-row-body">Latest model as of mid-2026: Gemini 2.5 Pro (paid). Free tier available via gemini.google.com. Gemini Advanced included in Google One AI Premium.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Perplexity</div><span class="acc-short">real-time research AI</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An AI-powered search and research tool. Every answer is grounded in live web sources with citations. Unlike Claude or ChatGPT, Perplexity is built for research with real-time data — not for writing or task execution.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Competitor research, finding current statistics, checking if a claim has a real source, quick market research when you need citations.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Use Perplexity when you need verifiable, sourced information. Use Claude when you need to write, transform, or reason. Don't use Claude for live research — it will hallucinate.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Manus</div><span class="acc-short">autonomous AI agent</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-paid">Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An autonomous AI agent that can take long-running multi-step tasks and complete them end-to-end — browsing, researching, writing, and compiling — with minimal input. More autonomous than Claude Chat or Cowork.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Deep research projects that take 20–40 minutes. "Research 10 competitors and compile a report" — Manus runs it unattended while you work on something else.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Always verify Manus output. It is more autonomous but not more accurate — hallucination still applies. It produces a lot fast; your job is to check it before using it.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></section>
+
+  <!-- SESSION 3: AUTOMATION & CRM -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Reference · Automation & CRM</div>
+    <h1>Automation & CRM<span class="count-chip">3 platforms</span></h1>
+    <p class="subtitle">The platforms that move data and trigger actions. These are what make AI outputs reach clients, not just sit in a chat window.</p>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Make.com</div><span class="acc-short">visual automation builder</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-free">Free: 1,000 ops/mo</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A visual drag-and-drop automation platform. Connects hundreds of apps in multi-step workflows. More powerful than Zapier — supports conditional logic, routers, error handling, and AI steps. Covered in Days 4–5.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Multi-step automations with branching (if X → do A, if Y → do B). Connecting GHL, Google Sheets, Slack, and Claude in one flow. Building content schedulers and research pipelines.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Key concept</span><span class="acc-row-body">A "scenario" = one automation. A "module" = one step inside it. Each run = one "operation." Free tier allows 1,000 operations/month.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Zapier</div><span class="acc-short">simple trigger-action automation</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-free">Free: 100 tasks/mo</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A simpler automation tool. Best for straight two-step automations (trigger → action) when a client already uses it or the task doesn't need branching logic. Easier to set up than Make.com but less powerful.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Simple trigger-action automations: form submitted → send email, new row in Sheets → notify Slack. Quick wins when a client is already on Zapier.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">If a client has complex branching logic (router, multiple paths), push for Make.com. Zapier is cleaner but can't match Make's conditional routing.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">GoHighLevel (GHL)</div><span class="acc-short">CRM + marketing automation</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-paid">Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">All-in-one CRM and marketing automation platform. The core platform for most KeyPlayers clients. Replaces separate tools for email, SMS, pipelines, calendars, and follow-up workflows. Covered in Days 6–7.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Contact management and pipelines, automated follow-up workflows and sequences, the Conversations inbox (SMS, email, DM in one place), calendar and appointment management.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">Key terms</span><span class="acc-row-body"><strong>Contact:</strong> a person in GHL. <strong>Pipeline:</strong> the stages a deal moves through. <strong>Workflow:</strong> an automated sequence. <strong>Trigger:</strong> what starts the workflow. <strong>Action:</strong> what the workflow does.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></section>
+
+  <!-- SESSION 4: MEETINGS & COMMS -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Reference · Meetings & Comms</div>
+    <h1>Meetings & Communication<span class="count-chip">4 tools</span></h1>
+    <p class="subtitle">The tools that capture, organize, and route information from conversations into action.</p>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Fathom</div><span class="acc-short">AI meeting note-taker</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-free">Free Tier</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An AI meeting note-taker that joins Zoom, Google Meet, or Teams calls automatically. Generates a summary, action items, and transcript in real-time. Recommended free-tier pick for VAs on any video call platform.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Capturing client and team meetings. The transcript and action items feed directly into your AI pipeline: paste into Claude, brief KeyCommand, or log into GHL.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Always notify meeting attendees that a note-taker is joining. Some clients are not comfortable with it — get verbal or written approval first.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Granola</div><span class="acc-short">local AI note-taker</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-both">Free + Paid</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">An AI note-taker that runs locally on your machine. Good for in-person meetings where a bot can't join a video call. Works by enhancing your rough notes after the fact — you jot during the meeting, Granola cleans it up.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">In-person meetings, calls where adding a bot is awkward, or when the client's call platform doesn't support Fathom. Back-up option for note capture.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">ClickUp</div><span class="acc-short">project management</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-free">Free Tier</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A project management platform used by many KeyPlayers clients to track tasks, projects, and team work. VAs receive assigned tasks, update statuses, log work, and communicate within client ClickUp workspaces.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Receiving and managing task assignments. Logging meeting action items. Tracking project progress for clients. Updating task statuses as work moves through stages.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Never delete tasks in a client ClickUp without explicit permission. Archive, not delete — task history is valuable for clients reviewing past work.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Slack</div><span class="acc-short">team messaging</span></div>
+          <div class="acc-badges"><span class="tier-badge tier-free">Free Tier</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">Team messaging platform. Standard communication tool for VA-to-client and VA-to-team communication. Channels organize conversations by topic; emoji reactions serve as lightweight workflow signals.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Emoji signals</span><span class="acc-row-body">✅ = done · 👀 = reviewing · 🔁 = needs revision · 🚨 = urgent · These replace back-and-forth messages in fast-moving client channels. Learn the client's conventions early.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Rule</span><span class="acc-row-body">Never paste sensitive client data (PII, financial records, API keys) into a Slack message — even in a private DM. Slack is not encrypted end-to-end.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></section>
+
+  <!-- SESSION 5: KEYCOMMAND -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Reference · KeyPlayers Platform</div>
+    <h1>KeyCommand Reference<span class="count-chip">10 terms</span></h1>
+    <p class="subtitle">The official terminology for KeyCommand — the AI command center you operate on behalf of clients. These terms come directly from the live platform documentation.</p>
+
+    <div class="acc">
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">KeyCommand</div><span class="acc-short">the AI command center</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">KeyPlayers' AI marketing command center. A system of specialized AI agents that VAs direct on behalf of clients. Agents draft content, research competitors, manage approvals, and run scheduled tasks — nothing ships without VA review and client approval.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">VA role</span><span class="acc-row-body">Brief agents. Review their output. Approve, reject, or redirect. You are the operator — KeyCommand is the team you manage.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">KeyPlayer</div><span class="acc-short">the orchestrator agent</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The lead agent in KeyCommand. Takes your request from the Boardroom, plans the work, and dispatches the right specialist agents. All agent coordination runs through KeyPlayer.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">VA Note</span><span class="acc-row-body">You talk to KeyPlayer in the Boardroom. It decides which specialist to call. You don't need to route work manually — KeyPlayer does that.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Boardroom</div><span class="acc-short">where you talk to KeyPlayer</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The main chat interface inside KeyCommand. Two tabs: Orchestrator (your chat with KeyPlayer) and Agent↔Agent (a live view of agents working together in real time). Also supports iMessage via LoopMessage.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Use for</span><span class="acc-row-body">Briefing KeyPlayer on a task. Checking what agents are doing mid-run. Starting a conversation from your phone via iMessage.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Operator Queue</div><span class="acc-short">items waiting on you — on the dashboard</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A widget on the Overview dashboard (Workbench row) that shows items waiting for your decision. Not the same as the Approvals page — the Operator Queue is a dashboard summary; the Approvals page is where you act on items.</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">Common error</span><span class="acc-row-body">Operator Queue ≠ Approvals page. Operator Queue = a summary widget on the dashboard. Approvals = the actual approval queue page in the nav (URL: /drafts).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Approvals</div><span class="acc-short">the approval queue page</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The page in the nav (labelled "Approvals", URL: /drafts) where every agent output lands before it can go out. Nothing agents produce — no post, email, SMS, or content — ships without passing through Approvals first.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Workflow</span><span class="acc-row-body">Agent produces output → lands in Approvals → VA reviews → Approve or Reject → if Approved: Publish / Send / Confirm to execute.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Rule</span><span class="acc-row-body">Never rubber-stamp approvals. Every item gets a real read. You are the last human check before it reaches the client or their audience.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Autonomy Gate</div><span class="acc-short">how much agents can do without approval</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A setting that controls how independently agents can act. Four levels: Observe (watch only), Propose (draft everything for approval — the default), Act + Notify (auto-run approved action types), Full Auto (agents run end-to-end without approval).</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Default is Propose. Do not change the Autonomy Gate without client instruction. Full Auto means agents post publicly with no human review — that is a client-level decision, not a VA decision.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Strategy Genes</div><span class="acc-short">learned behavioral rules — Pro feature</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">Short, plain-English rules that agents have learned from your approval patterns. Example: "Lead with the number" or "Keep CTAs to one line." They are injected into agent instructions once you promote them from Proposed → Active.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Lifecycle</span><span class="acc-row-body">Proposed → Active → Retired. A Gene starts as a pattern from the Learning scoring engine. You review and promote it. Retire any Gene instantly with one click.</span></div>
+            <div class="acc-row gold"><span class="acc-row-label">VA Note</span><span class="acc-row-body">Your approval decisions <em>are</em> the training signal. Inconsistent approvals = inconsistent output. Approving thoughtfully = agents that improve over time. This is not the same as the Knowledge Map.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Knowledge Map</div><span class="acc-short">what agents have stored and learned</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The accumulated facts and data agents have stored over time — past work, uploaded files, client decisions, previous outputs. Visible at the bottom of the Overview dashboard. Distinct from Strategy Genes.</p>
+          <div class="acc-meta">
+            <div class="acc-row gold"><span class="acc-row-label">Key distinction</span><span class="acc-row-body"><strong>Knowledge Map</strong> = stored facts and data (what agents know). <strong>Strategy Genes</strong> = learned behavioral rules from approval patterns (how agents behave). Two separate systems.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Company Playbook</div><span class="acc-short">the brief every agent reads first</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">A short business brief built in Settings that every agent reads before doing any work. Covers: objective, audience, voice, guardrails. The shared system prompt for the entire KeyCommand workspace.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">VA Note</span><span class="acc-row-body">If agent output consistently misses the client's tone or brand — check the Company Playbook. The instructions there are the first thing agents read. Stale or vague playbooks produce stale, vague output.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head" onclick="accToggle(this)">
+          <div class="acc-left"><div class="acc-term">Goal → Campaign → Mission</div><span class="acc-short">the work hierarchy</span></div>
+          <div class="acc-badges"><span class="badge-cat cat-kp">KP Platform</span><svg class="acc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="acc-body">
+          <p class="acc-def">The hierarchy of work in KeyCommand. <strong>Goal:</strong> a verifiable outcome agents work toward. <strong>Campaign:</strong> a multi-channel push over a date range. <strong>Mission:</strong> one big request run as coordinated waves of agent work. <strong>Task:</strong> a single individual agent run.</p>
+          <div class="acc-meta">
+            <div class="acc-row"><span class="acc-row-label">Full hierarchy</span><span class="acc-row-body">Goal → Campaign → Mission → Wave → Task. Each level is more granular. A Goal might have two Campaigns, each with several Missions, each broken into Waves and Tasks.</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div></section>
+
+</div><!-- /deck -->
+
+<div class="deckbar">
+  <button class="nav-btn" id="prevBtn" onclick="prevSes()" disabled><svg><use href="#i-arrow-l"/></svg> Prev</button>
+  <div class="db-label" id="dbLabel">AI Concepts</div>
+  <button class="nav-btn nav-next" id="nextBtn" onclick="nextSes()">Next <svg><use href="#i-arrow"/></svg></button>
+</div>
+</div><!-- /main -->
+
+<script>
+const sesNames = ['AI Concepts','Claude Ecosystem','Other AI Tools','Automation & CRM','Meetings & Comms','KeyCommand'];
+const slides = [...document.querySelectorAll('.slide')];
+const navLinks = [...document.querySelectorAll('.nav a')];
+let currentSes = 0;
+const totalSes = sesNames.length;
+
+function goSession(n) {
+  if (n < 0 || n >= totalSes) return;
+  slides.forEach(s => s.classList.remove('active'));
+  navLinks.forEach(a => a.classList.remove('active'));
+  slides.filter(s => +s.dataset.ses === n).forEach(s => s.classList.add('active'));
+  navLinks[n].classList.add('active');
+  currentSes = n;
+  document.getElementById('dbLabel').textContent = sesNames[n];
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').disabled = n === totalSes - 1;
+  // Close all accordions on session change
+  document.querySelectorAll('.acc-item.open').forEach(item => item.classList.remove('open'));
+}
+
+function prevSes() { goSession(currentSes - 1); }
+function nextSes() { goSession(currentSes + 1); }
+
+function accToggle(headEl) {
+  const item = headEl.closest('.acc-item');
+  const isOpen = item.classList.contains('open');
+  // Close all in same session
+  headEl.closest('.acc').querySelectorAll('.acc-item').forEach(i => i.classList.remove('open'));
+  // Toggle clicked (reopen if it was closed)
+  if (!isOpen) item.classList.add('open');
+}
+
+// Keyboard navigation between sessions
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSes();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSes();
+});
+</script>
+</body>
+</html>

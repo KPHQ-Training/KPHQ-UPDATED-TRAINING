@@ -416,10 +416,10 @@
   </div>
   <div class="nav" id="nav">
     <div class="nav-label">Today's Sessions</div>
-    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-grid"/></svg></span>Artifacts</a>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Which Claude Tool?</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Live Artifacts</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-tool"/></svg></span>MCP &amp; API</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-terminal"/></svg></span>CLI</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-terminal"/></svg></span>CLI &amp; Claude Code</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>Cowork</a>
     <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Projects, Skills &amp; Plugins</a>
     <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-book"/></svg></span>Context Engineering</a>
@@ -456,35 +456,25 @@
 
   <!-- OPENER -->
   <section class="slide active" data-ses="0"><div class="slide-inner">
-    <div class="eyebrow">Day 3 · Today</div>
-    <h1>Claude Deep Dive</h1>
-    <div class="card">
-      <div class="card-head"><svg><use href="#i-check"/></svg> Quick review of Day 2</div>
-      <ul>
-        <li>The full 6-block prompt: Role, Task, Context, Constraints, Examples, Format</li>
-        <li>Use AI to improve your prompts (meta prompting) and ground answers in your sources (cross-referencing)</li>
-        <li>Debug by changing one variable at a time</li>
-        <li>Match the tool to the job: chat vs automation vs agent</li>
-      </ul>
-    </div>
+    <div class="eyebrow">Day 3 · Start Here</div>
+    <h1>Which Claude Tool for This Job?</h1>
+    <p class="subtitle">Claude is not one tool — it is a family of access modes. Before diving into each one, know which door to use. This map covers the rest of today.</p>
+    <table>
+      <thead><tr><th>Access mode</th><th>What it is</th><th>Reach for it when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude Chat</strong><br><span style="color:var(--dim);font-size:12px">claude.ai — free & Pro</span></td><td>The browser chat interface. Conversations, drafts, quick tasks, Q&amp;A.</td><td>One-off tasks, quick answers, learning, experimenting. The starting point for almost everything.</td></tr>
+        <tr><td><strong>Claude Projects</strong><br><span style="color:var(--dim);font-size:12px">inside Claude Chat — Pro</span></td><td>A saved workspace inside Claude Chat. Keeps your files, instructions, and chat history for a specific client or job.</td><td>Ongoing client work. When you are tired of re-explaining context every session.</td></tr>
+        <tr><td><strong>Claude Cowork</strong><br><span style="color:var(--dim);font-size:12px">desktop app — Pro</span></td><td>Claude's desktop app. Connects to your real tools (Slack, Gmail, Canva, Google Docs) and can act across them in one flow.</td><td>Multi-step tasks involving your tools. When you need Claude to do the work in the actual app, not just write instructions.</td></tr>
+        <tr><td><strong>Claude Code / CLI</strong><br><span style="color:var(--dim);font-size:12px">terminal — free & Pro</span></td><td>Claude running inside a terminal window. Can read files, write code, run scripts, and build automations directly on your computer.</td><td>Building or automating at scale. Working alongside developers. Setting up persistent memory (CLAUDE.md). Advanced workflows.</td></tr>
+      </tbody>
+    </table>
     <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
-      <p style="margin-bottom:10px">By the end of today you can:</p>
-      <ul>
-        <li>Use Artifacts — Claude's output panel — to produce finished, reusable work</li>
-        <li>Apply context engineering to get sharper, more consistent answers</li>
-      </ul>
-      <p style="margin-top:10px;font-size:12px;color:var(--dim)">We also cover MCP, Cowork, Projects, Skills &amp; Plugins as awareness — these require Claude Pro or paid tools. You will know what they are and why they matter when you upgrade.</p>
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's focus</div>
+      <p style="margin:0">Today you learn each mode: what it does, when it makes sense, and what the VA's job looks like inside it. You will not master all four today. You will know which door to open for any given task.</p>
     </div>
     <div class="card">
-      <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
-      <ol>
-        <li>Artifacts &amp; Live Artifacts</li>
-        <li>MCP &amp; API, and what a CLI is</li>
-        <li>Cowork (and Cowork vs Claude Code)</li>
-        <li>Organize &amp; extend Claude: Projects, Skills, Plugins</li>
-        <li>Context engineering + Claude on autopilot</li>
-      </ol>
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick Day 2 recap</div>
+      <p style="margin:0">The 6-block prompt · Refining &amp; iterating output · Matching the tool to the task. Today builds on that: same skills, more specific tools.</p>
     </div>
   </div></section>
 
@@ -728,6 +718,44 @@
         <tr><td><strong>Client talk</strong></td><td>Tech-savvy clients mention CLI tools often. Recognizing what they mean builds your credibility.</td></tr>
       </tbody>
     </table>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Claude Code — what it is</h2>
+    <p>Claude Code is the CLI version of Claude. Instead of opening a browser tab, you open a terminal and type commands. Claude can then read your files, edit code, run scripts, and build automations directly on your computer — not just in a chat window.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-msg"/></svg> Claude Chat</div>Runs in a browser. You type, Claude replies with text. You copy the output and use it somewhere else. Claude cannot touch your actual files.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-terminal"/></svg> Claude Code</div>Runs in the terminal. Claude can open, read, and edit your real files. It can run commands, check errors, and fix them in the same flow — no copy-pasting required.</div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What CLAUDE.md is</div>
+      <p style="margin:0">When Claude Code opens a project folder, it looks for a file called <strong>CLAUDE.md</strong>. This is a set of instructions written for Claude specifically — the client's preferences, the rules for this project, how to name files, what to never touch. Think of it as the Project system prompt, but stored in the file itself so it survives across every Claude Code session.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>When VAs encounter Claude Code</h2>
+    <p>You will not be running Claude Code on Day 3. But you will encounter it — and when you do, you need to know what you are looking at.</p>
+    <table>
+      <thead><tr><th>Situation</th><th>What it means for you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A developer sends you a terminal screenshot</strong></td><td>That is Claude Code in action. You are looking at Claude working inside a file system, not a chat window.</td></tr>
+        <tr><td><strong>You're asked to add a CLAUDE.md file to a project folder</strong></td><td>You are setting persistent memory for Claude Code. Write the instructions clearly — Claude reads this before every session.</td></tr>
+        <tr><td><strong>A skill or automation needs to be set up from a file</strong></td><td>Claude Code can install and run skills directly from the terminal. You may be guided through this by a tech lead.</td></tr>
+        <tr><td><strong>Batch processing: rename 200 files, sort a folder</strong></td><td>Claude Code can do in one command what would take a VA hours manually. Know when to ask for this.</td></tr>
+      </tbody>
+    </table>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-terminal"/></svg> Tricky scenario</div>
+      <div class="quiz-q">You need to draft a follow-up email. Claude Chat vs. Claude Code — which one do you open?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Correct. Drafting an email is a text task — Claude Chat is perfect for it. Fast, no setup, no terminal needed. Claude Code would be like using a jackhammer to hang a picture."><span class="qmark"></span><span class="qtext">Claude Chat — text task, no files involved.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Claude Code is for file system tasks, not for drafting a single email. You'd spend more time getting the terminal open than you would writing the email."><span class="qmark"></span><span class="qtext">Claude Code — it's more powerful, so it's always better.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Cowork is for tasks that involve your connected tools — Slack, Canva, Google Docs. For a simple one-off email draft, Claude Chat is faster and requires no setup."><span class="qmark"></span><span class="qtext">Cowork — it connects to all my tools so it handles everything.</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
   </div></section>
 
   <!-- SESSION 4: COWORK -->
@@ -1001,7 +1029,8 @@
         <tr><td><strong>Artifacts</strong></td><td>Finished work Claude builds in a side panel. If you would paste it elsewhere, make it an artifact.</td></tr>
         <tr><td><strong>Live artifacts</strong></td><td>Dashboards that pull fresh data from your tools every time you open them.</td></tr>
         <tr><td><strong>MCP &amp; API</strong></td><td>The plumbing: API is each app's menu, MCP is the translator. It runs automatically.</td></tr>
-        <tr><td><strong>CLI</strong></td><td>Talking to a computer by typing instead of clicking. You will recognize it, not live in it.</td></tr>
+        <tr><td><strong>CLI &amp; Claude Code</strong></td><td>Talking to a computer by typing. Claude Code runs Claude from the terminal — reads/edits real files, runs scripts, sets up automations. You recognize it; CLAUDE.md is its persistent memory.</td></tr>
+        <tr><td><strong>Which tool?</strong></td><td>Chat for quick tasks. Projects to keep context. Cowork to act across tools. Claude Code to build and automate. Match the door to the job.</td></tr>
       </tbody>
     </table>
     <div class="card card-accent">
@@ -1185,7 +1214,7 @@ function proceedNext(){
   setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
 }
 
-const sesNames = ['Artifacts','Live Artifacts','MCP & API','CLI','Cowork','Projects, Skills & Plugins','Context Engineering','Claude on Autopilot','Recap & Next'];
+const sesNames = ['Which Claude Tool?','Live Artifacts','MCP & API','CLI & Claude Code','Cowork','Projects, Skills & Plugins','Context Engineering','Claude on Autopilot','Recap & Next'];
 
 const slides = [...document.querySelectorAll('.slide')];
 const navLinks = [...document.querySelectorAll('#nav a')];

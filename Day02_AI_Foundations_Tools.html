@@ -302,7 +302,7 @@
     <div class="nav-label">Today's Sessions</div>
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Prompting II: Power Blocks</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-align"/></svg></span>Format &amp; the Full Blueprint</a>
-    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Debugging Bad Output</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Refining &amp; Iterating</a>
     <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-compass"/></svg></span>The Right Tool</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>AI Tools</a>
   </div>
@@ -363,7 +363,7 @@
         <li>Prompting Foundations II: power blocks (Constraints, Examples)</li>
         <li>Format &amp; the full prompt blueprint</li>
         <li>From prompting to context engineering (meta prompting, cross-referencing)</li>
-        <li>Debugging bad output (4 failure modes, the debug loop)</li>
+        <li>Refining your output (4 fix patterns, the refinement loop)</li>
         <li>The right tool, plus intro to AI tools (benchmarks, free tiers)</li>
       </ol>
     </div>
@@ -504,8 +504,8 @@ Format: give me 3 options as a numbered list. (Format)</div>
   <!-- SESSION 2 -->
   <section class="slide" data-ses="2"><div class="slide-inner">
     <div class="eyebrow">Day 2 · Session 3</div>
-    <h1>Debugging Bad Output</h1>
-    <p class="subtitle">When AI gives you something weak, it is rarely "the AI being dumb." It is almost always a fixable gap in the prompt. Here is how an operator diagnoses and repairs it.</p>
+    <h1>Refining &amp; Iterating</h1>
+    <p class="subtitle">When AI gives you something weak, it is rarely "the AI being dumb." It is almost always a fixable gap in the prompt. Here is how to spot that gap, fix it fast, and iterate until the output is actually usable.</p>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-bolt"/></svg> The mindset shift</div>
       <p style="margin:0">Bad output is not a dead end, it is <strong>feedback</strong>. The model did exactly what your prompt implied. So the question is never "why is it wrong," it is <strong>"what did my prompt leave open?"</strong> Fix the input, not your mood.</p>
@@ -528,8 +528,8 @@ Format: give me 3 options as a numbered list. (Format)</div>
   </div></section>
 
   <section class="slide" data-ses="2"><div class="slide-inner">
-    <h2>The debug loop: change one thing at a time</h2>
-    <p>Do not rewrite the whole prompt and re-roll the dice. Change <strong>one</strong> variable, re-run, and compare. That is how you learn what actually moved the result, and how you reach "good" in two or three tries instead of ten.</p>
+    <h2>The refinement &amp; iteration loop: change one thing at a time</h2>
+    <p>Do not rewrite the whole prompt and re-roll the dice. Iteration means going back in — but changing <strong>one</strong> variable at a time, re-running, and comparing. That is how you learn what moved the result, and how you reach "good" in two or three tries instead of ten.</p>
     <div class="pipeline">
       <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-target"/></svg></div><div class="stage-name">Diagnose</div><div class="stage-cap">which of the 4 failure modes is it?</div></div>
       <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
@@ -542,7 +542,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
     <div class="principle">
       <div class="badge"><svg><use href="#i-compass"/></svg></div>
       <div class="pl">The Principle</div>
-      <p>Prompting is a <em>conversation</em>, not a slot machine. Iterate one change at a time and the model becomes predictable.</p>
+      <p>Prompting is a <em>conversation</em>, not a slot machine. Refine and iterate — one change at a time — and the model becomes predictable.</p>
     </div>
   </div></section>
 
@@ -560,6 +560,28 @@ Format: give me 3 options as a numbered list. (Format)</div>
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Why prompting shapes everything you produce</h2>
+    <p>Prompting is not just a skill for chat conversations. Every tool you will use as a VA runs on the same principle: <strong>clearer input, better output</strong>. The quality of your prompt determines the quality of what lands in front of the client.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> KeyCommand briefs</div>
+      <p style="margin:0">When you brief an agent in KeyCommand, that brief is your prompt. A vague brief gets generic output and more revision rounds. A specific, well-structured brief gets on-brief output that is ready to approve. The agent does exactly what you tell it — nothing more, nothing less.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> GHL automations</div>
+      <p style="margin:0">Automation descriptions, AI action steps, and follow-up sequence copy all depend on how clearly you describe the goal. Unclear intent at the setup stage means wrong triggers, broken paths, and messages sent to the wrong contacts.</p>
+    </div>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-activity"/></svg> Daily client tasks</div>
+      <p style="margin:0">Drafting emails, summarizing meetings, writing reports, pulling competitor insights — all of these shrink from 30 minutes to 5 when the prompt is right. That time compounds across every client and every shift.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-target"/></svg></div>
+      <div class="pl">The bottom line</div>
+      <p>A VA who prompts well produces better work, handles more clients, and closes tasks faster. Prompting is not a bonus skill. It is the <em>base layer</em> every other tool in this course runs on.</p>
     </div>
   </div></section>
 
@@ -743,7 +765,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
     </div>
     <div class="qa">
       <h3>Day 2 Q&amp;A</h3>
-      <p>Bring your questions on the six blocks, debugging, or choosing the right tool. Tomorrow we go deep on Claude: how it differs, Projects, and how to get your best work out of it.</p>
+      <p>Bring your questions on the six blocks, refining output, or choosing the right tool. Tomorrow we go deep on Claude: how it differs, Projects, and how to get your best work out of it.</p>
       <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 3 <svg><use href="#i-arrow"/></svg></button>
     </div>
   </div></section>
@@ -917,7 +939,7 @@ function proceedNext(){
   setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
 }
 
-const sesNames = ['Prompting Foundations II','Format & the Full Blueprint','Debugging Bad Output','The Right Tool','AI Tools'];
+const sesNames = ['Prompting Foundations II','Format & the Full Blueprint','Refining & Iterating','The Right Tool','AI Tools'];
 
 const slides = [...document.querySelectorAll('.slide')];
 const navLinks = [...document.querySelectorAll('#nav a')];

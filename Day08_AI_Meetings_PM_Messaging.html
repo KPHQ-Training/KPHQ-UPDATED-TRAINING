@@ -283,7 +283,7 @@
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Opener</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-msg"/></svg></span>AI Meeting Tools</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-clock"/></svg></span>tl;dv Automation</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-grid"/></svg></span>KeyCommand</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Conditional Logic</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Wrap-Up</a>
   </div>
   <div class="progress">
@@ -300,7 +300,7 @@
     <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
     <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
     <a class="current"><span class="cn">Day 8</span> AI Meetings &amp; PM</a>
-    <a href="https://kphq-updated-training.vercel.app/Day09_Automation_Week_Review.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> Full Review</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
     <div class="ref">
       <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
       <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
@@ -327,7 +327,7 @@
     </div>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-target"/></svg> The big picture for today</div>
-      <p style="margin:0">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together — and in Session 6 you'll see the platform where it all runs: <strong>KeyCommand</strong>, the KeyPlayers proprietary command center you'll operate with every client.</p>
+      <p style="margin:0">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together — and in Session 3 you'll learn the conditional logic that makes your automations smart enough to handle the real world.</p>
     </div>
   </div></section>
 
@@ -348,7 +348,7 @@
       <ul style="margin:0">
         <li><strong>30 min</strong>: AI Meeting Tools (Note-takers, Notes to Action, PM Tools, Messaging)</li>
         <li><strong>20 min</strong>: tl;dv + Email Automation (live build)</li>
-        <li><strong>1h 30 min</strong>: KeyCommand (your operating platform)</li>
+        <li><strong>45 min</strong>: Conditional Logic (triggers, routers, paths, and the fallback rule)</li>
         <li><strong>Open</strong>: Wrap-Up</li>
       </ul>
     </div>
@@ -495,16 +495,66 @@
         <tr><td><strong>ClickUp</strong></td><td>Attach the summary directly to a task or project so context lives where the work happens</td><td>The team tracks everything in ClickUp and wants one source of truth</td></tr>
       </tbody>
     </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The bigger play</div>
+      <p style="margin:0">Stored transcripts aren&rsquo;t just records — they become a queryable knowledge base. Next two slides: which tools to use and how to pull answers on demand.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-3b: KNOWLEDGE BASES — TOOL COMPARISON -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Transcripts as a Knowledge Base</h2>
+    <p>Saving a transcript is step one. The real skill is storing it somewhere you can <em>query later</em> — in plain English, at any time.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>What It Does</th><th>Setup</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NotebookLM</strong></td><td>Upload transcripts — it builds a Q&amp;A engine so you can ask natural-language questions across all of them</td><td>Zero — Google account, paste or upload</td><td>Fast start; &ldquo;What did the client say about X?&rdquo; answered in seconds</td></tr>
+        <tr><td><strong>Obsidian</strong></td><td>Local markdown vault — paste transcripts as notes, link them to clients and projects, chat with your vault using plugins (Smart Connections, Copilot)</td><td>Low — install app, create folder structure</td><td>VAs who want a private, offline, fully searchable personal knowledge graph</td></tr>
+        <tr><td><strong>Claude Projects</strong></td><td>Upload transcripts as project knowledge — Claude answers questions using your specific history, not generic AI training</td><td>Zero — add files to an existing Project</td><td>Briefing agents with client-specific context pulled from real meeting history</td></tr>
+        <tr><td><strong>Notion</strong></td><td>Each transcript becomes a linked page — Notion AI searches across them; taggable by client, date, or topic</td><td>Low — if team already runs Notion</td><td>Teams who already live in Notion and want one source of truth</td></tr>
+      </tbody>
+    </table>
     <div class="card card-gold">
-      <div class="card-head"><svg><use href="#i-spark"/></svg> The bigger play — building a knowledge base</div>
-      <p style="margin-bottom:10px">Storing notes isn't just about record-keeping. Every transcript you save becomes <em>training data for your AI tools</em>:</p>
-      <ul style="margin:0">
-        <li><strong>Claude Projects &amp; Custom GPTs</strong> — Upload past meeting notes as project knowledge. Now when you ask "What did the client decide about the landing page?" the AI pulls the answer from your own history.</li>
-        <li><strong>NotebookLM</strong> — Feed it 20+ meeting transcripts and it becomes a Q&amp;A engine over everything discussed. "What objections has this client raised?" — answered in seconds.</li>
-        <li><strong>Notion AI &amp; ClickUp AI</strong> — Both search across your workspace. The more structured notes you store, the smarter their built-in AI gets at surfacing context.</li>
-        <li><strong>Obsidian + local LLMs or plugins</strong> — Tools like Smart Connections or Copilot let you chat with your entire vault. Meeting notes become part of a private, searchable knowledge graph.</li>
-      </ul>
-      <p style="margin:10px 0 0"><strong style="color:var(--gold)">Bottom line:</strong> A VA who stores meeting notes in a queryable system doesn't just have records — they have an AI-powered memory that makes every future task faster.</p>
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Which one to pick</div>
+      <p style="margin:0">Use what your team already opens every day. A knowledge base nobody checks is just storage. If you&rsquo;re starting from scratch, <strong>NotebookLM</strong> is zero setup and works immediately.</p>
+    </div>
+  </div></section>
+
+  <!-- S1-3c: TRANSCRIPT TO QUERY FLOW -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>From Transcript to Useful Answer</h2>
+    <p>Once transcripts live in a knowledge base, you pull context on demand instead of digging through old files:</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Meeting Happens</div><div class="n8n-node-sub">AI notetaker records</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.25s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">Transcript Saved</div><div class="n8n-node-sub">Pasted into knowledge base</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.5s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.45s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-alert"/></svg></div><div><div class="n8n-node-title">Ask a Question</div><div class="n8n-node-sub">Natural language query</div></div></div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.65s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-check"/></svg></div><div><div class="n8n-node-title">Context Retrieved</div><div class="n8n-node-sub">Brief your agents faster</div></div></div>
+      </div>
+    </div>
+    <h3 style="margin:20px 0 10px">Real VA questions you can answer in seconds</h3>
+    <div class="compare">
+      <div class="col">
+        <div class="col-label"><svg><use href="#i-spark"/></svg> Budget &amp; decisions</div>
+        &ldquo;What did the client say their Q3 budget ceiling was?&rdquo;
+      </div>
+      <div class="col">
+        <div class="col-label"><svg><use href="#i-spark"/></svg> Objections</div>
+        &ldquo;What concerns has this client raised across all our calls?&rdquo;
+      </div>
+      <div class="col">
+        <div class="col-label"><svg><use href="#i-spark"/></svg> Deliverable history</div>
+        &ldquo;What was promised in the last three meetings?&rdquo;
+      </div>
     </div>
   </div></section>
 
@@ -785,7 +835,7 @@
     <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Rule</div><p>Master one free tool per category before a client ever pays for an upgrade. The skill transfers. The upgrade is only worth it once the workflow is proven and the client is getting value.</p></div>
     <div class="card card-accent" style="margin-top:16px">
       <div class="card-head"><svg><use href="#i-check"/></svg> What's next</div>
-      <p style="margin:0">You'll now build a real tl;dv → email automation using only free tools (~20 min). Then Session 3 puts everything through <strong>KeyCommand</strong>, the platform where all of this runs at the client level every day.</p>
+      <p style="margin:0">You'll now build a real tl;dv → email automation using only free tools (~20 min). Then Session 3 introduces conditional logic — the branching rules that make your automations smart enough to handle real-world inputs.</p>
     </div>
   </div></section>
 
@@ -941,315 +991,115 @@
     </div>
   </div></section>
 
-  <!-- S5-0: KEYCOMMAND INTRO -->
+  <!-- S3-0: CONDITIONAL LOGIC INTRO -->
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">Day 8 · Session 3: KeyCommand</div>
-    <h1>KeyCommand</h1>
-    <p class="subtitle">Once placed with a client, this is the platform you'll operate every day. KeyCommand is the KeyPlayers proprietary AI command center — a full marketing and ops stack run by specialized AI agents, with you as the operator who keeps everything accurate, on-brand, and moving.</p>
+    <div class="eyebrow">Day 8 · Session 3: Conditional Logic</div>
+    <h1>Conditional Logic</h1>
+    <p class="subtitle">The branching rules that decide what your automation does when the real world doesn't follow the script.</p>
     <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-grid"/></svg> What it is</div>
-      <p style="margin-bottom:10px">A marketing command center that pairs a team of AI agents with the client's social and tooling accounts. It handles competitor monitoring, content generation, outreach, engagement, and CRM signals — all in one platform. Every agent drafts. You decide what ships.</p>
-      <p style="margin:0">Everything you've learned this week converges inside KeyCommand. It's the operating layer where you run it all.</p>
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> The core idea</div>
+      <p style="margin-bottom:10px">If X is true, do A. If Y is true, do B. If neither matches, run the fallback.</p>
+      <p style="margin:0">Every automation you build will hit edge cases — contacts who don't fit the main path, inputs that arrive in the wrong format, requests that need a different response. Conditional logic is how you handle all of it without breaking the workflow.</p>
     </div>
-    <div class="kc-converge-wrap">
-      <div class="kc-converge">
-        <div class="kc-pill" style="--d:.1s"><svg><use href="#i-spark"/></svg> Claude</div>
-        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.0s"></div></div>
-        <div class="kc-pill" style="--d:.22s"><svg><use href="#i-msg"/></svg> GHL</div>
-        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.45s"></div></div>
-        <div class="kc-pill" style="--d:.34s"><svg><use href="#i-clock"/></svg> Meetings</div>
-        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.9s"></div></div>
-        <div class="kc-pill" style="--d:.46s"><svg><use href="#i-align"/></svg> PM Tools</div>
-        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:1.35s"></div></div>
-        <div class="kc-pill" style="--d:.58s"><svg><use href="#i-msg"/></svg> Messaging</div>
-        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:1.8s"></div></div>
-        <div class="kc-kc-badge"><svg><use href="#i-grid"/></svg> KeyCommand</div>
-      </div>
-      <div class="kc-converge-label">All roads lead here</div>
-    </div>
-    <h2 style="margin-top:12px">The Five Dashboard Tabs</h2>
+    <h2 style="margin-top:16px">Real VA examples</h2>
     <table>
-      <thead><tr><th>Tab</th><th>What It Covers</th></tr></thead>
+      <thead><tr><th>If this happens…</th><th>Then do this</th></tr></thead>
       <tbody>
-        <tr><td><strong>Leadership</strong></td><td>System status, agent activity, operator queue, goal progress, weekly snapshot</td></tr>
-        <tr><td><strong>Marketing</strong></td><td>Campaigns, content pipeline, competitor intel, reel performance</td></tr>
-        <tr><td><strong>Revenue</strong></td><td>CRM pipeline, deal stages, outreach sequences</td></tr>
-        <tr><td><strong>Operations</strong></td><td>Agent jobs, scheduled tasks, integrations, usage and spend</td></tr>
-        <tr><td><strong>Client Experience</strong></td><td>Community signals, engagement triage, inbox</td></tr>
+        <tr><td>Contact marks their email as urgent</td><td>Skip nurture sequence → call immediately + send Slack alert to account manager</td></tr>
+        <tr><td>Invoice unpaid after 7 days</td><td>Branch to overdue sequence → SMS reminder + internal flag in GHL</td></tr>
+        <tr><td>New lead comes from Instagram</td><td>Route to Instagram-specific nurture sequence (not the LinkedIn one)</td></tr>
+        <tr><td>No condition matches</td><td><strong>Run the fallback</strong> → tag as &ldquo;Needs review&rdquo; + notify VA to handle manually</td></tr>
       </tbody>
     </table>
   </div></section>
 
-  <!-- S5-2: AGENT HIERARCHY -->
+  <!-- S3-1: THE 5 KEY TERMS -->
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>The Agent System — Three Tiers</h2>
-    <p>23 agents, three roles. Understanding the hierarchy tells you who to brief for what task.</p>
-    <div class="kc-hierarchy">
-      <div class="kc-h-row" style="--hd:.1s">
-        <div class="kc-h-node kc-h-t1"><svg><use href="#i-bolt"/></svg> Orchestrator (KeyPlayer) — routes all work and runs the operating loop</div>
-        <span class="kc-h-badge kc-green">Tier 1</span>
-      </div>
-      <div class="kc-h-conn" style="--cd:.28s"></div>
-      <div class="kc-h-row" style="--hd:.4s">
-        <div class="kc-h-node kc-h-t2"><svg><use href="#i-spark"/></svg> AI CEO &bull; AI CMO &bull; AI COO &bull; AI CRO &bull; AI CXO — strategy, oversight &amp; audit (Boardroom)</div>
-        <span class="kc-h-badge kc-blue">Tier 2</span>
-      </div>
-      <div class="kc-h-conn" style="--cd:.58s"></div>
-      <div class="kc-h-row" style="--hd:.7s">
-        <div class="kc-h-node kc-h-t3"><svg><use href="#i-tool"/></svg> 17 Specialists: Reel Analyst, Content Writer, Content Cascade, Inbox Triage, Deliverable QA, Lead Research + more</div>
-        <span class="kc-h-badge kc-gray">Tier 3</span>
-      </div>
-    </div>
-    <div class="compare">
-      <div class="col" style="background:rgba(93,169,244,.05);border:1px solid rgba(93,169,244,.18)">
-        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-spark"/></svg> Exec Layer — how to use it</div>
-        These 5 agents run strategy reviews in the Boardroom. As a VA, you'll read their outputs and action their gaps using Specialists. Example: AI CMO flags a content gap — you brief Content Cascade to fill it.
-      </div>
-      <div class="col" style="background:rgba(255,255,255,.02);border:1px solid var(--border)">
-        <div class="col-label" style="color:var(--dim)"><svg><use href="#i-tool"/></svg> Specialists — your daily loop</div>
-        One job each. These are the agents you brief, review, and approve every day. They draft only — never post, send, or publish without your explicit go-ahead.
-      </div>
-    </div>
-  </div></section>
-
-  <!-- S5-3: SPECIALIST AGENTS TABLE -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Specialist Agents — Your Daily Tools</h2>
-    <p>17 specialists. Each produces a draft and nothing more. These are the ones a VA uses most:</p>
+    <h2>The 5 Terms Every VA Needs to Know</h2>
+    <p>You will see these in every automation tool — Make.com, GHL, Zapier, n8n. Learn them once, they transfer everywhere.</p>
     <table>
-      <thead><tr><th>Agent</th><th>Produces</th><th>Never Does</th></tr></thead>
+      <thead><tr><th>Term</th><th>What it is</th><th>Why it matters</th></tr></thead>
       <tbody>
-        <tr><td><strong>Reel Analyst</strong></td><td>Competitor reel teardown — hook, key phrases, winning angle</td><td>Never suggests copying it verbatim</td></tr>
-        <tr><td><strong>Reel Ideator</strong></td><td>Fresh reel concepts from live trends (ideas only)</td><td>Never writes the finished script</td></tr>
-        <tr><td><strong>Reel Optimizer</strong></td><td>Scored rewrite of the client's OWN reel with timestamped weak points</td><td>Never publishes the revision</td></tr>
-        <tr><td><strong>Content Writer</strong></td><td>Social post drafts across X, LinkedIn, IG, Facebook, YouTube</td><td>Never publishes</td></tr>
-        <tr><td><strong>Content Cascade</strong></td><td>Repurposes one pillar piece into 5 platform-native drafts</td><td>Never publishes</td></tr>
-        <tr><td><strong>Carousel Generator</strong></td><td>Multi-slide IG/LinkedIn carousel script (hook to CTA)</td><td>Never builds the visual</td></tr>
-        <tr><td><strong>Inbox Triage</strong></td><td>act_now / draft_reply / delegate / archive verdict per email</td><td>Never sends a reply</td></tr>
-        <tr><td><strong>Deliverable QA</strong></td><td>Adversarial score of any draft against company brief and brand voice</td><td>Never approves or publishes</td></tr>
-        <tr><td><strong>Lead Research</strong></td><td>One-page prospect profile from public signals</td><td>Never contacts the lead</td></tr>
+        <tr><td><strong>Trigger</strong></td><td>The event that starts the automation</td><td>No trigger = nothing runs. Wrong trigger = runs at the wrong time.</td></tr>
+        <tr><td><strong>Condition</strong></td><td>The rule that checks something (Is it urgent? Is it overdue?)</td><td>This is the &ldquo;if&rdquo; in your logic. Without conditions, every contact gets the same path.</td></tr>
+        <tr><td><strong>Path</strong></td><td>What happens when a condition is true</td><td>One condition can have multiple paths — true path and false path.</td></tr>
+        <tr><td><strong>Fallback</strong></td><td>The route taken when no condition matches</td><td>Without a fallback, unmatched contacts fall out of the automation silently — you&rsquo;ll never know.</td></tr>
+        <tr><td><strong>Log</strong></td><td>A record of what happened in each run</td><td>When something goes wrong, the log is how you diagnose it.</td></tr>
       </tbody>
     </table>
-    <div class="card card-danger" style="margin-top:12px">
-      <div class="card-head"><svg><use href="#i-shield"/></svg> Every agent has a hard constraint</div>
-      <p style="margin:0">No agent posts, sends, contacts, or publishes. That is a deliberate design choice — not a limitation. All action requires a human approval step. This is the safety architecture you operate inside.</p>
+    <div class="card card-gold" style="margin-top:14px">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The one you can&rsquo;t skip</div>
+      <p style="margin:0"><strong>Fallback is non-negotiable.</strong> Every router in every automation must have an &ldquo;if nothing matches&rdquo; path. Without it, you won&rsquo;t get an error — contacts just disappear into the void and you won&rsquo;t know until a client asks why nothing happened.</p>
     </div>
   </div></section>
 
-  <!-- S5-3b: GENES — MEMORY LAYER -->
+  <!-- S3-2: THE LOGIC MAP -->
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Genes — KeyCommand's Memory Layer</h2>
-    <p>Genes is the adaptive memory system built into KeyCommand. Every brief you write, every output you approve, and every correction you make trains it. The more you use it, the smarter your agents get.</p>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-book"/></svg> What Genes stores</div>
-      <p style="margin-bottom:10px">Genes builds a running memory profile for each client: their tone and voice, content formats that land, brief structures that produce good output, and what you approve vs. send back for rework. It's per-client — what it learns for one account stays in that account.</p>
-      <p style="margin:0">You don't configure it. It runs in the background and surfaces what it's learned through progressively tighter agent output over time.</p>
-    </div>
-    <div class="n8n-canvas" style="margin:16px 0">
+    <h2>The Logic Map — Seeing It Visually</h2>
+    <p>A real automation for routing leads by source platform. This is what conditional logic looks like in practice — you don&rsquo;t build it today, but you need to be able to read it.</p>
+    <div class="n8n-canvas">
       <div class="n8n-node n8n-active" style="--d:.1s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">You Interact</div><div class="n8n-node-sub">Brief, approve, correct</div></div></div>
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Trigger</div><div class="n8n-node-sub">New lead submitted</div></div></div>
       </div>
       <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
       <div class="n8n-node" style="--d:.3s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-activity"/></svg></div><div><div class="n8n-node-title">Genes Logs It</div><div class="n8n-node-sub">Builds client memory profile</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.6s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.55s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-spark"/></svg></div><div><div class="n8n-node-title">Agents Improve</div><div class="n8n-node-sub">Tighter output, fewer rebriefs</div></div></div>
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-activity"/></svg></div><div><div class="n8n-node-title">Router</div><div class="n8n-node-sub">Check: lead source?</div></div></div>
       </div>
     </div>
-    <div class="compare">
-      <div class="col" style="background:rgba(255,255,255,.02);border:1px solid var(--border)">
-        <div class="col-label" style="color:var(--dim)"><svg><use href="#i-clock"/></svg> First weeks</div>
-        Agents produce reasonable drafts but need frequent corrections. Genes is still building the client's profile from your interactions.
-      </div>
+    <div class="compare" style="margin-top:10px">
       <div class="col col-strong">
-        <div class="col-label"><svg><use href="#i-bolt"/></svg> After 30 days</div>
-        Agents produce on-brief output faster. Rebriefs drop sharply. Genes has mapped the client's voice, preferred formats, and your approval patterns.
+        <div class="col-label"><svg><use href="#i-check"/></svg> Instagram</div>
+        → IG nurture sequence + Reel Analyst brief
+      </div>
+      <div class="col" style="background:rgba(93,169,244,.05);border:1px solid rgba(93,169,244,.18)">
+        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-check"/></svg> LinkedIn</div>
+        → LinkedIn nurture sequence + Lead Research brief
+      </div>
+      <div class="col" style="background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.22)">
+        <div class="col-label" style="color:var(--gold)"><svg><use href="#i-check"/></svg> Referral</div>
+        → VIP onboarding sequence + direct notify
+      </div>
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-alert"/></svg> No match → Fallback</div>
+        Tag: &ldquo;Needs review&rdquo; → VA notified manually
       </div>
     </div>
-    <div class="card card-danger" style="margin-top:12px">
-      <div class="card-head"><svg><use href="#i-alert"/></svg> Your approvals are the training signal</div>
-      <p style="margin:0">Genes learns from what you approve. Approve sloppy work and it reinforces that standard. Be consistent and rigorous every session — your quality bar is what makes the system sharper, not just time.</p>
+    <div class="card card-danger" style="margin-top:14px">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> The #1 automation killer — case sensitivity</div>
+      <p style="margin-bottom:8px"><strong>&ldquo;Instagram&rdquo; &ne; &ldquo;instagram&rdquo;</strong> in a router filter. If the form sends lowercase and your filter checks title case, the router sees no match and sends the lead to fallback.</p>
+      <p style="margin:0">Fix: always normalize text inputs with <code>lower()</code> before routing. <code>lower(lead_source)</code> converts &ldquo;Instagram&rdquo;, &ldquo;INSTAGRAM&rdquo;, and &ldquo;instagram&rdquo; to the same value — then your filter catches all of them.</p>
     </div>
   </div></section>
 
-  <!-- S5-D: DRILL — Brief the Right Agent -->
+  <!-- S3-D: CONDITIONAL LOGIC DRILL -->
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">KeyCommand · Quick Drill</div>
-    <h2>Brief the Right Agent</h2>
-    <p>Each Specialist does one job. Briefing the wrong one wastes time and produces useless output.</p>
+    <div class="eyebrow">Conditional Logic · Drill</div>
+    <h2>Apply the Logic</h2>
+    <p>Two scenarios. Read carefully — the trap in each one is real.</p>
     <div class="quiz">
       <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 1</div>
-      <div class="quiz-q">The client asks: "Can we find out why that competitor's reel got 200K views last week?" Which Specialist do you brief?</div>
+      <div class="quiz-q">You build a GHL router: if the contact&rsquo;s tag contains &ldquo;VIP&rdquo;, send a same-day call task. You test it on a contact tagged &ldquo;vip&rdquo; (lowercase). Nothing happens. Why?</div>
       <div class="quiz-opts">
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Reel Ideator — generates fresh reel concepts from live trends</button>
-        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Reel Analyst — competitor reel teardown: hook, key phrases, winning angle</button>
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Reel Optimizer — scored rewrite of the client's own reel</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>GHL workflows don&rsquo;t support tag-based conditions — use custom fields instead</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>The filter checks for &ldquo;VIP&rdquo; (uppercase) but the tag is &ldquo;vip&rdquo; (lowercase) — they don&rsquo;t match, so the contact falls to the fallback path</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The contact needs to re-enter the workflow for the condition to evaluate</button>
       </div>
-      <div class="quiz-fb"><strong>Reel Analyst</strong> is the competitor teardown agent. Give it the competitor's handle or reel URL and it returns the hook structure, key phrases, and winning angle. Reel Ideator comes next — once you know what's working, brief it for new concept ideas. Reel Optimizer is only for improving the client's own existing content.</div>
+      <div class="quiz-fb">Case sensitivity. &ldquo;VIP&rdquo; &ne; &ldquo;vip&rdquo; in an exact-match filter. The router sees no match and routes to fallback — silently. Your same-day call never triggers. Fix: standardize all tags to a consistent case when created, or normalize with a text function before the condition runs.</div>
       <button class="quiz-reset" onclick="qReset(this)">Try again</button>
     </div>
     <div class="quiz" style="margin-top:20px">
       <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 2</div>
-      <div class="quiz-q">You have an approved pillar LinkedIn article. The client wants Instagram, Facebook, X, and YouTube versions. Which agent handles that?</div>
+      <div class="quiz-q">You build a 3-path router (Instagram / Facebook / LinkedIn). A lead comes in from YouTube. What happens?</div>
       <div class="quiz-opts">
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Content Writer — drafts social posts across platforms</button>
-        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Content Cascade — repurposes one pillar piece into 5 platform-native drafts</button>
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>Carousel Generator — builds multi-slide carousel scripts</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The router automatically creates a YouTube path</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The automation pauses and waits for you to add a YouTube path</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>The lead hits the fallback path — or exits the automation entirely if no fallback was set up</button>
       </div>
-      <div class="quiz-fb"><strong>Content Cascade</strong> is purpose-built for this — one approved pillar piece becomes five platform-native drafts in one brief. Content Writer creates new posts from scratch. Carousel Generator is specifically for the multi-slide carousel format, not cross-platform distribution.</div>
+      <div class="quiz-fb">No condition matched, so the fallback runs. If you forgot to add a fallback, the lead exits the automation silently — no tag, no notification, no action. This is why every router needs a fallback. &ldquo;Needs review&rdquo; + VA notification is the minimum safe fallback for any production workflow.</div>
       <button class="quiz-reset" onclick="qReset(this)">Try again</button>
     </div>
   </div></section>
 
-  <!-- S5-4: APPROVAL WORKFLOW -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>The Approval Workflow — Where You Live</h2>
-    <p>Every agent output follows the same path. Two gates — yours and the client's — before anything goes live.</p>
-    <div class="n8n-canvas">
-      <div class="n8n-node n8n-active" style="--d:.1s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Agent Runs</div><div class="n8n-node-sub">Produces a draft</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.25s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-alert"/></svg></div><div><div class="n8n-node-title">Operator Queue</div><div class="n8n-node-sub">Awaits your review</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.5s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.45s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#3b82f6"><svg><use href="#i-users"/></svg></div><div><div class="n8n-node-title">VA Reviews</div><div class="n8n-node-sub">Check, correct, approve</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.65s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-compass"/></svg></div><div><div class="n8n-node-title">Client Approves</div><div class="n8n-node-sub">Final sign-off</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.5s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.85s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-check"/></svg></div><div><div class="n8n-node-title">Publish</div><div class="n8n-node-sub">Routes to destination</div></div></div>
-      </div>
-    </div>
-    <div class="compare">
-      <div class="col col-strong">
-        <div class="col-label"><svg><use href="#i-check"/></svg> VA approves</div>
-        You've checked the draft for accuracy, tone, and brief alignment. It's ready for the client to see.
-      </div>
-      <div class="col" style="background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.22)">
-        <div class="col-label" style="color:var(--gold)"><svg><use href="#i-compass"/></svg> Client approves</div>
-        The client gives final sign-off. Only after their approval does anything go live — post, send, or publish.
-      </div>
-      <div class="col col-weak">
-        <div class="col-label"><svg><use href="#i-x"/></svg> Fix &amp; rebrief</div>
-        Either you or the client flags an issue. Edit the draft directly or rebrief the agent with clearer instructions.
-      </div>
-    </div>
-    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">Non-Negotiable</div><p>This is not rubber-stamping. The client's brand goes out on every approved piece. A VA who clicks Approve without reading is a liability, not an asset. Read every draft. And nothing ships until the client says so.</p></div>
-  </div></section>
-
-  <!-- S5-5: RUNNING AGENTS + OPERATING RHYTHM -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Running Agents — Your Daily Rhythm</h2>
-    <div class="step-flow">
-      <div class="step-item">
-        <div class="step-dot">1</div>
-        <div class="step-content"><strong>Pick the agent</strong><p>Go to Agents, find the right Specialist, click Open Workspace. Each card shows its purpose and when it last ran.</p></div>
-      </div>
-      <div class="step-item">
-        <div class="step-dot">2</div>
-        <div class="step-content"><strong>Brief it clearly</strong><p>Give it what it needs: a URL, a transcript, a content brief, a prospect name. Specific brief = tight output. Vague brief = rework.</p></div>
-      </div>
-      <div class="step-item">
-        <div class="step-dot">3</div>
-        <div class="step-content"><strong>Review in the Operator Queue</strong><p>Draft appears within seconds to minutes. Check it against the client's company playbook and the brief. Approve or rebrief.</p></div>
-      </div>
-    </div>
-    <h2>VA Operating Rhythm in KeyCommand</h2>
-    <div class="kc-timeline">
-      <div class="kc-tl-header"><svg><use href="#i-clock"/></svg> Daily Pattern</div>
-      <div class="kc-tl-track"><div class="kc-tl-fill"></div></div>
-      <div class="kc-tl-phases">
-        <div class="kc-tl-phase" style="--tpd:.25s">
-          <div class="kc-tl-dot"></div>
-          <div class="kc-tl-phase-label">Morning</div>
-          <div class="kc-tl-phase-body">Open Leadership dashboard. Check Goal Progress and Operator Queue. Brief Reel Ideator for today's concept batch and Inbox Triage on overnight emails.</div>
-        </div>
-        <div class="kc-tl-phase" style="--tpd:.8s">
-          <div class="kc-tl-dot"></div>
-          <div class="kc-tl-phase-label">Mid-day</div>
-          <div class="kc-tl-phase-body">Review and approve queued drafts. Run Content Cascade on any approved pillar post. Brief Deliverable QA on complex or client-facing items.</div>
-        </div>
-        <div class="kc-tl-phase" style="--tpd:1.35s">
-          <div class="kc-tl-dot"></div>
-          <div class="kc-tl-phase-label">Close-out</div>
-          <div class="kc-tl-phase-body">Clear the Operator Queue. Check Tasks Board for overdue items. Post the weekly snapshot metrics to the client's Slack channel.</div>
-        </div>
-      </div>
-    </div>
-    <div class="standard"><div class="badge"><svg><use href="#i-spark"/></svg></div><div class="pl">The KeyPlayers Standard</div><p>A VA fluent in KeyCommand runs a client's full content and marketing ops from one dashboard, with every output reviewed before it ships. That's the standard you're building toward.</p></div>
-  </div></section>
-
-  <!-- S5-6: WRITING EFFECTIVE BRIEFS -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Writing Briefs That Actually Work</h2>
-    <p>The quality of every agent's output depends on the brief you give it. A vague brief produces generic output you'll waste time rebriefing.</p>
-    <div class="compare">
-      <div class="col col-weak">
-        <div class="col-label"><svg><use href="#i-x"/></svg> Weak brief</div>
-        "Write some social posts for the client." — No platform, no tone, no topic. The agent guesses everything and you rebrief 3 times.
-      </div>
-      <div class="col col-strong">
-        <div class="col-label"><svg><use href="#i-check"/></svg> Strong brief</div>
-        "Write 3 Instagram captions for Apex Roofing. Topic: spring roof inspection checklist. Tone: friendly, homeowner-focused. Include a CTA to book a free inspection. Max 150 words each."
-      </div>
-    </div>
-    <h3>The Brief Checklist</h3>
-    <table>
-      <thead><tr><th>Include</th><th>Why</th><th>Example</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Client name</strong></td><td>Genes pulls the right voice profile</td><td>"For Apex Roofing"</td></tr>
-        <tr><td><strong>Platform / format</strong></td><td>Output shape changes per channel</td><td>"Instagram carousel, 7 slides"</td></tr>
-        <tr><td><strong>Topic or input</strong></td><td>What the agent is working with</td><td>"Based on this transcript…" or "Topic: gutter maintenance"</td></tr>
-        <tr><td><strong>Tone / voice</strong></td><td>Prevents off-brand output</td><td>"Professional but approachable, no jargon"</td></tr>
-        <tr><td><strong>Constraints</strong></td><td>Keeps output usable</td><td>"Under 200 words" or "Must include the offer code"</td></tr>
-        <tr><td><strong>CTA or goal</strong></td><td>Every piece should drive an action</td><td>"CTA: Book a free estimate"</td></tr>
-      </tbody>
-    </table>
-    <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">Genes gets smarter over time</div><p>But only if your briefs are consistent. Brief Content Writer with a clear format and tone every time and Genes learns that pattern. Inconsistent briefs give Genes nothing stable to learn from.</p></div>
-  </div></section>
-
-  <!-- S5-7: HOW TODAY'S TOOLS FEED INTO KEYCOMMAND -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>How Today's Tools Feed Into KeyCommand</h2>
-    <p>Everything you learned today has a direct path into the platform:</p>
-    <table>
-      <thead><tr><th>Tool / Skill</th><th>How It Connects to KeyCommand</th></tr></thead>
-      <tbody>
-        <tr><td><strong>AI Note-Takers</strong></td><td>Meeting transcripts become briefs for agents. Feed a transcript to Content Cascade and it pulls client quotes for social content. Feed it to Lead Research and it extracts prospect intel.</td></tr>
-        <tr><td><strong>ClickUp / PM Tools</strong></td><td>Agent outputs land as tasks. Reel Ideator produces 5 concepts → each becomes a ClickUp task. Deliverable QA results become revision tickets.</td></tr>
-        <tr><td><strong>Slack</strong></td><td>Approval notifications, daily summaries, and agent alerts route to Slack. "New draft ready" pings you in #operator-queue. Weekly snapshots post to #client-reports.</td></tr>
-        <tr><td><strong>Meeting → ClickUp automation</strong></td><td>The automation you just learned feeds directly into the KeyCommand loop. Meeting → transcript → tasks in ClickUp → you brief agents against those tasks → outputs go through the approval workflow.</td></tr>
-      </tbody>
-    </table>
-    <div class="card card-gold">
-      <div class="card-head"><svg><use href="#i-bolt"/></svg> The full loop</div>
-      <p style="margin:0">Meeting happens → notetaker captures it → automation creates ClickUp tasks → you brief the right KeyCommand agents based on those tasks → agents draft → you review → client approves → output ships. That's the entire operating rhythm in one sentence.</p>
-    </div>
-  </div></section>
-
-  <!-- S5-8: COMMON MISTAKES -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>Common Mistakes New VAs Make</h2>
-    <p>Avoid these in your first weeks on the platform:</p>
-    <table>
-      <thead><tr><th>Mistake</th><th>Why It Hurts</th><th>Fix</th></tr></thead>
-      <tbody>
-        <tr><td><strong style="color:var(--danger)">Rubber-stamping approvals</strong></td><td>Bad content ships, client loses trust, Genes learns the wrong standard</td><td>Read every draft. If you wouldn't send it under your own name, don't approve it.</td></tr>
-        <tr><td><strong style="color:var(--danger)">Briefing the wrong agent</strong></td><td>Wasted time, irrelevant output, rebrief cycle</td><td>Check the Specialist table. Each agent does one thing. Match the task to the agent.</td></tr>
-        <tr><td><strong style="color:var(--danger)">Vague briefs</strong></td><td>Generic output, multiple rebriefs, slower delivery</td><td>Use the brief checklist: client, platform, topic, tone, constraints, CTA.</td></tr>
-        <tr><td><strong style="color:var(--danger)">Ignoring the Operator Queue</strong></td><td>Pipeline stalls, client sees no output, agents idle</td><td>Clear the queue at least twice a day — morning and mid-day.</td></tr>
-        <tr><td><strong style="color:var(--danger)">Not using Exec Layer outputs</strong></td><td>You miss strategic gaps the AI CMO / AI CRO flagged</td><td>Check Boardroom outputs weekly. Action the gaps they surface using Specialists.</td></tr>
-      </tbody>
-    </table>
-  </div></section>
 
   <!-- S6-0: DAY 8 WRAP-UP -->
   <section class="slide" data-ses="4"><div class="slide-inner">
@@ -1264,9 +1114,8 @@
         <li><strong>Meeting → ClickUp is automatable.</strong> Notetaker fires → Zapier/Make catches it → Claude extracts tasks → ClickUp populates. You review, not rebuild.</li>
         <li><strong>PM tools</strong> all share the same core concepts — tasks, owners, due dates, statuses. Learn one, the rest are just different buttons.</li>
         <li><strong>Messaging automations</strong> connect Slack, WhatsApp, and Telegram to your stack automatically.</li>
-        <li><strong>KeyCommand</strong> is the operating platform — 23 AI agents across 3 tiers, all drafting, none publishing. You brief, review, and the client approves before anything ships.</li>
-        <li><strong>Briefs determine output quality.</strong> Client name, platform, topic, tone, constraints, CTA — every brief needs these.</li>
-        <li><strong>The approval chain has two gates:</strong> VA reviews first, client approves second. Nothing goes live without both.</li>
+        <li><strong>Conditional logic</strong> is what makes automations smart — triggers route to different paths based on conditions, and every router needs a fallback for unmatched inputs.</li>
+        <li><strong>Case sensitivity kills workflows.</strong> &ldquo;VIP&rdquo; and &ldquo;vip&rdquo; are different strings in an exact-match filter. Always normalize text inputs before routing.</li>
       </ul>
     </div>
   </div></section>
@@ -1275,7 +1124,7 @@
   <section class="slide" data-ses="4"><div class="slide-inner">
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-bolt"/></svg> Day 8 Complete — Core Curriculum Done</div>
-      <p style="margin:0">You've now covered the full AI-enabled VA stack: Claude as your brain, GoHighLevel as the engine, AI note-takers for meetings, PM tools for tracking, and Slack/WhatsApp/Telegram for messaging — all connected through KeyCommand, all under your oversight. <strong>Days 9 &amp; 10 put it to the test: review, gap analysis, and certification.</strong></p>
+      <p style="margin:0">You've now covered meetings, PM tools, messaging automations, and the conditional logic that makes your workflows handle the real world. Day 9 is KeyCommand &mdash; the platform where you&rsquo;ll run everything you&rsquo;ve learned. Day 10 is the final assessment.</p>
     </div>
   </div></section>
 
@@ -1315,7 +1164,7 @@ function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBad
 function kpCheckAccess(){var _p=new URLSearchParams(window.location.search);if(_p.has('admin')){kpShowAdminBadge();return;}if(_p.has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=new Date(CONFIG.UNLOCK_DATE+'T07:30:00');if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
 kpCheckAccess();
 function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
-const sesNames=['Opener','AI Meeting Tools','tl;dv Automation','KeyCommand','Wrap-Up'];
+const sesNames=['Opener','AI Meeting Tools','tl;dv Automation','Conditional Logic','Wrap-Up'];
 const slides=[...document.querySelectorAll('.slide')];
 const navLinks=[...document.querySelectorAll('#nav a')];
 const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');

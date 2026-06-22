@@ -566,6 +566,24 @@
   </div></section>
 
   <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>More limits VAs run into every day</h2>
+    <p>Beyond hallucination, there are four practical limits you will hit on the job. These are not bugs — they are how LLMs are built. Knowing them prevents surprises.</p>
+    <table>
+      <thead><tr><th>Limit</th><th>What it means for you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>No memory between sessions</strong></td><td>Every new conversation starts blank. It does not remember the client context you gave it last Tuesday. You have to re-brief it each time, or use a memory tool like Projects.</td></tr>
+        <tr><td><strong>Context window degrades</strong></td><td>In very long conversations, it starts losing track of earlier instructions. If output starts drifting, start a fresh conversation and paste only what matters.</td></tr>
+        <tr><td><strong>Can't take real-world actions</strong></td><td>It does not send emails, book appointments, post to social, or touch any platform unless a tool is explicitly connected. By default it only produces text.</td></tr>
+        <tr><td><strong>Can't verify its own errors</strong></td><td>A confident wrong answer looks identical to a confident right one. It does not flag its own mistakes. You are the only one who catches them.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The one that trips people up most</div>
+      <p style="margin:0">No memory between sessions. VAs assume it "knows" the client from last time. It does not. <strong>Re-brief every session</strong>, or use Projects to keep context alive between conversations.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
     <h2>Spotting AI slant &amp; fluff</h2>
     <p>There is a subtler failure than hallucination. AI does not just risk being wrong. It defaults to being <strong>bland</strong>. Because it predicts the most average, probable phrasing, its first draft is usually padded, hedge-y, and over-formal. Learning to hear that "AI sound" and cut it is one of the most valuable editing skills you will build.</p>
     <div class="card card-danger">
@@ -724,6 +742,27 @@
     </div>
   </div></section>
 
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Drill: would you share this data?</h2>
+    <p>A client running a home remodeling company asks you to use AI to write personalized follow-up emails for 50 leads. They send you a spreadsheet — names, phone numbers, email addresses, and the quote amount from each visit. What is the right approach?</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-shield"/></svg> Data security scenario</div>
+      <div class="quiz-q">Which move is correct?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Speed never justifies sharing PII. Pasting the spreadsheet means 50 real people's names, numbers, and financial details go into a general AI tool. That is a data breach, not an efficiency win."><span class="qmark"></span><span class="qtext">Paste the whole spreadsheet — faster work = better service.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Correct. Replace real values with placeholders ([NAME], [EMAIL], [AMOUNT]), paste the sanitized version, and let AI draft the template. Then add the real data back yourself. AI does the heavy lifting; the PII never leaves your hands."><span class="qmark"></span><span class="qtext">Sanitize first — replace names, emails, and amounts with placeholders. Paste that. Add real data back yourself after.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Too cautious — and it defeats the point of using AI. The task is fine. The fix is sanitizing, not skipping. Refusing every task with personal data is not a security policy, it is a productivity problem."><span class="qmark"></span><span class="qtext">Don't use AI at all — personal data means no AI involvement.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Incognito mode hides your browsing from your local browser history. It does nothing to protect what you send to the AI provider's servers. The data still travels to and is processed by the model."><span class="qmark"></span><span class="qtext">Open an incognito browser window — that keeps the data private.</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+    <div class="card card-secure" style="margin-top:20px">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> What incognito actually does</div>
+      <p style="margin:0">Incognito hides activity from your <strong>local browser history</strong>. It does not encrypt, hide, or protect anything you send to an external service. The AI provider still receives and processes every character you paste. Data security happens before you hit send, not in how you open the tab.</p>
+    </div>
+  </div></section>
+
   <!-- SESSION 3 -->
   <section class="slide" data-ses="3"><div class="slide-inner">
     <div class="eyebrow">Day 1 · Session 4</div>
@@ -866,6 +905,22 @@ const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4W
   }
 })();
 
+/* ---- login gate (serves as Day 1 attendance) ---- */
+function kpD1Track_(p){try{navigator.sendBeacon(CONFIG.SUBMIT_URL,JSON.stringify(p));}catch(e){}}
+function kpD1Once_(k){if(localStorage.getItem(k))return false;localStorage.setItem(k,'1');return true;}
+function kpD1GateOpen(){
+  if(localStorage.getItem('kp_gate_Day 1'))return;
+  var g=document.createElement('div');g.id='kpGate';
+  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">KeyPlayers VA Academy · Day 1</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Login to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">Enter your name to check in and unlock Day 1. This records your attendance.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Login &amp; start training &#9654;</button></div>';
+  document.body.appendChild(g);
+  var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');
+  function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);localStorage.setItem('kp_name',f+' '+l);localStorage.setItem('kp_gate_Day 1','1');if(kpD1Once_('kp_att_Day 1'))kpD1Track_({formType:'attendance',day:'Day 1',name:f+' '+l,firstName:f,lastName:l,userAgent:navigator.userAgent});var gate=document.getElementById('kpGate');if(gate&&gate.parentNode)gate.parentNode.removeChild(gate);}
+  btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});
+  setTimeout(function(){try{fn.focus();}catch(e){}},50);
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpD1GateOpen):kpD1GateOpen();
+
 /* ---- past sessions navigator ---- */
 const KP_SESSIONS=[
   {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
@@ -875,7 +930,9 @@ const KP_SESSIONS=[
   {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
   {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
   {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
-  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'}
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},
+  {day:'Day 9',label:'Automation Review',url:'Day09_Automation_Week_Review.html'},
+  {day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}
 ];
 function kpNavBuild(){
   var base='https://kphq-updated-training.vercel.app/';
@@ -923,7 +980,7 @@ function render(){
   prevBtn.disabled = cur===0;
   if(cur===slides.length-1){
     nextBtn.innerHTML = 'Day 2 <svg><use href="#i-arrow"/></svg>';
-    nextBtn.onclick = ()=>window.open('https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html','_blank');
+    nextBtn.onclick = ()=>{ if(kpD1Once_('kp_done_Day 1')) kpD1Track_({formType:'completed',day:'Day 1',name:localStorage.getItem('kp_name')||'',nextDay:'Day 2',userAgent:navigator.userAgent}); window.open('https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html','_blank'); };
   } else {
     nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
     nextBtn.onclick = next;

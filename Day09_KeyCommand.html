@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeyPlayers VA Academy: Day 9 — KeyCommand</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Epilogue', sans-serif;
+      background: #0C1A10;
+      color: #C8D9CB;
+      margin: 0;
+      padding: 0;
+      font-size: 10.5pt;
+      line-height: 1.7;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0C1A10 0%, #162A1E 50%, #1E3326 100%);
+      border-bottom: 2px solid #2A6636;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-text {
+      font-family: 'Fraunces', serif;
+      font-size: 13pt;
+      color: #6DB87A;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .header-badge {
+      background: rgba(42, 102, 54, 0.25);
+      border: 1px solid #2A6636;
+      color: #7A9880;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 8.5pt;
+      letter-spacing: 0.5px;
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* ── DAY INTRO ── */
+    .day-intro {
+      background: linear-gradient(135deg, #111D15 0%, #162A1E 100%);
+      border: 1px solid #1E3326;
+      border-left: 4px solid #C9A84C;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    .day-intro-label {
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .day-intro h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 18pt;
+      color: #DDEEE0;
+      margin: 0 0 12px 0;
+      font-weight: 600;
+    }
+
+    .day-intro p {
+      color: #7A9880;
+      font-size: 10pt;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ── SESSION INDEX ── */
+    .session-index { margin-bottom: 28px; }
+
+    .session-index-title {
+      font-family: 'Fraunces', serif;
+      color: #6DB87A;
+      font-size: 11pt;
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .session-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .session-card {
+      display: block;
+      text-decoration: none;
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 10px;
+      padding: 18px 16px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .session-card:hover {
+      border-color: #2A6636;
+      background: #162A1E;
+    }
+
+    .card-number {
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 10.5pt;
+      color: #DDEEE0;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 8.5pt;
+      color: #7A9880;
+      line-height: 1.5;
+    }
+
+    /* ── SLIDES ── */
+    .slide { display: none; }
+    .slide.active { display: block; }
+
+    .slide-header {
+      background: linear-gradient(135deg, #111D15 0%, #162A1E 100%);
+      border: 1px solid #1E3326;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+
+    .session-label {
+      display: inline-block;
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 22pt;
+      color: #DDEEE0;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 14pt;
+      color: #DDEEE0;
+      margin-top: 26px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-family: 'Epilogue', sans-serif;
+      font-size: 10.5pt;
+      color: #6DB87A;
+      font-weight: 700;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle {
+      color: #7A9880;
+      font-size: 10.5pt;
+      line-height: 1.6;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 12pt;
+      color: #6DB87A;
+      border-bottom: 1px solid #1E3326;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    p { margin: 0 0 14px 0; }
+
+    ul, ol { margin: 0 0 16px 0; padding-left: 22px; }
+    li { margin-bottom: 8px; line-height: 1.6; }
+
+    a { color: #6DB87A; }
+    a:hover { color: #DDEEE0; }
+
+    /* ── CONTENT COMPONENTS ── */
+    .human-margin-box {
+      background: rgba(42, 102, 54, 0.12);
+      border-left: 3px solid #2A6636;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .human-margin-title {
+      font-family: 'Fraunces', serif;
+      color: #6DB87A;
+      font-size: 10pt;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .drill-box {
+      background: rgba(201, 168, 76, 0.08);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .drill-box-title {
+      font-family: 'Fraunces', serif;
+      color: #C9A84C;
+      font-size: 10.5pt;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .case-study {
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .case-study-label {
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .tip-box {
+      background: rgba(42, 102, 54, 0.15);
+      border: 1px solid #2A6636;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 9.5pt;
+    }
+
+    .warning-box {
+      background: rgba(201, 168, 76, 0.1);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 9.5pt;
+    }
+
+    .warning-label {
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    /* ── TABLES ── */
+    table { width: 100%; border-collapse: collapse; margin: 22px 0; }
+
+    th {
+      background: #162A1E;
+      color: #6DB87A;
+      font-family: 'Epilogue', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 2px solid #2A6636;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #1E3326;
+      font-size: 9.5pt;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(42, 102, 54, 0.06); }
+
+    /* ── TIER DIAGRAM ── */
+    .tier-diagram {
+      margin: 20px 0;
+    }
+
+    .tier-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      margin-bottom: 10px;
+    }
+
+    .tier-label {
+      min-width: 90px;
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      padding-right: 8px;
+    }
+
+    .tier-card {
+      flex: 1;
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+
+    .tier-card.gold { border-color: rgba(201,168,76,0.4); }
+    .tier-card.green { border-color: #2A6636; }
+
+    .tier-card-name {
+      font-family: 'Fraunces', serif;
+      color: #DDEEE0;
+      font-size: 10pt;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .tier-card-desc {
+      color: #7A9880;
+      font-size: 8.5pt;
+      line-height: 1.5;
+    }
+
+    .tier-arrow {
+      text-align: center;
+      color: #2A6636;
+      font-size: 14pt;
+      margin: 0 0 10px 0;
+      padding-left: 98px;
+    }
+
+    /* ── COMPARISON ── */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .comparison-col {
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .comparison-col.bad { border-top: 3px solid #8B3030; }
+    .comparison-col.good { border-top: 3px solid #2A6636; }
+
+    .comparison-label {
+      font-size: 8pt;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .comparison-label.bad { color: #B85454; }
+    .comparison-label.good { color: #6DB87A; }
+
+    .comparison-col p { font-size: 9.5pt; color: #C8D9CB; }
+
+    /* ── CHECKLIST ── */
+    .checklist {
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px solid #1E3326;
+      font-size: 9.5pt;
+    }
+
+    .checklist-item:last-child { border-bottom: none; }
+
+    .check-icon {
+      color: #2A6636;
+      font-size: 12pt;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: #DDEEE0;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .check-desc { color: #7A9880; }
+
+    /* ── RHYTHM BLOCKS ── */
+    .rhythm-block {
+      background: #111D15;
+      border: 1px solid #1E3326;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+
+    .rhythm-time {
+      font-size: 8pt;
+      color: #C9A84C;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .rhythm-block h3 {
+      margin-top: 0;
+      color: #DDEEE0;
+    }
+
+    /* ── NAV BUTTONS ── */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 28px;
+      gap: 12px;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-family: 'Epilogue', sans-serif;
+      font-size: 9.5pt;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover, .btn-secondary:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #2A6636;
+      color: #DDEEE0;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #7A9880;
+      border: 1px solid #1E3326;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #4A5E4F;
+      font-size: 8pt;
+      border-top: 1px solid #1E3326;
+      margin-top: 40px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── SPACING FIXES ── */
+    h1 { margin-top: 0; }
+    .slide > *:first-child { margin-top: 0; }
+    .slide > h2:first-child { margin-top: 0; }
+    .section-title { margin-top: 0; }
+    .subtitle { margin-top: 0; }
+    .slide > *:last-child,
+    .human-margin-box > *:last-child,
+    .drill-box > *:last-child,
+    .case-study > *:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-text">KeyPlayers VA Academy</span>
+  <span class="header-badge">DAY 9 · KEYCOMMAND</span>
+</div>
+
+<div class="container">
+
+  <!-- Day Intro (Session 0 Recap) -->
+  <div class="day-intro" id="dayIntro">
+    <div class="day-intro-label">Day 9 — The Command Center</div>
+    <h2>Today, everything becomes one operating system.</h2>
+    <p>Days 6–8 built your stack: GHL for CRM, automation logic for triggers, AI for drafting and decision-making. KeyCommand is where all of those tools are coordinated — through AI agents that draft, and a VA (you) who approves every single output before it reaches a client.</p>
+  </div>
+
+  <!-- Session Index -->
+  <div class="session-index" id="sessionIndex">
+    <div class="session-index-title">Today's Sessions</div>
+    <div class="session-grid">
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s1" onclick="navSlide('slide1')">
+        <div class="card-number">Session 01</div>
+        <div class="card-title">What Is KeyCommand?</div>
+        <div class="card-desc">The AI command center, your role, and the one rule that never changes.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s2" onclick="navSlide('slide2')">
+        <div class="card-number">Session 02</div>
+        <div class="card-title">The Agent System</div>
+        <div class="card-desc">Orchestrators, specialists, and how to pick the right agent for the job.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s3" onclick="navSlide('slide3')">
+        <div class="card-number">Session 03</div>
+        <div class="card-title">Writing a Brief That Works</div>
+        <div class="card-desc">The 6-part checklist that separates good output from useless output.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s4" onclick="navSlide('slide4')">
+        <div class="card-number">Session 04</div>
+        <div class="card-title">How KeyCommand Remembers</div>
+        <div class="card-desc">Knowledge Graph vs. Genes — two systems, two different jobs.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s5" onclick="navSlide('slide5')">
+        <div class="card-number">Session 05</div>
+        <div class="card-title">The Approval Workflow</div>
+        <div class="card-desc">The Operator Queue, the 2-gate rule, and the 5 mistakes VAs make.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s6" onclick="navSlide('slide6')">
+        <div class="card-number">Session 06</div>
+        <div class="card-title">Your Day in KeyCommand</div>
+        <div class="card-desc">A real Monday morning walk-through, start of shift to close-out.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s7" onclick="navSlide('slide7')">
+        <div class="card-number">Session 07</div>
+        <div class="card-title">Live Scenario Drill</div>
+        <div class="card-desc">3 client requests. You pick the agent, write the brief, describe the approval.</div>
+      </a>
+      <a class="session-card" href="javascript:void(0)" data-session="day9-s8" onclick="navSlide('slide8')">
+        <div class="card-number">Session 08</div>
+        <div class="card-title">Your First Week Checklist</div>
+        <div class="card-desc">What to do on Day 1 with a real client before you brief a single agent.</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 1: What Is KeyCommand? -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide1" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 01</span>
+      <h1>What Is KeyCommand?</h1>
+      <p class="subtitle">The AI command center, your role, and the one rule that never changes.</p>
+    </div>
+    <div class="slide-content">
+
+      <h2>The Platform in One Sentence</h2>
+      <p>KeyCommand is KeyPlayers' proprietary AI command center — a platform where AI agents draft every client deliverable, and a VA approves every output before it goes anywhere near the client.</p>
+
+      <p>KP currently runs <strong>23 agents</strong> — the platform is built to support more as KP grows. Two kinds: an orchestrator that routes all work, and specialists that each handle one task. None of them act on their own.</p>
+
+      <div class="tip-box">
+        <strong>The one rule that never changes:</strong> No agent sends, posts, publishes, or reaches a client without VA approval first. Not once. Not ever. You are the gate.
+      </div>
+
+      <h2>The Core Flow</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Who Does It</th>
+            <th>What Happens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1. Brief</td>
+            <td>VA</td>
+            <td>You write a brief and send it to the right agent via the Boardroom</td>
+          </tr>
+          <tr>
+            <td>2. Draft</td>
+            <td>Agent (AI)</td>
+            <td>The agent produces a draft output — it goes to the Operator Queue, not to the client</td>
+          </tr>
+          <tr>
+            <td>3. VA Review</td>
+            <td>VA</td>
+            <td>You review the draft in the Operator Queue: approve, revise, or reject</td>
+          </tr>
+          <tr>
+            <td>4. Client Review</td>
+            <td>Client</td>
+            <td>Approved outputs go to the client for final sign-off</td>
+          </tr>
+          <tr>
+            <td>5. Publish</td>
+            <td>VA (or system)</td>
+            <td>After client approval, the deliverable goes live</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>The Dashboard</h2>
+      <p>When you log in, your dashboard gives you a live view of what's active, what's waiting for your approval, and what's in progress across the client's KeyCommand workspace.</p>
+
+      <div class="warning-box">
+        <div class="warning-label">Note for Trainers</div>
+        Take a screenshot of the current KeyCommand dashboard and insert it here. Show trainees where to find the Operator Queue, the North Star Goal display, and current in-flight tasks. The dashboard UI is the most important thing for a first-week VA to recognize on sight.
+      </div>
+
+      <div class="human-margin-box">
+        <div class="human-margin-title">The Human Margin: You Are Not Optional</div>
+        <p>KeyCommand is not automation. It is a human-in-the-loop system. The agents are faster than you at generating content — but they do not know the client the way you do. Your approvals are how you teach the system. Every approval you make is a data point. Every sloppy approval is a lesson in the wrong direction.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('index')">← Back to Index</button>
+        <button class="btn-primary" data-complete="day9-s1" onclick="navSlide('slide2')">Next: The Agent System →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 2: The Agent System -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide2" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 02</span>
+      <h1>The Agent System</h1>
+      <p class="subtitle">Orchestrators, specialists, and how to brief the right agent every time.</p>
+    </div>
+    <div class="slide-content">
+
+      <h2>The 3 Tiers</h2>
+
+      <div class="tier-diagram">
+        <div class="tier-row">
+          <div class="tier-label">Tier 1</div>
+          <div class="tier-card gold">
+            <div class="tier-card-name">Orchestrator — The Boardroom</div>
+            <div class="tier-card-desc">Routes all briefs to the correct agent. Everything flows through here first. This is where you start every task.</div>
+          </div>
+        </div>
+        <div class="tier-arrow">↓</div>
+        <div class="tier-row">
+          <div class="tier-label">Tier 2</div>
+          <div class="tier-card green">
+            <div class="tier-card-name">Executive / Org Chart Agents</div>
+            <div class="tier-card-desc">AI CEO, COO, CRO, CMO — strategy-level agents that set direction, review priorities, and coordinate across the client's business. Use these for strategic questions and decisions.</div>
+          </div>
+        </div>
+        <div class="tier-arrow">↓</div>
+        <div class="tier-row">
+          <div class="tier-label">Tier 3</div>
+          <div class="tier-card">
+            <div class="tier-card-name">Specialist Agents</div>
+            <div class="tier-card-desc">Each one does exactly one job. Reel Analyst, Content Cascade, Inbox Triage, Deliverable QA, Lead Research, and more — the agents you'll work with most on a daily basis.</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>Picking the Right Agent</h2>
+      <p>Most briefs go to a Specialist. Use the Executive tier when the client needs strategic input, a directional decision, or a recommendation that touches the whole business. When in doubt, brief the Orchestrator and let it route.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Right Agent</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Analyze competitor reels for content gaps</td>
+            <td>Reel Analyst</td>
+            <td>Specialist for video content research</td>
+          </tr>
+          <tr>
+            <td>Repurpose a pillar article into 5 social posts</td>
+            <td>Content Cascade</td>
+            <td>Specialist for content repurposing</td>
+          </tr>
+          <tr>
+            <td>Triage and draft replies to 20 client inbox messages</td>
+            <td>Inbox Triage</td>
+            <td>Specialist for inbox management</td>
+          </tr>
+          <tr>
+            <td>Review a deliverable before it goes to the client</td>
+            <td>Deliverable QA</td>
+            <td>Specialist for quality review</td>
+          </tr>
+          <tr>
+            <td>Research 10 qualified leads in a target market</td>
+            <td>Lead Research</td>
+            <td>Specialist for prospecting</td>
+          </tr>
+          <tr>
+            <td>Set Q3 content strategy direction</td>
+            <td>AI CMO (Executive)</td>
+            <td>Strategic tier — direction-setting decision</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>More VA Tools Inside KeyCommand</h2>
+      <p>Beyond the agents, KeyCommand includes tools you'll use regularly. You don't need to master all of them on Day 1, but you need to know they exist:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>What It Does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Skill Library</strong></td>
+            <td>Reusable skills assigned to specific agents — you configure these so agents know how to handle recurring task types for each client</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Soul</strong></td>
+            <td>Each agent has a defined voice, values, and behavior profile — understanding an agent's "soul" helps you brief it correctly and catch when output feels off</td>
+          </tr>
+          <tr>
+            <td><strong>Research Panel</strong></td>
+            <td>Live research tool for finding information, trends, and competitive data without leaving KeyCommand</td>
+          </tr>
+          <tr>
+            <td><strong>Trend Radar</strong></td>
+            <td>Content intelligence layer — surfaces trending topics and formats relevant to the client's niche</td>
+          </tr>
+          <tr>
+            <td><strong>Content Lab</strong></td>
+            <td>Production suite for creating, formatting, and packaging content deliverables</td>
+          </tr>
+          <tr>
+            <td><strong>HyperFrames</strong></td>
+            <td>AI-assisted video editing and clip creation tool — used for producing video content within KeyCommand</td>
+          </tr>
+          <tr>
+            <td><strong>Scheduled Jobs</strong></td>
+            <td>Automated tasks that run on a set schedule — VAs monitor these to make sure they complete correctly and review their outputs in the Operator Queue</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="drill-box">
+        <div class="drill-box-title">Your Turn — Drill 1: Which Agent?</div>
+        <p>Read each scenario below. Name the agent tier and the specific agent you'd brief. Be ready to explain why.</p>
+        <ol>
+          <li>The client wants to know which of their competitor's reels got the most engagement last month.</li>
+          <li>There are 35 unread messages in the client's inbox. They need draft replies by end of day.</li>
+          <li>The client is considering pivoting their content strategy to short-form video. They want a recommendation.</li>
+          <li>A deliverable is ready but needs one more pass before going to the client for review.</li>
+          <li>The client has a new product launch and needs 10 warm leads in the SaaS space researched and profiled.</li>
+        </ol>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide1')">← Session 01</button>
+        <button class="btn-primary" data-complete="day9-s2" onclick="navSlide('slide3')">Next: Writing a Brief →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 3: Writing a Brief That Works -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide3" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 03</span>
+      <h1>Writing a Brief That Works</h1>
+      <p class="subtitle">The 6-part checklist that separates good output from useless output.</p>
+    </div>
+    <div class="slide-content">
+
+      <h2>The Brief Checklist</h2>
+      <p>Every brief you send to a KeyCommand agent should answer these 6 questions. If you skip one, the agent fills in the gap with a guess — and that guess may not match the client.</p>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <span class="check-icon">①</span>
+          <div>
+            <span class="check-label">Client Name</span>
+            <span class="check-desc">Which client is this for? Agents maintain separate context per client. Always specify.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">②</span>
+          <div>
+            <span class="check-label">Platform + Format</span>
+            <span class="check-desc">Where is this going and what form should it take? (e.g., Instagram Reel script, email subject + body, LinkedIn post)</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">③</span>
+          <div>
+            <span class="check-label">Topic or Input</span>
+            <span class="check-desc">What is the content about? What raw material are you giving the agent to work with?</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">④</span>
+          <div>
+            <span class="check-label">Tone or Voice</span>
+            <span class="check-desc">How should it sound? Reference the client's existing content or the Agent Soul profile. (e.g., professional but conversational, direct, no jargon)</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">⑤</span>
+          <div>
+            <span class="check-label">Constraints</span>
+            <span class="check-desc">What must the output avoid? (e.g., no mention of competitor names, keep under 150 words, no emojis)</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">⑥</span>
+          <div>
+            <span class="check-label">CTA or Goal</span>
+            <span class="check-desc">What is the output supposed to make the reader do or feel? (e.g., book a call, reply to the email, click the link)</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Good Brief vs. Bad Brief</h2>
+      <p>Same client request. Different brief quality. Different results.</p>
+
+      <div class="comparison-grid">
+        <div class="comparison-col bad">
+          <div class="comparison-label bad">Bad Brief</div>
+          <p><em>"Write a LinkedIn post for the client about their new service."</em></p>
+          <p>Missing: which client, what service, who the audience is, what tone, what constraints, what the reader should do next. The agent will guess. The guess will be generic.</p>
+        </div>
+        <div class="comparison-col good">
+          <div class="comparison-label good">Good Brief</div>
+          <p><em>"Client: Marcus Reyes Consulting. Platform: LinkedIn post. Topic: new fractional CFO service launching next week for early-stage startups. Tone: confident, peer-level (not salesy). Constraint: no bullet points, no question hooks. CTA: reply to start a conversation."</em></p>
+          <p>The agent has everything it needs. The output will sound like Marcus, reach his audience, and drive the action he wants.</p>
+        </div>
+      </div>
+
+      <div class="drill-box">
+        <div class="drill-box-title">Your Turn — Drill 2: Write the Brief</div>
+        <p>A client sends you this voice memo (transcribed):</p>
+        <blockquote style="border-left: 3px solid #2A6636; padding-left: 16px; margin: 16px 0; color: #DDEEE0; font-style: italic;">"Hey, can you put together something for Instagram about our fall cleanup offer? It's for homeowners, $299 flat rate, we run it every October. Keep it simple, we don't want it to look too salesy. And can you make sure to include our phone number at the end?"</blockquote>
+        <p>Write the complete 6-part brief for the Content Cascade agent. Be specific. Do not leave any of the 6 fields blank.</p>
+        <p style="color: #7A9880; font-size: 9pt; margin-top: 12px;">Trainer note: Review each VA's brief out loud. Ask the group: "What would happen if field ③ was missing? What would the agent guess?"</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide2')">← Session 02</button>
+        <button class="btn-primary" data-complete="day9-s3" onclick="navSlide('slide4')">Next: How KeyCommand Remembers →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 4: How KeyCommand Remembers -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide4" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 04</span>
+      <h1>How KeyCommand Remembers</h1>
+      <p class="subtitle">Knowledge Graph vs. Genes — two systems, two very different jobs.</p>
+    </div>
+    <div class="slide-content">
+
+      <p>KeyCommand has two memory systems that work together. Most VAs mistake them for the same thing. They are not — and understanding the difference changes how you operate.</p>
+
+      <h2>System 1: The Knowledge Graph</h2>
+      <p>The Knowledge Graph is KeyCommand's long-term memory database. Every time an agent completes a task, the relevant information — the output, the client context, the decisions made, the files used — gets stored in the Knowledge Graph.</p>
+
+      <p>Think of it as a living client file that grows every day. An agent briefed 6 months from now can pull context from that file: what tone the client preferred, what formats worked, what was previously rejected.</p>
+
+      <div class="tip-box">
+        <strong>Knowledge Graph = the what.</strong> Past work, decisions, files, and context. The agent's reference library.
+      </div>
+
+      <h2>System 2: Genes</h2>
+      <p>Genes are learned rules — built directly from your approval patterns. Every time you approve an output, KeyCommand notes what you approved and why. Over time, it builds a behavioral profile: this client prefers short sentences, this tone always gets approved, this format never makes it past you.</p>
+
+      <p>Genes are different from the Knowledge Graph because they're not about <em>what</em> the client needed — they're about <em>how you respond</em> as a VA. They adapt agent behavior based on your decisions.</p>
+
+      <div class="tip-box">
+        <strong>Genes = the how.</strong> Learned patterns from your approvals. The agent's behavioral adaptation layer.
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comparison-col">
+          <div class="comparison-label" style="color: #6DB87A;">Knowledge Graph</div>
+          <p>Stores: past outputs, files, context, client history</p>
+          <p>Who builds it: agents (automatically)</p>
+          <p>Grows: every time a task completes</p>
+          <p>What it improves: relevance and context-awareness</p>
+        </div>
+        <div class="comparison-col">
+          <div class="comparison-label" style="color: #C9A84C;">Genes</div>
+          <p>Stores: learned rules from your approval decisions</p>
+          <p>Who builds it: you (through your approvals)</p>
+          <p>Grows: every time you approve or revise</p>
+          <p>What it improves: behavioral accuracy, output style, on-brief rate</p>
+        </div>
+      </div>
+
+      <h2>What This Means for You</h2>
+      <p>In your first 2–3 weeks, expect to do more corrections. The Genes layer is still learning your standards. By week 4–6, if you've been consistent, the agents will be hitting the brief faster with less revision from you.</p>
+
+      <div class="warning-box">
+        <div class="warning-label">The Consistency Rule</div>
+        Inconsistent approvals = inconsistent output. If you approve a bullet-point format one day and revise it out the next, Genes cannot learn a stable pattern. You are the one responsible for the system getting smarter.
+      </div>
+
+      <div class="human-margin-box">
+        <div class="human-margin-title">VA Responsibility: Build the Genes</div>
+        <p>After each approved output, add one Gene entry. Use specific language: "Client prefers sentence-form over bullet points in all email copy" or "Always include client's phone number in Instagram CTAs." One entry per approval session. This is not optional — it is how you get faster and more accurate over 30 days.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide3')">← Session 03</button>
+        <button class="btn-primary" data-complete="day9-s4" onclick="navSlide('slide5')">Next: Approval Workflow →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 5: The Approval Workflow -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide5" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 05</span>
+      <h1>The Approval Workflow</h1>
+      <p class="subtitle">The Operator Queue, the 2-gate rule, and the 5 mistakes VAs make.</p>
+    </div>
+    <div class="slide-content">
+
+      <h2>The Operator Queue</h2>
+      <p>The Operator Queue is your primary workspace inside KeyCommand. Every agent output lands here before it goes anywhere. If the queue is empty, nothing is waiting. If the queue has items, your job is to review them before end of shift.</p>
+
+      <p>The queue is powered by Claude Opus 4.8. KP updates the model periodically as better versions become available.</p>
+
+      <h2>The 2-Gate Rule</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Gate</th>
+            <th>Reviewer</th>
+            <th>What You're Checking</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Gate 1 — VA Review</strong></td>
+            <td>You</td>
+            <td>Does this match the brief? Is the tone right? Are there errors? Would you send this yourself?</td>
+          </tr>
+          <tr>
+            <td><strong>Gate 2 — Client Review</strong></td>
+            <td>Client</td>
+            <td>Final approval before publish. The client sees only what passed Gate 1.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Only outputs that pass Gate 1 reach the client. You are the filter. The client's confidence in KeyCommand depends entirely on the quality of what you let through.</p>
+
+      <h2>9 Questions Before You Approve</h2>
+      <p>Before clicking approve on any Operator Queue item, run it through these questions:</p>
+
+      <ol>
+        <li>Does this match the brief I wrote?</li>
+        <li>Is the tone consistent with this client's voice?</li>
+        <li>Are all factual claims accurate and verifiable?</li>
+        <li>Does it respect the client's constraints (word count, format, restrictions)?</li>
+        <li>Is the CTA clear and correct?</li>
+        <li>Is the platform formatting right (length, hashtags, line breaks)?</li>
+        <li>Are there any spelling, grammar, or punctuation issues?</li>
+        <li>Would I be comfortable with this going to the client right now?</li>
+        <li>Is there anything here the client has previously told us to avoid?</li>
+      </ol>
+
+      <h2>The 5 Mistakes VAs Make</h2>
+
+      <div class="case-study">
+        <div class="case-study-label">Common Mistake 1</div>
+        <p><strong>Rubber-stamping.</strong> Approving outputs without reading them. This trains Genes in the wrong direction and destroys client trust fast. If you approved it, you own it.</p>
+      </div>
+
+      <div class="case-study">
+        <div class="case-study-label">Common Mistake 2</div>
+        <p><strong>Briefing the wrong agent.</strong> A strategy brief sent to a Specialist agent, or an execution task sent to an Executive agent, produces misaligned output. Check your tier before you brief.</p>
+      </div>
+
+      <div class="case-study">
+        <div class="case-study-label">Common Mistake 3</div>
+        <p><strong>Vague briefs.</strong> Missing tone, missing constraints, missing CTA. The agent fills the gaps with guesses. You get generic output. You revise. You lose time. The brief is the leverage point — invest in it.</p>
+      </div>
+
+      <div class="case-study">
+        <div class="case-study-label">Common Mistake 4</div>
+        <p><strong>Ignoring the queue.</strong> Outputs sitting in the Operator Queue are not "in progress" — they are waiting for you. A queue that isn't cleared by end of shift delays the client and breaks the approval cycle.</p>
+      </div>
+
+      <div class="case-study">
+        <div class="case-study-label">Common Mistake 5</div>
+        <p><strong>Not reading Executive Layer outputs before briefing Specialists.</strong> If an AI CEO has set a strategic direction, your Specialist briefs need to align with it. Check what the Executive agents have recommended before sending task-level briefs.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide4')">← Session 04</button>
+        <button class="btn-primary" data-complete="day9-s5" onclick="navSlide('slide6')">Next: Your Day in KeyCommand →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 6: Your Day in KeyCommand -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide6" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 06</span>
+      <h1>Your Day in KeyCommand</h1>
+      <p class="subtitle">A real Monday morning walk-through, start of shift to close-out.</p>
+    </div>
+    <div class="slide-content">
+
+      <p>Theory is only useful if you know what to actually do when you open KeyCommand on your first Monday with a client. Here is your full-day rhythm, broken into three phases.</p>
+
+      <div class="rhythm-block">
+        <div class="rhythm-time">Start of Shift</div>
+        <h3>Orient Before You Brief</h3>
+        <ul>
+          <li>Open KeyCommand and check the dashboard — look at the North Star Goal and current priorities. Is anything urgent or overdue?</li>
+          <li>Check the Operator Queue — are there outputs from Scheduled Jobs or overnight tasks waiting for your review?</li>
+          <li>Check the client's Executive agent layer — has the AI CEO or CMO flagged any strategic direction updates overnight?</li>
+          <li>Based on what you see, brief your first agents for the day. Start with Inbox Triage if there are messages to handle.</li>
+        </ul>
+      </div>
+
+      <div class="rhythm-block">
+        <div class="rhythm-time">During Shift</div>
+        <h3>Brief, Review, Repeat</h3>
+        <ul>
+          <li>Send briefs to Specialist agents as tasks come in — one brief per task, one agent per brief.</li>
+          <li>Return to the Operator Queue as outputs arrive — don't let it pile up.</li>
+          <li>For each queue item: run the 9-question checklist. Approve, revise, or reject with a note explaining why.</li>
+          <li>If you reject, re-brief the agent with a more specific prompt and the reason for rejection.</li>
+          <li>For content deliverables, route approved items to the Content Lab for final packaging if needed.</li>
+          <li>Check Trend Radar if the client has a content brief — surface relevant trends before you brief the content agent.</li>
+        </ul>
+      </div>
+
+      <div class="rhythm-block">
+        <div class="rhythm-time">End of Shift</div>
+        <h3>Clear Before You Close</h3>
+        <ul>
+          <li>Clear the Operator Queue completely — nothing should be pending when you close.</li>
+          <li>Check Scheduled Jobs — are any automated tasks set for overnight or tomorrow morning? Are they configured correctly?</li>
+          <li>Update your Gene entries for the day — add one rule per significant approval or revision.</li>
+          <li>Send your EOD update to the client with: what was completed, what is in review, and what you need from them.</li>
+        </ul>
+      </div>
+
+      <div class="human-margin-box">
+        <div class="human-margin-title">The Human Margin: The Pilot's Checklist</div>
+        <p>"The Command Center is the cockpit. The VA is the pilot." A pilot does not skip pre-flight checks because they're in a hurry. Your start-of-shift and end-of-shift routines are your pre-flight and post-flight. They are not optional. They are how you catch errors before the client does.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide5')">← Session 05</button>
+        <button class="btn-primary" data-complete="day9-s6" onclick="navSlide('slide7')">Next: Live Scenario Drill →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 7: Live Scenario Drill -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide7" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 07</span>
+      <h1>Live Scenario Drill</h1>
+      <p class="subtitle">3 client requests. You pick the agent, write the brief, describe the approval.</p>
+    </div>
+    <div class="slide-content">
+
+      <p>For each scenario below, you must complete three steps — in writing, before the trainer reviews with the group:</p>
+      <ol>
+        <li><strong>Name the agent</strong> (tier + specific agent)</li>
+        <li><strong>Write the full 6-part brief</strong></li>
+        <li><strong>Describe the approval process</strong> — what you'd check in the Operator Queue before approving this specific output</li>
+      </ol>
+
+      <div class="drill-box">
+        <div class="drill-box-title">Scenario A — The Voice Memo</div>
+        <p>A client sends a 90-second voice memo (you've transcribed it):</p>
+        <blockquote style="border-left: 3px solid #C9A84C; padding-left: 16px; margin: 16px 0; color: #DDEEE0; font-style: italic;">"Hey, we need a reel about our fall promotion. It's a 20% discount on all roofing inspections, runs October 1–31. Keep it under 30 seconds, make it feel urgent but not pushy. We've been getting good engagement on reels that start with a question. Use our usual tone — you know what we like by now."</blockquote>
+        <p>Complete all 3 steps for this scenario. Note: "you know what we like" is not a valid tone brief — what do you do?</p>
+      </div>
+
+      <div class="drill-box">
+        <div class="drill-box-title">Scenario B — The Strategic Pivot</div>
+        <p>Your client's engagement has been flat for 6 weeks. They email you:</p>
+        <blockquote style="border-left: 3px solid #C9A84C; padding-left: 16px; margin: 16px 0; color: #DDEEE0; font-style: italic;">"I think we need to pivot. We've been posting educational content but I feel like we should be doing more storytelling. Can you get us a recommendation on what to do next?"</blockquote>
+        <p>This is a strategic request. Complete all 3 steps. Think carefully about which tier handles this and why.</p>
+      </div>
+
+      <div class="drill-box">
+        <div class="drill-box-title">Scenario C — The Stale Queue</div>
+        <p>You log in on Tuesday morning and find 8 items in your Operator Queue from Monday's automated Scheduled Jobs. You need to clear them before briefing any new agents. Two of the 8 items look off:</p>
+        <ul>
+          <li>Item 4: A LinkedIn post that's 420 words long (client usually posts 80–120 words)</li>
+          <li>Item 7: An email that references a promotion that ended last month</li>
+        </ul>
+        <p>Walk through your decision for each item. What do you do with Item 4? What do you do with Item 7? What note do you write when you reject each?</p>
+      </div>
+
+      <div class="tip-box">
+        <strong>Trainer note:</strong> After VAs submit their answers, run Scenario A through KeyCommand live (or via demo recording) to show what the Boardroom brief looks like in the actual UI. Compare one strong VA brief to one weak one side-by-side.
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide6')">← Session 06</button>
+        <button class="btn-primary" data-complete="day9-s7" onclick="navSlide('slide8')">Next: Your First Week Checklist →</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <!-- SLIDE 8: First Week Checklist -->
+  <!-- ───────────────────────────────────────────── -->
+  <div id="slide8" class="slide">
+    <div class="slide-header">
+      <span class="session-label">Session 08</span>
+      <h1>Your First Week Checklist</h1>
+      <p class="subtitle">What to do on Day 1 with a real client before you brief a single agent.</p>
+    </div>
+    <div class="slide-content">
+
+      <h2>Before You Open the Boardroom</h2>
+      <p>Getting KeyCommand access does not mean you're ready to brief agents. Before you send a single brief, complete this checklist on Day 1 with a new client.</p>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Get KeyCommand access for the client workspace</span>
+            <span class="check-desc">Confirm with your KeyPlayers team lead that your login is active and scoped to the correct client account.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Locate the North Star Goal</span>
+            <span class="check-desc">Find it on the dashboard. Read it. If it's missing or unclear, ask the client before doing anything else.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Review Agent Soul profiles for your top 3 agents</span>
+            <span class="check-desc">Read the voice, values, and behavior profile for the agents you'll use most. Know their "personality" before you brief them.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Ask the client 3 onboarding questions</span>
+            <span class="check-desc">(1) What format gets the best engagement in your content? (2) What topics or words should we always avoid? (3) Is there any existing content you love that we should match in tone?</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Write your first Gene entry before briefing any agent</span>
+            <span class="check-desc">Based on your onboarding conversation, add at least one rule to Genes before the first task. Start the learning layer with intent, not by accident.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="check-icon">□</span>
+          <div>
+            <span class="check-label">Run your first brief through the Boardroom</span>
+            <span class="check-desc">Choose a low-stakes task for your first brief (a single social post, not a campaign). Treat it as a test. Review the output carefully with all 9 checklist questions.</span>
+          </div>
+        </div>
+      </div>
+
+      <h2>Day 9 — Key Takeaways</h2>
+
+      <div class="tip-box">
+        <strong>1.</strong> KeyCommand is human-in-the-loop. Agents draft. VAs approve. Nothing reaches the client without you.
+      </div>
+      <div class="tip-box">
+        <strong>2.</strong> Your brief is everything. A weak brief produces a weak output. Invest 3 extra minutes in the brief and save 30 minutes of revision.
+      </div>
+      <div class="tip-box">
+        <strong>3.</strong> Knowledge Graph stores what happened. Genes stores how you respond. They are two different systems.
+      </div>
+      <div class="tip-box">
+        <strong>4.</strong> Clear your queue every shift. An unchecked Operator Queue is a broken pipeline.
+      </div>
+      <div class="tip-box">
+        <strong>5.</strong> Consistency trains Genes. Inconsistent approvals teach the system nothing useful.
+      </div>
+
+      <div class="human-margin-box">
+        <div class="human-margin-title">The Final Word</div>
+        <p>The Command Center is the cockpit. The VA is the pilot. Pilots do not blame the instruments when a flight goes wrong — they learn the instruments, trust the instruments, and fly with precision. That's your job in KeyCommand.</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" onclick="navSlide('slide7')">← Session 07</button>
+        <button class="btn-primary" data-complete="day9-s8" onclick="navSlide('done')">Proceed to Day 10 Assessment →</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  KeyPlayers VA Academy · KP AI Training Program · Day 9 — KeyCommand
+</div>
+
+<script>
+  // ── Navigation ──
+  function showIndex() {
+    document.getElementById('dayIntro').style.display = 'block';
+    document.getElementById('sessionIndex').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('sessionIndex').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  function navSlide(slideId) {
+    // Remove active from all slides
+    document.querySelectorAll('.slide').forEach(function(s) {
+      s.classList.remove('active');
+    });
+
+    // done: completion message, restore index
+    if (slideId === 'done') {
+      alert('Day 9 Complete — The Command Center is the cockpit. The VA is the pilot. See you in the Final Assessment.');
+      showIndex();
+      return;
+    }
+
+    // index: restore session index view
+    if (slideId === 'index') {
+      showIndex();
+      return;
+    }
+
+    // Null guard
+    var el = document.getElementById(slideId);
+    if (!el) { showIndex(); return; }
+
+    // Hide intro and index when viewing a session
+    document.getElementById('dayIntro').style.display = 'none';
+    document.getElementById('sessionIndex').style.display = 'none';
+
+    el.classList.add('active');
+
+    // scrollIntoView is iframe-safe
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+
+    // Update hash for deep linking
+    try {
+      if (history.pushState) {
+        history.pushState(null, null, '#' + slideId);
+      } else {
+        location.hash = '#' + slideId;
+      }
+    } catch(e) {}
+
+    // LMOS progress event — inert unless LMOS layer is listening
+    try {
+      window.parent.postMessage({
+        type: 'kphq_nav',
+        slideId: slideId,
+        day: 'day9'
+      }, '*');
+    } catch(e) {}
+  }
+
+  // Handle hash on page load (GHL deep linking)
+  document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var target = document.querySelector(hash);
+      if (target && target.classList.contains('slide')) {
+        navSlide(hash.substring(1));
+      }
+    }
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var target = document.querySelector(hash);
+      if (target && target.classList.contains('slide')) {
+        navSlide(hash.substring(1));
+      } else {
+        showIndex();
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
