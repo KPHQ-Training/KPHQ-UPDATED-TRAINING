@@ -1,54 +1,51 @@
-# KP-AI Academy — KeyPlayers VA Academy
+# UPDATED VA TRAINING — Change Log & Instructions
 
-The internal AI Operator training program for KeyPlayers HQ virtual assistants.
-A self-contained set of interactive HTML lessons taking a VA from AI fundamentals
-through to running automated client systems in GoHighLevel.
-
-🔗 **Live:** [kphq-updated-training.vercel.app](https://kphq-updated-training.vercel.app)
-
-> **For internal use only — must be kept confidential.**
+## Purpose
+This folder holds all updated/new KP AI Training modules ready for GitHub push.
+Every time a training file is changed, two things must happen:
+1. **Save the updated file here** (overwrite if it already exists)
+2. **Log the change below** under the correct date
 
 ---
 
-## Program Structure
+## Rules (Claude must follow these every session)
 
-### Week 1 — AI Fundamentals & Prompting
-| Day | Lesson | Focus |
-|-----|--------|-------|
-| 1 | [AI Fundamentals](Day01_AI_Fundamentals.html) | AI landscape, benchmarking, CLEAR framework, metaprompting, cross-referencing |
-| 2 | [Prompting Mastery](Day02_Prompting_Mastery.html) | The 5 building blocks, prompt formulas, advanced techniques, debugging output |
-| 3 | [Tool Selection](Day03_Tool_Selection.html) | 5 core tool categories, pros/cons, compliance, role-based mapping |
-| 4 | [Claude Deep Dive](Day04_Claude_Deep_Dive.html) | Haiku/Sonnet/Opus, Artifacts, Projects, context windows, MCP |
-| 5 | [Cowork & Agentic AI](Day05_Cowork_Agentic_AI.html) | Cowork mode, power workflows, agentic patterns, oversight & responsible use |
-
-### Week 2 — GoHighLevel Mastery
-| Day | Lesson | Focus |
-|-----|--------|-------|
-| 6 | [GoHighLevel Foundations](Day06_GoHighLevel_Foundations.html) | Agency vs. sub-accounts, contacts & tags, pipelines, conversations, calendars |
-| 7 | [GHL Automation, API & MCP](Day07_GHL_Automation_Workflows.html) | Workflows, triggers & actions, APIs, webhooks, MCP, integrations |
-| 8 | [AI Meetings, PM & Messaging](Day08_AI_Meetings_PM_Messaging.html) | AI note-takers, project management, Slack/WhatsApp/Telegram, command center |
-
-### Reference
-- [AI Glossary](KP_AI_Glossary.html) — core AI terms used across Week 1
-- [GoHighLevel Glossary](GHL_Glossary.html) — 56 GHL terms a VA needs, searchable & filterable by category
+- Any edit to a training HTML file = copy the updated file to this folder immediately after saving
+- Log every change below: date, filename, and a one-line description of what changed
+- Never skip logging — even small fixes (typos, slide text, nav labels) get logged
+- Files in this folder are the source of truth for what's ready to push to GitHub
 
 ---
 
-## Navigation
+## Changelog
 
-- **[index.html](index.html)** is the hub — it lists every day in both weeks plus both glossaries.
-- Each day page has a **Course Navigation** panel linking all 8 days, so learners can jump anywhere.
-- Days run in sequence: Day 1 → … → Day 8, with Week 1 flowing straight into Week 2.
+### 2026-06-20
+| File | Change |
+|------|--------|
+| `Day03_Claude.html` | Added "Which Claude Tool?" decision table as first slide; added 2 Claude Code slides to ses=3; updated sidebar nav labels and sesNames array |
+| `AI_Glossary.html` | Full rebuild from flat page → slide deck format. 6 sessions: AI Concepts (14 terms), Claude Ecosystem, Other AI Tools, Automation & CRM, Meetings & Comms, KeyCommand (10 terms). Accordion expand/collapse added. |
+
+### 2026-06-21
+| File | Change |
+|------|--------|
+| `Day01_AI_Foundations.html` | Added "More limits VAs run into every day" slide (ses=1); added tricky data security drill slide — incognito trap (ses=2) |
+| `Day02_AI_Foundations_Tools.html` | Renamed "Debugging Bad Output" → "Refining & Iterating" (ses=2); added "Why prompting shapes everything" slide with 3 cards (KC briefs / GHL automations / daily tasks) |
+| `Day08_AI_Meetings_PM_Messaging.html` | Full restructure — removed entire KeyCommand section (10 slides); replaced with 4 Conditional Logic slides (CL Intro / 5 Key Terms / Logic Map / CL Drill) in ses=3. All nav, sesNames, opener card, agenda, and wrap-up updated. |
+| `Day09_KeyCommand.html` | New file — dedicated KeyCommand day. 8 sessions: What Is KC / Agent System / Writing a Brief / Knowledge Graph & Genes / Approval Workflow / Daily Rhythm / Live Scenario Drill / First Week Checklist. ⚠️ Session 1 has dashboard screenshot placeholder — trainer must add live screenshot before use. |
+| `Day10_Assessment.html` | KC question tags fixed (Q17/Q18/Q21 → Day 9; Q22 → Day 8); 2 new situational KC scenario questions added (SQ11, SQ12); scoring updated from 37→39 total, passing = 32/39 |
 
 ---
 
-## Tech & Deployment
+### 2026-06-22
+| File | Change |
+|------|--------|
+| `index.html` | Full cover page redesign. Switched from Fraunces/Epilogue to Inter font to match day files. Replaced color variables with the same system used across Day01–Day10 (--bg:#070B09, --accent:#22C55E). Rebuilt layout: sticky header with KP wordmark + confidential badge, hero with 3 stat badges, week dividers (Week 1 / Week 2), day cards with icon + arrow, reference grid with all 5 tiles (AI Glossary, GHL Glossary, Security & Privacy, AI Tools Reference, Tools by Niche). |
 
-- **Stack:** plain, self-contained HTML/CSS/JS — no build step, no dependencies (Google Fonts loaded via CDN).
-- **Hosting:** static deploy on Vercel, auto-deployed from `main`.
-- **Embedding:** pages are iframe-friendly (e.g. the GoHighLevel Glossary embeds in the GHL community).
-- **To update:** edit the relevant `.html` file and push to `main`; Vercel redeploys automatically.
+### 2026-06-22
+| File | Change |
+|------|--------|
+| `KP_AI_Glossary.html` | Removed "Drafting" entry from D section. Added 3 new terms: **Inference** (I section, Advanced/Technical — what happens when you send a message to Claude), **Fine-tuning** (F section, Advanced — training a model on specific data), **Temperature** (T section, Advanced — controls creativity vs predictability of AI responses). |
 
 ---
 
-_KeyPlayers HQ · KP-AI Academy · Updated June 2026_
+*Add new date sections above as changes happen. Keep entries short and specific.*
