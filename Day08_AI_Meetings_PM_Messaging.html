@@ -283,8 +283,7 @@
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Opener</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-msg"/></svg></span>AI Meeting Tools</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-clock"/></svg></span>tl;dv Automation</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Conditional Logic</a>
-    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Wrap-Up</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Wrap-Up</a>
   </div>
   <div class="progress">
     <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
@@ -327,7 +326,7 @@
     </div>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-target"/></svg> The big picture for today</div>
-      <p style="margin:0">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together — and in Session 3 you'll learn the conditional logic that makes your automations smart enough to handle the real world.</p>
+      <p style="margin:0">A business doesn't just live in its CRM. Leaders sit in meetings, work gets tracked in project tools, and the team talks in Slack, WhatsApp, or Telegram. A great AI-enabled VA stitches all of it together.</p>
     </div>
   </div></section>
 
@@ -348,7 +347,6 @@
       <ul style="margin:0">
         <li><strong>30 min</strong>: AI Meeting Tools (Note-takers, Notes to Action, PM Tools, Messaging)</li>
         <li><strong>20 min</strong>: tl;dv + Email Automation (live build)</li>
-        <li><strong>45 min</strong>: Conditional Logic (triggers, routers, paths, and the fallback rule)</li>
         <li><strong>Open</strong>: Wrap-Up</li>
       </ul>
     </div>
@@ -835,7 +833,7 @@
     <div class="principle"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Rule</div><p>Master one free tool per category before a client ever pays for an upgrade. The skill transfers. The upgrade is only worth it once the workflow is proven and the client is getting value.</p></div>
     <div class="card card-accent" style="margin-top:16px">
       <div class="card-head"><svg><use href="#i-check"/></svg> What's next</div>
-      <p style="margin:0">You'll now build a real tl;dv → email automation using only free tools (~20 min). Then Session 3 introduces conditional logic — the branching rules that make your automations smart enough to handle real-world inputs.</p>
+      <p style="margin:0">You'll now build a real tl;dv → email automation using only free tools (~20 min).</p>
     </div>
   </div></section>
 
@@ -991,118 +989,8 @@
     </div>
   </div></section>
 
-  <!-- S3-0: CONDITIONAL LOGIC INTRO -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">Day 8 · Session 3: Conditional Logic</div>
-    <h1>Conditional Logic</h1>
-    <p class="subtitle">The branching rules that decide what your automation does when the real world doesn't follow the script.</p>
-    <div class="card card-accent">
-      <div class="card-head"><svg><use href="#i-bolt"/></svg> The core idea</div>
-      <p style="margin-bottom:10px">If X is true, do A. If Y is true, do B. If neither matches, run the fallback.</p>
-      <p style="margin:0">Every automation you build will hit edge cases — contacts who don't fit the main path, inputs that arrive in the wrong format, requests that need a different response. Conditional logic is how you handle all of it without breaking the workflow.</p>
-    </div>
-    <h2 style="margin-top:16px">Real VA examples</h2>
-    <table>
-      <thead><tr><th>If this happens…</th><th>Then do this</th></tr></thead>
-      <tbody>
-        <tr><td>Contact marks their email as urgent</td><td>Skip nurture sequence → call immediately + send Slack alert to account manager</td></tr>
-        <tr><td>Invoice unpaid after 7 days</td><td>Branch to overdue sequence → SMS reminder + internal flag in GHL</td></tr>
-        <tr><td>New lead comes from Instagram</td><td>Route to Instagram-specific nurture sequence (not the LinkedIn one)</td></tr>
-        <tr><td>No condition matches</td><td><strong>Run the fallback</strong> → tag as &ldquo;Needs review&rdquo; + notify VA to handle manually</td></tr>
-      </tbody>
-    </table>
-  </div></section>
-
-  <!-- S3-1: THE 5 KEY TERMS -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>The 5 Terms Every VA Needs to Know</h2>
-    <p>You will see these in every automation tool — Make.com, GHL, Zapier, n8n. Learn them once, they transfer everywhere.</p>
-    <table>
-      <thead><tr><th>Term</th><th>What it is</th><th>Why it matters</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Trigger</strong></td><td>The event that starts the automation</td><td>No trigger = nothing runs. Wrong trigger = runs at the wrong time.</td></tr>
-        <tr><td><strong>Condition</strong></td><td>The rule that checks something (Is it urgent? Is it overdue?)</td><td>This is the &ldquo;if&rdquo; in your logic. Without conditions, every contact gets the same path.</td></tr>
-        <tr><td><strong>Path</strong></td><td>What happens when a condition is true</td><td>One condition can have multiple paths — true path and false path.</td></tr>
-        <tr><td><strong>Fallback</strong></td><td>The route taken when no condition matches</td><td>Without a fallback, unmatched contacts fall out of the automation silently — you&rsquo;ll never know.</td></tr>
-        <tr><td><strong>Log</strong></td><td>A record of what happened in each run</td><td>When something goes wrong, the log is how you diagnose it.</td></tr>
-      </tbody>
-    </table>
-    <div class="card card-gold" style="margin-top:14px">
-      <div class="card-head"><svg><use href="#i-alert"/></svg> The one you can&rsquo;t skip</div>
-      <p style="margin:0"><strong>Fallback is non-negotiable.</strong> Every router in every automation must have an &ldquo;if nothing matches&rdquo; path. Without it, you won&rsquo;t get an error — contacts just disappear into the void and you won&rsquo;t know until a client asks why nothing happened.</p>
-    </div>
-  </div></section>
-
-  <!-- S3-2: THE LOGIC MAP -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>The Logic Map — Seeing It Visually</h2>
-    <p>A real automation for routing leads by source platform. This is what conditional logic looks like in practice — you don&rsquo;t build it today, but you need to be able to read it.</p>
-    <div class="n8n-canvas">
-      <div class="n8n-node n8n-active" style="--d:.1s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-bolt"/></svg></div><div><div class="n8n-node-title">Trigger</div><div class="n8n-node-sub">New lead submitted</div></div></div>
-      </div>
-      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0s"></div></div><div class="n8n-arrow-head"></div></div>
-      <div class="n8n-node" style="--d:.3s">
-        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-activity"/></svg></div><div><div class="n8n-node-title">Router</div><div class="n8n-node-sub">Check: lead source?</div></div></div>
-      </div>
-    </div>
-    <div class="compare" style="margin-top:10px">
-      <div class="col col-strong">
-        <div class="col-label"><svg><use href="#i-check"/></svg> Instagram</div>
-        → IG nurture sequence + Reel Analyst brief
-      </div>
-      <div class="col" style="background:rgba(93,169,244,.05);border:1px solid rgba(93,169,244,.18)">
-        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-check"/></svg> LinkedIn</div>
-        → LinkedIn nurture sequence + Lead Research brief
-      </div>
-      <div class="col" style="background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.22)">
-        <div class="col-label" style="color:var(--gold)"><svg><use href="#i-check"/></svg> Referral</div>
-        → VIP onboarding sequence + direct notify
-      </div>
-      <div class="col col-weak">
-        <div class="col-label"><svg><use href="#i-alert"/></svg> No match → Fallback</div>
-        Tag: &ldquo;Needs review&rdquo; → VA notified manually
-      </div>
-    </div>
-    <div class="card card-danger" style="margin-top:14px">
-      <div class="card-head"><svg><use href="#i-shield"/></svg> The #1 automation killer — case sensitivity</div>
-      <p style="margin-bottom:8px"><strong>&ldquo;Instagram&rdquo; &ne; &ldquo;instagram&rdquo;</strong> in a router filter. If the form sends lowercase and your filter checks title case, the router sees no match and sends the lead to fallback.</p>
-      <p style="margin:0">Fix: always normalize text inputs with <code>lower()</code> before routing. <code>lower(lead_source)</code> converts &ldquo;Instagram&rdquo;, &ldquo;INSTAGRAM&rdquo;, and &ldquo;instagram&rdquo; to the same value — then your filter catches all of them.</p>
-    </div>
-  </div></section>
-
-  <!-- S3-D: CONDITIONAL LOGIC DRILL -->
-  <section class="slide" data-ses="3"><div class="slide-inner">
-    <div class="eyebrow">Conditional Logic · Drill</div>
-    <h2>Apply the Logic</h2>
-    <p>Two scenarios. Read carefully — the trap in each one is real.</p>
-    <div class="quiz">
-      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 1</div>
-      <div class="quiz-q">You build a GHL router: if the contact&rsquo;s tag contains &ldquo;VIP&rdquo;, send a same-day call task. You test it on a contact tagged &ldquo;vip&rdquo; (lowercase). Nothing happens. Why?</div>
-      <div class="quiz-opts">
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>GHL workflows don&rsquo;t support tag-based conditions — use custom fields instead</button>
-        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>The filter checks for &ldquo;VIP&rdquo; (uppercase) but the tag is &ldquo;vip&rdquo; (lowercase) — they don&rsquo;t match, so the contact falls to the fallback path</button>
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The contact needs to re-enter the workflow for the condition to evaluate</button>
-      </div>
-      <div class="quiz-fb">Case sensitivity. &ldquo;VIP&rdquo; &ne; &ldquo;vip&rdquo; in an exact-match filter. The router sees no match and routes to fallback — silently. Your same-day call never triggers. Fix: standardize all tags to a consistent case when created, or normalize with a text function before the condition runs.</div>
-      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
-    </div>
-    <div class="quiz" style="margin-top:20px">
-      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario 2</div>
-      <div class="quiz-q">You build a 3-path router (Instagram / Facebook / LinkedIn). A lead comes in from YouTube. What happens?</div>
-      <div class="quiz-opts">
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The router automatically creates a YouTube path</button>
-        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The automation pauses and waits for you to add a YouTube path</button>
-        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>The lead hits the fallback path — or exits the automation entirely if no fallback was set up</button>
-      </div>
-      <div class="quiz-fb">No condition matched, so the fallback runs. If you forgot to add a fallback, the lead exits the automation silently — no tag, no notification, no action. This is why every router needs a fallback. &ldquo;Needs review&rdquo; + VA notification is the minimum safe fallback for any production workflow.</div>
-      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
-    </div>
-  </div></section>
-
-
   <!-- S6-0: DAY 8 WRAP-UP -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
+  <section class="slide" data-ses="3"><div class="slide-inner">
     <div class="eyebrow">Day 8 · Wrap-Up</div>
     <h1>Day 8 Wrap-Up</h1>
     <p class="subtitle">Let's lock in what you learned today before moving on.</p>
@@ -1114,17 +1002,15 @@
         <li><strong>Meeting → ClickUp is automatable.</strong> Notetaker fires → Zapier/Make catches it → Claude extracts tasks → ClickUp populates. You review, not rebuild.</li>
         <li><strong>PM tools</strong> all share the same core concepts — tasks, owners, due dates, statuses. Learn one, the rest are just different buttons.</li>
         <li><strong>Messaging automations</strong> connect Slack, WhatsApp, and Telegram to your stack automatically.</li>
-        <li><strong>Conditional logic</strong> is what makes automations smart — triggers route to different paths based on conditions, and every router needs a fallback for unmatched inputs.</li>
-        <li><strong>Case sensitivity kills workflows.</strong> &ldquo;VIP&rdquo; and &ldquo;vip&rdquo; are different strings in an exact-match filter. Always normalize text inputs before routing.</li>
       </ul>
     </div>
   </div></section>
 
   <!-- S6-1: COMPLETION -->
-  <section class="slide" data-ses="4"><div class="slide-inner">
+  <section class="slide" data-ses="3"><div class="slide-inner">
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-bolt"/></svg> Day 8 Complete — Core Curriculum Done</div>
-      <p style="margin:0">You've now covered meetings, PM tools, messaging automations, and the conditional logic that makes your workflows handle the real world. Day 9 is KeyCommand &mdash; the platform where you&rsquo;ll run everything you&rsquo;ve learned. Day 10 is the final assessment.</p>
+      <p style="margin:0">You've now covered meetings, PM tools, and messaging automations. Day 9 is KeyCommand &mdash; the platform where you&rsquo;ll run everything you&rsquo;ve learned. Day 10 is the final assessment.</p>
     </div>
   </div></section>
 
@@ -1164,7 +1050,7 @@ function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBad
 function kpCheckAccess(){var _p=new URLSearchParams(window.location.search);if(_p.has('admin')){kpShowAdminBadge();return;}if(_p.has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=new Date(CONFIG.UNLOCK_DATE+'T00:00:00-04:00');if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
 kpCheckAccess();
 function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
-const sesNames=['Opener','AI Meeting Tools','tl;dv Automation','Conditional Logic','Wrap-Up'];
+const sesNames=['Opener','AI Meeting Tools','tl;dv Automation','Wrap-Up'];
 const slides=[...document.querySelectorAll('.slide')];
 const navLinks=[...document.querySelectorAll('#nav a')];
 const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
