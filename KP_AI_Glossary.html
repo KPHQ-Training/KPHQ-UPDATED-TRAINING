@@ -157,7 +157,7 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
   <a href="#I">I</a><a href="#J">J</a><span>K</span><a href="#L">L</a>
   <a href="#M">M</a><span>N</span><a href="#O">O</a><a href="#P">P</a>
   <span>Q</span><a href="#R">R</a><a href="#S">S</a><a href="#T">T</a>
-  <span>U</span><span>V</span><a href="#W">W</a><span>X</span>
+  <span>U</span><a href="#V">V</a><a href="#W">W</a><span>X</span>
   <span>Y</span><a href="#Z">Z</a>
 </div>
 
@@ -258,6 +258,12 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
     <div class="term-plain">Software where the code is private. You can use the product, but you cannot see or modify how it was built. Most commercial AI tools are closed source. Knowing this matters when clients ask about data privacy or tool reliability.</div>
   </div>
 
+  <div class="term-card advanced">
+    <div class="term-name">Computer Use <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">An AI capability where the model can directly control a computer, moving the mouse, clicking, typing, and navigating software the same way a person would, instead of only answering in a chat window. This lets AI complete tasks across multiple apps without you doing the clicking yourself. Still early and closely supervised in most workflows, but it is a preview of where AI agents are heading.</div>
+    <div class="metaphor">handing someone your laptop and watching them use it themselves, instead of telling them what to type over the phone.</div>
+  </div>
+
   <div class="term-card claude">
     <div class="term-name">Context Engineering <span class="tag tag-claude">Prompting</span></div>
     <div class="term-plain">The skill of designing and managing the information you give an AI so it does its best work. It goes beyond writing a good prompt: it includes deciding what background to include, what to leave out, how to structure the conversation, and whether to use Projects or system prompts. Think of it as setting up the AI's workspace before asking it to do a task.</div>
@@ -304,6 +310,12 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
     <div class="term-name">E2EE (End-to-End Encryption) <span class="tag tag-security">Security</span></div>
     <div class="term-plain">A security method where only the sender and the receiver can read a message, not even the company running the service. The data is scrambled (encrypted) before it leaves your device and only unscrambled when it arrives at the other end. WhatsApp uses E2EE. Most AI tools, including Claude, do not, which means the provider can technically access your conversations. Treat anything you type into an AI tool as visible to that company, and avoid pasting sensitive client data unless the client has approved it.</div>
     <div class="metaphor">putting a letter in a locked box where only the recipient has the key. Even the delivery person cannot read it.</div>
+  </div>
+
+  <div class="term-card advanced">
+    <div class="term-name">Extended Thinking (Reasoning Models) <span class="tag tag-advanced">Advanced</span></div>
+    <div class="term-plain">A mode where the AI works through a problem step by step internally before giving you its final answer, similar to a person pausing to think something through rather than blurting out the first response that comes to mind. This produces better answers on harder problems (math, multi-step logic, complex writing) at the cost of taking a bit longer. Claude, ChatGPT, and Gemini all offer a version of this, sometimes as a toggle you can turn on for tougher tasks.</div>
+    <div class="metaphor">asking someone to "sleep on it" before answering a hard question, versus asking them to answer instantly.</div>
   </div>
 
   <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
@@ -494,6 +506,12 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
     <div class="term-plain">The instruction or question you type to an AI tool. A good prompt is specific, gives context, and tells the AI what format you want. Better prompts produce better results. Prompting is a skill, and it improves with practice.</div>
   </div>
 
+  <div class="term-card advanced">
+    <div class="term-name">Prompt Caching <span class="tag tag-advanced">Technical</span></div>
+    <div class="term-plain">A feature where an AI model "remembers" parts of a conversation or system instructions between requests, so it does not have to reprocess the same information every time. This makes responses faster and cheaper when you are sending the same long context repeatedly, like a big set of instructions or a large document. You will not set this up yourself as a VA, but it is why some AI tools with long, repeated prompts feel faster and cost less over time.</div>
+    <div class="metaphor">keeping your usual coffee order on file at a café instead of repeating it every single time you order.</div>
+  </div>
+
   <div class="term-card claude">
     <div class="term-name">Prompt Engineering <span class="tag tag-claude">Prompting</span></div>
     <div class="term-plain">The practice of designing and refining prompts to get the best possible output from an AI. It involves structuring your request, providing context, specifying format, giving examples, and knowing when to break a big task into smaller steps. Prompt engineering is one of the most valuable skills for a VA working with AI tools.</div>
@@ -582,6 +600,19 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
   <div class="term-card ghl">
     <div class="term-name">Trigger <span class="tag tag-automation">Automation</span></div>
     <div class="term-plain">In automation, a trigger is the event that starts an automated workflow. Example: "when a new lead fills out a form" is a trigger. Everything after that (the email, the CRM update, the notification) is what the automation does in response.</div>
+  </div>
+
+  <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
+</div>
+
+<!-- V -->
+<div class="section">
+  <div class="letter-heading" id="V">V</div>
+
+  <div class="term-card">
+    <div class="term-name">Vibe Coding <span class="tag tag-ai">AI</span></div>
+    <div class="term-plain">Building something (a script, an app, a small tool) by describing what you want in plain language and letting AI write the code, then testing and adjusting through conversation rather than writing or deeply understanding the code yourself. It is how many non-developers now build simple tools and automations. You do not need to know how to code to vibe code, you just need to describe clearly what you want and check that the result actually works.</div>
+    <div class="metaphor">directing a contractor to build something by describing what you want it to look like and do, rather than picking up the tools yourself.</div>
   </div>
 
   <div class="back-to-top"><a href="#top">&#8593; Back to top</a></div>
