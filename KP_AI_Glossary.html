@@ -61,10 +61,75 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
   .cover { padding: 40px 22px 34px; } .cover h1 { font-size: 27px; }
   .intro, .alpha-index, .legend, .section, .footer { padding-left: 20px; padding-right: 20px; }
 }
+
+/* ── KP SIDEBAR (shared across course + reference pages) ── */
+.kpsb-mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:#090E0B;border-bottom:1px solid #1A2620;padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+.kpsb-mobile-bar .kpsb-mark{font-size:17px;font-weight:700;color:#EAF0EC;letter-spacing:-0.3px}
+.kpsb-mobile-bar .kpsb-mark span{color:#22C55E}
+.kpsb-hamb{background:#0E1512;border:1px solid #1A2620;border-radius:8px;color:#EAF0EC;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.kpsb-hamb svg{width:20px;height:20px}
+.kpsb-scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+.kpsb-scrim.show{display:block}
+.kpsb{position:fixed;top:0;left:0;width:268px;height:100vh;background:linear-gradient(180deg,#090E0B 0%,#070C0A 100%);border-right:1px solid #1A2620;overflow-y:auto;z-index:100;display:flex;flex-direction:column;font-family:'Inter',system-ui,-apple-system,sans-serif}
+.kpsb::-webkit-scrollbar{width:6px}
+.kpsb::-webkit-scrollbar-thumb{background:#24332C;border-radius:3px}
+.kpsb-brand{padding:22px 22px 18px;border-bottom:1px solid #1A2620}
+.kpsb-mark{font-size:18px;font-weight:700;color:#EAF0EC;letter-spacing:-0.4px}
+.kpsb-mark span{color:#22C55E}
+.kpsb-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:#5C6B62;text-transform:uppercase;margin-top:4px}
+.kpsb-nav{flex:1;padding:14px 12px}
+.kpsb-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#5C6B62;padding:6px 10px 10px}
+.kpsb-nav a{display:block;padding:9px 12px;margin-bottom:2px;color:#94A49B;text-decoration:none;font-size:13px;font-weight:500;border-radius:9px;border:1px solid transparent;transition:all .16s ease}
+.kpsb-nav a:hover{color:#EAF0EC;background:rgba(255,255,255,0.025)}
+.kpsb-nav a.current{color:#22C55E;font-weight:600;background:rgba(34,197,94,0.10);border-color:rgba(34,197,94,0.22)}
+.kpsb-confid{padding:14px 20px 22px;font-size:10px;color:#5C6B62;letter-spacing:0.3px;border-top:1px solid #1A2620}
+.kpsb-main{margin-left:268px}
+@media(max-width:860px){
+  .kpsb{transform:translateX(-100%);transition:transform .3s ease}
+  .kpsb.open{transform:translateX(0)}
+  .kpsb-mobile-bar{display:flex}
+  .kpsb-main{margin-left:0;padding-top:54px}
+}
 </style>
 </head>
 <body>
 
+<div class="kpsb-mobile-bar">
+  <span class="kpsb-mark">Key<span>Players</span></span>
+  <button class="kpsb-hamb" onclick="kpsbToggle()" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+</div>
+<div class="kpsb-scrim" id="kpsbScrim" onclick="kpsbToggle()"></div>
+
+<nav class="kpsb" id="kpsb">
+  <div class="kpsb-brand">
+    <div class="kpsb-mark">Key<span>Players</span></div>
+    <div class="kpsb-sub">VA Academy</div>
+  </div>
+  <div class="kpsb-nav">
+    <a href="index.html">&#8592; Course Home</a>
+    <div class="kpsb-label">Course</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener">Day 1 &middot; AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener">Day 2 &middot; Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener">Day 3 &middot; Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener">Day 4 &middot; Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener">Day 5 &middot; Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener">Day 6 &middot; GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener">Day 7 &middot; GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener">Day 8 &middot; PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener">Day 9 &middot; KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener">Day 10 &middot; Final Assessment</a>
+    <div class="kpsb-label">Reference</div>
+    <a href="Data_Security.html">Security &amp; Privacy</a>
+    <a href="AI_Tools_Reference.html">AI Tools Reference</a>
+    <a href="Tools_by_Niche.html">Tools by Niche</a>
+    <a href="KP_AI_Glossary.html" class="current">AI Glossary</a>
+    <a href="GHL_Glossary.html">GHL Glossary</a>
+  </div>
+  <div class="kpsb-confid">Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+<script>function kpsbToggle(){document.getElementById('kpsb').classList.toggle('open');document.getElementById('kpsbScrim').classList.toggle('show');}</script>
+
+<div class="kpsb-main">
 <div class="cover" id="top">
   <div class="wordmark">Key<span>Players</span> HQ</div>
   <div class="wordmark-sub">VA AI Academy</div>
@@ -556,4 +621,5 @@ body { font-family: Inter, system-ui, -apple-system, sans-serif; font-size: 15px
   KeyPlayers HQ &middot; KP VA AI Academy &middot; Reference Document &middot; Not for distribution outside the program
 </div>
 
+</div>
 </body></html>
