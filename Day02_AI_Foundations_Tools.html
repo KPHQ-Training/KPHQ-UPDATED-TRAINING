@@ -300,8 +300,8 @@
   </div>
   <div class="nav" id="nav">
     <div class="nav-label">Today's Sessions</div>
-    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Prompting II: Power Blocks</a>
-    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-align"/></svg></span>Format &amp; the Full Blueprint</a>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Prompting, Level 2</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-align"/></svg></span>Kind &amp; the Full TASK Blueprint</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Refining &amp; Iterating</a>
     <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-compass"/></svg></span>The Right Tool</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>AI Tools</a>
@@ -345,14 +345,14 @@
         <li>AI is a prediction engine: it predicts the next word, it does not search</li>
         <li>Strong at drafting, summarizing, and reshaping; weak at facts, math, and recency (always verify)</li>
         <li>The Trust Scale, plus handling client data safely</li>
-        <li>Your first prompt blocks: Role, Task, Context</li>
+        <li>Your first prompting framework: TASK (Task, Audience, Specifics, Kind)</li>
       </ul>
     </div>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
       <p style="margin-bottom:10px">By the end of today you can:</p>
       <ul>
-        <li>Level up prompts with Constraints, Examples, and Format (the full 6-block blueprint)</li>
+        <li>Go deeper on Specifics and Kind, plus the Examples bonus move</li>
         <li>Use meta prompting and cross-referencing to get grounded, higher-quality output</li>
         <li>Debug bad output by changing one thing at a time</li>
         <li>Choose the right tool for a job: chat vs automation vs agent</li>
@@ -361,8 +361,8 @@
     <div class="card">
       <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
       <ol>
-        <li>Prompting Foundations II: power blocks (Constraints, Examples)</li>
-        <li>Format &amp; the full prompt blueprint</li>
+        <li>Prompting, Level 2: sharper Specifics, plus the Examples bonus move</li>
+        <li>Kind &amp; the full TASK blueprint</li>
         <li>From prompting to context engineering (meta prompting, cross-referencing)</li>
         <li>Refining your output (4 fix patterns, the refinement loop)</li>
         <li>The right tool, plus intro to AI tools (benchmarks, free tiers)</li>
@@ -373,8 +373,8 @@
   <!-- SESSION 0 -->
   <section class="slide" data-ses="0"><div class="slide-inner">
     <div class="eyebrow">Day 2 · Session 1</div>
-    <h1>Prompting Foundations II: Power Blocks</h1>
-    <p class="subtitle">Yesterday you learned the first three blocks: Role, Task, Context. Today you add the three that turn "pretty good" output into reliable, ready-to-use work: Constraints, Examples, and Format.</p>
+    <h1>Prompting, Level 2</h1>
+    <p class="subtitle">Yesterday you learned TASK: Task, Audience, Specifics, Kind. Today you go deeper on two of those letters — Specifics and Kind — plus one bonus move that turns "pretty good" output into reliable, ready-to-use work: Examples.</p>
     <div class="gate">
       <div class="card-head" style="color:var(--accent)"><svg><use href="#i-check"/></svg> Mark your attendance</div>
       <div id="attForm">
@@ -391,30 +391,29 @@
     </div>
     <div class="card card-gold">
       <div class="card-head"><svg><use href="#i-book"/></svg> 20-second recap of Day 1</div>
-      <p style="margin:0"><strong>Role</strong> (who it should be) plus <strong>Task</strong> (what to do) plus <strong>Context</strong> (the background a new hire would need). That is the base. Now we bolt on the parts that control quality.</p>
+      <p style="margin:0"><strong>T</strong>ask (what to do) plus <strong>A</strong>udience (who it should be) plus <strong>S</strong>pecifics (the background and rules a new hire would need) plus <strong>K</strong>ind (the shape you want back). That is TASK. Now we go deeper on Specifics and Kind.</p>
     </div>
   </div></section>
 
   <section class="slide" data-ses="0"><div class="slide-inner">
-    <h2>Block 4 - Constraints: set the guardrails</h2>
-    <p>Constraints tell the model what to avoid and what rules to follow. They head off the rambling, the wrong tone, and the wall of text <strong>before</strong> it happens, instead of you fixing it after.</p>
+    <h2>Going deeper on Specifics: set the guardrails</h2>
+    <p>Specifics is not just background — it is also the rules the model should follow. These guardrails head off the rambling, the wrong tone, and the wall of text <strong>before</strong> it happens, instead of you fixing it after.</p>
     <table>
-      <thead><tr><th>Constraint type</th><th>Example you can add</th></tr></thead>
+      <thead><tr><th>Type of rule</th><th>Example you can add</th></tr></thead>
       <tbody>
-        <tr><td><strong>Length</strong></td><td>"Under 120 words." "Exactly 3 bullet points."</td></tr>
         <tr><td><strong>What to avoid</strong></td><td>"No jargon. No emojis. Do not invent statistics."</td></tr>
         <tr><td><strong>Must include</strong></td><td>"Mention the free tune-up offer and our Friday deadline."</td></tr>
         <tr><td><strong>Reading level / tone</strong></td><td>"Plain English a busy homeowner can skim. Warm, not salesy."</td></tr>
       </tbody>
     </table>
     <div class="compare">
-      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> No constraints</div>"Write a follow-up email." You get 400 hedged words, three emojis, and a tone that is off for the client.</div>
-      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Constrained</div>"Write a follow-up email under 90 words, warm and direct, no emojis, ending in one clear question." You get something you can send.</div>
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> No rules</div>"Write a follow-up email." You get 400 hedged words, three emojis, and a tone that is off for the client.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> With rules</div>"Write a follow-up email under 90 words, warm and direct, no emojis, ending in one clear question." You get something you can send.</div>
     </div>
   </div></section>
 
   <section class="slide" data-ses="0"><div class="slide-inner">
-    <h2>Block 5 - Examples: show, do not just tell</h2>
+    <h2>The bonus move: Examples — show, do not just tell</h2>
     <p>One or two examples of what "good" looks like beats a paragraph describing it. Giving the model a sample to copy is called <em>few-shot prompting</em>, and it is the fastest way to lock in a format, voice, or style.</p>
     <div class="compare">
       <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Zero-shot (just asking)</div>"Write product taglines for our cleaning service." The style is a coin toss and rarely matches your brand.</div>
@@ -430,9 +429,9 @@
   <!-- SESSION 1 -->
   <section class="slide" data-ses="1"><div class="slide-inner">
     <div class="eyebrow">Day 2 · Session 2</div>
-    <h1>Format &amp; the Full Blueprint</h1>
-    <p class="subtitle">The last block, then we assemble all six into one prompt you could hand to a capable new hire and trust the result.</p>
-    <h2>Block 6 - Format: specify the shape of the output</h2>
+    <h1>Kind &amp; the Full TASK Blueprint</h1>
+    <p class="subtitle">One more letter to go deep on, then we assemble the full TASK prompt you could hand to a capable new hire and trust the result.</p>
+    <h2>Going deeper on Kind: specify the shape of the output</h2>
     <p>Tell it exactly how to deliver: bullets, a table, a word count, a JSON object, or an email with a subject line. Format-locked output is output you can paste straight into the doc, the CRM, or the send box.</p>
     <div class="compare">
       <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Loose</div>"Summarize this call." You get a shapeless paragraph you still have to reorganize.</div>
@@ -441,37 +440,35 @@
   </div></section>
 
   <section class="slide" data-ses="1"><div class="slide-inner">
-    <h2>The full prompt blueprint</h2>
-    <p>Stack all six blocks and you go from a vague wish to a brief someone could actually execute. You will not need all six every time, but knowing them means you always know what to add when output is weak.</p>
-    <div class="prompt"><span class="prompt-tag">Role · Task · Context · Constraints · Examples · Format</span>You are a social media manager for a boutique real-estate brokerage. (Role)
+    <h2>The full TASK blueprint</h2>
+    <p>Stack TASK plus the Examples bonus move and you go from a vague wish to a brief someone could actually execute. You will not need every piece every time, but knowing them means you always know what to add when output is weak.</p>
+    <div class="prompt"><span class="prompt-tag">T · A · S · (+ Example) · K</span>Write Instagram captions announcing a new listing. (Task)
 
-Write Instagram captions announcing a new listing. (Task)
+You are a social media manager for a boutique real-estate brokerage. (Audience)
 
-Context: a 2-bedroom condo in a walkable neighborhood; audience is first-time buyers aged 28 to 40. (Context)
-
-Constraints: under 60 words each, warm and confident, no hashtags stuffed at the end, do not invent details about the unit. (Constraints)
+Specifics: a 2-bedroom condo in a walkable neighborhood; audience is first-time buyers aged 28 to 40; under 60 words each, warm and confident, no hashtags stuffed at the end, do not invent details about the unit. (Specifics)
 
 Match the style of this caption: "Light, space, and a commute you will actually enjoy." (Example)
 
-Format: give me 3 options as a numbered list. (Format)</div>
+Format: give me 3 options as a numbered list. (Kind)</div>
     <div class="principle">
       <div class="badge"><svg><use href="#i-compass"/></svg></div>
       <div class="pl">The Principle</div>
-      <p>A weak prompt is a wish. A strong prompt is a <em>brief</em>. The six blocks are your checklist for turning one into the other.</p>
+      <p>A weak prompt is a wish. A strong prompt is a <em>brief</em>. TASK is your checklist for turning one into the other.</p>
     </div>
   </div></section>
 
   <section class="slide" data-ses="1"><div class="slide-inner">
-    <h2>Quick check: spot the missing block</h2>
+    <h2>Quick check: spot the missing letter</h2>
     <p>Read the prompt, then pick what it most needs.</p>
     <div class="quiz">
       <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
       <div class="quiz-q">"You are a bookkeeper. Write a payment reminder email. Keep it under 80 words, friendly but firm." What is this prompt most missing?</div>
       <div class="quiz-opts">
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It already has a Role (bookkeeper)."><span class="qmark"></span><span class="qtext">A Role</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="There is no Context: who is the client, how overdue, what was agreed? Without it the email is generic and may strike the wrong tone for this relationship."><span class="qmark"></span><span class="qtext">Context about the client and the situation</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It already has Constraints (under 80 words, friendly but firm)."><span class="qmark"></span><span class="qtext">Constraints</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A Task is present (write a payment reminder email). The gap is the background, not the task."><span class="qmark"></span><span class="qtext">A Task</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It already has an Audience (bookkeeper)."><span class="qmark"></span><span class="qtext">Audience</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="There is no Specifics: who is the client, how overdue, what was agreed? Without it the email is generic and may strike the wrong tone for this relationship."><span class="qmark"></span><span class="qtext">Specifics about the client and the situation</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Kind covers length (under 80 words), and tone (friendly but firm) is a Specifics detail that's already present — the real gap is elsewhere."><span class="qmark"></span><span class="qtext">Kind</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A Task is present (write a payment reminder email). The gap is the background, not the task."><span class="qmark"></span><span class="qtext">Task</span></button>
       </div>
       <div class="quiz-fb"></div>
       <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
@@ -482,7 +479,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
   <section class="slide" data-ses="1"><div class="slide-inner">
     <div class="eyebrow">Day 2 · Prompting, Leveled Up</div>
     <h1>From Prompting to Context Engineering</h1>
-    <p class="subtitle">You now have the 6-block blueprint. Here is where it goes next. The strongest operators spend less time hunting for the perfect sentence and more time shaping everything around the request. That shift has a name, and three habits get you there.</p>
+    <p class="subtitle">You now have the full TASK blueprint. Here is where it goes next. The strongest operators spend less time hunting for the perfect sentence and more time shaping everything around the request. That shift has a name, and three habits get you there.</p>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-spark"/></svg> Meta prompting: use AI to write your prompts</div>
       <p>Stop writing prompts from scratch. Ask Claude to write or upgrade the prompt for you, then save it.</p>
@@ -519,13 +516,13 @@ Format: give me 3 options as a numbered list. (Format)</div>
     <table>
       <thead><tr><th>Symptom</th><th>Real cause</th><th>The fix</th></tr></thead>
       <tbody>
-        <tr><td><strong>Too generic / bland</strong></td><td>No Role, no Context, no examples</td><td>Add who it is for and a sample of "good"</td></tr>
+        <tr><td><strong>Too generic / bland</strong></td><td>No Audience, no Specifics, no example</td><td>Add who it is for and a sample of "good"</td></tr>
         <tr><td><strong>Wrong or made-up facts</strong></td><td>You asked from memory; it filled gaps</td><td>Paste the source material; tell it not to invent</td></tr>
-        <tr><td><strong>Wrong format or tone</strong></td><td>You never specified either</td><td>Add Format and a tone Constraint</td></tr>
+        <tr><td><strong>Wrong format or tone</strong></td><td>You never specified either</td><td>Add Kind, and a tone rule in Specifics</td></tr>
         <tr><td><strong>Ignored an instruction</strong></td><td>Buried in a long, messy prompt</td><td>Put key rules on their own lines; ask for one thing</td></tr>
       </tbody>
     </table>
-    <p class="hookline" style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55"><svg style="width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px"><use href="#i-target"/></svg><span><strong>Notice the pattern:</strong> every fix is just adding back one of the six blocks. Debugging is not a new skill, it is the blocks in reverse.</span></p>
+    <p class="hookline" style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55"><svg style="width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px"><use href="#i-target"/></svg><span><strong>Notice the pattern:</strong> every fix is just adding back a piece of TASK. Debugging is not a new skill, it is TASK in reverse.</span></p>
   </div></section>
 
   <section class="slide" data-ses="2"><div class="slide-inner">
@@ -534,7 +531,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
     <div class="pipeline">
       <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-target"/></svg></div><div class="stage-name">Diagnose</div><div class="stage-cap">which of the 4 failure modes is it?</div></div>
       <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
-      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-spark"/></svg></div><div class="stage-name">Change one block</div><div class="stage-cap">add the missing piece only</div></div>
+      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-spark"/></svg></div><div class="stage-name">Change one letter</div><div class="stage-cap">add the missing letter only</div></div>
       <div class="connector"><span class="line"></span><span class="pulse" style="--pd:1.6s"></span></div>
       <div class="stage" style="--d:2.2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-activity"/></svg></div><div class="stage-name">Re-run</div><div class="stage-cap">generate again</div></div>
       <div class="connector"><span class="line"></span><span class="pulse" style="--pd:2.7s"></span></div>
@@ -556,7 +553,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
       <div class="quiz-opts">
         <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Switching tools does not fix a thin prompt. The same vague ask gives the same bland result anywhere."><span class="qmark"></span><span class="qtext">Try a different AI tool</span></button>
         <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Length is not the problem. A longer generic post is still generic."><span class="qmark"></span><span class="qtext">Ask it to make the post longer</span></button>
-        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Generic output means missing Role, Context, and an example. Add the audience, what the service actually does, and one sample post to match. That is the 'too generic' fix from the table."><span class="qmark"></span><span class="qtext">Add a Role, real Context, and a sample post to match</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Generic output means missing Audience, Specifics, and an example. Add the audience, what the service actually does, and one sample post to match. That is the 'too generic' fix from the table."><span class="qmark"></span><span class="qtext">Add an Audience, real Specifics, and a sample post to match</span></button>
         <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Regenerating the same prompt just reshuffles the same bland ingredients."><span class="qmark"></span><span class="qtext">Hit regenerate a few times</span></button>
       </div>
       <div class="quiz-fb"></div>
@@ -760,13 +757,13 @@ Format: give me 3 options as a numbered list. (Format)</div>
     <h2>Wrap-up &amp; what's next</h2>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 3 (activity)</div>
-      <p><strong>1.</strong> Take 3 prompts from your "Prompt Library" and add the new blocks: Constraints, an Example, and a Format. Save the upgraded versions.</p>
-      <p><strong>2.</strong> Next time output disappoints, run the debug loop: name the failure mode, change one block, re-run. Note what fixed it.</p>
+      <p><strong>1.</strong> Take 3 prompts from your "Prompt Library" and sharpen their Specifics and Kind, plus add an Example. Save the upgraded versions.</p>
+      <p><strong>2.</strong> Next time output disappoints, run the debug loop: name the failure mode, change one letter of TASK, re-run. Note what fixed it.</p>
       <p style="margin:0"><strong>3.</strong> Sign up for two free tools from today (for example Claude and Gemini), run the same task in both, and notice which one fits you better.</p>
     </div>
     <div class="qa">
       <h3>Day 2 Q&amp;A</h3>
-      <p>Bring your questions on the six blocks, refining output, or choosing the right tool. Tomorrow we go deep on Claude: how it differs, Projects, and how to get your best work out of it.</p>
+      <p>Bring your questions on TASK, refining output, or choosing the right tool. Tomorrow we go deep on Claude: how it differs, Projects, and how to get your best work out of it.</p>
       <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 3 <svg><use href="#i-arrow"/></svg></button>
     </div>
   </div></section>
@@ -775,7 +772,7 @@ Format: give me 3 options as a numbered list. (Format)</div>
 
   <div class="deckbar">
     <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
-    <div class="db-label" id="dbLabel">Prompting Foundations II</div>
+    <div class="db-label" id="dbLabel">Prompting, Level 2</div>
     <div class="db-count" id="dbCount"><strong>1</strong> / 18</div>
     <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
   </div>
@@ -943,7 +940,7 @@ function proceedNext(){
   setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
 }
 
-const sesNames = ['Prompting Foundations II','Format & the Full Blueprint','Refining & Iterating','The Right Tool','AI Tools'];
+const sesNames = ['Prompting, Level 2','Kind & the Full TASK Blueprint','Refining & Iterating','The Right Tool','AI Tools'];
 
 const slides = [...document.querySelectorAll('.slide')];
 const navLinks = [...document.querySelectorAll('#nav a')];

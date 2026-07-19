@@ -341,7 +341,7 @@
     <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>How AI Actually Works</a>
     <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>What It Can &amp; Can't Do</a>
     <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-shield"/></svg></span>Trust, Security &amp; Judgment</a>
-    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-target"/></svg></span>Prompting Foundations I</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-target"/></svg></span>Prompting Foundations</a>
     <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Practice &amp; Your Niche</a>
   </div>
   <div class="progress">
@@ -385,7 +385,7 @@
         <li>Explain in plain terms how AI works (why an LLM predicts, it does not look things up)</li>
         <li>Judge what AI can and cannot be trusted with, and tell fluff from substance</li>
         <li>Handle client data safely using the operator's standard</li>
-        <li>Write a reliable basic prompt using Role, Task, and Context</li>
+        <li>Write a reliable basic prompt using the TASK framework</li>
       </ul>
     </div>
     <div class="card">
@@ -394,7 +394,7 @@
         <li>How AI actually works (the prediction engine)</li>
         <li>What it can and can't do (strengths, hard limits, spotting fluff)</li>
         <li>Trust, security &amp; judgment (the Trust Scale, handling data safely)</li>
-        <li>Prompting Foundations I (Role, Task, Context)</li>
+        <li>Prompting Foundations (TASK)</li>
         <li>Practice in your niche + Q&amp;A</li>
       </ol>
     </div>
@@ -767,8 +767,8 @@
   <!-- SESSION 3 -->
   <section class="slide" data-ses="3"><div class="slide-inner">
     <div class="eyebrow">Day 1 · Session 4</div>
-    <h1>Prompting Foundations I</h1>
-    <p class="subtitle">Prompting is a learnable skill, not a talent. Today: the first three building blocks. Tomorrow we finish the set and learn to debug bad output.</p>
+    <h1>Prompting Foundations</h1>
+    <p class="subtitle">Prompting is a learnable skill, not a talent. One framework, four letters, and you will use it for the rest of this course: TASK.</p>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-spark"/></svg> The golden rule</div>
       <p style="margin:0;color:var(--ink);font-size:16px;font-weight:600">Treat AI like a brilliant new hire on their first day.</p>
@@ -777,34 +777,59 @@
   </div></section>
 
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <h2>The first three blocks: Role, Task, Context</h2>
-    <h3>1. Role: tell it who to be</h3>
-    <p>Sets the voice, vocabulary, and perspective. The fastest way to stop getting generic output.</p>
-    <div class="compare">
-      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Without</div>"Write a social post." The voice is random and could be anything.</div>
-      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> With</div>"You are a social media manager for a boutique real-estate brokerage." Now it writes for the right audience.</div>
+    <h2>Why this matters: what a weak prompt can cost you</h2>
+    <p>These are illustrative examples, not real incidents — but each one is exactly the kind of thing a missing piece of TASK causes.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-x"/></svg> Skip Audience</div>
+      <p style="margin:0">A VA asks AI to "write a reply to the client" with no role or audience specified. The tone comes out casual and jokey — wrong for a client who is already frustrated about a delay. It goes out unreviewed. The client escalates to the account owner.</p>
     </div>
-    <h3>2. Task: say exactly what you want done</h3>
+    <div class="card card-danger" style="margin-top:14px">
+      <div class="card-head"><svg><use href="#i-x"/></svg> Skip Specifics</div>
+      <p style="margin:0">An automation prompt is written without the actual account details in front of it. The AI fills the gap with a plausible-sounding guess. The output looks fine, gets approved on a skim, and goes out to multiple client accounts with the wrong information baked in.</p>
+    </div>
+    <div class="card card-danger" style="margin-top:14px">
+      <div class="card-head"><svg><use href="#i-x"/></svg> Skip Kind</div>
+      <p style="margin:0">A VA asks for "a summary" with no format specified. What comes back is a dense paragraph instead of the 3-bullet drop-in format the team actually needed. Someone has to manually reformat it before it can be used — the AI did the work, but a person still had to redo it.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The framework: TASK</h2>
+    <h3>T — Task: say exactly what you want done</h3>
     <p>Be specific about the deliverable, length, and format. Vague tasks produce vague results.</p>
     <div class="compare">
       <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Vague</div>"Help me with emails." Write? Review? Summarize? It guesses.</div>
       <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Specific</div>"Draft a 5-day follow-up email, under 100 words, friendly, ending in a soft call to action."</div>
     </div>
+    <h3>A — Audience: tell it who to be, and who it's for</h3>
+    <p>Sets the voice, vocabulary, and perspective. The fastest way to stop getting generic output.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Without</div>"Write a social post." The voice is random and could be anything.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> With</div>"You are a social media manager for a boutique real-estate brokerage." Now it writes for the right audience.</div>
+    </div>
   </div></section>
 
   <section class="slide" data-ses="3"><div class="slide-inner">
-    <h3>3. Context: give the background a new hire would need</h3>
-    <p>Who is this for? What has happened already? What do they care about? Missing context is the number-one reason output is "technically fine but wrong for the situation."</p>
+    <h3>S — Specifics: the background and rules a new hire would need</h3>
+    <p>Who is this for? What has happened already? What do they care about, and what rules should it follow? Missing Specifics is the number-one reason output is "technically fine but wrong for the situation."</p>
+    <h3>K — Kind: specify the shape of the output</h3>
+    <p>Tell it exactly how to deliver: bullets, a table, a word count, an email with a subject line. Output in the right shape is output you can paste straight into the doc, the CRM, or the send box, instead of reformatting it yourself.</p>
     <h2>Putting it together</h2>
-    <div class="prompt"><span class="prompt-tag">Role, Task, Context</span>You are an executive assistant for a busy consultant. (Role)
+    <div class="prompt"><span class="prompt-tag">T · A · S · K</span>Write a short reply declining a meeting request without closing the door. (Task)
 
-Write a short reply declining a meeting request without closing the door. (Task)
+You are an executive assistant for a busy consultant. (Audience)
 
-Context: the sender is a potential partner we like but cannot prioritize this quarter; the consultant wants to stay warm and revisit in Q3.</div>
+Specifics: the sender is a potential partner we like but cannot prioritize this quarter; the consultant wants to stay warm and revisit in Q3. (Specifics)
+
+Format as a short email, under 80 words. (Kind)</div>
     <div class="principle">
       <div class="badge"><svg><use href="#i-compass"/></svg></div>
       <div class="pl">The Principle</div>
-      <p>Context in, quality out. The model cannot read your mind, so give it what a capable new hire would need to do the job right.</p>
+      <p>TASK in, quality out. The model cannot read your mind, so give it what a capable new hire would need to do the job right — and tell it what shape you need back.</p>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="card-head"><svg><use href="#i-flask"/></svg> One bonus move: Examples</div>
+      <p style="margin:0">Once you have TASK down, there is one more lever: show it a sample of what "good" looks like instead of just describing it. One example beats a paragraph of instructions — we will use this a lot starting tomorrow.</p>
     </div>
   </div></section>
 
@@ -812,10 +837,10 @@ Context: the sender is a potential partner we like but cannot prioritize this qu
   <section class="slide" data-ses="4"><div class="slide-inner">
     <div class="eyebrow">Day 1 · Session 5</div>
     <h1>Practice &amp; Your Niche</h1>
-    <p class="subtitle">Foundations only stick when you apply them to your own work. Try the drill, then see the building blocks in your field.</p>
+    <p class="subtitle">Foundations only stick when you apply them to your own work. Try the drill, then see the framework in your field.</p>
     <div class="exercise">
       <div class="ex-head"><span class="ex-badge"><svg><use href="#i-flask"/></svg> Drill</span><span class="ex-title">Fix the weak prompt</span></div>
-      <p>Take this lazy prompt and rebuild it using <strong>Role, Task, Context</strong>:</p>
+      <p>Take this lazy prompt and rebuild it using the <strong>TASK</strong> framework:</p>
       <div class="prompt"><span class="prompt-tag">Before</span>Summarize this meeting.</div>
       <p style="margin:0">Decide: who is the summary for? What should it pull out? What format do they need? Write your improved version, run it, and compare.</p>
     </div>
@@ -823,7 +848,7 @@ Context: the sender is a potential partner we like but cannot prioritize this qu
 
   <section class="slide" data-ses="4"><div class="slide-inner">
     <h2>See it in your niche</h2>
-    <p>Same three blocks, every role. Pick yours:</p>
+    <p>Same framework, every role. Pick yours:</p>
     <div class="niche">
       <div class="niche-tabs">
         <button class="niche-tab active" onclick="showNiche('admin',this)">Admin</button>
@@ -839,18 +864,18 @@ Context: the sender is a potential partner we like but cannot prioritize this qu
         <button class="niche-tab" onclick="showNiche('mort',this)">Mortgage</button>
         <button class="niche-tab" onclick="showNiche('health',this)">Healthcare</button>
       </div>
-      <div class="niche-panel active" id="niche-admin"><div class="role">General Admin</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an admin assistant for a 10-person design studio. Turn these messy notes into a clean, prioritized to-do list grouped by owner. Context: it is our Monday stand-up dump; the team scans it on mobile, so keep each item to one line.</div></div>
-      <div class="niche-panel" id="niche-ea"><div class="role">Executive Assistant</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an EA for a startup founder. Draft a calm reply pushing a call to next week without sounding flaky. Context: we have rescheduled once already; the relationship matters and the founder is genuinely slammed.</div></div>
-      <div class="niche-panel" id="niche-mkt"><div class="role">Marketing / Ads</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a paid-ads specialist. Write 5 primary-text variations for a Meta lead-gen ad. Context: a local HVAC company, audience is homeowners aged 35 to 60, offer is a free tune-up; tone is trustworthy, not hypey.</div></div>
-      <div class="niche-panel" id="niche-social"><div class="role">Social Media Manager</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a social media manager for a wellness coach. Draft 3 Instagram captions on "consistency beats intensity." Context: a warm voice; audience is busy moms; each caption ends with a simple question to drive comments.</div></div>
-      <div class="niche-panel" id="niche-book"><div class="role">Bookkeeping / Finance</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a bookkeeper. Draft a polite reminder for an invoice 14 days overdue. Context: a long-standing client we want to keep; firm but friendly; offer to resend the invoice and a payment link. (Never paste real account numbers into a free AI tool.)</div></div>
-      <div class="niche-panel" id="niche-tech"><div class="role">Tech / Web</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a web VA. Explain to a non-technical client why their site loads slowly, in plain language. Context: a WordPress site with large unoptimized images; the client is nervous about "tech stuff," so end with the 2 fixes that matter most.</div></div>
-      <div class="niche-panel" id="niche-hr"><div class="role">HR / Recruitment</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a recruitment assistant. Write a friendly LinkedIn outreach to a passive candidate. Context: a mid-level designer; we are remote-first; under 80 words; lead with what is in it for them, not us.</div></div>
-      <div class="niche-panel" id="niche-sales"><div class="role">Sales</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a sales assistant. Turn this discovery-call transcript into a 4-line recap. Context: pull out the prospect's main pain point, budget signal, the objection raised, and the agreed next step, nothing else.</div></div>
-      <div class="niche-panel" id="niche-ops"><div class="role">Operations</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an ops coordinator. Draft a one-page weekly status update from these project notes. Context: it goes to leadership who skim in 30 seconds, so lead with wins, then risks, then what you need from them.</div></div>
-      <div class="niche-panel" id="niche-re"><div class="role">Real Estate</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an assistant at a real-estate team. Draft a warm follow-up to a buyer who toured a home but went quiet. Context: they loved the kitchen but worried about the commute; offer two similar listings. (Keep personal and financial details out of the AI tool.)</div></div>
-      <div class="niche-panel" id="niche-mort"><div class="role">Mortgage</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an assistant at a mortgage brokerage. Draft a clear, reassuring email explaining which documents a first-time buyer needs to start pre-approval. Context: they are nervous and not finance-savvy; keep it to a short checklist; warm and plain-language. (Never paste Social Security numbers, account numbers, or pay stubs into a free AI tool.)</div></div>
-      <div class="niche-panel" id="niche-health"><div class="role">Healthcare</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an admin assistant at a small medical clinic. Draft a friendly appointment-reminder text plus a short follow-up for no-shows. Context: patients skim on mobile; keep each message under two lines and include how to reschedule. (Never put patient names, conditions, or any health details into a free AI tool; that is protected information.)</div></div>
+      <div class="niche-panel active" id="niche-admin"><div class="role">General Admin</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an admin assistant for a 10-person design studio. Turn these messy notes into a clean, prioritized to-do list grouped by owner. Context: it is our Monday stand-up dump; the team scans it on mobile, so keep each item to one line.</div></div>
+      <div class="niche-panel" id="niche-ea"><div class="role">Executive Assistant</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an EA for a startup founder. Draft a calm reply pushing a call to next week without sounding flaky. Context: we have rescheduled once already; the relationship matters and the founder is genuinely slammed.</div></div>
+      <div class="niche-panel" id="niche-mkt"><div class="role">Marketing / Ads</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a paid-ads specialist. Write 5 primary-text variations for a Meta lead-gen ad. Context: a local HVAC company, audience is homeowners aged 35 to 60, offer is a free tune-up; tone is trustworthy, not hypey.</div></div>
+      <div class="niche-panel" id="niche-social"><div class="role">Social Media Manager</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a social media manager for a wellness coach. Draft 3 Instagram captions on "consistency beats intensity." Context: a warm voice; audience is busy moms; each caption ends with a simple question to drive comments.</div></div>
+      <div class="niche-panel" id="niche-book"><div class="role">Bookkeeping / Finance</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a bookkeeper. Draft a polite reminder for an invoice 14 days overdue. Context: a long-standing client we want to keep; firm but friendly; offer to resend the invoice and a payment link. (Never paste real account numbers into a free AI tool.)</div></div>
+      <div class="niche-panel" id="niche-tech"><div class="role">Tech / Web</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a web VA. Explain to a non-technical client why their site loads slowly, in plain language. Context: a WordPress site with large unoptimized images; the client is nervous about "tech stuff," so end with the 2 fixes that matter most.</div></div>
+      <div class="niche-panel" id="niche-hr"><div class="role">HR / Recruitment</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a recruitment assistant. Write a friendly LinkedIn outreach to a passive candidate. Context: a mid-level designer; we are remote-first; under 80 words; lead with what is in it for them, not us.</div></div>
+      <div class="niche-panel" id="niche-sales"><div class="role">Sales</div><div class="prompt"><span class="prompt-tag">TASK</span>You are a sales assistant. Turn this discovery-call transcript into a 4-line recap. Context: pull out the prospect's main pain point, budget signal, the objection raised, and the agreed next step, nothing else.</div></div>
+      <div class="niche-panel" id="niche-ops"><div class="role">Operations</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an ops coordinator. Draft a one-page weekly status update from these project notes. Context: it goes to leadership who skim in 30 seconds, so lead with wins, then risks, then what you need from them.</div></div>
+      <div class="niche-panel" id="niche-re"><div class="role">Real Estate</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an assistant at a real-estate team. Draft a warm follow-up to a buyer who toured a home but went quiet. Context: they loved the kitchen but worried about the commute; offer two similar listings. (Keep personal and financial details out of the AI tool.)</div></div>
+      <div class="niche-panel" id="niche-mort"><div class="role">Mortgage</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an assistant at a mortgage brokerage. Draft a clear, reassuring email explaining which documents a first-time buyer needs to start pre-approval. Context: they are nervous and not finance-savvy; keep it to a short checklist; warm and plain-language. (Never paste Social Security numbers, account numbers, or pay stubs into a free AI tool.)</div></div>
+      <div class="niche-panel" id="niche-health"><div class="role">Healthcare</div><div class="prompt"><span class="prompt-tag">TASK</span>You are an admin assistant at a small medical clinic. Draft a friendly appointment-reminder text plus a short follow-up for no-shows. Context: patients skim on mobile; keep each message under two lines and include how to reschedule. (Never put patient names, conditions, or any health details into a free AI tool; that is protected information.)</div></div>
     </div>
   </div></section>
 
@@ -858,12 +883,12 @@ Context: the sender is a potential partner we like but cannot prioritize this qu
     <h2>Wrap-up &amp; what's next</h2>
     <div class="card card-accent">
       <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 2 (activity)</div>
-      <p><strong>1.</strong> Rewrite 3 prompts you would actually use this week with Role, Task, and Context. Save them in a doc called "Prompt Library."</p>
-      <p style="margin:0"><strong>2.</strong> Run one of them, then change just the Context and run it again. Notice how much the output shifts.</p>
+      <p><strong>1.</strong> Rewrite 3 prompts you would actually use this week with the TASK framework. Save them in a doc called "Prompt Library."</p>
+      <p style="margin:0"><strong>2.</strong> Run one of them, then change just the Specifics and run it again. Notice how much the output shifts.</p>
     </div>
     <div class="qa">
       <h3>Day 1 Q&amp;A</h3>
-      <p>Bring your questions on prediction, hallucinations, the Trust Scale, data safety, or the building blocks. Tomorrow we add Constraints and Examples, learn to debug bad output, and build your decision framework for picking the right tool.</p>
+      <p>Bring your questions on prediction, hallucinations, the Trust Scale, data safety, or TASK. Tomorrow we go deeper on TASK, learn the Examples bonus move, debug bad output, and build your decision framework for picking the right tool.</p>
       <a class="btn btn-primary" href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener" style="margin-top:6px">Continue to Day 2 <svg><use href="#i-arrow"/></svg></a>
     </div>
   </div></section>
@@ -962,7 +987,7 @@ function kpNavBuild(){
 }
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
 
-const sesNames = ['How AI Actually Works','What It Can & Can’t Do','Trust, Security & Judgment','Prompting Foundations I','Practice & Your Niche'];
+const sesNames = ['How AI Actually Works','What It Can & Can\'t Do','Trust, Security & Judgment','Prompting Foundations','Practice & Your Niche'];
 
 const slides = [...document.querySelectorAll('.slide')];
 const navLinks = [...document.querySelectorAll('#nav a')];
