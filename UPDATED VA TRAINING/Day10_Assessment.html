@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 10: Final Assessment</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--gold-soft);border:1px solid rgba(234,179,8,0.22);color:var(--gold);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(234,179,8,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .review-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+  .review-card-day{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+  .review-card-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .review-card-point{font-size:12px;color:var(--muted);line-height:1.6}.review-card-list{margin:9px 0 0;padding-left:15px}.review-card-list li{font-size:11.5px;color:var(--muted);line-height:1.55;margin-bottom:5px;padding-left:2px}.review-card-list li strong{color:var(--ink)}.review-card-list li::marker{color:var(--accent);font-size:10px}
+  /* Assessment quiz styles */
+  .aq{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0;position:relative}
+  .aq-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .aq-tag svg{width:13px;height:13px}
+  .aq-num{position:absolute;top:14px;right:18px;font-size:11px;font-weight:700;color:var(--dim);letter-spacing:0.5px}
+  .aq-q{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .aq-opts{display:flex;flex-direction:column;gap:9px}
+  .aq-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .aq-opt:hover:not(.locked){border-color:var(--accent)}
+  .aq-opt.locked{cursor:default}
+  .aq-opt.selected{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .aq-opt.selected.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .aq-opt.correct-reveal{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .admin-ctrl-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .admin-badge{font-size:10px;font-weight:800;letter-spacing:.8px;color:#000;background:var(--gold);border-radius:4px;padding:2px 7px;line-height:1.5}
+  .admin-reset-q{background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:20px;font-size:11px;font-weight:600;padding:3px 12px;cursor:pointer;letter-spacing:.4px;transition:background .15s,color .15s}
+  .admin-reset-q:hover{background:var(--gold);color:#000}
+  .aq-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .aq-opt.selected .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .aq-opt.selected.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .aq-opt.correct-reveal .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .aq-opt .qmark svg{width:13px;height:13px}
+  .aq-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .aq-fb.show{display:block;animation:fade .25s}
+  .aq-fb .ok{color:var(--accent);font-weight:700}.aq-fb .no{color:var(--danger);font-weight:700}.aq-fb strong{color:var(--ink)}
+  /* Sequencing styles */
+  .seq{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0;position:relative}
+  .seq-tag{display:inline-flex;align-items:center;gap:6px;background:var(--secure-soft);border:1px solid rgba(93,169,244,.3);color:var(--secure);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .seq-tag svg{width:13px;height:13px}
+  .seq-num{position:absolute;top:14px;right:18px;font-size:11px;font-weight:700;color:var(--dim);letter-spacing:0.5px}
+  .seq-q{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px;line-height:1.45}
+  .seq-sub{font-size:13px;color:var(--dim);margin-bottom:14px}
+  .seq-pool{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+  .seq-item{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-size:14px;font-weight:500;padding:12px 16px;border-radius:10px;cursor:pointer;transition:all .15s;user-select:none}
+  .seq-item:hover:not(.placed):not(.locked){border-color:var(--secure);background:var(--secure-soft)}
+  .seq-item.placed{opacity:.35;cursor:default;pointer-events:none}
+  .seq-item .seq-dot{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--dim)}
+  .seq-order{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .seq-order-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--secure);margin-bottom:6px}
+  .seq-slot{display:flex;align-items:center;gap:11px;background:var(--bg-2);border:1px dashed var(--border-2);min-height:46px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:var(--muted);transition:all .15s}
+  .seq-slot.filled{background:var(--secure-soft);border:1px solid rgba(93,169,244,.25);color:var(--ink);cursor:pointer}
+  .seq-slot.filled:hover{border-color:var(--danger)}
+  .seq-slot .seq-sn{width:22px;height:22px;flex-shrink:0;border-radius:50%;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+  .seq-slot.correct-slot{border-color:var(--accent);background:var(--accent-soft)}
+  .seq-slot.correct-slot .seq-sn{background:var(--accent);color:#04150B}
+  .seq-slot.wrong-slot{border-color:var(--danger);background:var(--danger-soft)}
+  .seq-slot.wrong-slot .seq-sn{background:var(--danger);color:#220707}
+  .seq-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--secure);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .seq-fb.show{display:block;animation:fade .25s}
+  .seq-fb .ok{color:var(--accent);font-weight:700}.seq-fb .no{color:var(--danger);font-weight:700}.seq-fb strong{color:var(--ink)}
+  /* Score & cert */
+  .score-box{background:var(--panel);border:2px solid var(--border);border-radius:20px;padding:40px 32px;text-align:center;margin:24px 0}
+  .score-box.pass{border-color:var(--accent);background:linear-gradient(135deg,rgba(34,197,94,0.08),var(--panel))}
+  .score-box.fail{border-color:var(--danger);background:linear-gradient(135deg,rgba(248,113,113,0.06),var(--panel))}
+  .score-pct{font-size:64px;font-weight:800;font-family:var(--font-d);letter-spacing:-2px;line-height:1;margin-bottom:8px}
+  .score-box.pass .score-pct{color:var(--accent)}
+  .score-box.fail .score-pct{color:var(--danger)}
+  .score-label{font-size:14px;color:var(--muted);margin-bottom:6px}
+  .score-detail{font-size:13px;color:var(--dim)}
+  .cert{background:linear-gradient(135deg,#0C1810 0%,#0A1510 50%,#081210 100%);border:2px solid var(--accent);border-radius:20px;padding:48px 40px;text-align:center;margin:24px 0;position:relative;overflow:hidden}
+  .cert::before{content:'';position:absolute;inset:0;background:radial-gradient(600px at 50% 0%,rgba(34,197,94,0.12),transparent 70%);pointer-events:none}
+  .cert-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#04150B;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:7px 16px;border-radius:20px;margin-bottom:18px}
+  .cert-badge svg{width:16px;height:16px}
+  .cert-title{font-family:var(--font-d);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:6px;position:relative}
+  .cert-name{font-family:var(--font-d);font-size:22px;font-weight:600;color:var(--accent);margin-bottom:6px;position:relative}
+  .cert-sub{font-size:14px;color:var(--muted);margin-bottom:4px;position:relative}
+  .cert-date{font-size:12px;color:var(--dim);position:relative}
+  .cert-logo{font-family:var(--font-d);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;margin-top:20px;position:relative}
+  .cert-logo span{color:var(--accent)}
+  .breakdown{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:18px 0}
+  .bd-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center}
+  .bd-card.bd-pass{border-color:rgba(34,197,94,0.3)}.bd-card.bd-fail{border-color:rgba(248,113,113,0.3)}
+  .bd-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .bd-score{font-size:28px;font-weight:800;font-family:var(--font-d);letter-spacing:-1px}
+  .bd-card.bd-pass .bd-score{color:var(--accent)}.bd-card.bd-fail .bd-score{color:var(--danger)}
+  .bd-max{font-size:12px;color:var(--dim);margin-top:2px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-danger{background:linear-gradient(135deg,var(--danger),#e64e4e);color:#fff;box-shadow:0 4px 16px rgba(248,113,113,0.2)}
+  .btn-danger:hover{transform:translateY(-1px)}
+  .btn-block{width:100%;justify-content:center}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .section-divider{text-align:center;padding:12px 0;margin:8px 0}
+  .section-divider-line{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim)}
+  .section-divider-line::before,.section-divider-line::after{content:'';width:40px;height:1px;background:var(--border)}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}h1{font-size:25px}h2{font-size:21px}.review-grid{grid-template-columns:1fr}.breakdown{grid-template-columns:1fr}.cert{padding:32px 20px}}
+  @media(max-width:600px){.review-grid{grid-template-columns:1fr}}
+  @media print{.sidebar,.deckbar,.mobile-bar{display:none!important}.main{margin-left:0}.slide{position:static!important;display:none!important;overflow:visible;padding:0}.slide.print-target{display:block!important}.cert{border:3px solid #22C55E;page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 14 17 22l-5-3-5 3 1.5-8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-award"/></svg> Day 10 &middot; Final Assessment</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Assessment</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-book"/></svg></span>Overview</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-target"/></svg></span>Section A: MCQ</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Section B: Situational</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-list"/></svg></span>Section C: Sequencing</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-award"/></svg></span>Results</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1 of 14</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GHL Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GHL Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
+    <a class="current"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/GHL_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> GHL Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck">
+
+  <!-- ============ SESSION 0: OVERVIEW ============ -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 10 &middot; Final Assessment</div>
+    <h1>AI Foundations Certification</h1>
+    <p class="subtitle">This is the final assessment for the KeyPlayers VA Academy AI Foundations course. Everything from Days 1&ndash;9 is fair game.</p>
+    <div id="attDone" style="display:none">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Marked present</div><p style="margin:0">Your Day 10 attendance is logged. Good luck.</p></div>
+    </div>
+    <div id="attForm">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Ready to begin?</div><p style="margin:0">Your name was entered at login. Click below to confirm your Day 10 attendance before starting the assessment.</p></div>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="kpRecordPresence()">Mark me present <svg><use href="#i-check"/></svg></button>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> How this works</div>
+      <ul style="margin:0">
+        <li><strong>Section A:</strong> 22 multiple-choice questions (1 point each)</li>
+        <li><strong>Section B:</strong> 12 situational questions (1 point each)</li>
+        <li><strong>Section C:</strong> 5 automation sequencing questions (1 point each)</li>
+        <li><strong>Total:</strong> 39 points. <strong>Passing score: 80% (32/39)</strong></li>
+        <li>You have <strong>one attempt</strong> &mdash; answers cannot be changed once submitted</li>
+        <li><strong>Answers lock per section.</strong> Once you advance to the next section, your previous answers are final and cannot be changed.</li>
+        <li>Select your answer for each question, then click <strong>Next</strong> to continue. Review carefully before moving on.</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S0-1: REVIEW CARDS -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Quick Review &mdash; Days 1&ndash;9</h2>
+    <p>One key takeaway per day. Read these before starting.</p>
+    <div class="review-grid">
+      <div class="review-card">
+        <div class="review-card-day">Day 1</div>
+        <div class="review-card-title">Prompting &amp; AI Fundamentals</div>
+        <div class="review-card-point">LLMs predict the next word &mdash; they don't think or know. Every output needs your judgment. Context windows set the limit on what AI can see at once.</div>
+        <ul class="review-card-list">
+          <li><strong>Context window</strong> = the max amount of text the AI can process at once &mdash; not memory, not the browser.</li>
+          <li><strong>Zero-Trust Policy:</strong> assume anything typed into a free-tier tool can be used to train future models &mdash; keep client PII out of free tools.</li>
+          <li><strong>Metaprompting</strong> = asking the AI to write or improve a prompt for you.</li>
+          <li>Flag anything that looks hallucinated (invented facts, figures, names) and verify before it reaches a client.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 2</div>
+        <div class="review-card-title">Prompt Blocks &amp; Right Tool</div>
+        <div class="review-card-point">Six prompt blocks (Role, Task, Context, Constraints, Examples, Format) turn vague asks into reliable outputs. Know when to use chat vs automation vs agent.</div>
+        <ul class="review-card-list">
+          <li>The 6 blocks: <strong>Role, Task, Context, Constraints, Examples, Format.</strong></li>
+          <li><strong>Debug loop:</strong> identify the specific failure &rarr; change ONE block &rarr; re-run. Don't rewrite from scratch or just add more words.</li>
+          <li>Right tool: one-off question &rarr; <strong>Chat</strong> &middot; repeatable process &rarr; <strong>Automation</strong> &middot; open-ended judgment task &rarr; <strong>Agent</strong>.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 3</div>
+        <div class="review-card-title">Claude Deep Dive</div>
+        <div class="review-card-point">Artifacts produce finished work. MCP connects Claude to external tools. Projects, Skills, and context engineering separate power users from casual ones.</div>
+        <ul class="review-card-list">
+          <li><strong>Artifact</strong> = a finished, reusable piece of work (doc, code, table) in its own panel.</li>
+          <li><strong>MCP</strong> = lets Claude talk directly to external apps and tools.</li>
+          <li><strong>CLI</strong> = Command Line Interface.</li>
+          <li><strong>Context engineering</strong> &mdash; structuring exactly what the AI needs &mdash; is what separates power users from casual ones.</li>
+          <li>Put standing brand/format rules in a Project's <strong>System Prompt</strong> so every chat inherits them automatically.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 4</div>
+        <div class="review-card-title">Automation Foundations</div>
+        <div class="review-card-point">Every automation: trigger + action. Map it with 4 questions before building. Always QA and keep a human in the loop for anything client-facing.</div>
+        <ul class="review-card-list">
+          <li>Every automation = <strong>Trigger &rarr; (Filter) &rarr; Action(s) &rarr; Result.</strong></li>
+          <li>The trigger is what <strong>STARTS</strong> it (a schedule, a form, a new row) &mdash; not anything that happens after.</li>
+          <li>Map it with the <strong>four-question framework</strong> before you build anything.</li>
+          <li>Always keep a <strong>human in the loop</strong> before anything AI-drafted reaches a client.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 5</div>
+        <div class="review-card-title">Building Automations</div>
+        <div class="review-card-point">Build the simplest version first, test fully, then add complexity. Your prompt is the logic inside any AI automation step.</div>
+        <ul class="review-card-list">
+          <li>Build order: get the <strong>trigger working alone first</strong>, then add actions <strong>one at a time</strong>, testing each.</li>
+          <li>Inside an AI automation step, your prompt <strong>is the logic</strong> &mdash; it decides what that step produces.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 6</div>
+        <div class="review-card-title">GHL Foundations</div>
+        <div class="review-card-point">GHL replaces a dozen tools. Agency vs sub-account is the most important concept. Contacts, pipelines, conversations &mdash; the three things every VA must own.</div>
+        <ul class="review-card-list">
+          <li><strong>Agency vs. sub-account</strong> is the single most important GHL concept to keep straight.</li>
+          <li>Every VA must own three things: <strong>Contacts, Pipelines, Conversations.</strong></li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 7</div>
+        <div class="review-card-title">GHL Automation Workflows</div>
+        <div class="review-card-point">Workflows run GHL on autopilot. API = waiter (you ask), webhook = doorbell (it tells you). API keys are passwords &mdash; never share them in a doc or chat.</div>
+        <ul class="review-card-list">
+          <li><strong>API</strong> = you ask (pull, on demand) &middot; <strong>Webhook</strong> = it tells you (push, on event).</li>
+          <li><strong>API keys are passwords</strong> &mdash; password manager only, never a doc, chat, or shared file.</li>
+          <li>Workflow "broken" checklist: check the <strong>history/log tab</strong> for failed runs &rarr; verify the <strong>trigger filter matches exactly</strong> (including capitalization) &rarr; confirm the integration itself is active (A2P registration, connected app, etc).</li>
+          <li>Time-sensitive sends need a condition too &mdash; no business-hours filter means a workflow can fire at 11pm and annoy leads.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 8</div>
+        <div class="review-card-title">Meetings, PM &amp; Messaging</div>
+        <div class="review-card-point">AI note-takers capture decisions. Claude turns transcripts into tasks. You are the judgment layer between raw AI output and what gets sent.</div>
+        <ul class="review-card-list">
+          <li><strong>AI note-takers</strong> (Fathom, etc.) capture the meeting; <strong>Claude</strong> turns the transcript into action items &mdash; you're the judgment layer before anything gets sent.</li>
+          <li>"Instagram" &ne; "instagram" to a router/filter &mdash; case-sensitivity breaks automations constantly.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 9</div>
+        <div class="review-card-title">Agentic Workflows &amp; Conditional Logic</div>
+        <div class="review-card-point">Agents loop: goal &rarr; plan &rarr; act &rarr; check. Conditional logic branches on real-world exceptions &mdash; trigger, condition, path, fallback. Every branch needs a fallback or work vanishes silently.</div>
+        <ul class="review-card-list">
+          <li>Agent loop: <strong>goal &rarr; plan &rarr; act &rarr; check.</strong></li>
+          <li>Conditional logic branches on exceptions: <strong>trigger, condition, path, fallback.</strong> Every branch needs a fallback or work vanishes silently.</li>
+          <li>Fix case-sensitive mismatches with a <strong>lower()</strong> (normalize) function before the filter compares values.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <div class="review-card-day">Day 9</div>
+        <div class="review-card-title">KeyCommand &mdash; Your AI Command Center</div>
+        <div class="review-card-point">Orchestrator + specialists (no separate &ldquo;sub-agent&rdquo; tier) do the work; you approve everything. By default the client owns Approvals. Genes + Learning turn your approvals into a training signal. Protect the client's time like their calendar is yours.</div>
+        <ul class="review-card-list">
+          <li><strong>KeyCommand</strong> = KeyPlayers' AI command center &mdash; agents do the work, you're the operator who reviews before anything ships.</li>
+          <li>Your job: <strong>brief</strong> the right agent(s), <strong>review</strong> every draft in the Operator Queue, <strong>route approvals</strong> &mdash; nothing ships without your review + (by default) client sign-off.</li>
+          <li><strong>Genes</strong> = KeyCommand's adaptive memory &mdash; it learns from YOUR approval patterns, so inconsistent approvals train inconsistent output.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card card-gold" style="margin-top:8px">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> How to tackle Section B &amp; C</div>
+      <p style="margin:0"><strong>Section B (Situational)</strong> tests judgment, not memorization &mdash; ask what a careful, client-safety-first VA would actually do. <strong>Section C (Sequencing)</strong> always starts with whatever STARTS the automation &mdash; find the trigger first, then follow the cause-and-effect chain from there.</p>
+    </div>
+    <div class="card card-accent" style="margin-top:8px">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Ready?</div>
+      <p style="margin:0">Click <strong>Next</strong> to begin Section A. Take your time &mdash; there is no time limit.</p>
+    </div>
+  </div></section>
+
+  <!-- ============ SESSION 1: SECTION A — MCQs ============ -->
+
+  <!-- MCQ Slide 1: Questions 1-5 (Days 1-2) -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Section A &middot; Multiple Choice</div>
+
+    <!-- Q1 -->
+    <div class="aq" data-qid="1" data-correct="1">
+      <div class="aq-num">Q1 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 1</div>
+      <div class="aq-q">What is a context window in the context of AI models?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The browser window where you type prompts</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>The maximum amount of text the AI can see and process at one time</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>The number of conversations you can have per day</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>The AI's long-term memory that persists across sessions</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="aq" data-qid="2" data-correct="2">
+      <div class="aq-num">Q2 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 1</div>
+      <div class="aq-q">When using free-tier AI tools for client work, the Zero-Trust Policy says you should assume:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Your data is encrypted and completely private</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>The AI will always give accurate answers for client work</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Everything you type can be used to train future models</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Free-tier tools are too unreliable to use professionally</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="aq" data-qid="3" data-correct="0">
+      <div class="aq-num">Q3 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 1</div>
+      <div class="aq-q">What is metaprompting?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Asking the AI to write a better prompt for you</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Copying prompts from a library of templates</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Using multiple AI tools at once to compare outputs</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Prompting an AI model during a live client meeting</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="aq" data-qid="4" data-correct="3">
+      <div class="aq-num">Q4 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 2</div>
+      <div class="aq-q">Which of the following is NOT one of the six prompt blocks?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Role</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Constraints</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Examples</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Deadline</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="aq" data-qid="5" data-correct="1">
+      <div class="aq-num">Q5 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 2</div>
+      <div class="aq-q">When AI output is wrong, the debug loop says you should:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Rewrite the entire prompt from scratch</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Identify the failure mode, change one block, and re-run</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Switch to a different AI tool immediately</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Add more words to make the prompt longer</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- MCQ Slide 2: Questions 6-10 (Days 2-3) -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+
+    <!-- Q6 -->
+    <div class="aq" data-qid="6" data-correct="2">
+      <div class="aq-num">Q6 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 2</div>
+      <div class="aq-q">You need a one-off answer to a quick question. Which tool type is the right fit?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Automation tool (like Zapier or Make)</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Agent (like Claude Code or Cowork)</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Chat (like Claude, ChatGPT, or Gemini)</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>API integration with a webhook</button>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="aq" data-qid="7" data-correct="0">
+      <div class="aq-num">Q7 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 3</div>
+      <div class="aq-q">What is a Claude Artifact?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>A finished, reusable piece of work (document, code, table) that appears in a separate panel</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>A saved conversation thread that you can share with others</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>A plugin that connects Claude to external APIs</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>An error log that tracks when Claude gives wrong answers</button>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="aq" data-qid="8" data-correct="1">
+      <div class="aq-num">Q8 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 3</div>
+      <div class="aq-q">MCP (Model Context Protocol) is best described as:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>A paid feature that lets you upload files to Claude</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>A universal translator that lets Claude talk to external apps and tools</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>A backup system for saving Claude conversations</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>A command-line tool for running Python scripts</button>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="aq" data-qid="9" data-correct="2">
+      <div class="aq-num">Q9 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 3</div>
+      <div class="aq-q">What does CLI stand for?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Cloud Language Intelligence</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Creative Learning Interface</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Command Line Interface</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Client Login Integration</button>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="aq" data-qid="10" data-correct="3">
+      <div class="aq-num">Q10 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 3</div>
+      <div class="aq-q">What separates a power user from a casual AI user?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Paying for the most expensive subscription tier</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Typing longer prompts with more words</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Using multiple AI tools simultaneously</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Context engineering &mdash; structuring inputs so the AI has exactly what it needs</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- MCQ Slide 3: Questions 11-16 (Days 4-5) -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+
+    <!-- Q11 -->
+    <div class="aq" data-qid="11" data-correct="1">
+      <div class="aq-num">Q11 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 4</div>
+      <div class="aq-q">Every automation has the same basic shape. What is it?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Input &rarr; Processing &rarr; Database</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Trigger &rarr; (Filter) &rarr; Action(s) &rarr; Result</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Start &rarr; Loop &rarr; End</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Question &rarr; AI response &rarr; Human review</button>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="aq" data-qid="12" data-correct="0">
+      <div class="aq-num">Q12 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 4</div>
+      <div class="aq-q">&ldquo;Every Monday at 8am, pull last week&rsquo;s numbers and post a summary to Slack.&rdquo; What is the trigger?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The scheduled time: every Monday at 8am</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Pulling last week's numbers</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Posting the summary to Slack</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>The Slack channel receiving the message</button>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="aq" data-qid="13" data-correct="2">
+      <div class="aq-num">Q13 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 4</div>
+      <div class="aq-q">Before building any automation, you should first:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Choose a paid automation tool</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Write the code for the trigger</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Map it using the four-question framework</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Ask the client for their API keys</button>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="aq" data-qid="14" data-correct="3">
+      <div class="aq-num">Q14 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 4</div>
+      <div class="aq-q">Which of the following should always have a human in the loop before it reaches a client?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Logging data to a spreadsheet</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Renaming a file in Google Drive</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Moving a contact between pipeline stages</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Sending an AI-drafted email to a lead</button>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="aq" data-qid="15" data-correct="1">
+      <div class="aq-num">Q15 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 5</div>
+      <div class="aq-q">When building an automation, the correct approach is to:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Build the entire flow at once, then test everything together</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Build the trigger alone and test it, then add actions one at a time</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Copy someone else's automation and modify it for your use case</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Start with the most complex part first to get it out of the way</button>
+      </div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="aq" data-qid="16" data-correct="0">
+      <div class="aq-num">Q16 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 5</div>
+      <div class="aq-q">In an AI-powered automation, your prompt functions as:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The logic &mdash; it determines what the AI step produces</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>The trigger &mdash; it starts the automation running</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>The filter &mdash; it decides which records to process</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>The log &mdash; it records what happened</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- MCQ Slide 4: Questions 17-22 (Days 6-9) -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+
+    <!-- Q17 -->
+    <div class="aq" data-qid="17" data-correct="2">
+      <div class="aq-num">Q17 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 9 &mdash; KeyCommand</div>
+      <div class="aq-q">What is KeyCommand?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>A GoHighLevel add-on for tracking sub-account performance metrics</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>A social scheduling and content approval tool for digital agencies</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>KeyPlayers&rsquo; proprietary AI command center &mdash; a marketing and ops platform run by AI agents, with the VA as the operator who reviews before anything ships</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>A Claude-based workflow builder for automating client onboarding</button>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="aq" data-qid="18" data-correct="2">
+      <div class="aq-num">Q18 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 9 &mdash; KeyCommand</div>
+      <div class="aq-q">In KeyCommand, what is the VA&rsquo;s role?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Publish content directly as each agent produces it</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Write all content from scratch using agent suggestions as a reference</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Brief the right agents, review every draft, and route approvals &mdash; nothing ships without VA review and client sign-off</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Monitor agent output and let the client review directly without VA involvement</button>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="aq" data-qid="19" data-correct="0">
+      <div class="aq-num">Q19 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 7</div>
+      <div class="aq-q">In GHL, what is the difference between an API call and a webhook?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>An API call pulls data on demand (you ask); a webhook pushes data automatically when an event happens (it tells you)</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>They are the same thing &mdash; different names for the same feature</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>API calls are free; webhooks require a paid plan</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Webhooks only work with Google Sheets; API calls work with any tool</button>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="aq" data-qid="20" data-correct="3">
+      <div class="aq-num">Q20 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 7</div>
+      <div class="aq-q">An API key should be treated like:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>A public link you can share with anyone on the team</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>A bookmark &mdash; convenient to keep in a shared doc</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>A template that can be reused across multiple clients</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>A password &mdash; stored in a password manager, never shared in chat or docs</button>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="aq" data-qid="21" data-correct="2">
+      <div class="aq-num">Q21 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 9 &mdash; KeyCommand</div>
+      <div class="aq-q">What is &ldquo;Genes&rdquo; in KeyCommand?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The platform&rsquo;s built-in CRM for tracking client contacts and deal stages</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>A library of pre-built brief templates for each Specialist agent</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>KeyCommand&rsquo;s adaptive memory system &mdash; it learns from your briefs, approvals, and corrections to improve agent output over time</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>The client-facing approval dashboard where outputs are reviewed before publishing</button>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="aq" data-qid="22" data-correct="1">
+      <div class="aq-num">Q22 / 22</div>
+      <div class="aq-tag"><svg><use href="#i-target"/></svg> Day 8 &mdash; Conditional Logic</div>
+      <div class="aq-q">In Make.com, &ldquo;Instagram&rdquo; and &ldquo;instagram&rdquo; don&rsquo;t match in a Router filter. The fix is:</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Add two separate routes &mdash; one for each capitalization</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Use the lower() text function to normalize the value before matching</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Switch to Zapier, which handles case automatically</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Tell the team to always type in title case</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ============ SESSION 2: SECTION B — SITUATIONAL ============ -->
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Section B &middot; Situational</div>
+    <div class="section-divider"><div class="section-divider-line">Scenarios 1 &ndash; 3</div></div>
+
+    <!-- SQ1 -->
+    <div class="aq" data-qid="23" data-correct="2">
+      <div class="aq-num">S1 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">Your client says: &ldquo;Draft something for John.&rdquo; What is your first move before prompting the AI?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Open Claude and type &ldquo;Write something for John&rdquo;</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Ask John directly what he wants</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Gather the missing prompt blocks &mdash; who is John, what&rsquo;s the task, what constraints apply, what format &mdash; before prompting</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Use metaprompting to generate 5 versions and pick the best one</button>
+      </div>
+    </div>
+
+    <!-- SQ2 -->
+    <div class="aq" data-qid="24" data-correct="1">
+      <div class="aq-num">S2 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">Claude generates a follow-up email for your client that includes a specific dollar figure (&ldquo;your $4,200 invoice&rdquo;) that you never provided. What do you do?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Send it &mdash; Claude probably pulled it from context</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Flag it as a possible hallucination, verify the figure with the client before sending</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Delete the dollar figure and send the rest of the email</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Regenerate the entire email until Claude gets the number right</button>
+      </div>
+    </div>
+
+    <!-- SQ3 -->
+    <div class="aq" data-qid="25" data-correct="0">
+      <div class="aq-num">S3 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">A lead comes in at 11pm. Your client&rsquo;s GHL workflow sends an instant SMS. The lead replies &ldquo;stop texting me at midnight.&rdquo; What went wrong and how do you fix it?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The workflow has no time-based condition &mdash; add a filter or wait step so messages only send during business hours</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Nothing went wrong &mdash; speed to lead means responding instantly regardless of time</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Disable the workflow entirely and switch to manual follow-up</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Change the SMS to an email since emails are acceptable at any hour</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="section-divider"><div class="section-divider-line">Scenarios 4 &amp; 5</div></div>
+
+    <!-- SQ4 -->
+    <div class="aq" data-qid="26" data-correct="3">
+      <div class="aq-num">S4 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">Your Make.com social scheduler has been running for 2 weeks. The client says LinkedIn posts aren&rsquo;t going out. Where do you start?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Rebuild the entire Scenario from scratch</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Ask the client if they&rsquo;re sure they checked LinkedIn</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Upgrade to a paid Make.com plan</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Check the log tab for failed rows, verify the LinkedIn route filter (case sensitivity), and confirm the Buffer connection is active</button>
+      </div>
+    </div>
+
+    <!-- SQ5 -->
+    <div class="aq" data-qid="27" data-correct="2">
+      <div class="aq-num">S5 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">A client asks you to paste their GHL API key into a shared Google Doc so the developer can use it. What do you do?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Paste it in the doc &mdash; the client asked you to</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Send it to the developer via Slack DM instead</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Decline &mdash; explain that API keys are credentials, not code, and should be shared via a password manager or GHL&rsquo;s own settings</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Paste it but delete it from the doc after the developer copies it</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="section-divider"><div class="section-divider-line">Scenarios 6 &ndash; 8</div></div>
+
+    <!-- SQ6 -->
+    <div class="aq" data-qid="28" data-correct="1">
+      <div class="aq-num">S6 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">A new contact fills out a GHL form but never receives the welcome SMS your workflow is supposed to send. The workflow shows &ldquo;Active&rdquo; and contacts are being added. What do you check first?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Rebuild the workflow from scratch</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Check that the trigger filter matches the exact form name, including capitalization</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Ask the client to re-submit the form manually to test</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Toggle the workflow off and back on to reset it</button>
+      </div>
+    </div>
+
+    <!-- SQ7 -->
+    <div class="aq" data-qid="29" data-correct="1">
+      <div class="aq-num">S7 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">A client wants to automatically summarize their weekly team meetings and extract action items. Which approach best fits this use case?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Have the VA manually type meeting notes after each call</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Connect an AI note-taker like Fathom to auto-record, then use Claude to extract action items from the transcript</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Send the client a Google Form after each meeting to fill in action items themselves</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Use ChatGPT&rsquo;s voice mode during the meeting to capture notes in real time</button>
+      </div>
+    </div>
+
+    <!-- SQ8 -->
+    <div class="aq" data-qid="30" data-correct="2">
+      <div class="aq-num">S8 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">You&rsquo;re setting up a Claude Project for a client&rsquo;s VA work. The client has a brand voice guide, a competitor list, and a preferred email format. What&rsquo;s the best use of the Project&rsquo;s System Prompt?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Paste the full 10-page brand doc, competitor list, and all sample emails into every chat message</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Leave the System Prompt blank and remind the VA of brand rules verbally each session</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Add the brand voice summary, competitor restrictions, and email format as standing instructions in the System Prompt so every session inherits them</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Create a separate Project for each task type so the context stays minimal</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="section-divider"><div class="section-divider-line">Scenarios 9 &ndash; 10</div></div>
+
+    <!-- SQ9 -->
+    <div class="aq" data-qid="31" data-correct="1">
+      <div class="aq-num">S9 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">While working on a client task in Claude, you realise the conversation contains the client&rsquo;s customer list with names and email addresses. What&rsquo;s the right move?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Continue &mdash; Claude is a secure AI and all shared data is encrypted</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Pause and check the company&rsquo;s AI data policy to confirm whether uploading customer PII to an external AI tool is permitted</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Delete the conversation immediately and tell the client what happened</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Switch to ChatGPT since it has different privacy rules</button>
+      </div>
+    </div>
+
+    <!-- SQ10 -->
+    <div class="aq" data-qid="32" data-correct="1">
+      <div class="aq-num">S10 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario</div>
+      <div class="aq-q">You deployed a GHL &ldquo;Speed to Lead&rdquo; workflow 3 days ago. It worked on day 1 but no leads are receiving the SMS today. The workflow shows &ldquo;Active.&rdquo; What&rsquo;s your next step?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Pause and re-enable the workflow to reset it</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Check the workflow history tab for failed executions, verify the trigger is still mapped to the correct form, and confirm A2P SMS registration is active</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Delete the workflow and rebuild it from the template</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Wait another 24 hours to see if it self-corrects</button>
+      </div>
+    </div>
+
+    <!-- SQ11 -->
+    <div class="aq" data-qid="33" data-correct="1">
+      <div class="aq-num">S11 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario &mdash; Day 9 KeyCommand</div>
+      <div class="aq-q">A client messages you: &ldquo;Can you post our new promo to Instagram right now?&rdquo; You&rsquo;re in KeyCommand. What do you do?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>Find the Instagram integration and post it directly &mdash; speed matters here</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>Brief the right Specialist with the promo details, review the draft in the Operator Queue, then route to the client for final approval before anything posts</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Ask the client to send you the final copy, then post it directly without going through an agent</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>Approve and publish immediately &mdash; the client already approved it by messaging you</button>
+      </div>
+    </div>
+
+    <!-- SQ12 -->
+    <div class="aq" data-qid="34" data-correct="2">
+      <div class="aq-num">S12 / 12</div>
+      <div class="aq-tag"><svg><use href="#i-compass"/></svg> Scenario &mdash; Day 9 KeyCommand</div>
+      <div class="aq-q">It&rsquo;s been 30 days. KeyCommand agents are still producing off-brief output &mdash; wrong tone, wrong format, constant rebriefs. What&rsquo;s the most likely root cause?</div>
+      <div class="aq-opts">
+        <button class="aq-opt" onclick="aqPick(this,0)"><span class="qmark"></span>The agents haven&rsquo;t been updated with the latest AI model version</button>
+        <button class="aq-opt" onclick="aqPick(this,1)"><span class="qmark"></span>The client hasn&rsquo;t uploaded their brand assets to the platform yet</button>
+        <button class="aq-opt" onclick="aqPick(this,2)"><span class="qmark"></span>Your approvals have been inconsistent &mdash; Strategy Genes learns from your approval patterns, so sloppy approvals train sloppy output</button>
+        <button class="aq-opt" onclick="aqPick(this,3)"><span class="qmark"></span>KeyCommand doesn&rsquo;t store memory between sessions and must be reconfigured for each client monthly</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ============ SESSION 3: SECTION C — SEQUENCING ============ -->
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Section C &middot; Automation Sequencing</div>
+    <p style="margin-bottom:20px">Click the steps <strong>in the correct order</strong>, from first to last. Click a placed step to remove it.</p>
+
+    <!-- SEQ1 -->
+    <div class="seq" data-sid="1" data-correct="1,0,3,2">
+      <div class="seq-num">S1 / 5</div>
+      <div class="seq-tag"><svg><use href="#i-list"/></svg> Sequence</div>
+      <div class="seq-q">Speed-to-Lead Workflow</div>
+      <div class="seq-sub">Arrange the 4 steps in the order they happen:</div>
+      <div class="seq-pool">
+        <div class="seq-item" data-idx="0" onclick="seqPick(this)"><span class="seq-dot"></span>Send welcome SMS to lead</div>
+        <div class="seq-item" data-idx="1" onclick="seqPick(this)"><span class="seq-dot"></span>Trigger: form submitted</div>
+        <div class="seq-item" data-idx="2" onclick="seqPick(this)"><span class="seq-dot"></span>Notify agent via Slack</div>
+        <div class="seq-item" data-idx="3" onclick="seqPick(this)"><span class="seq-dot"></span>Tag contact as &ldquo;new-lead&rdquo;</div>
+      </div>
+      <div class="seq-order">
+        <div class="seq-order-label">Your order</div>
+      </div>
+      <div class="seq-fb"></div>
+    </div>
+
+    <!-- SEQ2 -->
+    <div class="seq" data-sid="2" data-correct="1,2,3,0">
+      <div class="seq-num">S2 / 5</div>
+      <div class="seq-tag"><svg><use href="#i-list"/></svg> Sequence</div>
+      <div class="seq-q">Meeting-to-Action Pipeline</div>
+      <div class="seq-sub">Arrange the 4 steps from start to finish:</div>
+      <div class="seq-pool">
+        <div class="seq-item" data-idx="0" onclick="seqPick(this)"><span class="seq-dot"></span>Route tasks to PM tool</div>
+        <div class="seq-item" data-idx="1" onclick="seqPick(this)"><span class="seq-dot"></span>Meeting happens</div>
+        <div class="seq-item" data-idx="2" onclick="seqPick(this)"><span class="seq-dot"></span>AI note-taker joins and records</div>
+        <div class="seq-item" data-idx="3" onclick="seqPick(this)"><span class="seq-dot"></span>Claude processes the transcript</div>
+      </div>
+      <div class="seq-order">
+        <div class="seq-order-label">Your order</div>
+      </div>
+      <div class="seq-fb"></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+
+    <!-- SEQ3 -->
+    <div class="seq" data-sid="3" data-correct="2,3,0,1">
+      <div class="seq-num">S3 / 5</div>
+      <div class="seq-tag"><svg><use href="#i-list"/></svg> Sequence</div>
+      <div class="seq-q">Make.com Social Scheduler</div>
+      <div class="seq-sub">Arrange the 4 automation steps in order:</div>
+      <div class="seq-pool">
+        <div class="seq-item" data-idx="0" onclick="seqPick(this)"><span class="seq-dot"></span>Buffer schedules the post</div>
+        <div class="seq-item" data-idx="1" onclick="seqPick(this)"><span class="seq-dot"></span>Log result to Sheets</div>
+        <div class="seq-item" data-idx="2" onclick="seqPick(this)"><span class="seq-dot"></span>Google Sheets trigger fires (new row)</div>
+        <div class="seq-item" data-idx="3" onclick="seqPick(this)"><span class="seq-dot"></span>Router checks the Platform column</div>
+      </div>
+      <div class="seq-order">
+        <div class="seq-order-label">Your order</div>
+      </div>
+      <div class="seq-fb"></div>
+    </div>
+
+    <!-- SEQ4 -->
+    <div class="seq" data-sid="4" data-correct="3,1,2,0">
+      <div class="seq-num">S4 / 5</div>
+      <div class="seq-tag"><svg><use href="#i-list"/></svg> Sequence</div>
+      <div class="seq-q">GHL Appointment Reminder</div>
+      <div class="seq-sub">Arrange the 4 workflow steps in order:</div>
+      <div class="seq-pool">
+        <div class="seq-item" data-idx="0" onclick="seqPick(this)"><span class="seq-dot"></span>Send reminder SMS</div>
+        <div class="seq-item" data-idx="1" onclick="seqPick(this)"><span class="seq-dot"></span>Send confirmation email immediately</div>
+        <div class="seq-item" data-idx="2" onclick="seqPick(this)"><span class="seq-dot"></span>24hr wait step</div>
+        <div class="seq-item" data-idx="3" onclick="seqPick(this)"><span class="seq-dot"></span>Trigger: appointment booked</div>
+      </div>
+      <div class="seq-order">
+        <div class="seq-order-label">Your order</div>
+      </div>
+      <div class="seq-fb"></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+
+    <!-- SEQ5 -->
+    <div class="seq" data-sid="5" data-correct="2,3,0,1">
+      <div class="seq-num">S5 / 5</div>
+      <div class="seq-tag"><svg><use href="#i-list"/></svg> Sequence</div>
+      <div class="seq-q">Building Any Automation (The Process)</div>
+      <div class="seq-sub">Arrange the 4 steps a VA follows when building a new automation:</div>
+      <div class="seq-pool">
+        <div class="seq-item" data-idx="0" onclick="seqPick(this)"><span class="seq-dot"></span>Add actions one at a time, testing each</div>
+        <div class="seq-item" data-idx="1" onclick="seqPick(this)"><span class="seq-dot"></span>Run the QA checklist and go live</div>
+        <div class="seq-item" data-idx="2" onclick="seqPick(this)"><span class="seq-dot"></span>Map it with the four-question framework</div>
+        <div class="seq-item" data-idx="3" onclick="seqPick(this)"><span class="seq-dot"></span>Build the trigger alone and test it</div>
+      </div>
+      <div class="seq-order">
+        <div class="seq-order-label">Your order</div>
+      </div>
+      <div class="seq-fb"></div>
+    </div>
+
+    <div class="card card-accent" style="margin-top:18px">
+      <div class="card-head"><svg><use href="#i-check"/></svg> All sections complete</div>
+      <p style="margin:0">Click <strong>Next</strong> to go to the results page, then click <strong>Submit</strong> to finalize your assessment.</p>
+    </div>
+  </div></section>
+
+  <!-- ============ SESSION 4: RESULTS ============ -->
+
+  <section class="slide" data-ses="4"><div class="slide-inner" id="resultsSlide">
+    <div class="eyebrow">Results</div>
+    <h1>Your Score</h1>
+
+    <div class="score-box" id="scoreBox">
+      <div class="score-label">Overall Score</div>
+      <div class="score-pct" id="scorePct">--</div>
+      <div class="score-detail" id="scoreDetail"></div>
+    </div>
+
+    <div class="breakdown" id="breakdown">
+      <div class="bd-card" id="bdA">
+        <div class="bd-label">Section A &mdash; MCQ</div>
+        <div class="bd-score" id="bdAScore">--</div>
+        <div class="bd-max">/ 22</div>
+      </div>
+      <div class="bd-card" id="bdB">
+        <div class="bd-label">Section B &mdash; Situational</div>
+        <div class="bd-score" id="bdBScore">--</div>
+        <div class="bd-max">/ 10</div>
+      </div>
+      <div class="bd-card" id="bdC">
+        <div class="bd-label">Section C &mdash; Sequencing</div>
+        <div class="bd-score" id="bdCScore">--</div>
+        <div class="bd-max">/ 5</div>
+      </div>
+    </div>
+
+    <div id="certArea"></div>
+    <div id="retakeArea"></div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Overview</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 14</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script src="./class-schedule.js"></script>
+<script>
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',SHEET_URL:'https://script.google.com/macros/s/AKfycbznooeSzQ8QvNFFjf5QQ26Z_44C0E7Tn8I6Kim-oRKsal6Mg-HDrFbt3ciFhs6dTjEN/exec',DAY:'Day 10',DAY_INDEX:10,PREV_DAY_KEY:''};
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Certification',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">DAY 10 CHECK-IN</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#052010;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();kpRecordPresence();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var wrap=document.createElement('div');wrap.id='kpAdminBadge';wrap.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-family:Inter,system-ui,sans-serif';wrap.innerHTML='<div style="background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.3)">ADMIN</div><button onclick="adminResetAll()" style="background:#0c1410;border:1.5px solid #F59E0B;color:#F59E0B;font-size:11px;font-weight:700;padding:6px 14px;border-radius:6px;cursor:pointer;letter-spacing:.04em;box-shadow:0 2px 8px rgba(0,0,0,.4);font-family:Inter,system-ui,sans-serif">&#8635; Reset All</button>';document.body.appendChild(wrap);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){var isAdmin=new URLSearchParams(window.location.search).has('admin')||localStorage.getItem('kp_admin')==='1';if(isAdmin){kpShowAdminBadge();var _aa=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_aa):_aa();return;}if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/New_York',timeZoneName:'short'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens '+d,'The Final Assessment unlocks at '+d+'. Your instructor will share the link when it goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+
+/* ===== ASSESSMENT ENGINE ===== */
+const TOTAL_MCQ=22, TOTAL_SIT=12, TOTAL_SEQ=5, TOTAL=39, PASS_PCT=80;
+const answers={};
+const seqAnswers={};
+
+/* MCQ + Situational pick */
+function aqPick(btn,idx){
+  if(btn.classList.contains('locked'))return;
+  const aq=btn.closest('.aq');
+  const qid=aq.dataset.qid;
+  const opts=[...aq.querySelectorAll('.aq-opt')];
+  opts.forEach(o=>o.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid]=idx;
+  saveState();
+}
+
+/* Sequencing */
+function seqPick(item){
+  if(item.classList.contains('placed')||item.classList.contains('locked'))return;
+  const seq=item.closest('.seq');
+  const sid=seq.dataset.sid;
+  if(!seqAnswers[sid])seqAnswers[sid]=[];
+  const idx=item.dataset.idx;
+  seqAnswers[sid].push(idx);
+  item.classList.add('placed');
+  renderSeqOrder(seq);
+  saveState();
+}
+
+function seqRemove(seq,pos){
+  const sid=seq.dataset.sid;
+  if(!seqAnswers[sid]||seq.classList.contains('locked'))return;
+  const removed=seqAnswers[sid].splice(pos,1)[0];
+  const pool=seq.querySelector('.seq-pool');
+  const items=[...pool.querySelectorAll('.seq-item')];
+  const item=items.find(i=>i.dataset.idx===removed);
+  if(item)item.classList.remove('placed');
+  renderSeqOrder(seq);
+  saveState();
+}
+
+function renderSeqOrder(seq){
+  const sid=seq.dataset.sid;
+  const order=seqAnswers[sid]||[];
+  const pool=seq.querySelector('.seq-pool');
+  const items=[...pool.querySelectorAll('.seq-item')];
+  const container=seq.querySelector('.seq-order');
+  const label=container.querySelector('.seq-order-label');
+  container.innerHTML='';
+  container.appendChild(label);
+  order.forEach((idx,pos)=>{
+    const item=items.find(i=>i.dataset.idx===idx);
+    const slot=document.createElement('div');
+    slot.className='seq-slot filled';
+    slot.innerHTML='<span class="seq-sn">'+(pos+1)+'</span>'+item.textContent.trim();
+    slot.onclick=()=>seqRemove(seq,pos);
+    container.appendChild(slot);
+  });
+  const total=items.length;
+  for(let i=order.length;i<total;i++){
+    const slot=document.createElement('div');
+    slot.className='seq-slot';
+    slot.innerHTML='<span class="seq-sn" style="opacity:.3">'+(i+1)+'</span><span style="color:var(--dim)">Click a step above</span>';
+    container.appendChild(slot);
+  }
+}
+
+/* Section locking */
+const lockedSections=new Set();
+function lockSection(sesNum){
+  if(lockedSections.has(sesNum))return;
+  lockedSections.add(sesNum);
+  slides.forEach(s=>{
+    if(+s.dataset.ses===sesNum){
+      s.querySelectorAll('.aq-opt').forEach(o=>o.classList.add('locked'));
+      s.querySelectorAll('.seq-item').forEach(i=>i.classList.add('locked','placed'));
+    }
+  });
+  localStorage.setItem('kp_d10_locked',JSON.stringify([...lockedSections]));
+}
+
+/* Scoring */
+function scoreAll(){
+  let mcq=0,sit=0,seq=0;
+  document.querySelectorAll('.aq').forEach(aq=>{
+    const qid=aq.dataset.qid;
+    const correct=parseInt(aq.dataset.correct);
+    if(answers[qid]===correct){
+      if(parseInt(qid)<=TOTAL_MCQ)mcq++;
+      else sit++;
+    }
+  });
+  document.querySelectorAll('.seq').forEach(s=>{
+    const sid=s.dataset.sid;
+    const correctOrder=s.dataset.correct.split(',');
+    const userOrder=seqAnswers[sid]||[];
+    if(userOrder.length===correctOrder.length&&userOrder.every((v,i)=>v===correctOrder[i]))seq++;
+  });
+  return{mcq,sit,seq,total:mcq+sit+seq,pct:Math.round(((mcq+sit+seq)/TOTAL)*100)};
+}
+
+function showResults(){
+  const s=scoreAll();
+  const pass=s.pct>=PASS_PCT;
+
+  document.getElementById('scorePct').textContent=s.pct+'%';
+  document.getElementById('scoreDetail').textContent=s.total+' / '+TOTAL+' correct'+(pass?' — PASSED':' — Below passing score');
+  const box=document.getElementById('scoreBox');
+  box.classList.toggle('pass',pass);
+  box.classList.toggle('fail',!pass);
+
+  document.getElementById('bdAScore').textContent=s.mcq;
+  document.getElementById('bdBScore').textContent=s.sit;
+  document.getElementById('bdCScore').textContent=s.seq;
+  document.getElementById('bdA').className='bd-card '+(s.mcq>=Math.ceil(TOTAL_MCQ*0.8)?'bd-pass':'bd-fail');
+  document.getElementById('bdB').className='bd-card '+(s.sit>=Math.ceil(TOTAL_SIT*0.8)?'bd-pass':'bd-fail');
+  document.getElementById('bdC').className='bd-card '+(s.seq>=Math.ceil(TOTAL_SEQ*0.8)?'bd-pass':'bd-fail');
+
+  /* Show correct/wrong on all questions */
+  document.querySelectorAll('.aq').forEach(aq=>{
+    const qid=aq.dataset.qid;
+    const correct=parseInt(aq.dataset.correct);
+    const opts=[...aq.querySelectorAll('.aq-opt')];
+    opts.forEach((o,i)=>{
+      o.classList.add('locked');
+      if(i===correct)o.classList.add('correct-reveal');
+      if(answers[qid]===i&&i!==correct)o.classList.add('wrong');
+    });
+  });
+
+  /* Show correct/wrong on sequences */
+  document.querySelectorAll('.seq').forEach(s=>{
+    const sid=s.dataset.sid;
+    const correctOrder=s.dataset.correct.split(',');
+    const userOrder=seqAnswers[sid]||[];
+    s.classList.add('locked');
+    const slots=[...s.querySelectorAll('.seq-slot.filled')];
+    slots.forEach((slot,i)=>{
+      if(userOrder[i]===correctOrder[i])slot.classList.add('correct-slot');
+      else slot.classList.add('wrong-slot');
+      slot.onclick=null;
+      slot.style.cursor='default';
+    });
+    const items=[...s.querySelectorAll('.seq-item')];
+    items.forEach(item=>item.classList.add('locked'));
+    const fb=s.querySelector('.seq-fb');
+    const isCorrect=userOrder.length===correctOrder.length&&userOrder.every((v,i)=>v===correctOrder[i]);
+    if(!isCorrect){
+      const correctNames=correctOrder.map(idx=>{
+        const item=items.find(it=>it.dataset.idx===idx);
+        return item?item.textContent.trim():'?';
+      });
+      fb.innerHTML='<span class="no">Incorrect.</span> Correct order: <strong>'+correctNames.join(' &rarr; ')+'</strong>';
+      fb.classList.add('show');
+    }else{
+      fb.innerHTML='<span class="ok">Correct!</span>';
+      fb.classList.add('show');
+    }
+  });
+
+  const certArea=document.getElementById('certArea');
+  const retakeArea=document.getElementById('retakeArea');
+
+  if(pass){
+    certArea.innerHTML='<div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Assessment passed</div><p style="margin:0">You scored <strong>'+s.pct+'% ('+s.total+'/'+TOTAL+')</strong> &mdash; above the 80% passing threshold. Your result has been recorded. Your instructor will confirm attendance and issue your certificate separately.</p></div>';
+    kpTrack('assessment_passed',{score:s.pct,mcq:s.mcq,sit:s.sit,seq:s.seq});
+    localStorage.setItem('kp_done_Day 10','1');
+  }else{
+    retakeArea.innerHTML='<div class="card card-danger"><div class="card-head"><svg><use href="#i-alert"/></svg> Below passing score</div><p>You scored <strong>'+s.pct+'% ('+s.total+'/'+TOTAL+')</strong>. The passing score is 80%. Your attempt has been recorded. Please contact your instructor if you have questions about your results.</p></div>';
+    kpTrack('assessment_failed',{score:s.pct,mcq:s.mcq,sit:s.sit,seq:s.seq});
+  }
+  scored=true;
+  localStorage.setItem('kp_d10_submitted','1');
+  submitToSheet(s,pass);
+  saveState();
+}
+
+function showSubmitConfirm(){
+  if(document.getElementById('kpConfirm'))return;
+  const el=document.createElement('div');
+  el.id='kpConfirm';
+  el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.92);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  el.innerHTML='<div style="max-width:400px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#EAB308;font-weight:700;margin-bottom:12px">Final Submission</div><h2 style="margin:0 0 10px;font-size:21px;color:#fff;font-weight:700;line-height:1.3">Submit your assessment?</h2><p style="margin:0 0 22px;font-size:14px;line-height:1.6;color:#9fb0a4">Once submitted, your answers are locked and <strong style="color:#fff">you will not be able to retake this assessment.</strong> Make sure you\'ve answered all questions before continuing.</p><div style="display:flex;gap:10px"><button id="kpConfirmBack" style="flex:1;padding:12px;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:transparent;color:#d1fae5;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,system-ui,sans-serif">Go Back</button><button id="kpConfirmSubmit" style="flex:1;padding:12px;border-radius:9px;border:none;background:#EAB308;color:#1A1300;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,system-ui,sans-serif">Yes, Submit</button></div></div>';
+  document.body.appendChild(el);
+  document.getElementById('kpConfirmBack').onclick=function(){document.body.removeChild(el);};
+  document.getElementById('kpConfirmSubmit').onclick=function(){document.body.removeChild(el);showResults();};
+}
+
+function printCert(){
+  const certSlide=document.querySelector('[data-ses="4"]');
+  certSlide.classList.add('print-target');
+  window.print();
+  certSlide.classList.remove('print-target');
+}
+
+function retake(){
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  Object.keys(seqAnswers).forEach(k=>delete seqAnswers[k]);
+  scored=false;
+  localStorage.removeItem('kp_d10_answers');
+  localStorage.removeItem('kp_d10_seq');
+  localStorage.removeItem('kp_d10_scored');
+
+  document.querySelectorAll('.aq-opt').forEach(o=>{
+    o.classList.remove('selected','wrong','correct-reveal','locked');
+  });
+  document.querySelectorAll('.seq').forEach(s=>{
+    s.classList.remove('locked');
+    s.querySelectorAll('.seq-item').forEach(i=>{i.classList.remove('placed','locked');});
+    renderSeqOrder(s);
+    const fb=s.querySelector('.seq-fb');
+    fb.classList.remove('show');fb.innerHTML='';
+  });
+  document.getElementById('certArea').innerHTML='';
+  document.getElementById('retakeArea').innerHTML='';
+  document.getElementById('scorePct').textContent='--';
+  document.getElementById('scoreBox').className='score-box';
+  document.getElementById('bdAScore').textContent='--';
+  document.getElementById('bdBScore').textContent='--';
+  document.getElementById('bdCScore').textContent='--';
+  ['bdA','bdB','bdC'].forEach(id=>{document.getElementById(id).className='bd-card';});
+
+  cur=2;render();
+}
+
+/* Sheet submission */
+function submitToSheet(s,pass){
+  if(!CONFIG.SHEET_URL||!CONFIG.SHEET_URL.startsWith('http'))return;
+  const payload={
+    name:attendeeName||'(unknown)',
+    pct:s.pct,
+    pass:pass,
+    mcq:s.mcq,
+    sit:s.sit,
+    seq:s.seq,
+    total:s.total,
+    ts:new Date().toISOString(),
+    answers:Object.assign({},answers)
+  };
+  fetch(CONFIG.SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>{});
+}
+
+/* Admin answer reveal + per-question reset controls */
+function showAdminAnswers(){
+  document.querySelectorAll('.aq').forEach(aq=>{
+    const qid=aq.dataset.qid;
+    const correct=parseInt(aq.dataset.correct);
+    const opts=[...aq.querySelectorAll('.aq-opt')];
+    if(opts[correct]){
+      opts[correct].classList.add('correct-reveal');
+      opts[correct].querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';
+    }
+    if(!aq.querySelector('.admin-ctrl-row')){
+      const ctrl=document.createElement('div');
+      ctrl.className='admin-ctrl-row';
+      ctrl.innerHTML='<span class="admin-badge">ADMIN</span><button class="admin-reset-q" onclick="adminResetQ(\''+qid+'\')">&#8635; Reset</button>';
+      aq.insertBefore(ctrl,aq.firstChild);
+    }
+  });
+  document.querySelectorAll('.seq').forEach(seq=>{
+    const sid=seq.dataset.sid;
+    const correctOrder=seq.dataset.correct.split(',');
+    const items=[...seq.querySelectorAll('.seq-item')];
+    const fb=seq.querySelector('.seq-fb');
+    if(fb){
+      const names=correctOrder.map(idx=>{
+        const it=items.find(i=>i.dataset.idx===idx);
+        return it?'<strong>'+it.textContent.trim()+'</strong>':'?';
+      });
+      fb.innerHTML='<span style="color:var(--accent);font-weight:700">ADMIN &mdash; Correct order:</span> '+names.join(' &rarr; ');
+      fb.classList.add('show');
+    }
+    if(!seq.querySelector('.admin-ctrl-row')){
+      const ctrl=document.createElement('div');
+      ctrl.className='admin-ctrl-row';
+      ctrl.innerHTML='<span class="admin-badge">ADMIN</span><button class="admin-reset-q" onclick="adminResetSeq(\''+sid+'\')">&#8635; Reset</button>';
+      seq.insertBefore(ctrl,seq.firstChild);
+    }
+  });
+}
+
+function adminResetQ(qid){
+  delete answers[qid];
+  const aq=document.querySelector('.aq[data-qid="'+qid+'"]');
+  if(!aq)return;
+  const correct=parseInt(aq.dataset.correct);
+  [...aq.querySelectorAll('.aq-opt')].forEach((o,i)=>{
+    o.classList.remove('selected','wrong','locked');
+    if(i===correct){
+      o.classList.add('correct-reveal');
+      o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';
+    } else {
+      o.querySelector('.qmark').innerHTML='';
+    }
+  });
+  saveState();
+}
+
+function adminResetSeq(sid){
+  delete seqAnswers[sid];
+  const seq=document.querySelector('.seq[data-sid="'+sid+'"]');
+  if(!seq)return;
+  seq.classList.remove('locked');
+  [...seq.querySelectorAll('.seq-item')].forEach(it=>it.classList.remove('placed','locked'));
+  renderSeqOrder(seq);
+  /* Keep the ADMIN correct-order hint visible */
+  const correctOrder=seq.dataset.correct.split(',');
+  const items=[...seq.querySelectorAll('.seq-item')];
+  const fb=seq.querySelector('.seq-fb');
+  if(fb){
+    const names=correctOrder.map(idx=>{
+      const it=items.find(i=>i.dataset.idx===idx);
+      return it?'<strong>'+it.textContent.trim()+'</strong>':'?';
+    });
+    fb.innerHTML='<span style="color:var(--accent);font-weight:700">ADMIN &mdash; Correct order:</span> '+names.join(' &rarr; ');
+    fb.classList.add('show');
+  }
+  saveState();
+}
+
+function adminResetAll(){
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  Object.keys(seqAnswers).forEach(k=>delete seqAnswers[k]);
+  scored=false;
+  document.querySelectorAll('.aq-opt').forEach(o=>{
+    o.classList.remove('selected','wrong','locked','correct-reveal');
+    const qm=o.querySelector('.qmark');
+    if(qm)qm.innerHTML='';
+  });
+  document.querySelectorAll('.seq-item').forEach(it=>it.classList.remove('placed','locked'));
+  document.querySelectorAll('.seq').forEach(s=>{s.classList.remove('locked');renderSeqOrder(s);});
+  ['kp_d10_answers','kp_d10_seq','kp_d10_scored','kp_d10_locked','kp_d10_submitted'].forEach(k=>localStorage.removeItem(k));
+  showAdminAnswers();
+}
+
+/* State persistence */
+let scored=false;
+function saveState(){
+  localStorage.setItem('kp_d10_answers',JSON.stringify(answers));
+  localStorage.setItem('kp_d10_seq',JSON.stringify(seqAnswers));
+  if(scored)localStorage.setItem('kp_d10_scored','1');
+  localStorage.setItem('kp_d10_locked',JSON.stringify([...lockedSections]));
+}
+function loadState(){
+  try{
+    const a=JSON.parse(localStorage.getItem('kp_d10_answers')||'{}');
+    Object.assign(answers,a);
+    const s=JSON.parse(localStorage.getItem('kp_d10_seq')||'{}');
+    Object.assign(seqAnswers,s);
+    /* Restore MCQ/Situational selections */
+    Object.entries(answers).forEach(([qid,idx])=>{
+      const aq=document.querySelector('.aq[data-qid="'+qid+'"]');
+      if(aq){
+        const opts=[...aq.querySelectorAll('.aq-opt')];
+        if(opts[idx])opts[idx].classList.add('selected');
+      }
+    });
+    /* Restore sequence selections */
+    Object.entries(seqAnswers).forEach(([sid,order])=>{
+      const seq=document.querySelector('.seq[data-sid="'+sid+'"]');
+      if(seq){
+        order.forEach(idx=>{
+          const item=seq.querySelector('.seq-item[data-idx="'+idx+'"]');
+          if(item)item.classList.add('placed');
+        });
+        renderSeqOrder(seq);
+      }
+    });
+    if(localStorage.getItem('kp_d10_scored')==='1'){
+      scored=true;
+    }
+    try{
+      const ls=JSON.parse(localStorage.getItem('kp_d10_locked')||'[]');
+      ls.forEach(s=>lockSection(s));
+    }catch(e){}
+  }catch(e){}
+  if(localStorage.getItem('kp_d10_submitted')==='1'){
+    scored=true;
+    const resultsIdx=slides.findIndex(s=>+s.dataset.ses===4);
+    if(resultsIdx>=0){cur=resultsIdx;}
+    setTimeout(showResults,0);
+  }
+}
+
+/* ===== NAV ===== */
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},{day:'Day 9',label:'Conditional Logic',url:'Day09_Automation_Week_Review.html'},{day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#EAB308;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(234,179,8,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(234,179,8,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(234,179,8,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#EAB308':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#EAB308':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+
+const sesNames=['Overview','Section A: MCQ','Section B: Situational','Section C: Sequencing','Results'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+let isAdminMode=false;
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
+  const ses=+slides[cur].dataset.ses;
+  navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});
+  pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';
+  ptext.textContent='Slide '+(cur+1)+' of '+slides.length;
+  dbLabel.textContent=sesNames[ses];
+  dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;
+  prevBtn.disabled=cur===0;
+
+  if(cur===slides.length-1){
+    nextBtn.innerHTML='Submit <svg><use href="#i-check"/></svg>';
+    nextBtn.onclick=function(){if(!scored)showSubmitConfirm();};
+    nextBtn.disabled=scored;
+  }else{
+    nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick=next;
+    nextBtn.disabled=false;
+  }
+  slides[cur].scrollTop=0;
+  if(isAdminMode)showAdminAnswers();
+}
+
+function next(){
+  if(cur<slides.length-1){
+    const curSes=+slides[cur].dataset.ses;
+    const nxtSes=+slides[cur+1].dataset.ses;
+    if(nxtSes>curSes&&curSes>=1&&curSes<=3)lockSection(curSes);
+    cur++;render();
+  }
+}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+
+/* Init sequence orders */
+document.querySelectorAll('.seq').forEach(s=>renderSeqOrder(s));
+function clearState(){['kp_d10_answers','kp_d10_seq','kp_d10_scored','kp_d10_locked','kp_d10_submitted'].forEach(k=>localStorage.removeItem(k));}
+clearState();
+render();
+(function(){
+  var isAdmin=new URLSearchParams(window.location.search).has('admin')||localStorage.getItem('kp_admin')==='1';
+  if(isAdmin){isAdminMode=true;showAdminAnswers();}
+})();
+</script>
+</body>
+</html>
+

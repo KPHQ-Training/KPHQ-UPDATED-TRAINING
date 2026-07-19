@@ -1,0 +1,1414 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 4: Automation Foundations</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
+    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
+    --border:#1A2620; --border-2:#24332C;
+    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
+    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
+    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
+    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
+    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
+    --sidebar-w:268px; --maxw:860px; --r:14px;
+    --font-d:'Inter',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
+    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
+    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
+    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}
+  .course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+
+  /* DECK */
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}
+  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
+    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+
+  /* TYPE */
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+
+  /* CARDS */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}
+  .card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}
+  .card-danger .card-head{color:var(--danger)}
+  .card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));
+    border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));
+    border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}
+  .col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+
+  .prompt{position:relative;background:#06100B;border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:36px 18px 16px;margin:14px 0;font-family:'SF Mono','Consolas',monospace;
+    font-size:13px;color:#bfe9cc;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
+  .prompt-tag{position:absolute;top:10px;left:18px;font-family:var(--font-b);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:5px}
+
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}
+  .ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+
+  .pipeline{display:flex;align-items:center;gap:0;margin:18px 0}
+  .stage{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 10px 14px;text-align:center;position:relative;animation:stageOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage .step-no{position:absolute;top:7px;left:11px;font-size:10px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
+  .stage-ico{width:42px;height:42px;margin:2px auto 10px;border-radius:12px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);animation:icoOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-ico svg{width:21px;height:21px}
+  .stage-name{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:5px;animation:nameOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-cap{font-size:11px;color:var(--dim);line-height:1.45}
+  @keyframes stageOn{0%,17%{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(34,197,94,0.16)}33%,100%{border-color:var(--border);box-shadow:none}}
+  @keyframes icoOn{0%,17%{background:var(--accent);border-color:var(--accent);color:#04150B}33%,100%{background:var(--panel);border-color:var(--border);color:var(--dim)}}
+  @keyframes nameOn{0%,17%{color:var(--ink)}33%,100%{color:var(--muted)}}
+  .connector{flex:0 0 30px;position:relative;height:24px;display:flex;align-items:center;justify-content:center}
+  .connector .line{width:100%;height:2px;background:var(--border-2);border-radius:2px}
+  .connector .pulse{position:absolute;top:50%;left:0;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-50%);box-shadow:0 0 9px var(--accent);opacity:0;animation:pulseMove 6s linear infinite;animation-delay:var(--pd,0s)}
+  @keyframes pulseMove{0%{left:0;opacity:0}4%{opacity:1}15%{left:calc(100% - 7px);opacity:0}100%{left:calc(100% - 7px);opacity:0}}
+  @keyframes pulseMoveV{0%{top:0;opacity:0}4%{opacity:1}15%{top:calc(100% - 7px);opacity:0}100%{top:calc(100% - 7px);opacity:0}}
+
+  /* STAT GRID */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  @media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
+
+  /* N8N CANVAS */
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0}
+  .n8n-node{flex:1;min-width:0;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node.n8n-active{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.13)}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 30px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:1.5px;flex:1;background:rgba(255,255,255,.13);position:relative;overflow:hidden}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,#22c55e,transparent);animation:n8nPulse 2.6s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid rgba(255,255,255,.18)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:100%}}
+
+  /* PROC GRID (4 automation process types) */
+  .proc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 14px}
+  .proc-card{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:9px 11px}
+  .proc-badge{font-size:9px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:4px}
+  .proc-body{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+  /* IF / ELSE FLOW */
+  .if-flow{display:flex;flex-direction:column;align-items:center;margin:0 0 12px}
+  .if-node{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:7px 20px;text-align:center}
+  .if-trigger{border-color:rgba(234,179,8,.42);background:rgba(234,179,8,.07)}
+  .if-cond{border-color:rgba(93,169,244,.42);background:rgba(93,169,244,.09)}
+  .if-n-lbl{font-size:8.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+  .if-n-title{font-weight:700;color:var(--ink);font-size:12.5px}
+  .if-vert{width:2px;height:12px;background:var(--border);flex-shrink:0}
+  .if-horiz{display:flex;justify-content:center;gap:0;width:100%}
+  .if-branch{display:flex;flex-direction:column;align-items:center;gap:0;flex:1;max-width:46%}
+  .if-blbl{font-size:9.5px;font-weight:800;letter-spacing:.8px;padding:2px 12px;border-radius:20px;margin:6px 0 7px}
+  .if-yes-lbl{background:rgba(34,197,94,.17);color:#4ade80}
+  .if-no-lbl{background:rgba(239,68,68,.14);color:#f87171}
+  .if-bline{width:2px;height:11px}
+  .if-yes .if-bline{background:rgba(34,197,94,.35)}
+  .if-no .if-bline{background:rgba(239,68,68,.28)}
+  .if-act{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;text-align:center;width:93%;box-sizing:border-box}
+  .if-yes .if-act{border-color:rgba(34,197,94,.28)}
+  .if-no .if-act{border-color:rgba(239,68,68,.2)}
+  .if-act-t{font-weight:600;color:var(--ink);font-size:11px}
+  .if-act-s{color:var(--dim);font-size:9.5px;margin-top:1px}
+  .if-div{width:1px;background:var(--border);margin:0 10px;align-self:stretch;opacity:.4}
+
+  /* FLOW DEMO (animated 2-scene) */
+  .flow-demo{margin:10px 0 0}
+  .ftabs{display:flex;gap:6px;margin-bottom:10px}
+  .ftab{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:5px 13px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+  .ftab.ftab-active{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.5);color:#4ade80}
+  .fscene{display:none}.fscene.fscene-active{display:block}
+  .fn{background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:6px 14px;transition:border-color .3s,background .3s,box-shadow .3s;text-align:center}
+  .fn-lbl{font-size:7.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+  .fn-title{font-weight:700;color:var(--ink);font-size:11.5px}
+  .fn-sub{color:var(--dim);font-size:9.5px;margin-top:1px}
+  .fn-trigger{border-color:rgba(234,179,8,.35);background:rgba(234,179,8,.06)}
+  .fn-cond{border-color:rgba(93,169,244,.35);background:rgba(93,169,244,.07)}
+  .fn-act-yes{border-color:rgba(34,197,94,.22);background:var(--panel-2)}
+  .fn-default{border-color:rgba(239,68,68,.2);background:var(--panel-2)}
+  .fn.flit.fn-trigger{border-color:rgba(234,179,8,.9)!important;background:rgba(234,179,8,.18)!important;box-shadow:0 0 14px rgba(234,179,8,.35)!important}
+  .fn.flit.fn-cond{border-color:rgba(93,169,244,.9)!important;background:rgba(93,169,244,.18)!important;box-shadow:0 0 14px rgba(93,169,244,.35)!important}
+  .fn.flit:not(.fn-trigger):not(.fn-cond):not(.fn-default){border-color:rgba(34,197,94,.9)!important;background:rgba(34,197,94,.15)!important;box-shadow:0 0 12px rgba(34,197,94,.3)!important}
+  .fn.flit.fn-default{border-color:rgba(239,68,68,.9)!important;background:rgba(239,68,68,.15)!important;box-shadow:0 0 12px rgba(239,68,68,.3)!important}
+  .fv{width:2px;height:12px;background:var(--border);transition:background .3s;flex-shrink:0}
+  .fv.flit{background:#4ade80!important}
+  .f1-wrap{display:flex;flex-direction:column;align-items:center}
+  .ftree{width:100%}
+  .ftr-conn{padding-left:82px;height:18px;display:flex;align-items:stretch}
+  .ftconn{width:2px;background:var(--border);position:relative;transition:background .3s}
+  .ftconn.flit{background:#4ade80!important}
+  .ftconn-no.flit{background:#f87171!important}
+  .fno-lbl{position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:7.5px;font-weight:800;color:rgba(239,68,68,.6);letter-spacing:.4px;pointer-events:none}
+  .ftr-row{display:flex;align-items:center;width:100%}
+  .ftr-left{flex:0 0 164px}
+  .ftr-yes{display:flex;align-items:center;flex:0 0 auto;padding:0 4px;gap:2px;opacity:.28;transition:opacity .3s}
+  .ftr-yes.flit{opacity:1!important}
+  .fta-lbl{font-size:7.5px;font-weight:800;color:#4ade80;letter-spacing:.4px}
+  .fta-line{display:inline-block;height:2px;width:20px;background:rgba(34,197,94,.35);margin:0 1px;vertical-align:middle;transition:background .3s}
+  .ftr-yes.flit .fta-line{background:#4ade80!important}
+  .fta-arr{font-size:10px;color:rgba(34,197,94,.45);line-height:1;transition:color .3s}
+  .ftr-yes.flit .fta-arr,.ftr-yes.flit .fta-lbl{color:#4ade80!important}
+  .ftr-right{flex:1}
+  .ftr-right .fn{text-align:left;padding:5px 10px;width:100%;box-sizing:border-box}
+
+  /* FOOTNOTE */
+  .footnote{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}
+  .fn-item span{color:var(--dim);font-size:11px}
+
+  /* terminal + live dot (shared component library) */
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}
+  .terminal-dot.yellow{background:var(--gold)}
+  .terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}
+  .terminal-body .ccmd{color:var(--ink)}
+  .terminal-body .ccmt{color:var(--dim)}
+  .live-dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:7px;vertical-align:middle;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+  /* interactive drills */
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}
+  .quiz-fb .no{color:var(--danger);font-weight:700}
+  .quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+
+  /* attendance gate */
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){
+    .sidebar{transform:translateX(-100%);transition:transform .3s ease}
+    .sidebar.open{transform:translateX(0)}
+    .mobile-bar{display:flex}
+    .scrim.show{display:block}
+    .main{margin-left:0;padding-top:54px}
+    .slide{padding:24px 18px 30px}
+    .deckbar{height:60px;padding:0 12px}
+    .nav-btn{padding:9px 13px;font-size:13px}
+    .compare{grid-template-columns:1fr}
+    h1{font-size:25px}h2{font-size:21px}
+    .pipeline{flex-direction:column;align-items:stretch}
+    .stage{width:100%}
+    .connector{width:100%;height:24px;flex:0 0 24px}
+    .connector .line{width:2px;height:100%}
+    .connector .pulse{left:50%;top:0;transform:translateX(-50%);animation:pulseMoveV 6s linear infinite;animation-delay:var(--pd,0s)}
+  }
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-bolt"/></svg> Day 4 · Automation Foundations</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>What Is Automation?</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Trigger &amp; Action</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-spark"/></svg></span>AI Automation</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-lock"/></svg></span>Safety &amp; Compliance</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Free Tools &amp; Hours</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-align"/></svg></span>Plan, Map &amp; Build</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Recap</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a class="current"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- OPENER -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Today</div>
+    <h1>Automation Foundations</h1>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick review of Day 3</div>
+      <ul>
+        <li>Artifacts are finished, reusable work; Live Artifacts update over time</li>
+        <li>Claude connects to your tools through MCP/API, the CLI, and Cowork</li>
+        <li>Projects, Skills, and context engineering keep its work consistent</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
+      <p style="margin-bottom:10px">By the end of today you can:</p>
+      <ul>
+        <li>Explain what automation is and name the four types</li>
+        <li>Identify tasks worth automating and describe how AI fits in</li>
+        <li>Name free tools and tools with built-in automation</li>
+        <li>Map a workflow and walk through a QA checklist before going live</li>
+        <li>Apply basic compliance and data security rules to every automation you build</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
+      <ol>
+        <li>What automation is, the four types, and the numbers behind it</li>
+        <li>Triggers, filters, and actions — the building blocks</li>
+        <li>AI automation with Claude — basic to intermediate</li>
+        <li>What to automate (and what to keep human)</li>
+        <li>Compliance, data security, and guardrails</li>
+        <li>Free tools, native AI features, and real hours saved</li>
+        <li>From planning to map to live — building and QA-ing your first automation</li>
+      </ol>
+    </div>
+  </div></section>
+
+  <!-- SESSION 0: WHAT IS AUTOMATION -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 1</div>
+    <h1>Automation Foundations</h1>
+    <p class="subtitle">Days 1 to 3 were about using AI yourself. Now we shift from doing the work to designing systems that do it for you. Automation is simply work that runs without a human pressing the buttons.</p>
+    <div class="gate">
+      <div class="card-head" style="color:var(--accent)"><svg><use href="#i-check"/></svg> Mark your attendance</div>
+      <div id="attForm">
+        <p style="margin-bottom:14px">Enter your name to check in to today's session. (One per person.)</p>
+        <input class="field" id="attName" placeholder="First and last name" style="margin-bottom:12px">
+        <div class="err" id="attErr"></div>
+        <button class="btn btn-primary btn-block" onclick="markAttendance()">Mark me present &amp; start <svg><use href="#i-arrow"/></svg></button>
+      </div>
+      <div id="attDone" style="display:none;text-align:center;padding:6px 0">
+        <div style="width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg style="width:24px;height:24px;color:#04150B"><use href="#i-check"/></svg></div>
+        <p style="color:var(--ink);font-weight:600;margin-bottom:4px">You are checked in. Welcome back.</p>
+        <p style="margin:0;font-size:13px">Use the Next button below, or your arrow keys, to begin.</p>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Where we are</div>
+      <p style="margin:0">You can now prompt well, pick the right tool, and use Claude's features. Automation is the next leap: instead of doing a task each time, you set it up <strong>once</strong> and it repeats on its own.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Doing it vs designing it</h2>
+    <p>A VA who does tasks trades time for output: every result costs minutes. A VA who designs systems builds something that keeps producing after they step away. Same person, very different leverage.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Manual: you do it</div>You repeat the same steps by hand every time. It works, but it only happens when you are at your desk, and it costs you minutes on every single run.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Automated: it runs</div>You set the steps up once. After that it fires on its own, instantly, every time, whether you are working, asleep, or on a call.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> One quick example</div>
+      <p style="margin:0">You send the same welcome email to every new client. By hand that is five minutes each, every time. As an automation, you build it once and every new client gets it in seconds, forever.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Automation does not replace you. It removes the repetitive part so your time goes to <em>judgment and relationships</em>, the work only a human can do.</p>
+    </div>
+  </div></section>
+
+  <!-- TYPES OF AUTOMATION -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Four types of automation</h2>
+    <p>Not all automations work the same way. Knowing the type helps you pick the right tool and set the right expectations with your client.</p>
+    <table>
+      <thead><tr><th>Type</th><th>How it works</th><th>VA example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Scheduled</strong></td><td>Runs at a set time, like an alarm clock</td><td>Weekly report every Monday at 8am</td></tr>
+        <tr><td><strong>Triggered</strong></td><td>Fires the moment something happens</td><td>New form submitted → welcome email sent</td></tr>
+        <tr><td><strong>Multi-step</strong></td><td>One trigger sets off a chain of actions</td><td>New lead → CRM → email → Slack ping</td></tr>
+        <tr><td><strong>AI-powered</strong></td><td>AI reads, writes, or decides as part of the steps</td><td>New email → Claude drafts reply → you approve</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Most VA automations are triggered or multi-step</div>
+      <p style="margin:0">Scheduled automations handle reports and recurring tasks. Triggered multi-step automations handle the bulk of daily VA work: lead intake, onboarding, follow-ups, and notifications.</p>
+    </div>
+  </div></section>
+
+  <!-- STATS -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Automation by the numbers</h2>
+    <p>These are not abstract projections. They describe what is already happening in the industry you are working in.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">60%</div>
+        <div class="stat-label">of jobs have at least 30% of tasks that could be automated with tools available today</div>
+        <div class="stat-src">McKinsey Global Institute</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4.5 hrs</div>
+        <div class="stat-label">the average admin worker spends each week just on repetitive email and scheduling tasks</div>
+        <div class="stat-src">Clockwise / Asana research</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">88%</div>
+        <div class="stat-label">of small businesses say automation lets them compete with much larger companies</div>
+        <div class="stat-src">Zapier SMB Survey 2023</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">240 hrs</div>
+        <div class="stat-label">a year freed up when an EA automates just 4-5 recurring tasks — that is 6 extra work weeks</div>
+        <div class="stat-src">KeyPlayers internal estimate</div>
+      </div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Takeaway</div>
+      <p>Automation does not eliminate VA roles. It raises the ceiling. The operators who automate well do <em>more impactful work</em> in the same hours, which is what clients pay a premium for.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 1: TRIGGER & ACTION -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 2</div>
+    <h1>Trigger and Action</h1>
+    <p class="subtitle">Every automation, no matter how advanced, is the same simple shape: when something happens, do something. Learn this one pattern and you can read or design any automation you meet.</p>
+    <p>The full shape has four parts. A <strong>trigger</strong> starts it, an optional <strong>filter</strong> keeps it precise, one or more <strong>actions</strong> do the work, and you get a <strong>result</strong>.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(234,179,8,.18)"><svg><use href="#i-bolt"/></svg></div><div class="n8n-node-title">Trigger</div></div>
+        <div class="n8n-node-sub">when X happens</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.3s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.5s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(93,169,244,.2)"><svg><use href="#i-compass"/></svg></div><div class="n8n-node-title">Filter</div></div>
+        <div class="n8n-node-sub">only if it matters</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.9s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.9s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(34,197,94,.22)"><svg><use href="#i-bolt"/></svg></div><div class="n8n-node-title">Action</div></div>
+        <div class="n8n-node-sub">do Y, then Z</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.5s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:1.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(255,255,255,.06)"><svg><use href="#i-check"/></svg></div><div class="n8n-node-title">Result</div></div>
+        <div class="n8n-node-sub">done, no hands</div>
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-align"/></svg> Read it as a sentence</div>
+      <p style="margin:0"><em>When</em> a new client form is submitted, <em>if</em> they chose a paid plan, <em>then</em> add them to the CRM and send the welcome email. Trigger, filter, actions, result.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Common triggers and actions</h2>
+    <p>You will see the same handful of triggers and actions over and over. Once they are familiar, most automations are just new combinations of these.</p>
+    <table>
+      <thead><tr><th>Triggers (when this happens)</th><th>Actions (do this)</th></tr></thead>
+      <tbody>
+        <tr><td>A form is submitted</td><td>Send an email or a message</td></tr>
+        <tr><td>A new email arrives</td><td>Create or update a record (CRM, sheet)</td></tr>
+        <tr><td>A scheduled time (daily, weekly)</td><td>Add a row to a spreadsheet</td></tr>
+        <tr><td>A new row or record is added</td><td>Notify a person in Slack or text</td></tr>
+        <tr><td>A message is received</td><td>Generate a draft or summary with AI</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> Filters keep it precise</div>
+      <p style="margin:0">A filter is a simple "only if" rule that stops the automation from firing when it should not: only if the email is from a client, only if the order is over a set amount, only on weekdays. Filters are how you avoid noisy, wrong, or duplicate runs.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 2: AI AUTOMATION -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 3</div>
+    <h1>AI Automation</h1>
+    <p class="subtitle">Regular automation moves data from A to B. AI automation adds a thinking step in the middle. That one difference opens up a completely different category of task you can hand off.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-bolt"/></svg> Regular automation</div>
+        Follows fixed rules. It can copy, move, and send — but it cannot understand what something means, vary a message for context, or make any kind of judgment call.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-spark"/></svg> AI automation</div>
+        Adds a thinking step. Claude reads the input, decides what to do or say based on your prompt, and passes the result to the next action. It handles variability.
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Think of it this way</div>
+      <p style="margin:0">Regular automation is like a mail sorter: it moves things based on fixed labels. AI automation is like a smart assistant: it reads the message, understands it, and decides what comes next.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>How Claude fits into a workflow</h2>
+    <p>You do not need to code to add Claude to an automation. Zapier, Make, and n8n all have a built-in Claude step you can drop in anywhere.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node" style="--d:.1s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(234,179,8,.18)"><svg><use href="#i-msg"/></svg></div><div class="n8n-node-title">New email</div></div>
+        <div class="n8n-node-sub">trigger: Gmail</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.3s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.5s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(34,197,94,.22)"><svg><use href="#i-spark"/></svg></div><div class="n8n-node-title">Claude reads it</div></div>
+        <div class="n8n-node-sub">drafts a reply</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.9s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:.9s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(93,169,244,.2)"><svg><use href="#i-check"/></svg></div><div class="n8n-node-title">You approve</div></div>
+        <div class="n8n-node-sub">saved as draft</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:1.5s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:1.3s">
+        <div class="n8n-node-head"><div class="n8n-node-ico" style="background:rgba(255,255,255,.06)"><svg><use href="#i-bolt"/></svg></div><div class="n8n-node-title">Email sent</div></div>
+        <div class="n8n-node-sub">done</div>
+      </div>
+    </div>
+    <p>Claude is the middle step. It receives text, processes it with a prompt you write, and passes the result forward. Your prompt is the instruction: "Summarize this in 3 bullets", "Write a short reply", "Classify this as urgent, normal, or low-priority."</p>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Data note</div>
+      <p>Any text you pass to Claude through an automation goes to Anthropic's API. Do not send private client data without checking the client's data policy first.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Basic to intermediate: AI automations for VAs</h2>
+    <p>Start simple. Add AI only where a step actually needs thinking. These are real VA use cases, roughly in order of complexity.</p>
+    <table>
+      <thead><tr><th>Level</th><th>What it does</th><th>Tools needed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Basic</strong></td><td>New email → Claude writes a 3-bullet summary → logged to Sheet</td><td>Gmail + Zapier + Claude + Sheets</td></tr>
+        <tr><td><strong>Basic</strong></td><td>Meeting transcript arrives → Claude pulls action items → posted to Slack</td><td>Granola + Make + Claude + Slack</td></tr>
+        <tr><td><strong>Basic</strong></td><td>New form → Claude writes a personalised welcome message → email sent</td><td>Typeform + Zapier + Claude + Gmail</td></tr>
+        <tr><td><strong>Intermediate</strong></td><td>New lead email → Claude classifies priority (hot / warm / cold) → routed to correct person in CRM</td><td>Gmail + n8n + Claude + GHL</td></tr>
+        <tr><td><strong>Intermediate</strong></td><td>Daily at 7am → pull yesterday's data → Claude writes team recap → post to Slack</td><td>Sheets + Make + Claude + Slack</td></tr>
+        <tr><td><strong>Intermediate</strong></td><td>Client sends a doc → Claude extracts key details → task created in PM tool</td><td>Gmail + n8n + Claude + Notion</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Your prompt is the logic</div>
+      <p style="margin:0">Write your Claude prompt in plain chat first. Test it manually until the output is exactly right. Then paste that same prompt into your automation's Claude step. Build the brain before you wire the body.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 3: WHAT TO AUTOMATE -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 4</div>
+    <h1>What to Automate (and What Not To)</h1>
+    <p class="subtitle">The skill is not automating everything. It is knowing what to hand to a machine and what to keep human. That judgment is exactly what makes an operator valuable, and hard to replace.</p>
+    <table>
+      <thead><tr><th>Good to automate when it is...</th><th>Keep it human when it is...</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Repetitive</strong> - the same steps each time</td><td><strong>Judgment-heavy</strong> - needs a call only you can make</td></tr>
+        <tr><td><strong>Rule-based</strong> - clear if-this-then-that logic</td><td><strong>Relationship-led</strong> - a real person should reply</td></tr>
+        <tr><td><strong>High-volume</strong> - happens often enough to matter</td><td><strong>Sensitive</strong> - money, contracts, complaints, health</td></tr>
+        <tr><td><strong>Predictable</strong> - few surprises in the input</td><td><strong>Rare or one-off</strong> - not worth the build time</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Automate the <em>boring and repeatable</em>. Protect the <em>human and high-stakes</em>. The best operators automate the grunt work to free up their judgment, not replace it.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Keep a human in the loop</h2>
+    <p>Automating a step does not mean trusting it blindly. For anything risky or sensitive, add an approval step: the automation prepares the work, then a person reviews and approves before it sends, posts, or pays.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> A safe pattern</div>
+      <p style="margin:0">Let the automation do 90 percent (gather, draft, organize) and keep the last 10 percent human (review, approve, send). You get the speed of automation with the safety of a human check.</p>
+    </div>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Carry-over from Day 1</div>
+      <p>Regulated or client-private data flows only through approved, contracted tools, never a random free connector. The data-safety question comes first, every time.</p>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Quick check</div>
+      <div class="quiz-q">Which of these is the best fit to fully automate?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A complaint is sensitive and relationship-led. Automate the logging and routing, but a human should write the reply."><span class="qmark"></span><span class="qtext">Replying to an upset customer's complaint</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Sending the same welcome email to every new sign-up is repetitive, rule-based, and high-volume. A textbook automation."><span class="qmark"></span><span class="qtext">Sending the same welcome email to every new sign-up</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Negotiating a contract is high-stakes judgment work. Keep it human."><span class="qmark"></span><span class="qtext">Negotiating a contract with a new vendor</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A true one-off is rarely worth the build time. Just do it by hand."><span class="qmark"></span><span class="qtext">A one-time task you will never repeat</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- GUARDRAILS -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Guardrails: rules that keep everyone safe</h2>
+    <p>Automation that breaks quietly is worse than no automation. These eight rules protect your client, their contacts, and your reputation as a VA.</p>
+    <table>
+      <thead><tr><th>#</th><th>Rule</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Test-send first</strong> — always send to yourself before any real audience</td><td>One wrong batch email is very hard to undo</td></tr>
+        <tr><td>2</td><td><strong>No sensitive data through free tools</strong> — names, emails, and payment info stay in approved platforms</td><td>Free tools may share or store data in ways your client has not consented to</td></tr>
+        <tr><td>3</td><td><strong>Money, contracts, complaints = human approval</strong> — automation prepares; a person approves</td><td>High-stakes actions need a human checkpoint, no exceptions</td></tr>
+        <tr><td>4</td><td><strong>Set up error alerts</strong> — know the moment something breaks</td><td>Silent failures do damage before you notice them</td></tr>
+        <tr><td>5</td><td><strong>Know your off switch</strong> — be able to pause the automation in under one minute</td><td>If it misfires, you need to stop it immediately</td></tr>
+        <tr><td>6</td><td><strong>Tell the client before you deploy</strong> — no surprise automations touching their contacts or data</td><td>Trust requires transparency, especially early on</td></tr>
+        <tr><td>7</td><td><strong>Check the run history</strong> — most platforms log every execution; review it weekly</td><td>Catches edge cases and errors before they pile up</td></tr>
+        <tr><td>8</td><td><strong>Watch the first 5 runs manually</strong> — do not fully step away until you have seen it work on real data</td><td>Test data never catches everything; real conditions always surface new issues</td></tr>
+      </tbody>
+    </table>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">The short version</div>
+      <p>If something goes wrong, you are the one who has to explain it. Build as if you will have to defend every decision — because sometimes you will.</p>
+    </div>
+  </div></section>
+
+  <!-- COMPLIANCE & DATA SECURITY -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Compliance</div>
+    <h1>Compliance: Know the Rules Before You Automate</h1>
+    <p class="subtitle">Compliance is not bureaucracy. It is the legal and policy framework that protects your client's customers — and protects your client's business from liability. As a VA, you follow these rules even if you did not write them.</p>
+    <table>
+      <thead><tr><th>Framework</th><th>Who it covers</th><th>What it means for your automations</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GDPR</strong></td><td>Anyone handling data of EU citizens</td><td>Personal data must be collected with consent, stored lawfully, and deletable on request — check every tool in the flow</td></tr>
+        <tr><td><strong>CCPA</strong></td><td>Data of California residents</td><td>Consumers can opt out of data use; any automation touching California contacts must honour that flag</td></tr>
+        <tr><td><strong>HIPAA</strong></td><td>US healthcare data</td><td>Health information cannot flow through any non-HIPAA-compliant tool under any circumstances — full stop</td></tr>
+        <tr><td><strong>SOC 2</strong></td><td>Business / enterprise SaaS data</td><td>Ask if the connector tools you are using are SOC 2 certified before routing client business data through them</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> The one question every VA must ask</div>
+      <p style="margin:0"><em>"Does my client have a data policy that covers this automation?"</em> If the answer is unclear — stop. Ask before you build. A five-minute conversation now prevents a legal incident later.</p>
+    </div>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Your responsibility</div>
+      <p>Ignorance is not a defence. If you automate data into a non-compliant tool, liability can fall on the VA and the client. When in doubt, escalate — never guess.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Data security in your automations</h2>
+    <p>Compliance tells you what rules to follow. Security tells you how to protect the data while the automation is running. You need both — one without the other still leaves you exposed.</p>
+    <table>
+      <thead><tr><th>Data type</th><th>Level</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Task updates, calendar blocks, content drafts, internal notes</td><td><strong style="color:#4ade80">GREEN &mdash; generally safe</strong></td><td>Proceed, but still verify the tool is approved by the client</td></tr>
+        <tr><td>Names, emails, phone numbers, business contact info</td><td><strong style="color:rgba(234,179,8,.9)">YELLOW &mdash; check first</strong></td><td>Confirm the client's privacy policy covers this data flowing through these tools</td></tr>
+        <tr><td>Health records, financial data, passwords, PII of minors, legal documents</td><td><strong style="color:#f87171">RED &mdash; stop</strong></td><td>Do not automate without explicit written approval from the client or their legal team</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-lock"/></svg> Four security rules &mdash; no exceptions</div>
+      <ul style="margin:4px 0 0;padding-left:18px;font-size:13px">
+        <li style="margin-bottom:7px"><strong>Never store credentials in the workflow text</strong> — use the platform's built-in secrets manager</li>
+        <li style="margin-bottom:7px"><strong>Request only the permissions the automation actually needs</strong> — not read/write/delete everything</li>
+        <li style="margin-bottom:7px"><strong>Audit tool access every 90 days</strong> — remove connections to tools you no longer use</li>
+        <li style="margin-bottom:0"><strong>Rotate API keys immediately</strong> if a tool is compromised, deprecated, or shared by accident</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- SESSION 4: FREE TOOLS & HOURS SAVED -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 5</div>
+    <h1>Free Automation Tools</h1>
+    <p class="subtitle">You do not need a budget to start automating. Every tool below has a free tier that covers most beginner and intermediate VA workflows.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>Free allowance</th><th>Best for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Gmail filters</strong></td><td>Unlimited (built-in, free)</td><td>Auto-label, archive, forward, canned replies</td></tr>
+        <tr><td><strong>Google Apps Script</strong></td><td>Free with any Google account</td><td>Custom logic inside Sheets, Gmail, and Calendar</td></tr>
+        <tr><td><strong>Zapier</strong></td><td>100 tasks/month, 5 active zaps</td><td>Quick app-to-app connections, widest app library</td></tr>
+        <tr><td><strong>Make</strong></td><td>1,000 operations/month</td><td>Visual multi-step flows, good for branching logic</td></tr>
+        <tr><td><strong>IFTTT</strong></td><td>2 applets free</td><td>Simple personal automations (phone, social, home)</td></tr>
+        <tr><td><strong>n8n</strong></td><td>Paid (KPHQ subscription) — free if self-hosted</td><td>Advanced AI workflows, full flexibility</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> Start with what the client already pays for</div>
+      <p style="margin:0">Before picking a tool, ask: what does the client already use? If they are on Zapier, use Zapier. Minimise new tools and costs before introducing something the team does not already know.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Tools with automation and AI built in</h2>
+    <p>Some apps you are already using have automation and AI baked in. No separate connector needed, no extra cost.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>What it can do on its own</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GoHighLevel</strong></td><td>Full workflow automation, AI employee (conversation AI), SMS/email sequences, pipeline triggers</td></tr>
+        <tr><td><strong>Notion</strong></td><td>Button automations, database filters that trigger actions, Notion AI for drafting and summarising</td></tr>
+        <tr><td><strong>Slack</strong></td><td>Workflow Builder for no-code channel automations; Slack AI for thread summaries (paid)</td></tr>
+        <tr><td><strong>Gmail</strong></td><td>Smart compose, filters, schedule send, and canned responses — all free</td></tr>
+        <tr><td><strong>Google Sheets</strong></td><td>Scheduled macros, notification rules, and Apps Script for custom logic</td></tr>
+        <tr><td><strong>Canva</strong></td><td>Magic Write for AI text, Brand Kit auto-fill, bulk create assets from a data sheet</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Check the built-in feature first</div>
+      <p style="margin:0">Before wiring up a separate automation tool, check whether the app you are already in has a native feature for it. It is faster to set up, one less thing to break, and usually free.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>What automation is worth in real hours</h2>
+    <p>Abstract time savings are easy to ignore. Real numbers are not. Here is what common VA automations are worth every single week.</p>
+    <table>
+      <thead><tr><th>Task automated</th><th>Manual time</th><th>Automated time</th><th>Saved / week</th></tr></thead>
+      <tbody>
+        <tr><td>Welcome email to new leads (20/week)</td><td>100 min (5 min each)</td><td>~0 min</td><td><strong>100 min</strong></td></tr>
+        <tr><td>Meeting notes → action items (5/week)</td><td>100 min (20 min each)</td><td>~5 min review</td><td><strong>95 min</strong></td></tr>
+        <tr><td>Weekly team report (1/week)</td><td>45 min to write</td><td>~5 min to review</td><td><strong>40 min</strong></td></tr>
+        <tr><td>Lead routing and CRM entry (20/week)</td><td>60 min (3 min each)</td><td>~0 min</td><td><strong>60 min</strong></td></tr>
+        <tr><td>Email triage and labelling</td><td>150 min (30 min/day)</td><td>~50 min</td><td><strong>100 min</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-clock"/></svg></div>
+      <div class="pl">The Math</div>
+      <p>Those five automations free up roughly <em>6.5 hours every week</em>. That is the equivalent of a full extra workday to spend on client relationships, skill-building, or higher-value deliverables.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 5: PLAN, MAP & BUILD -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 6</div>
+    <h1>Plan before you build</h1>
+    <p class="subtitle">Rushing into an automation tool before thinking it through is how you end up with something that half-works, breaks silently, and takes twice as long to fix. Five minutes of planning prevents five hours of debugging.</p>
+    <div class="compare" style="margin-bottom:12px">
+      <div class="col-a"><div class="col-label">Rush: build first, think later</div>
+        <ul>
+          <li>Copy a template and fill in the fields</li>
+          <li>Test it live on real contacts</li>
+          <li>Debug from error messages</li>
+          <li>Realise halfway through it breaks client policy</li>
+        </ul>
+      </div>
+      <div class="col-b"><div class="col-label">Plan: think first, build once</div>
+        <ul>
+          <li>Sketch the flow on paper or in a doc first</li>
+          <li>Break it into discrete tasks and check each tool</li>
+          <li>Test on dummy data before going near real clients</li>
+          <li>Deliver something that works and passes compliance</li>
+        </ul>
+      </div>
+    </div>
+    <table style="font-size:12px">
+      <thead><tr><th>Question</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>What exact problem does this solve?</strong></td><td>Prevents building automations that are clever but useless</td></tr>
+        <tr><td><strong>What triggers it, and can that trigger misfire?</strong></td><td>Misfire = accidental sends or duplicate data</td></tr>
+        <tr><td><strong>What data does it touch, and is that data sensitive?</strong></td><td>Compliance and security check before a single tool is opened</td></tr>
+        <tr><td><strong>What should happen if it fails?</strong></td><td>Every automation needs a fallback or an alert — not a silent failure</td></tr>
+        <tr><td><strong>Who needs to approve this before it goes live?</strong></td><td>Client sign-off protects you from building the wrong thing</td></tr>
+      </tbody>
+    </table>
+    <div class="card" style="margin-top:8px;padding:10px 14px">
+      <div class="card-head" style="margin-bottom:4px"><svg><use href="#i-target"/></svg> Break it into tasks</div>
+      <p style="margin:0;font-size:12px">List every step the automation takes as a separate task before you open the tool. Automation is just tasks in order — and tasks you have not written down are tasks you will forget to test.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 5: MAP IT FIRST -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 6</div>
+    <h1>Map It First</h1>
+    <p class="subtitle">Every automation is made of the same four building blocks. Know each one by name and you can read, build, or fix any workflow you encounter.</p>
+    <div class="proc-grid">
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(234,179,8,.9)">Trigger</div>
+        <div class="proc-body">The event that starts everything. Nothing runs until the trigger fires — a form submitted, a time reached, a message received.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(93,169,244,.85)">Condition (if/else)</div>
+        <div class="proc-body">A yes/no question that splits the flow into two paths. Each answer runs different actions. This is how automations handle real-world variety.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:rgba(34,197,94,.85)">Action</div>
+        <div class="proc-body">Something the automation actually does: send a message, create a record, update a field, generate text with AI, or notify a person.</div>
+      </div>
+      <div class="proc-card">
+        <div class="proc-badge" style="color:var(--muted)">Result</div>
+        <div class="proc-body">The finished output after all steps complete. This is what you promised the client when you said "I will automate this."</div>
+      </div>
+    </div>
+    <div class="flow-demo">
+      <div class="ftabs">
+        <button class="ftab ftab-active" id="ftab1" onclick="flowScene(1)">&#9654; All YES &mdash; happy path</button>
+        <button class="ftab" id="ftab2" onclick="flowScene(2)">&#8651; Multi-condition routing</button>
+      </div>
+      <!-- SCENE 1: All YES -->
+      <div class="fscene fscene-active" id="fscene1">
+        <div class="f1-wrap">
+          <div class="fn fn-trigger" id="f1-t" style="min-width:192px"><div class="fn-lbl">Trigger</div><div class="fn-title">New lead submitted</div></div>
+          <div class="fv" id="f1-v1"></div>
+          <div class="fn fn-cond" id="f1-c1" style="min-width:192px"><div class="fn-lbl">Condition &mdash; taking YES path</div><div class="fn-title">Paid plan? &#10003; YES</div></div>
+          <div class="fv" id="f1-v2"></div>
+          <div class="fn" id="f1-a1" style="min-width:192px"><div class="fn-title">Add to CRM</div><div class="fn-sub">paid clients folder</div></div>
+          <div class="fv" id="f1-v3"></div>
+          <div class="fn" id="f1-a2" style="min-width:192px"><div class="fn-title">Send welcome email</div><div class="fn-sub">paid onboarding flow</div></div>
+          <div class="fv" id="f1-v4"></div>
+          <div class="fn" id="f1-a3" style="min-width:192px"><div class="fn-title">Notify sales team</div><div class="fn-sub">Slack ping sent</div></div>
+          <div class="fv" id="f1-v5"></div>
+          <div class="fn" id="f1-r" style="min-width:192px"><div class="fn-title">Done &mdash; 0 manual steps</div><div class="fn-sub">result reached</div></div>
+        </div>
+      </div>
+      <!-- SCENE 2: Multi-condition routing tree -->
+      <div class="fscene" id="fscene2">
+        <div class="ftree">
+          <div style="display:flex">
+            <div class="fn fn-trigger" id="f2-t" style="min-width:164px;text-align:center"><div class="fn-lbl">Trigger</div><div class="fn-title">New lead submitted</div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn" id="f2-v1"></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c1"><div class="fn-lbl">Condition 1</div><div class="fn-title">Business email?</div></div></div>
+            <div class="ftr-yes" id="f2-arr1"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y1"><div class="fn-title">Hot CRM &mdash; alert sales instantly</div><div class="fn-sub">account manager assigned</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v2"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c2"><div class="fn-lbl">Condition 2</div><div class="fn-title">Budget &gt; $1,000?</div></div></div>
+            <div class="ftr-yes" id="f2-arr2"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y2"><div class="fn-title">Warm CRM + book discovery call</div><div class="fn-sub">email sent automatically</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v3"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div class="ftr-row">
+            <div class="ftr-left"><div class="fn fn-cond" id="f2-c3"><div class="fn-lbl">Condition 3</div><div class="fn-title">Source = referral?</div></div></div>
+            <div class="ftr-yes" id="f2-arr3"><span class="fta-lbl">YES</span><span class="fta-line"></span><span class="fta-arr">&#9654;</span></div>
+            <div class="ftr-right"><div class="fn fn-act-yes" id="f2-y3"><div class="fn-title">Personal reply + referral sheet</div><div class="fn-sub">thank-you sequence triggered</div></div></div>
+          </div>
+          <div class="ftr-conn"><div class="ftconn ftconn-no" id="f2-v4"><span class="fno-lbl">NO &#x2193;</span></div></div>
+          <div style="display:flex">
+            <div class="fn fn-default" id="f2-d" style="min-width:164px;text-align:center"><div class="fn-title">Cold list &mdash; free content</div><div class="fn-sub">automated nurture sequence</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>A four-question map</h2>
+    <p>You do not need special software to map a workflow. Answer these four questions and you have a buildable plan.</p>
+    <table>
+      <thead><tr><th>Ask</th><th>You are finding the...</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. What starts it?</strong></td><td>Trigger (the event that kicks it off)</td></tr>
+        <tr><td><strong>2. What are the steps, in order?</strong></td><td>Actions (each thing that should happen)</td></tr>
+        <tr><td><strong>3. Are there any "only if" decisions?</strong></td><td>Filters (conditions that keep it precise)</td></tr>
+        <tr><td><strong>4. What is the finished result, and who needs to know?</strong></td><td>Output (and the notification)</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>A workflow you can describe in <em>one clear sentence</em> is a workflow you can automate. If you cannot describe it cleanly, you are not ready to build it yet.</p>
+    </div>
+  </div></section>
+
+  <!-- PLAN TO BUILD + QA -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>From map to live automation</h2>
+    <p>Once you have your four-question map, building is just following a checklist. Do not skip steps — especially the test step.</p>
+    <ol style="margin:0 0 18px;padding-left:20px">
+      <li style="margin-bottom:10px"><strong>Map it first</strong> — trigger, steps in order, filters, and the result</li>
+      <li style="margin-bottom:10px"><strong>Pick your tool</strong> — match to what the client already uses; free tier if there is no preference</li>
+      <li style="margin-bottom:10px"><strong>Build the trigger alone and test it</strong> — make sure it fires before you add any actions</li>
+      <li style="margin-bottom:10px"><strong>Add one action at a time</strong> — test each step before adding the next one</li>
+      <li style="margin-bottom:10px"><strong>Run it on test data</strong> — never test on real clients or live records</li>
+      <li style="margin-bottom:10px"><strong>Review the full output</strong> — does the final result look exactly right?</li>
+      <li style="margin-bottom:0"><strong>Go live and watch</strong> — monitor the first 3 to 5 real runs before you step away</li>
+    </ol>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The golden rule</div>
+      <p style="margin:0">Build one step at a time. Test one step at a time. The most common mistake is building five steps and then wondering which one broke. Go slowly so you can go confidently.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>QA checklist before you go live</h2>
+    <p>Run through this before any automation touches real clients. It takes under two minutes and prevents a lot of avoidable problems.</p>
+    <table>
+      <thead><tr><th>Check</th><th>What to look for</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Trigger fires correctly</strong></td><td>Did your test event actually start the automation?</td></tr>
+        <tr><td><strong>Filter catches the right records</strong></td><td>Did it run when it should — and skip when it should not?</td></tr>
+        <tr><td><strong>Every action completed</strong></td><td>Did each step finish without an error message?</td></tr>
+        <tr><td><strong>Output is accurate</strong></td><td>Is the email, message, or record exactly what was intended?</td></tr>
+        <tr><td><strong>Right destination</strong></td><td>Did it go to the right person, channel, or folder?</td></tr>
+        <tr><td><strong>No duplicates</strong></td><td>Did it run once — not two or three times?</td></tr>
+        <tr><td><strong>Error alert set up</strong></td><td>If it breaks, who gets notified and how?</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-align"/></svg> Document it after QA</div>
+      <p style="margin:0">Write a one-paragraph note: what the automation does, what starts it, and who owns it. Future you — or a colleague covering for you — will need to edit it months from now and the notes will save hours.</p>
+    </div>
+  </div></section>
+
+  <!-- VA BEST PRACTICES -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>Best practices as a VA who automates</h2>
+    <p>Technical skill gets you to a working automation. These habits get you to a trustworthy, sustainable one — the kind that makes clients want to keep you long-term.</p>
+    <table>
+      <thead><tr><th>Practice</th><th>What it looks like in action</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Understand the manual process first</strong></td><td>If you cannot walk through it step by step by hand, you are not ready to automate it</td></tr>
+        <tr><td><strong>Build simple, then add</strong></td><td>Get one trigger and one action working before adding filters, branches, or AI steps</td></tr>
+        <tr><td><strong>Name everything clearly</strong></td><td>"Welcome Email — New Paid Leads — Zapier" is infinitely better than "Zap 47"</td></tr>
+        <tr><td><strong>One automation, one job</strong></td><td>When a flow gets complex, split it. Smaller automations are easier to fix and easier to explain</td></tr>
+        <tr><td><strong>Document as you build</strong></td><td>Trigger, each step, owner, test data location, and the date you last reviewed it</td></tr>
+        <tr><td><strong>Review monthly</strong></td><td>APIs change, tools update, business rules evolve — check that everything still works</td></tr>
+        <tr><td><strong>Never be the only one who knows</strong></td><td>Share your documentation so a colleague can take over if you are unavailable</td></tr>
+        <tr><td><strong>Track and share the wins</strong></td><td>Record time saved and show it to your client — this is what builds your value and justifies your rate</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>The automation is not the deliverable. The <em>consistent, reliable outcome</em> it produces is. Anyone can build a flow that works once. Build one that works every time.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 6: RECAP -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 4 · Session 7</div>
+    <h1>What's Coming in Day 5</h1>
+    <p class="subtitle">Today was vocabulary, concepts, and planning. Tomorrow we build. Here is exactly what Day 5 covers — so you know what to expect and what to prepare.</p>
+    <table>
+      <thead><tr><th>Day 5 activity</th><th>What you will build</th><th>Tools used</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Free tool build</strong></td><td>A working automation using Google Apps Script and Google Sheets — zero paid tools required</td><td>Google Sheets · Apps Script</td></tr>
+        <tr><td><strong>Conditional logic</strong></td><td>Add yes/no decision logic so your automation only acts when the data is actually right</td><td>Zapier Filter or Apps Script if/else</td></tr>
+        <tr><td><strong>Social media posting</strong></td><td>A sequence that takes approved content and schedules or posts it without manual copy-paste every time</td><td>Make or Zapier + a scheduler</td></tr>
+        <tr><td><strong>Live activity (~30 min)</strong></td><td>You build your own automation from scratch using the four-question map you mapped today</td><td>Your choice of tool</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Come prepared tomorrow</div>
+      <p style="margin:0">Bring your four-question map from today's activity: what starts it, the steps in order, any "only if" conditions, and the result. That map is your blueprint for the live build.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <h2>Quick check</h2>
+    <p>Put it together with one scenario.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
+      <div class="quiz-q">"Every Monday at 8am, pull last week's numbers into a summary and post it to the team channel." In trigger-and-action terms, what is the trigger?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="A scheduled time (every Monday at 8am) is the trigger. Pulling the numbers and posting the summary are the actions."><span class="qmark"></span><span class="qtext">The scheduled time: every Monday at 8am</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Posting to the channel is an action, the last step, not what starts the automation."><span class="qmark"></span><span class="qtext">Posting to the team channel</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Building the summary is an action in the middle, not the trigger."><span class="qmark"></span><span class="qtext">Building the summary</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="There is no person clicking here. The whole point is that the schedule starts it with no one watching."><span class="qmark"></span><span class="qtext">A person clicking a button</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <h2>Wrap-up &amp; what's next</h2>
+    <table>
+      <thead><tr><th>Idea</th><th>The one-line version</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Planning</strong></td><td>Answer five questions before you open any tool &mdash; what it solves, what triggers it, what data it touches, what fails gracefully, who approves it</td></tr>
+        <tr><td><strong>Automation types</strong></td><td>Scheduled, triggered, multi-step, and AI-powered</td></tr>
+        <tr><td><strong>Trigger and action</strong></td><td>When something happens, do something. Every automation is this shape</td></tr>
+        <tr><td><strong>AI automation</strong></td><td>Claude is the thinking step — your prompt is the logic</td></tr>
+        <tr><td><strong>What to automate</strong></td><td>The repetitive and rule-based. Keep judgment and relationships human</td></tr>
+        <tr><td><strong>Free tools</strong></td><td>Zapier, Make, Gmail filters, Apps Script — no budget needed to start</td></tr>
+        <tr><td><strong>Hours saved</strong></td><td>5 automations → ~6.5 hrs freed per week</td></tr>
+        <tr><td><strong>Build and QA</strong></td><td>One step at a time, test on dummy data, run the 7-point checklist</td></tr>
+        <tr><td><strong>Guardrails</strong></td><td>Test-send first, no sensitive data through free tools, always have an off switch</td></tr>
+        <tr><td><strong>Compliance &amp; security</strong></td><td>Know GDPR/CCPA/HIPAA before you build; classify data Green/Yellow/Red; never store credentials in the workflow text</td></tr>
+        <tr><td><strong>Best practices</strong></td><td>Understand it manually first, document as you build, review monthly, track hours saved</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 5 (activity)</div>
+      <p style="margin:0">Pick one repetitive task you do every week and map it using the four-question map: what starts it, the steps in order, any "only if" filters, and the finished result. Bring your map to Day 5 — we build it together.</p>
+    </div>
+    <div class="qa">
+      <h3>Day 4 Q&amp;A</h3>
+      <p>Bring your questions on triggers, free tools, and AI automations. Tomorrow we move from mapping to building — a real automation, step by step, with testing and QA included.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 5 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+    <div class="footnote">
+      <div class="footnote-label">Keep learning — YouTube channels on automation</div>
+      <div class="footnote-list">
+        <div class="fn-item"><strong>Liam Ottley</strong><span>AI automation agency, n8n, Make — very VA-friendly</span></div>
+        <div class="fn-item"><strong>Corbin Brown</strong><span>AI agents and real workflow builds</span></div>
+        <div class="fn-item"><strong>Nick Saraev</strong><span>Make.com tutorials, visual and beginner-clear</span></div>
+        <div class="fn-item"><strong>Kevin Stratvert</strong><span>Google and Microsoft tools, free-tier focus</span></div>
+        <div class="fn-item"><strong>Nate Herk</strong><span>Make.com, Zapier, AI automation — beginner-friendly builds</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  </div>
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">What Is Automation?</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 11</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script src="./class-schedule.js"></script>
+<script>
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 4', DAY_INDEX:4, PREV_DAY_KEY:'' };
+const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day05_Building_Automations.html';
+
+/* ---- KeyPlayers attendance + completion tracking ---- */
+const TRACK = {
+  URL: CONFIG.SUBMIT_URL,
+  DAY: CONFIG.DAY,          // 'Day 4'
+  NEXT: 'Day 5',
+  TOKEN: '',
+  BEACON_ON_OPEN: true
+};
+let attendeeName = (new URLSearchParams(location.search).get('name'))
+  || localStorage.getItem('kp_name')                  // remembered across every day
+  || localStorage.getItem('kp_name_'+TRACK.DAY) || ''; // migrate any older per-day value
+attendeeName = (attendeeName||'').trim();
+if(attendeeName) localStorage.setItem('kp_name', attendeeName);
+
+function kpTrack(eventType, extra){
+  if(!TRACK.URL || !TRACK.URL.startsWith('http')){ console.log('[track]', eventType, Object.assign({name:attendeeName}, extra||{})); return; }
+  const payload = Object.assign({
+    formType:eventType, day:TRACK.DAY, token:TRACK.TOKEN,
+    name:attendeeName, userAgent:navigator.userAgent, ts:new Date().toISOString()
+  }, extra||{});
+  kpSend(payload);
+}
+function kpSend(payload){
+  fetch(TRACK.URL, { method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+    .catch(()=>kpQueue(payload));
+}
+function kpQueue(payload){
+  try{ const q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); q.push(payload);
+    localStorage.setItem('kp_queue', JSON.stringify(q.slice(-50))); }catch(e){}
+}
+function kpFlush(){
+  let q; try{ q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); }catch(e){ q=[]; }
+  if(!q.length) return; localStorage.removeItem('kp_queue'); q.forEach(kpSend);
+}
+function kpOnce(key){ if(localStorage.getItem(key)) return false; localStorage.setItem(key,'1'); return true; }
+
+kpFlush();
+/* ---- presence + blocking check-in gate ---- */
+function kpSetName(n){ n=(n||'').trim(); if(!n) return false;
+  attendeeName=n; localStorage.setItem('kp_name', n); localStorage.setItem('kp_name_'+TRACK.DAY, n); return true; }
+function kpRecordPresence(){
+  if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())) kpTrack('opened', {});
+  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});
+  var f=document.getElementById('attForm'), d=document.getElementById('attDone');
+  if(f) f.style.display='none'; if(d) d.style.display='block';
+}
+function kpGateClose(){ var g=document.getElementById('kpGate'); if(g&&g.parentNode) g.parentNode.removeChild(g); }
+function kpGateOpen(){
+  if(document.getElementById('kpGate')) return;
+  var g=document.createElement('div'); g.id='kpGate';
+  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+    '<div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div>'+
+    '<h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2>'+
+    '<p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+    '<input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '<input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '</div>'+
+    '<div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>'+
+    '<button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button>'+
+  '</div>';
+  document.body.appendChild(g);
+  var fn=g.querySelector('#kpGateFname'), ln=g.querySelector('#kpGateLname'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
+  function go(){ var f=(fn.value||'').trim(), l=(ln.value||'').trim(); if(!f||!l){ er.textContent='Please enter both your first and last name.'; er.style.display='block'; (f?ln:fn).focus(); return; } er.style.display='none'; localStorage.setItem('kp_fname',f); localStorage.setItem('kp_lname',l); kpSetName(f+' '+l); kpRecordPresence(); kpGateClose(); }
+  btn.onclick=go; [fn,ln].forEach(function(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); }); });
+  setTimeout(function(){ try{ fn.focus(); }catch(e){} }, 50);
+}
+/* ---- date-unlock + completion-gate guardrails ---- */
+function kpShowLocked(badge,heading,body){
+  if(document.getElementById('kpLocked')) return;
+  var el=document.createElement('div'); el.id='kpLocked';
+  el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
+    '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
+    '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div>'+
+    '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2>'+
+    '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p>'+
+  '</div>';
+  document.body.appendChild(el);
+}
+/* ---- past sessions navigator ---- */
+const KP_SESSIONS=[
+  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
+  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
+  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
+  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
+  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
+  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
+  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},
+  {day:'Day 9',label:'KeyCommand',url:'Day09_KeyCommand.html'},
+  {day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}
+];
+function kpNavBuild(){
+  var base='https://kphq-updated-training.vercel.app/';
+  var panel=document.createElement('div'); panel.id='kpNavPanel';
+  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
+  panel.innerHTML='<a href="index.html" style="display:flex;align-items:center;gap:7px;padding:8px 10px;margin-bottom:10px;border-radius:8px;text-decoration:none;color:#9fb0a4;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)">&#8592; Course Home</a><div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
+  KP_SESSIONS.forEach(function(s){
+    var done=!!localStorage.getItem('kp_done_'+s.day);
+    var isCur=(s.day===CONFIG.DAY);
+    var a=document.createElement('a');
+    a.href=base+s.url;
+    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
+    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
+    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
+    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
+    panel.appendChild(a);
+  });
+  document.body.appendChild(panel);
+  var btn=document.createElement('div'); btn.id='kpNavBtn';
+  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
+  btn.innerHTML='&#9776; Sessions';
+  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
+  document.body.appendChild(btn);
+  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){
+  function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();
+}
+function kpCheckAccess(){
+  if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
+  if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}
+  var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);
+  if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
+    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
+  }
+  if(CONFIG.PREV_DAY_KEY && !localStorage.getItem(CONFIG.PREV_DAY_KEY)){
+    var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);
+    var fn2=function(){ kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' isn\'t marked complete on this device. Go back and click through to the end of '+prev+', then return here.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2(); return;
+  }
+  if(attendeeName){ kpRecordPresence(); }
+  else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',kpGateOpen); }
+  else { kpGateOpen(); }
+}
+/* ---- Animated IF/ELSE Flow Demo ---- */
+var flowTimers=[];
+function clearFT(){flowTimers.forEach(function(t){clearTimeout(t)});flowTimers=[];}
+function fReset(){document.querySelectorAll('.fn,.fv,.ftconn,.ftr-yes').forEach(function(el){el.classList.remove('flit');});}
+function fDelay(ms,fn){var t=setTimeout(fn,ms);flowTimers.push(t);return t;}
+function fLitSeq(ids,gap,cb){
+  ids.forEach(function(id,i){fDelay(i*gap,function(){var el=document.getElementById(id);if(el)el.classList.add('flit');});});
+  if(cb) fDelay(ids.length*gap+300,cb);
+}
+function flowScene(n){
+  clearFT();fReset();
+  document.getElementById('ftab1').classList.toggle('ftab-active',n===1);
+  document.getElementById('ftab2').classList.toggle('ftab-active',n===2);
+  document.getElementById('fscene1').classList.toggle('fscene-active',n===1);
+  document.getElementById('fscene2').classList.toggle('fscene-active',n===2);
+  if(n===1)animF1();else animF2();
+}
+function animF1(){
+  fLitSeq(['f1-t','f1-v1','f1-c1','f1-v2','f1-a1','f1-v3','f1-a2','f1-v4','f1-a3','f1-v5','f1-r'],360,function(){
+    fDelay(1500,function(){fReset();fDelay(500,animF1);});
+  });
+}
+function animF2(){
+  /* Run A: not business email → budget YES → warm CRM */
+  fLitSeq(['f2-t','f2-v1','f2-c1','f2-v2','f2-c2','f2-arr2','f2-y2'],400,function(){
+    fDelay(1500,function(){fReset();fDelay(500,function(){
+      /* Run B: all NO → cold list */
+      fLitSeq(['f2-t','f2-v1','f2-c1','f2-v2','f2-c2','f2-v3','f2-c3','f2-v4','f2-d'],400,function(){
+        fDelay(1500,function(){fReset();fDelay(500,function(){
+          /* Run C: business email YES → hot CRM */
+          fLitSeq(['f2-t','f2-v1','f2-c1','f2-arr1','f2-y1'],400,function(){
+            fDelay(1500,function(){fReset();fDelay(500,animF2);});
+          });
+        });});
+      });
+    });});
+  });
+}
+setTimeout(function(){if(document.getElementById('f1-t'))animF1();},400);
+
+kpCheckAccess();
+
+function markAttendance(){
+  var inp=document.getElementById('attName'); var err=document.getElementById('attErr');
+  if(!kpSetName(inp?inp.value:'')){ if(err){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; } return; }
+  if(err) err.style.display='none';
+  kpRecordPresence();
+}
+
+function proceedNext(){
+  if(kpOnce('kp_done_'+TRACK.DAY)) kpTrack('completed', { nextDay: TRACK.NEXT });
+  setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
+}
+
+const sesNames = ['What Is Automation','Trigger and Action','AI Automation','Safety & Compliance','Free Tools & Hours','Plan, Map & Build','Recap'];
+
+const slides = [...document.querySelectorAll('.slide')];
+const navLinks = [...document.querySelectorAll('#nav a')];
+const pfill = document.getElementById('pfill'), ptext = document.getElementById('ptext');
+const dbLabel = document.getElementById('dbLabel'), dbCount = document.getElementById('dbCount');
+const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
+let cur = 0;
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active', i===cur));
+  const ses = +slides[cur].dataset.ses;
+  navLinks.forEach((a,i)=>{a.classList.toggle('active', i===ses); a.classList.toggle('done', i<ses);});
+  pfill.style.width = Math.round(((cur+1)/slides.length)*100)+'%';
+  ptext.textContent = 'Slide '+(cur+1)+' of '+slides.length;
+  dbLabel.textContent = sesNames[ses];
+  dbCount.innerHTML = '<strong>'+(cur+1)+'</strong> / '+slides.length;
+  prevBtn.disabled = cur===0;
+  if(cur===slides.length-1){
+    nextBtn.innerHTML = 'Day 5 <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = proceedNext;
+  } else {
+    nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = next;
+  }
+  const sc = slides[cur]; sc.scrollTop = 0;
+}
+function next(){ if(cur<slides.length-1){ cur++; render(); } }
+function prev(){ if(cur>0){ cur--; render(); } }
+function goSession(s){ const i = slides.findIndex(sl=>+sl.dataset.ses===s); if(i>=0){ cur=i; render(); } closeNav(); }
+
+document.addEventListener('keydown', e=>{
+  const t = document.activeElement.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); next(); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+
+function toggleNav(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('scrim').classList.toggle('show'); }
+function closeNav(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
+function quizPick(btn){
+  const quiz=btn.closest('.quiz'); if(quiz.classList.contains('answered'))return;
+  quiz.classList.add('answered');
+  const opts=[...quiz.querySelectorAll('.quiz-opt')];
+  const correctOpt=opts.find(o=>o.dataset.correct==='true');
+  const chose=btn.dataset.correct==='true';
+  opts.forEach(o=>{o.disabled=true; if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});
+  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}
+  const fb=quiz.querySelector('.quiz-fb');
+  fb.innerHTML = chose
+    ? '<strong class="ok">Correct.</strong> '+btn.dataset.why
+    : '<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;
+  fb.classList.add('show');
+  quiz.querySelector('.quiz-reset').style.display='inline-block';
+}
+function quizReset(btn){
+  const quiz=btn.closest('.quiz'); quiz.classList.remove('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});
+  const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
+  btn.style.display='none';
+}
+render();
+</script>
+</body>
+</html>
+

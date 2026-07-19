@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | Day 3: Tool Selection & the AI Landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --accent-hover: #16a34a;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --gold: #EAB308;
+    --charcoal: #18181B;
+    --pill-bg: #166534;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --red: #ef4444;
+    --sidebar-w: 260px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--silver);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--charcoal);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; z-index: 100;
+    display: flex; flex-direction: column;
+  }
+  .sidebar-header { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+  .sidebar-logo { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.3px; }
+  .sidebar-logo span { color: var(--accent); }
+  .sidebar-day { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--accent); margin-top: 6px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .sidebar-nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; color: var(--silver);
+    text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: all 0.15s ease; border-left: 3px solid transparent;
+  }
+  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
+  .sidebar-nav a.active { color: var(--accent); background: rgba(34,197,94,0.08); border-left-color: var(--accent); }
+  .sidebar-nav a .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--bg-deep); color: var(--silver);
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
+  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
+  .progress-bar { width: 100%; height: 4px; background: var(--bg-deep); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.4s ease; }
+  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
+
+  /* ── MAIN ── */
+  .main { margin-left: var(--sidebar-w); min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%); }
+  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── TYPOGRAPHY ── */
+  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
+  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
+  p { margin-bottom: 14px; }
+  strong { color: var(--white); font-weight: 600; }
+  em { color: var(--accent); font-style: normal; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-gold { border-left: 3px solid var(--gold); }
+  .card-red { border-left: 3px solid var(--red); }
+  .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin-bottom: 8px; }
+  .card-gold .card-title { color: var(--gold); }
+  .card-red .card-title { color: var(--red); }
+
+  /* ── REVIEW CARD ── */
+  .review-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04)); border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 24px; margin: 20px 0; }
+  .review-card h3 { color: var(--gold); margin-top: 0; }
+
+  /* ── LISTS ── */
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { margin-bottom: 7px; padding-left: 4px; }
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--accent); font-weight: 600; }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th { text-align: left; padding: 10px 14px; background: var(--charcoal); color: var(--accent); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
+  tr:hover td { background: rgba(34,197,94,0.03); }
+
+  /* ── EXERCISES ── */
+  .exercise { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 22px; margin: 22px 0; }
+  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .exercise-badge { background: var(--pill-bg); color: var(--accent); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 6px; flex-shrink: 0; }
+  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
+
+  /* ── PILLS ── */
+  .pill { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin: 2px 4px 2px 0; }
+
+  /* ── NAV BUTTONS ── */
+  .section-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+  .btn-primary { background: var(--accent); color: var(--bg-deep); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
+  .btn-secondary:hover { color: var(--white); }
+
+  /* ── DETAILS/SUMMARY ── */
+  details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin: 14px 0; overflow: hidden; }
+  summary { padding: 12px 16px; color: var(--accent); font-weight: 600; cursor: pointer; font-size: 14px; }
+  summary:hover { background: rgba(34,197,94,0.04); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details > div { padding: 16px; }
+
+  /* ── TIMER ── */
+  .timer-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: var(--gold); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+
+  /* ── TOOL CARD ── */
+  .tool-card {
+    border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    margin: 16px 0;
+  }
+  .tool-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .tool-card-name { font-size: 16px; font-weight: 700; color: var(--white); }
+  .tool-category-tag {
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    padding: 3px 10px; border-radius: 20px;
+    background: var(--pill-bg); color: var(--accent);
+  }
+  .tool-card-body { padding: 16px 18px; }
+  .tool-card-body p { margin-bottom: 8px; font-size: 14px; }
+  .tool-meta {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .tool-meta-item { font-size: 12px; color: var(--silver); }
+  .tool-meta-item strong { color: var(--white); }
+
+  /* ── DECISION FLOW ── */
+  .decision-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .decision-step:last-child { border-bottom: none; }
+  .decision-num {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--pill-bg); color: var(--accent);
+    font-size: 14px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .decision-content { flex: 1; }
+  .decision-q { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .decision-routes { font-size: 13px; color: var(--silver); }
+  .decision-routes span { color: var(--accent); font-weight: 600; }
+
+  /* ── CALLOUT ── */
+  .callout { display: flex; gap: 14px; align-items: flex-start; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 9px; padding: 14px 16px; margin: 16px 0; }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 14px; line-height: 1.6; }
+  .callout-body strong { color: var(--white); }
+
+  /* ── SECURITY ITEM ── */
+  .security-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .security-item:last-child { border-bottom: none; }
+  .security-icon { font-size: 20px; flex-shrink: 0; }
+  .security-content { flex: 1; font-size: 14px; }
+  .security-content strong { color: var(--white); display: block; margin-bottom: 4px; }
+
+  /* ── MOBILE HEADER ── */
+  .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--charcoal); border-bottom: 1px solid var(--border); padding: 12px 16px; z-index: 101; align-items: center; justify-content: space-between; }
+  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding-top: 56px; }
+    .content { padding: 24px 16px 60px; }
+  }
+  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
+  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
+  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
+  .course-nav a:hover { color: var(--white); }
+  .course-nav a.current { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="mobile-header">
+  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
+  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
+    <div class="sidebar-day">Day 3 &nbsp;|&nbsp; Tool Selection</div>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Day 2 Review</a>
+    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>The AI Landscape</a>
+    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>Decision Framework</a>
+    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>Privacy & Data Safety</a>
+    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>Cheat Sheet</a>
+    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>Exercises</a>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 6 completed</div>
+  </div>
+  <div class="course-nav">
+    <div class="course-nav-label">Course Navigation</div>
+    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
+    <a href="Day02_Prompting_Mastery.html">Day 2 &mdash; Prompting Mastery</a>
+    <a href="#" class="current">Day 3 &mdash; Tool Selection</a>
+    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
+    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
+    <a href="Day06_GoHighLevel_Foundations.html">Day 6 &mdash; GoHighLevel Foundations</a>
+    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
+    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
+  </div>
+</nav>
+
+<div class="main"><div class="content">
+
+<!-- S0: DAY 2 REVIEW -->
+<section class="section active" id="s0">
+  <h1>Day 2 Review</h1>
+  <p class="section-subtitle">Recap of prompting mastery before we cover the AI tool landscape — and how to pick the right tool for every task.</p>
+  <div class="timer-badge">&#9201; 10 min</div>
+
+  <div class="review-card">
+    <h3>Yesterday's Key Points</h3>
+    <p><strong>The 5 Building Blocks:</strong> Role, Task, Context, Constraints, Examples. Every great prompt uses most or all of these. Missing blocks = predictable failures.</p>
+    <p><strong>Prompt Formulas:</strong> All-Purpose VA, Email Draft, Content Creation, SOP, Research Briefing, Meeting Recap. Copy the template, fill the brackets, run it.</p>
+    <p><strong>Advanced Techniques:</strong> Chain of Thought (make AI think step by step), Few-Shot (give examples to teach the pattern), Iterative (refine across multiple rounds), Prompt Chaining (each output feeds the next).</p>
+    <p><strong>Debugging Bad Output:</strong> 5 root causes — No Role, Vague Task, Missing Context, No Constraints, Task Too Big. Diagnose before you retry.</p>
+    <p style="margin:0;"><strong>Golden rule:</strong> AI drafts. You decide. Prompting is your most transferable skill — it works on every tool you'll use today.</p>
+  </div>
+
+  <details>
+    <summary>Quick Check — Do You Remember?</summary>
+    <div>
+      <p><strong>Q: Name the 5 building blocks.</strong><br>Role, Task, Context, Constraints, Examples.</p>
+      <p><strong>Q: What's Few-Shot prompting?</strong><br>Including 2–3 examples in your prompt to teach AI the exact pattern, format, or style you want.</p>
+      <p><strong>Q: AI gave you generic output. First diagnostic question?</strong><br>"Did I give it a role?" If not, that's your first fix.</p>
+      <p style="margin:0;"><strong>Q: When should you use Prompt Chaining?</strong><br>When the deliverable is too complex for one prompt — break it into a sequence where each output feeds the next.</p>
+    </div>
+  </details>
+
+  <div class="section-nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(1)">The AI Landscape &rarr;</button>
+  </div>
+</section>
+
+<!-- S1: THE AI LANDSCAPE -->
+<section class="section" id="s1">
+  <h1>The AI Landscape</h1>
+  <p class="section-subtitle">As of 2026, there are hundreds of AI tools. You don't need to know all of them. You need to know the categories — because categories stay stable even as individual tools change every few months.</p>
+  <div class="timer-badge">&#9201; 35 min</div>
+
+  <div class="card card-accent">
+    <div class="card-title">The key insight</div>
+    <p style="margin:0;color:var(--white);">Don't marry a tool — learn the category. ChatGPT will be replaced. Claude will be updated. Gemini will change. But "Chat AI" as a category will exist for a long time. Learn what each category does, and you'll always know which type of tool to reach for.</p>
+  </div>
+
+  <h2>Category 1: Chat AI — General Purpose</h2>
+  <p>These are conversational AI tools. You write a prompt, they respond. Great for writing, editing, summarizing, brainstorming, and most daily VA work. The primary tools in this category:</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Claude <span style="color:var(--silver);font-size:13px;font-weight:400;">(by Anthropic)</span></div>
+      <div class="tool-category-tag">Primary KP Tool</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it's best at:</strong> Long documents, complex instructions, nuanced reasoning, precise output when you give detailed prompts. Claude handles 200,000 tokens in a single conversation — roughly 150,000 words, or a full-length novel.</p>
+      <p><strong>Why KP uses it:</strong> It follows multi-step, constrained prompts with fewer errors than competitors. It doesn't add things you didn't ask for. It stays on brief.</p>
+      <p><strong>Current models (May 2026):</strong> Haiku 4.5 (fast, good), Sonnet 4.6 (daily driver — best balance), Opus 4.6 (most powerful, use for complex tasks).</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> claude.ai (free tier available)</div>
+        <div class="tool-meta-item"><strong>Paid plan:</strong> ~$20/month unlocks all models</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Most VA tasks, long docs, precise output</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">ChatGPT <span style="color:var(--silver);font-size:13px;font-weight:400;">(by OpenAI)</span></div>
+      <div class="tool-category-tag">Chat AI</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it's best at:</strong> Creative writing, casual tone content, broad brainstorming. The largest user base and plugin ecosystem of any AI tool. GPT-4o is the standard model; o3 is the reasoning model for complex thinking tasks.</p>
+      <p><strong>When to use it:</strong> When you need creative variety, when a client specifically uses it, or when you need plugins for specific integrations.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> chat.openai.com (free tier available)</div>
+        <div class="tool-meta-item"><strong>Paid plan:</strong> ~$20/month for GPT-4o access</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Creative content, brainstorming, variety</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Gemini <span style="color:var(--silver);font-size:13px;font-weight:400;">(by Google)</span></div>
+      <div class="tool-category-tag">Chat AI</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it's best at:</strong> Tasks that live inside Google Workspace — Docs, Sheets, Gmail, Drive. Gemini 2.5 Pro is deeply integrated and can read your existing files, draft in Google Docs, and summarize email threads natively.</p>
+      <p><strong>When to use it:</strong> When a client runs entirely in Google Workspace and wants AI that works inside their existing tools without copy-pasting.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> gemini.google.com (free with Google account)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Google Workspace-heavy clients</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Category 2: Research AI</h2>
+  <p>These tools search the live internet and show you where information comes from. Essential for anything where accuracy and sources matter.</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Perplexity</div>
+      <div class="tool-category-tag">Research AI</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Searches the live web and summarizes results with cited sources. Every claim links to its original source. You can verify anything it tells you in one click.</p>
+      <p><strong>The key difference from Chat AI:</strong> Chat AI knows what it learned during training (knowledge cutoff). Perplexity searches right now. For anything time-sensitive — competitor info, industry news, current prices — use Perplexity.</p>
+      <p><strong>Important:</strong> Still verify what it finds, especially for numbers and statistics. Sources can be inaccurate too.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> perplexity.ai (free tier ~5 Pro searches/day)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Research with sources, competitor intel, current events</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Category 3: AI Agents</h2>
+  <p>Agents don't just answer — they act. They can browse websites, fill forms, run multi-step tasks, and complete workflows without you manually doing each step.</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Manus</div>
+      <div class="tool-category-tag">AI Agent</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Manus can browse the web, interact with websites, run code, manage files, and complete multi-step tasks autonomously. You give it a goal; it figures out the steps and executes.</p>
+      <p><strong>Example use case:</strong> "Go to these 5 competitor websites, find their pricing pages, and build me a comparison table." A regular Chat AI can't do this — it can't actually browse the web. Manus can.</p>
+      <p><strong>When to use:</strong> Multi-step research, data gathering from multiple sources, tasks that would require you to open and interact with multiple websites.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> manus.im</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Autonomous multi-step web tasks</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Category 4: Video AI</h2>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">HeyGen</div>
+      <div class="tool-category-tag">Video AI</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Creates talking-head videos from text. Choose a realistic AI avatar, write or paste a script, and HeyGen produces a professional video — no camera, no editing software, no recording.</p>
+      <p><strong>Use cases:</strong> Client welcome videos, training content, product demos, video introductions, translated video content (HeyGen can translate and lip-sync to 40+ languages).</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> heygen.com (free trial, limited minutes)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Video content without on-camera recording</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Category 5: Coding AI</h2>
+  <p>These tools write, debug, and execute code. As an AI Operator you likely won't use them directly — but you should know they exist so you can leverage them when needed and recommend them to technical stakeholders.</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Claude Code &nbsp;/&nbsp; GitHub Copilot</div>
+      <div class="tool-category-tag">Coding AI</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>Claude Code:</strong> A command-line tool that lets developers delegate coding tasks directly to Claude. It can read entire codebases, write new features, fix bugs, and run tests.</p>
+      <p><strong>GitHub Copilot:</strong> Built into code editors — suggests code line by line as developers type, like autocomplete for programming.</p>
+      <p><strong>Why this matters:</strong> If someone asks "Can AI help us build this feature?" — yes, tools like these exist. You now know what to point them to.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Use case:</strong> Know it exists, recommend it to technical stakeholders</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Category 6: No-Code Automation</h2>
+  <p>These tools connect your existing apps and automate repetitive tasks — without writing a single line of code. If you find yourself doing the same manual steps every day (copy from here, paste there, update this, send that), automation tools eliminate those steps entirely.</p>
+  <p>This is one of the most valuable skill categories in 2026. Anyone who can set up automations becomes exponentially more productive because the time saved compounds every single day.</p>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Zapier</div>
+      <div class="tool-category-tag">No-Code Automation</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Connects 7,000+ apps and creates automated workflows called "Zaps." When something happens in App A, it triggers an action in App B — automatically, without you lifting a finger.</p>
+      <p><strong>Example workflows:</strong></p>
+      <ul>
+        <li>New form submission → Create task in Notion → Send Slack notification to the team</li>
+        <li>New email with attachment → Save attachment to Google Drive → Log it in a spreadsheet</li>
+        <li>Calendar event starts in 15 min → Send a prep reminder to Slack with the meeting link and agenda</li>
+        <li>New lead in CRM → Send welcome email sequence → Create onboarding task → Notify the team lead</li>
+      </ul>
+      <p><strong>Why you should know this:</strong> Zapier is the glue between your tools. Anyone who can set up Zaps saves hours every week without even touching AI. This is one of the highest-value operational skills right now.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> zapier.com (free tier — 5 Zaps, 100 tasks/month)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Automating repetitive multi-app workflows</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Make <span style="color:var(--silver);font-size:13px;font-weight:400;">(formerly Integromat)</span></div>
+      <div class="tool-category-tag">No-Code Automation</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Similar to Zapier but with a visual workflow builder that shows your entire automation as a flowchart. More powerful for complex, multi-step workflows with branching logic (if this, then that — otherwise, do something else).</p>
+      <p><strong>When to use Make over Zapier:</strong> When the workflow has conditions, loops, or more than 3 steps. Make handles complexity better and is often cheaper at scale. The visual builder also makes it easier to debug when something breaks.</p>
+      <p><strong>Example:</strong> A lead submits a form → Make checks if they're a returning lead → If yes, route to existing account manager → If no, create new contact record → Send appropriate welcome sequence → Log everything to a master spreadsheet.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> make.com (free tier — 1,000 operations/month)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Complex multi-step automations with conditions</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Airtable Automations</div>
+      <div class="tool-category-tag">No-Code Automation</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Airtable is a database/spreadsheet hybrid, and its built-in automations let you trigger actions based on record changes — send emails, update fields, post to Slack, run scripts — all inside the platform where your data already lives.</p>
+      <p><strong>Example:</strong> A client tracking pipeline in Airtable. When a deal moves to "Won," the automation creates an onboarding checklist, sends a welcome email, notifies the team in Slack, and creates a Google Drive folder for the project — all without manual work.</p>
+      <p><strong>Why it's different from Zapier/Make:</strong> Airtable automations live inside your database. You don't need to move data between tools — the trigger and the data are in the same place. Best for clients who already use Airtable as their central hub.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> airtable.com (free tier — limited automations)</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Data-driven automations tied to a central database</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-card">
+    <div class="tool-card-header">
+      <div class="tool-card-name">Google Apps Script</div>
+      <div class="tool-category-tag">Low-Code Automation</div>
+    </div>
+    <div class="tool-card-body">
+      <p><strong>What it does:</strong> Adds custom automation to Google Sheets, Docs, Forms, and Gmail. You can build things like automated reports, custom form responses, email sequences triggered by spreadsheet changes, and dashboard updates — all running inside Google's ecosystem.</p>
+      <p><strong>The AI Operator angle:</strong> You don't need to know how to code to use this. Claude (or ChatGPT) can write Apps Script code for you. You describe what you want ("When someone submits this Google Form, add their data to Sheet A, send them a confirmation email, and notify me in Slack"), and AI writes the script. You paste it in and click Run.</p>
+      <p><strong>This is the bridge between no-code and code.</strong> You're not learning a programming language — you're using AI to write small, specific automations that live inside tools your client already uses.</p>
+      <div class="tool-meta">
+        <div class="tool-meta-item"><strong>Access:</strong> Free with any Google account</div>
+        <div class="tool-meta-item"><strong>Best for:</strong> Custom automations inside Google Workspace</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>When to Use AI vs. Automation vs. Both</h2>
+  <p>This is a critical distinction most people miss. AI and automation solve different problems — and the most powerful workflows combine them:</p>
+  <table>
+    <thead><tr><th>Problem Type</th><th>Right Solution</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Need to create or think</td><td style="color:var(--accent);font-weight:600;">AI (Claude, ChatGPT)</td><td>Write a follow-up email, analyse a report, brainstorm ideas</td></tr>
+      <tr><td>Need to move or connect data</td><td style="color:var(--accent);font-weight:600;">Automation (Zapier, Make)</td><td>When new lead submits form → add to CRM → send welcome email</td></tr>
+      <tr><td>Need to create AND distribute</td><td style="color:var(--accent);font-weight:600;">AI + Automation together</td><td>Claude writes content → Zapier schedules it → posts to 3 platforms</td></tr>
+      <tr><td>Repetitive manual steps, same every time</td><td style="color:var(--accent);font-weight:600;">Automation (no AI needed)</td><td>Copy invoice data from email → paste into spreadsheet → file in Drive</td></tr>
+      <tr><td>Requires judgment or nuance</td><td style="color:var(--accent);font-weight:600;">AI (with human review)</td><td>Prioritise 30 emails by urgency and draft responses</td></tr>
+      <tr><td>One-time complex task</td><td style="color:var(--accent);font-weight:600;">AI or Manual</td><td>Build a pitch deck, design a process — not worth automating a one-off</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><strong>The Automation Test:</strong> If you do a task more than 3 times and the steps are identical each time, it's a candidate for automation. If the task requires thinking, writing, or judgment each time, it's an AI task. If it requires both — you've found the most valuable workflow to build.</div>
+  </div>
+
+  <h2>The AI Operator Mindset</h2>
+  <p>This training isn't about learning tools — it's about becoming an <strong>AI Operator</strong>. An AI Operator doesn't just use AI; they design systems where AI, automation, and human judgment work together to run entire business operations. The difference between someone who "uses ChatGPT" and an AI Operator is the difference between someone who can type and someone who can build a publishing company.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">What an AI Operator actually does</div>
+    <p><strong>Sees the full system, not just the task.</strong> When someone says "write social media posts," an AI Operator thinks: Where does the content idea come from? Who approves it? Where does it get scheduled? How do we track performance? How do we feed results back into the next round?</p>
+    <p><strong>Builds once, runs forever.</strong> Instead of doing the same 12 steps every Monday, an AI Operator builds a workflow that handles steps 1-10 automatically and only requires human judgment on steps 11 and 12.</p>
+    <p><strong>Knows when NOT to automate.</strong> Not everything should be automated. Relationship-building, crisis response, creative strategy — these require human presence. The AI Operator's skill is knowing the boundary.</p>
+    <p style="margin:0;"><strong>Stacks capabilities.</strong> AI generates. Automation moves. Databases store. The AI Operator connects them into a system that's greater than the sum of its parts.</p>
+  </div>
+
+  <h2>Automation Logic Fundamentals</h2>
+  <p>Before you touch any automation tool, you need to understand the logic that powers all of them. Every automation — from a simple Zapier Zap to a complex Make scenario — follows the same structure:</p>
+
+  <div class="card">
+    <div class="card-title">Trigger → Condition → Action → Result</div>
+    <p><strong>Trigger:</strong> The event that starts the workflow. "A new form is submitted," "An email arrives," "A calendar event starts in 15 minutes," "A spreadsheet row changes." No trigger = no automation.</p>
+    <p><strong>Condition (optional):</strong> A filter that decides whether the workflow continues. "Only if the email is from a specific domain," "Only if the deal value is over $5,000," "Only if the form field says 'Urgent'." Conditions prevent your automation from firing on everything indiscriminately.</p>
+    <p><strong>Action:</strong> What happens when the trigger fires and conditions are met. "Create a task in Notion," "Send a Slack message," "Add a row to a Google Sheet," "Send an email from a template." Most workflows have multiple actions in sequence.</p>
+    <p style="margin:0;"><strong>Result:</strong> The end state. What does the world look like after this automation runs? A new lead is logged, a team member is notified, a report is generated, a follow-up is scheduled. Always define what "done" looks like before you build.</p>
+  </div>
+
+  <h2>Traditional Automation vs. No-Code vs. AI Automation</h2>
+  <p>These three layers solve different problems and operate at different levels of complexity:</p>
+
+  <table>
+    <thead><tr><th>Layer</th><th>What It Does</th><th>Example</th><th>Requires</th></tr></thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:600;color:var(--white);">Traditional Automation</td>
+        <td>Rule-based, deterministic. If X happens, always do Y. No variation, no judgment.</td>
+        <td>Email auto-responder, scheduled report export, calendar reminders, cron jobs</td>
+        <td>Clear rules, consistent inputs, predictable outcomes</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;color:var(--white);">No-Code Automation</td>
+        <td>Connects multiple apps with conditional logic. More flexible than traditional, still rule-based at its core.</td>
+        <td>Lead fills form → Zapier checks if returning customer → routes to different email sequences → logs to CRM</td>
+        <td>Understanding of triggers, conditions, data flow between apps</td>
+      </tr>
+      <tr>
+        <td style="font-weight:600;color:var(--white);">AI Automation</td>
+        <td>Handles tasks that require interpretation, generation, or judgment. Outputs vary based on input context.</td>
+        <td>Claude reads 50 support tickets → classifies by urgency and topic → drafts personalised responses → routes to correct team</td>
+        <td>Good prompts, quality review process, human oversight for high-stakes outputs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card card-gold">
+    <div class="card-title">The AI Operator's stack</div>
+    <p style="margin:0;">The most powerful workflows combine all three. Traditional automation handles the plumbing (schedule it, move it, file it). No-code connects the apps (when this happens there, do that here). AI handles the thinking (write it, analyse it, decide what it means). You — the AI Operator — design the system, set the quality bar, and handle the exceptions.</p>
+  </div>
+
+  <h2>Building Automation Logic: 5 Patterns Every Operator Needs</h2>
+
+  <div class="card">
+    <div class="card-title">Pattern 1: Intake → Process → Distribute</div>
+    <p>Data comes in from one source, gets processed, and goes out to multiple destinations.</p>
+    <p><strong>Example — Event Registration:</strong> Attendee fills registration form → Airtable captures the data → Zapier sends confirmation email + adds to attendee spreadsheet + creates a Slack notification in #events channel + adds calendar hold for the organiser.</p>
+    <p style="margin:0;"><strong>Where AI fits:</strong> If the registration includes a "What do you hope to learn?" field, Claude can analyse responses in bulk and generate a summary for the event organiser showing common themes.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pattern 2: Monitor → Alert → Act</div>
+    <p>Continuously watch for a specific condition, notify the right person, and optionally take an initial action.</p>
+    <p><strong>Example — Brand Mentions:</strong> Google Alert detects a new brand mention → Make checks if the mention is positive, negative, or neutral → Positive: logs to "Testimonials" sheet → Negative: sends urgent Slack alert to the marketing lead with a link and suggested response draft.</p>
+    <p style="margin:0;"><strong>Where AI fits:</strong> Claude can perform the sentiment analysis that determines routing — something a simple keyword filter can't do reliably.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pattern 3: Batch → Generate → Review</div>
+    <p>Collect items over time, then process them in one batch with AI.</p>
+    <p><strong>Example — Weekly Content Pipeline:</strong> Content ideas accumulate in an Airtable base all week → Every Friday, Make pulls all ideas marked "Ready" → Sends them to Claude as a batch → Claude generates draft posts for each → Drafts land back in Airtable for human review and scheduling.</p>
+    <p style="margin:0;"><strong>Key principle:</strong> AI generates, humans approve. The automation handles the logistics of moving content between tools.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pattern 4: Transform → Reformat → Deliver</div>
+    <p>Take data in one format and convert it for a different audience or platform.</p>
+    <p><strong>Example — Meeting Notes to Action Items:</strong> Zoom meeting ends → transcript is saved to Google Drive → Make sends transcript to Claude → Claude extracts action items with owners and deadlines → action items are created as tasks in Asana → summary is posted to the project Slack channel.</p>
+    <p style="margin:0;"><strong>This is where AI Operators shine:</strong> The transformation step (messy transcript → clean action items) is impossible with traditional automation but trivial for AI.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Pattern 5: Collect → Analyse → Report</div>
+    <p>Aggregate data from multiple sources and generate a human-readable report.</p>
+    <p><strong>Example — Weekly Business Dashboard:</strong> Zapier pulls data from Stripe (revenue), Google Analytics (traffic), Mailchimp (email stats), and Instagram (engagement) every Monday → All data lands in a Google Sheet → Claude reads the sheet and writes a 3-paragraph executive summary highlighting what went up, what went down, and what to focus on this week → Summary is emailed to the team.</p>
+    <p style="margin:0;"><strong>Without AI:</strong> Someone manually writes that summary for 45 minutes every Monday. With AI + automation: it's generated and delivered before you open your laptop.</p>
+  </div>
+
+  <h2>No-Code Automation Deep Dive: Core Concepts</h2>
+  <p>If you're going to build automations — and as an AI Operator, you will — you need to understand these concepts regardless of which platform you use:</p>
+
+  <div class="card">
+    <p><strong>Data mapping:</strong> When data moves between apps, field names don't always match. "Full Name" in a Google Form might need to split into "First Name" and "Last Name" in your CRM. Understanding how data maps between tools is 70% of building automations that don't break.</p>
+    <p><strong>Error handling:</strong> What happens when an automation fails? A good automation has a fallback: retry once, then send a Slack notification with the error details so you can fix it manually. A bad automation fails silently and you don't find out until a client asks why they never got their confirmation email.</p>
+    <p><strong>Rate limits and quotas:</strong> Free tiers have limits (Zapier: 100 tasks/month, Make: 1,000 operations/month). Plan your automations knowing how often they'll fire. A workflow that triggers on every email will burn through limits fast; one that runs once daily is more sustainable.</p>
+    <p><strong>Testing before deploying:</strong> Always run your automation with test data before letting it handle real work. Send yourself the test email. Check the test row in the spreadsheet. Verify the test Slack message. Never go live with an untested automation.</p>
+    <p style="margin:0;"><strong>Documentation:</strong> Write a one-liner for every automation you build: "WHAT it does, WHEN it triggers, WHERE the data goes." Future you (or the person who inherits your work) will thank you. Store these in a central doc — your Automation Registry.</p>
+  </div>
+
+  <h2>Running a Business with AI + Automation: The Full Picture</h2>
+  <p>Here's what running an entire business operation looks like when you combine AI, automation, and human judgment as an AI Operator:</p>
+
+  <table>
+    <thead><tr><th>Business Function</th><th>Traditional (Manual)</th><th>AI Operator Approach</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:600;color:var(--white);">Lead Generation</td><td>Check forms, copy data, send emails one by one</td><td>Form → CRM auto-entry → AI personalises welcome email → auto-sends → you review exceptions</td></tr>
+      <tr><td style="font-weight:600;color:var(--white);">Content Creation</td><td>Brainstorm, write, edit, format, post — each platform manually</td><td>AI generates drafts from content pillars → you edit → automation schedules across 4 platforms</td></tr>
+      <tr><td style="font-weight:600;color:var(--white);">Client Reporting</td><td>Pull data from 5 tools, build spreadsheet, write summary, send email</td><td>Automation pulls data → AI writes executive summary → auto-delivered every Monday at 8am</td></tr>
+      <tr><td style="font-weight:600;color:var(--white);">Meeting Follow-Up</td><td>Type notes during call, distribute after, create tasks manually</td><td>AI processes transcript → extracts action items → automation creates tasks + sends summary</td></tr>
+      <tr><td style="font-weight:600;color:var(--white);">Inbox Management</td><td>Read every email, decide, respond, file — one at a time</td><td>AI triages by urgency → drafts responses → you review and send → automation files and logs</td></tr>
+      <tr><td style="font-weight:600;color:var(--white);">Social Listening</td><td>Manually search platforms for brand mentions and competitor activity</td><td>Monitoring triggers alerts → AI analyses sentiment → routes to right team member with context</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card card-accent">
+    <div class="card-title">Your edge as an AI Operator</div>
+    <p style="margin:0;">A single person using AI + automation can deliver the operational output of a 3-4 person team. That's not a theory — it's what this training is building toward. By the end of this program, you'll have the skills to design, build, and maintain these systems. The question isn't whether you can learn this. It's how fast you'll implement it.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
+    <button class="btn btn-primary" onclick="goTo(2)">Decision Framework &rarr;</button>
+  </div>
+</section>
+
+<!-- S2: DECISION FRAMEWORK -->
+<section class="section" id="s2">
+  <h1>The Decision Framework</h1>
+  <p class="section-subtitle">Five questions that always lead you to the right tool. Learn to run through these automatically — it takes under 30 seconds once it's a habit.</p>
+  <div class="timer-badge">&#9201; 20 min</div>
+
+  <div class="card" style="padding:24px;">
+    <div class="decision-step">
+      <div class="decision-num">1</div>
+      <div class="decision-content">
+        <div class="decision-q">What type of task is it?</div>
+        <div class="decision-routes">
+          Writing, editing, summarising → <span>Chat AI (Claude or ChatGPT)</span><br>
+          Finding current information → <span>Research AI (Perplexity)</span><br>
+          Multi-step web tasks → <span>Agent (Manus)</span><br>
+          Creating a video → <span>Video AI (HeyGen)</span><br>
+          Building or debugging code → <span>Coding AI (Claude Code)</span><br>
+          Connecting apps or automating repetitive steps → <span>No-Code Automation (Zapier, Make)</span>
+        </div>
+      </div>
+    </div>
+    <div class="decision-step">
+      <div class="decision-num">2</div>
+      <div class="decision-content">
+        <div class="decision-q">Does this information need to be current?</div>
+        <div class="decision-routes">
+          Yes — competitor pricing, news, recent events → <span>Perplexity or an Agent, not Chat AI</span><br>
+          No — general knowledge, writing tasks, analysis → <span>Chat AI is fine</span>
+        </div>
+      </div>
+    </div>
+    <div class="decision-step">
+      <div class="decision-num">3</div>
+      <div class="decision-content">
+        <div class="decision-q">How long or complex is the input?</div>
+        <div class="decision-routes">
+          Long document (50+ pages, full transcripts) → <span>Claude (largest context window)</span><br>
+          Multiple sources to cross-reference → <span>Agent or Claude with uploads</span><br>
+          Short, focused input → <span>Any Chat AI works</span>
+        </div>
+      </div>
+    </div>
+    <div class="decision-step">
+      <div class="decision-num">4</div>
+      <div class="decision-content">
+        <div class="decision-q">What tools is the client already using?</div>
+        <div class="decision-routes">
+          Google Workspace (Docs, Gmail, Sheets) → <span>Gemini may be the most seamless</span><br>
+          Slack + Files + Calendar (desktop) → <span>Claude in Cowork mode</span><br>
+          No strong preference → <span>Claude is the default</span>
+        </div>
+      </div>
+    </div>
+    <div class="decision-step">
+      <div class="decision-num">5</div>
+      <div class="decision-content">
+        <div class="decision-q">Is this a repeating task with the same steps every time?</div>
+        <div class="decision-routes">
+          Yes, same steps, no judgment required → <span>Automate it (Zapier / Make / Airtable)</span><br>
+          Yes, but each instance needs thinking → <span>AI tool (Claude / ChatGPT) — save a reusable prompt</span><br>
+          No, it's a one-off → <span>Use the best tool for the task type (Question 1)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>When Tools Overlap — How to Choose</h2>
+  <p>Sometimes two tools could both work. Here's how to break the tie:</p>
+  <table>
+    <thead><tr><th>Scenario</th><th>Claude</th><th>ChatGPT</th><th>Winner</th></tr></thead>
+    <tbody>
+      <tr><td>Summarise a 60-page contract</td><td>Handles full doc in one go</td><td>May need chunking</td><td style="color:var(--accent);font-weight:600;">Claude</td></tr>
+      <tr><td>10 creative hook variations for social media</td><td>Good</td><td>Often more varied and playful</td><td style="color:var(--accent);font-weight:600;">ChatGPT</td></tr>
+      <tr><td>Draft email in client's exact style</td><td>Excellent with examples</td><td>Good with examples</td><td style="color:var(--accent);font-weight:600;">Either — use the one you know best</td></tr>
+      <tr><td>Research competitor pricing</td><td>Only knows training data</td><td>Only knows training data</td><td style="color:var(--accent);font-weight:600;">Perplexity</td></tr>
+      <tr><td>Client lives in Google Workspace</td><td>Requires copy-paste</td><td>Requires copy-paste</td><td style="color:var(--accent);font-weight:600;">Gemini</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">🔁</div>
+    <div class="callout-body"><strong>The tools are changing faster than this course updates.</strong> The categories won't. When a new AI tool launches, ask: which category does it belong to? That tells you what it's for and when to use it.</div>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">&larr; AI Landscape</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Privacy & Data Safety &rarr;</button>
+  </div>
+</section>
+
+<!-- S3: PRIVACY & DATA SAFETY -->
+<section class="section" id="s3">
+  <h1>Privacy & Data Safety</h1>
+  <p class="section-subtitle">VAs handle sensitive client information every day. Before you paste anything into an AI tool, you need to know what you're allowed to share — and what can go wrong if you don't.</p>
+  <div class="timer-badge">&#9201; 15 min</div>
+
+  <div class="card card-red">
+    <div class="card-title">This is not optional</div>
+    <p style="margin:0;">Privacy and data security is a professional responsibility. Mishandling client data — even unintentionally — can damage trust, breach contracts, and in some cases create legal issues. This section is mandatory knowledge for every VA at KeyPlayers HQ.</p>
+  </div>
+
+  <h2>What Happens to What You Type Into AI?</h2>
+  <p>When you type something into Claude, ChatGPT, or any AI tool, that text is sent to their servers. Here's what typically happens next:</p>
+
+  <div class="card">
+    <div class="security-item">
+      <div class="security-icon">🖥️</div>
+      <div class="security-content">
+        <strong>It's processed on their servers</strong>
+        The text you input is used to generate the response. It passes through the company's infrastructure.
+      </div>
+    </div>
+    <div class="security-item">
+      <div class="security-icon">📊</div>
+      <div class="security-content">
+        <strong>It may be used to improve their model (on free plans)</strong>
+        Many AI companies use conversation data from free-tier accounts to train future models. Paid plans typically offer the option to opt out of this.
+      </div>
+    </div>
+    <div class="security-item">
+      <div class="security-icon">👤</div>
+      <div class="security-content">
+        <strong>It's tied to your account</strong>
+        Your conversation history is stored and associated with your account. Anyone with access to your account can see it.
+      </div>
+    </div>
+    <div class="security-item">
+      <div class="security-icon">🔒</div>
+      <div class="security-content">
+        <strong>It is not shared with other users</strong>
+        Your conversations are private to your account. Other users cannot see what you typed. However, the company's staff and systems may access it.
+      </div>
+    </div>
+  </div>
+
+  <h2>What You Must NEVER Paste Into AI Tools</h2>
+  <p>The following types of information should never go into an AI chatbot unless the company has specifically approved a secure, enterprise-level tool:</p>
+
+  <table>
+    <thead><tr><th>Type of Data</th><th>Examples</th><th>Why It's Risky</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--red);font-weight:600;">Personal identifiers</td><td>Social Security numbers, passport numbers, date of birth</td><td>Could expose clients to identity theft</td></tr>
+      <tr><td style="color:var(--red);font-weight:600;">Financial data</td><td>Bank account numbers, credit card numbers, revenue figures marked confidential</td><td>Financial regulations may apply; breach of client trust</td></tr>
+      <tr><td style="color:var(--red);font-weight:600;">Passwords & login credentials</td><td>Any login details for client systems</td><td>Severe security risk — never paste these anywhere</td></tr>
+      <tr><td style="color:var(--red);font-weight:600;">Confidential contracts</td><td>NDAs, partnership terms, pending deals</td><td>Legal exposure for the client if terms are leaked</td></tr>
+      <tr><td style="color:var(--red);font-weight:600;">Private health information</td><td>Medical records, health history</td><td>HIPAA and privacy laws apply</td></tr>
+      <tr><td style="color:var(--red);font-weight:600;">Unreleased business plans</td><td>Product launches, M&A activity, pricing strategy</td><td>Could create competitive or legal problems</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What's Safe to Use AI For</h2>
+  <ul>
+    <li>Drafting emails with placeholder names (e.g., "[Client Name]" instead of the real name)</li>
+    <li>Summarising public information or general industry content</li>
+    <li>Brainstorming ideas that don't reference specific client data</li>
+    <li>Creating templates and frameworks</li>
+    <li>Editing or rewriting copy that's already been approved for public use</li>
+    <li>Working with anonymised data where identifying details have been removed</li>
+  </ul>
+
+  <h2>The Safe Substitution Method</h2>
+  <p>When you need AI to work on something that contains sensitive details, anonymise it first. Replace real names and details with placeholders, run the task, then fill in the real info manually afterward.</p>
+
+  <div class="card card-accent">
+    <div class="card-title">Example</div>
+    <p><strong>Original (don't paste this):</strong> "My client Marcus Webb runs Pacific Realty Group, earns $2.3M/year and is in the middle of acquiring a competitor. Write a summary email."</p>
+    <p style="margin:0;"><strong>Safe version:</strong> "My client [Real Estate Broker] runs a mid-size brokerage and is in an expansion phase. Write a summary email about their growth strategy." → Then replace [Real Estate Broker] manually with Marcus's name before sending.</p>
+  </div>
+
+  <h2>Ask Before You Paste</h2>
+  <p>When in doubt, ask yourself: <strong>"Would my client be comfortable seeing this in an AI company's training data?"</strong> If the answer is no — don't paste it. Use placeholders instead.</p>
+
+  <div class="callout">
+    <div class="callout-icon">🔐</div>
+    <div class="callout-body"><strong>When working with enterprise clients:</strong> Ask whether they have an approved AI policy. Some companies restrict which AI tools their contractors can use. Always follow the client's guidelines — even if they're more conservative than these.</div>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Decision Framework</button>
+    <button class="btn btn-primary" onclick="goTo(4)">Cheat Sheet &rarr;</button>
+  </div>
+</section>
+
+<!-- S4: CHEAT SHEET -->
+<section class="section" id="s4">
+  <h1>Quick Reference Cheat Sheet</h1>
+  <p class="section-subtitle">Save this page. Bookmark it. When you're not sure which tool to use, come back here.</p>
+  <div class="timer-badge">&#9201; 25 min</div>
+
+  <h2>Task &rarr; Tool Quick Reference</h2>
+  <table>
+    <thead><tr><th>Task</th><th>Best Tool</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Draft a client email</td><td>Claude / ChatGPT</td><td>Strong general writing — Claude for complex instructions, ChatGPT for casual tone</td></tr>
+      <tr><td>Summarise a 40-page PDF</td><td>Claude</td><td>Largest context window — handles full docs without chunking</td></tr>
+      <tr><td>Find competitor pricing</td><td>Perplexity</td><td>Live web search with cited sources — never trust Chat AI for current data</td></tr>
+      <tr><td>Generate 20 content ideas</td><td>ChatGPT</td><td>Often more creative variety for brainstorming tasks</td></tr>
+      <tr><td>Research with verifiable sources</td><td>Perplexity</td><td>Every claim links to its source — you can verify instantly</td></tr>
+      <tr><td>Browse 5 websites and compile data</td><td>Manus</td><td>Agent that can actually interact with websites — Chat AI cannot</td></tr>
+      <tr><td>Create a talking-head video</td><td>HeyGen</td><td>AI avatar video — no camera or editing needed</td></tr>
+      <tr><td>Work natively in Google Docs / Gmail</td><td>Gemini</td><td>Built into Google Workspace — no copy-paste required</td></tr>
+      <tr><td>Create a client Project with memory</td><td>Claude</td><td>Projects store persistent context across all conversations</td></tr>
+      <tr><td>Multi-step workflow with files + Slack</td><td>Claude (Cowork)</td><td>Connects to local files and apps — acts, doesn't just write</td></tr>
+      <tr><td>Complex strategic analysis</td><td>Claude Opus 4.6</td><td>Most powerful reasoning model — worth using for high-stakes decisions</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Free Tier Reality</h2>
+  <p>You don't need to pay for anything to practise. Here's what you get for free — and where the limits are:</p>
+  <table>
+    <thead><tr><th>Tool</th><th>Free Access</th><th>Paid Unlock</th></tr></thead>
+    <tbody>
+      <tr><td>Claude</td><td>Free tier — daily message limits apply, Sonnet model</td><td>~$20/month — Sonnet 4.6 + Opus 4.6, higher limits</td></tr>
+      <tr><td>ChatGPT</td><td>Free tier — GPT-4o with usage caps</td><td>~$20/month — more GPT-4o + o3 reasoning model</td></tr>
+      <tr><td>Gemini</td><td>Free with any Google account</td><td>Gemini Advanced — Gemini 2.5 Pro, Google Workspace integration</td></tr>
+      <tr><td>Perplexity</td><td>Free tier — ~5 Pro searches/day</td><td>~$20/month — unlimited Pro searches, file uploads</td></tr>
+      <tr><td>HeyGen</td><td>Free trial — limited video minutes</td><td>Paid plans based on video minutes</td></tr>
+      <tr><td>Manus</td><td>Limited free access</td><td>Paid plans for higher usage</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><strong>Don't pay for everything at once.</strong> Start with Claude's free tier. Master it. Then evaluate whether a paid plan is worth it based on your actual usage. Many professional VAs run effective workflows on one paid subscription and free tiers for everything else.</div>
+  </div>
+
+  <h2>Claude Best Practices for AI Operators</h2>
+  <p>Since Claude is the primary KP tool, here are the practices that separate amateur users from professionals. Build these habits now — they'll save you hundreds of hours over the next year. (Day 4 goes deeper on each of these with full walkthroughs and prompting patterns.)</p>
+
+  <div class="card card-accent">
+    <div class="card-title">1. Start every new client with a Project</div>
+    <p style="margin:0;">Don't work in one-off conversations. Create a Project for each client. Upload their brand guide, sample emails, SOPs, and write clear Project Instructions. This is a 20-minute setup that saves you 5+ minutes on every single task going forward — because Claude already knows who the client is.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">2. Use the right model for the right task</div>
+    <p><strong>Sonnet 4.6</strong> is your daily driver — use it for 90% of tasks (emails, content, summaries, SOPs). <strong>Opus 4.6</strong> is for complex analysis, long documents, or anything where getting it wrong has consequences. <strong>Haiku 4.5</strong> is for fast, repetitive tasks like classifying a list or quick rewrites.</p>
+    <p style="margin:0;">Using Opus for a simple email wastes tokens and time. Using Haiku for a strategic recommendation wastes quality. Match the model to the stakes.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">3. Never accept the first output</div>
+    <p style="margin:0;">The first response is a draft, not a deliverable. Read it. Find what's close and what's off. Give specific feedback: "The intro is too formal — make it conversational" or "Cut the second paragraph entirely and expand the CTA." Professional prompters iterate 2–4 rounds on anything important.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">4. Give Claude examples, not descriptions</div>
+    <p style="margin:0;">When you want Claude to match a specific style, don't describe the style — paste an example of it. "Write like this email" is 10x more effective than "write in a professional but warm tone with some personality." Show, don't tell.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">5. Use conversation history strategically</div>
+    <p style="margin:0;">Claude remembers everything in the current conversation. Use this. Start with research ("Tell me the key themes in this document"), then build on it ("Now write an email highlighting themes 2 and 4"). Each message builds on the last — you don't need to re-explain context that's already in the conversation.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">6. Break complex tasks into a chain</div>
+    <p style="margin:0;">Don't ask Claude to "create a full content strategy with 30 posts and a calendar." Instead: (1) "Give me 5 content pillars for this client" → review → (2) "Using Pillar 2, generate 8 post ideas" → pick 3 → (3) "Write full posts for ideas 1, 4, and 6." Each step is reviewable. Errors get caught early.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">7. Save your best prompts</div>
+    <p style="margin:0;">Every time Claude produces excellent output, save the prompt that got you there. Build a "Prompt Library" — a doc or folder with your proven prompts organised by task type. Over time, this becomes one of your most valuable professional assets. You'll never start from scratch again.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">8. Upload files instead of pasting text</div>
+    <p style="margin:0;">When working with documents, upload the file directly to Claude rather than copying and pasting sections. Claude reads the full document, preserves formatting, and can reference specific parts. Pasting long text into the chat window often loses structure and context.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">9. Tell Claude what NOT to do</div>
+    <p style="margin:0;">Negative constraints are just as powerful as positive ones. "Do not start the email with 'I hope this finds you well.'" "Do not use buzzwords." "Do not add a summary at the end." "Do not invent statistics." These guardrails prevent the most common problems before they happen.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">10. Verify facts, always</div>
+    <p style="margin:0;">Claude will state incorrect information with complete confidence. Always check dates, names, statistics, URLs, and any factual claim before including it in client deliverables. Use Perplexity to verify anything time-sensitive. Your reputation depends on the accuracy of what you deliver, not the speed at which you produce it.</p>
+  </div>
+
+  <h2>No-Code Automation Quick Reference</h2>
+  <table>
+    <thead><tr><th>Task</th><th>Best Automation Tool</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>New form lead → CRM + email</td><td>Zapier</td><td>Simple trigger-action, wide app support</td></tr>
+      <tr><td>Complex lead routing with conditions</td><td>Make</td><td>Visual branching logic, handles if/else</td></tr>
+      <tr><td>Auto-update records when status changes</td><td>Airtable Automations</td><td>Data and trigger live in the same place</td></tr>
+      <tr><td>Custom report from Google Sheet</td><td>Google Apps Script</td><td>Runs natively in Google, AI can write the script</td></tr>
+      <tr><td>Social media post scheduling</td><td>Zapier + Buffer</td><td>Claude writes, Zapier pushes to scheduler</td></tr>
+      <tr><td>Invoice tracking and reminders</td><td>Zapier or Make</td><td>Connect invoicing tool to email/Slack for alerts</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(3)">&larr; Privacy</button>
+    <button class="btn btn-primary" onclick="goTo(5)">Exercises &rarr;</button>
+  </div>
+</section>
+
+<!-- S5: EXERCISES -->
+<section class="section" id="s5">
+  <h1>Exercises & Homework</h1>
+  <p class="section-subtitle">Apply the Decision Framework to real scenarios, build your personal tool map, and practise safe data handling.</p>
+  <div class="timer-badge">&#9201; 40 min</div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">Tool Matching</span></div>
+    <p>For each scenario below, pick the best tool and explain why in one sentence. Then check your answers.</p>
+    <ol>
+      <li>"Can you find out what our top 3 competitors are charging right now?"</li>
+      <li>"Write me a LinkedIn post about why hiring remote talent beats hiring local."</li>
+      <li>"I need a 2-minute welcome video for new clients but I don't want to be on camera."</li>
+      <li>"Summarise this 55-page partnership agreement and pull out the key obligations."</li>
+      <li>"Go to these 6 websites, pull their team page info, and put it in a spreadsheet."</li>
+      <li>"I want to draft emails inside Gmail without switching tabs."</li>
+      <li>"Analyse this 3-month content calendar and tell me what's missing."</li>
+    </ol>
+    <details>
+      <summary>Show Answers</summary>
+      <div>
+        <ol>
+          <li><strong>Perplexity</strong> — live web search with verifiable sources. Chat AI only knows historical pricing.</li>
+          <li><strong>Claude or ChatGPT</strong> — straightforward writing task. Either works; use whichever you're more comfortable with.</li>
+          <li><strong>HeyGen</strong> — AI avatar video. Write the script, choose an avatar, done. No camera needed.</li>
+          <li><strong>Claude</strong> — best at handling long documents without losing context or needing to be split into chunks.</li>
+          <li><strong>Manus</strong> — multi-step browsing and data extraction. An agent that can interact with websites, not just read them.</li>
+          <li><strong>Gemini</strong> — native Google integration means it works inside Gmail and Docs without copy-pasting.</li>
+          <li><strong>Claude</strong> — excellent for analysis tasks where you upload a file and want structured, reasoned output.</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Build Your Personal Tool Map</span></div>
+    <p>List the 5 tasks you do most often as a VA. For each one:</p>
+    <ol>
+      <li>Write the task</li>
+      <li>Run it through the Decision Framework (5 questions)</li>
+      <li>Identify the best tool</li>
+      <li>Note any data safety considerations for this task</li>
+    </ol>
+    <p style="margin:0;">This becomes your personal cheat sheet — specific to how you actually work, not generic advice.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">Data Safety Audit</span></div>
+    <p>Look at the last 3 things you prompted into an AI tool (or think of 3 common prompts you'd use). For each one, ask:</p>
+    <ul>
+      <li>Does this include any personally identifiable information?</li>
+      <li>Does this include any financial or legal information marked confidential?</li>
+      <li>Would I be comfortable if the client saw this in a data review?</li>
+    </ul>
+    <p>If any answer is "no" — rewrite the prompt using the Safe Substitution Method (replace real data with placeholders).</p>
+    <p style="margin:0;">This is a habit to build now, not something to learn after a mistake.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Side-by-Side Comparison</span></div>
+    <p>Use the exact same prompt on Claude and ChatGPT:</p>
+    <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin:14px 0;font-family:monospace;font-size:13px;color:#d4d4d8;">You are a social media manager for a boutique fitness studio chain. Write a LinkedIn post about why group fitness studios should invest in community-building over paid ads. Tone: direct, smart, no corporate filler. Under 150 words. End with a question.</div>
+    <p style="margin:0;">Compare the outputs. Which tool produced something closer to your ideal? What was different? Save both. This trains your intuition for which tool fits which task.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Automation Opportunity Finder</span></div>
+    <p>Think about your daily workflow. List every task you do that follows the same steps every time — the ones where you're basically a human copy-paste machine. For each one, answer:</p>
+    <ol>
+      <li>What triggers this task? (A new email? A form submission? A calendar event? A Slack message?)</li>
+      <li>What are the exact steps you follow?</li>
+      <li>Which apps are involved?</li>
+      <li>Could Zapier or Make handle this without you? If yes — write the trigger → action flow.</li>
+    </ol>
+    <p style="margin:0;">The operators who earn the most are the ones who automate themselves out of repetitive work — so they can focus on the high-judgment tasks that actually require a human.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 6</span><span class="exercise-title">Claude Best Practice Application</span></div>
+    <p>Pick any task you've recently done with AI (or make one up). Write the prompt using at least 5 of the 10 Claude best practices from the Cheat Sheet. Specifically:</p>
+    <ul>
+      <li>Include a role and clear task (Best Practice #1 mindset)</li>
+      <li>Add at least 2 negative constraints — things Claude should NOT do (Best Practice #9)</li>
+      <li>Paste or reference an example of what good output looks like (Best Practice #4)</li>
+      <li>Plan your iteration: before running it, write down what you'll check and how you'll refine (Best Practice #3)</li>
+    </ul>
+    <p style="margin:0;">Run the prompt. Then iterate at least once. Compare your final output against what you would have gotten without following the best practices.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 7</span><span class="exercise-title">Group Discussion: AI + Automation Brainstorm</span></div>
+    <p>In pairs or small groups, pick one of these real client scenarios and design a combined AI + Automation workflow:</p>
+    <ul>
+      <li><strong>Scenario A:</strong> A coaching business gets 15 new leads per week from a Facebook ad. Currently, someone manually emails each lead, adds them to a spreadsheet, and assigns a follow-up task. Design the automated version.</li>
+      <li><strong>Scenario B:</strong> A real estate brokerage posts on LinkedIn 5 times a week. Currently, the VA writes each post from scratch, gets approval via email, then posts manually. Design the AI-assisted automated version.</li>
+      <li><strong>Scenario C:</strong> An agency sends weekly client reports. Currently, the VA manually pulls data from 3 sources, writes a summary, and emails it. Design the streamlined version.</li>
+    </ul>
+    <p style="margin:0;">For each scenario: What does AI handle? What does automation handle? What still requires a human? Present your workflow to the group.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Homework Before Day 4</div>
+    <p><strong>Task 1:</strong> Sign up for <strong>Claude</strong> (claude.ai) if you haven't already. Explore the interface for 10 minutes — look at Projects, Models, and how Artifacts appear.</p>
+    <p><strong>Task 2:</strong> Use <strong>Perplexity</strong> (perplexity.ai) to research one topic relevant to a client you support. Save the result and note which sources it cited.</p>
+    <p style="margin:0;"><strong>Task 3:</strong> Write your personal Tool Map from Exercise 2. Bring it to Day 4.</p>
+  </div>
+
+  <div class="card card-gold">
+    <div class="card-title">Day 3 Complete</div>
+    <p style="margin:0;">You now know the AI landscape, how to make fast tool decisions, what data you can and can't share with AI, and where to look when new tools launch. Tomorrow: a deep dive into <strong>Claude — the primary tool in the KP stack</strong> — and how to use it at a professional level.</p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(4)">&larr; Cheat Sheet</button>
+    <span style="color:var(--silver);font-size:13px;padding:10px;">End of Day 3</span>
+  </div>
+</section>
+
+</div></div>
+
+<script>
+let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const totalSections = sections.length;
+const completed = new Set();
+
+function goTo(n) {
+  completed.add(currentSection);
+  currentSection = n;
+  sections.forEach((el, i) => el.classList.toggle('active', i === n));
+  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
+  const pct = Math.round((completed.size / totalSections) * 100);
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('overlay')?.classList.toggle('show');
+}
+</script>
+</body>
+</html>

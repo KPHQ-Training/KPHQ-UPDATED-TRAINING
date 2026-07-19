@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>n8n If/Else Logic | Real Estate EA | KeyPlayers VA Academy</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070B09;--bg-2:#0A100D;--panel:#0E1512;--panel-2:#121A15;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--orange:#FB923C;--orange-soft:rgba(251,146,60,0.09);--pink:#E879F9;--pink-soft:rgba(232,121,249,0.09);--r:14px;--font:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased}
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(7,11,9,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .brand{font-size:15px;font-weight:700;color:var(--ink)}.brand span{color:var(--accent)}
+  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--pink-soft);border:1px solid rgba(232,121,249,0.25);color:var(--pink);font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;letter-spacing:0.4px}
+  .wrap{max-width:820px;margin:0 auto;padding:52px 28px 80px}
+  .hero{margin-bottom:48px}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  h1{font-size:36px;font-weight:800;color:var(--ink);letter-spacing:-0.8px;line-height:1.1;margin-bottom:14px}
+  .lead{font-size:16.5px;color:var(--muted);line-height:1.65;max-width:640px}
+  .toc{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:32px 0 48px}
+  .toc-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .toc ol{padding-left:20px;margin:0}
+  .toc li{margin-bottom:6px;font-size:14px}
+  .toc a{color:var(--muted);text-decoration:none;transition:color .15s}
+  .toc a:hover{color:var(--accent)}
+  .section{margin-bottom:56px}
+  h2{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-0.3px;margin-bottom:6px}
+  .section-sub{font-size:14px;color:var(--dim);margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+  h3{font-size:15.5px;font-weight:600;color:var(--ink);margin:26px 0 8px}
+  h4{font-size:14px;font-weight:600;color:var(--ink);margin:18px 0 6px}
+  p{margin-bottom:14px;color:var(--muted)}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:8px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  code{background:var(--panel-2);padding:2px 7px;border-radius:5px;font-size:13px;color:var(--accent);font-family:'SF Mono','Consolas',monospace}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:16px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}
+  .card-orange{border-left:3px solid var(--orange)}
+  .card-pink{border-left:3px solid var(--pink)}
+  .card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:10px}
+  .card-orange .card-head{color:var(--orange)}
+  .card-gold .card-head{color:var(--gold)}
+  .card-danger .card-head{color:var(--danger)}
+  .card-pink .card-head{color:var(--pink)}
+  .card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .analogy{background:linear-gradient(135deg,rgba(93,169,244,0.06),rgba(34,197,94,0.03));border:1px solid rgba(93,169,244,0.2);border-radius:var(--r);padding:18px 20px;margin:18px 0}
+  .analogy-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:8px}
+  .analogy p{margin:0;color:var(--ink);font-size:14.5px;line-height:1.65}
+  .flow{display:flex;flex-direction:column;gap:0;margin:20px 0}
+  .flow-row{display:flex;align-items:stretch;gap:0}
+  .flow-node{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .flow-node-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:5px}
+  .flow-node-title{font-size:14px;font-weight:600;color:var(--ink)}
+  .flow-node-sub{font-size:12px;color:var(--dim);margin-top:3px;line-height:1.4}
+  .flow-branch-connector{display:flex;justify-content:center;padding:8px 0;color:var(--dim);font-size:14px}
+  .flow-branch{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .flow-switch-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .flow-switch-grid-4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .branch-yes{border-color:rgba(34,197,94,0.3)!important;background:rgba(34,197,94,0.05)!important}
+  .branch-yes .flow-node-label{color:var(--accent)}
+  .branch-no{border-color:rgba(248,113,113,0.3)!important;background:rgba(248,113,113,0.05)!important}
+  .branch-no .flow-node-label{color:var(--danger)}
+  .branch-gold{border-color:rgba(234,179,8,0.3)!important;background:rgba(234,179,8,0.05)!important}
+  .branch-gold .flow-node-label{color:var(--gold)}
+  .branch-blue{border-color:rgba(93,169,244,0.3)!important;background:rgba(93,169,244,0.05)!important}
+  .branch-blue .flow-node-label{color:var(--secure)}
+  .node-trig{border-color:rgba(234,179,8,0.3)!important;background:rgba(234,179,8,0.05)!important}
+  .node-trig .flow-node-label{color:var(--gold)}
+  .node-if{border-color:rgba(34,197,94,0.35)!important;background:rgba(34,197,94,0.06)!important}
+  .node-if .flow-node-label{color:var(--accent)}
+  .node-sw{border-color:rgba(93,169,244,0.35)!important;background:rgba(93,169,244,0.06)!important}
+  .node-sw .flow-node-label{color:var(--secure)}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .glossary{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+  .gterm{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+  .gterm-word{flex-shrink:0;min-width:100px;font-size:13px;font-weight:700;color:var(--accent)}
+  .gterm-def{font-size:13.5px;color:var(--muted);line-height:1.55}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:10px 14px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(34,197,94,0.02)}
+  .pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.3px}
+  .pill-green{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(34,197,94,0.25)}
+  .pill-blue{background:var(--secure-soft);color:var(--secure);border:1px solid rgba(93,169,244,0.25)}
+  .pill-gold{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(234,179,8,0.25)}
+  .pill-red{background:var(--danger-soft);color:var(--danger);border:1px solid rgba(248,113,113,0.2)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:20px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-q{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:8px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font);font-size:14px;font-weight:500;padding:12px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-fb{display:none;margin-top:12px;padding:13px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}
+  .quiz-reset{display:none;margin-top:10px;background:none;border:none;color:var(--dim);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .rule-box{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.07),rgba(34,197,94,0.04));border:1px solid rgba(234,179,8,0.22);border-radius:var(--r);padding:18px 20px 18px 52px;margin:22px 0}
+  .rule-icon{position:absolute;left:14px;top:18px;width:26px;height:26px;border-radius:7px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .rule-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+  .rule-box p{margin:0;color:var(--ink);font-size:15px;font-weight:500}
+  .step-list{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .step-num{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--accent);color:#04150B;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .step-body{flex:1;padding-top:4px}
+  .step-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px}
+  .step-desc{font-size:13.5px;color:var(--muted);line-height:1.55}
+  .step-sub{margin-top:8px;background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--muted);line-height:1.55}
+  .step-sub strong{color:var(--ink)}
+  .ui-hint{display:inline-flex;align-items:center;gap:5px;background:var(--panel-2);border:1px solid var(--border-2);border-radius:6px;padding:3px 9px;font-size:12.5px;font-weight:600;color:var(--ink);font-family:'SF Mono','Consolas',monospace}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--dim);text-decoration:none;font-size:13px;font-weight:500;margin-bottom:32px;transition:color .15s}
+  .back-link:hover{color:var(--accent)}
+  .divider{height:1px;background:var(--border);margin:48px 0}
+  .expr-box{background:var(--panel-2);border:1px solid var(--border-2);border-radius:10px;padding:14px 18px;margin:12px 0;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.9;color:var(--muted)}
+  .expr-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--dim);margin-bottom:8px;font-family:var(--font)}
+  .cp{color:var(--accent)}.cc{color:var(--ink)}.cm{color:var(--dim)}.cs{color:#FDA4AF}.ck{color:var(--secure)}
+  .node-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:0.3px;margin-bottom:10px}
+  .badge-if{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--accent)}
+  .badge-switch{background:rgba(93,169,244,0.1);border:1px solid rgba(93,169,244,0.3);color:var(--secure)}
+  @media(max-width:680px){.wrap{padding:32px 16px 60px}.compare,.flow-branch,.flow-switch-grid,.flow-switch-grid-4{grid-template-columns:1fr}h1{font-size:26px}.gterm{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Key<span>Players</span> <span style="color:var(--dim);font-weight:400;font-size:13px;margin-left:8px">VA Academy</span></div>
+  <div class="tag">n8n &middot; Real Estate EA &middot; Beginner</div>
+</div>
+
+<div class="wrap">
+  <a class="back-link" href="https://kphq-updated-training.vercel.app/">← Back to course</a>
+
+  <div class="hero">
+    <div class="eyebrow">Automation Supplement &mdash; n8n Cloud</div>
+    <h1>Smart Automations<br>with n8n</h1>
+    <p class="lead">A complete beginner's guide to building if/else logic in n8n &mdash; written for executive assistants supporting US real estate agents. No prior automation experience required.</p>
+  </div>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-label">What's in this guide</div>
+    <ol>
+      <li><a href="#what-is-n8n">What is n8n and why does it matter for your role?</a></li>
+      <li><a href="#key-terms">Key terms you need to know</a></li>
+      <li><a href="#getting-started">Getting started on n8n Cloud</a></li>
+      <li><a href="#what-is-condition">What is a condition?</a></li>
+      <li><a href="#if-node">The IF node: two-path decisions</a></li>
+      <li><a href="#building-if">Building your first IF node (step by step)</a></li>
+      <li><a href="#and-or">Multiple conditions: AND vs OR</a></li>
+      <li><a href="#switch-node">The Switch node: three or more paths</a></li>
+      <li><a href="#building-switch">Building your first Switch node (step by step)</a></li>
+      <li><a href="#expressions">What are expressions?</a></li>
+      <li><a href="#re-examples">Real estate EA workflow examples</a></li>
+      <li><a href="#mistakes">Common mistakes and how to avoid them</a></li>
+      <li><a href="#quick-ref">Quick reference</a></li>
+    </ol>
+  </div>
+
+  <!-- SECTION 1: WHAT IS N8N -->
+  <div class="section" id="what-is-n8n">
+    <h2>1. What is n8n and why does it matter for your role?</h2>
+    <div class="section-sub">The short version: it does repetitive tasks automatically, so you don't have to</div>
+
+    <p>n8n (pronounced "n-eight-n") is a tool that connects apps and automates tasks. Think of it as a set of digital instructions you build once, and then it runs on its own every time something happens &mdash; a new lead fills out a form, a Google Sheet row gets updated, a date arrives.</p>
+
+    <p>As an EA for a real estate agent, you deal with:</p>
+    <ul>
+      <li>New leads coming in from Zillow, the agent's website, or a form</li>
+      <li>Buyers and sellers at different stages of a transaction</li>
+      <li>Tasks that must happen at the right time (inspection deadlines, closing reminders)</li>
+      <li>Routine emails and follow-ups that feel the same every time</li>
+    </ul>
+
+    <p>Without automation, you handle all of this manually. With n8n, you build the rule once and the system handles it automatically every time it happens &mdash; even when you are not at your computer.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Real-world analogy</div>
+      <p>Imagine you told a very reliable assistant: <em>"Every time a new buyer form comes in, if their budget is over $500K, text the agent immediately. If it's under $500K, add them to the follow-up email list."</em> n8n is that assistant &mdash; except it never forgets, never sleeps, and handles dozens of leads at once.</p>
+    </div>
+
+    <div class="card card-pink">
+      <div class="card-head">n8n Cloud vs n8n self-hosted</div>
+      <p>n8n has two versions. <strong>n8n Cloud</strong> is the subscription version you access at <strong>app.n8n.cloud</strong> &mdash; it runs on the internet, you log in from any browser, and nothing needs to be installed. <strong>Self-hosted</strong> means running n8n on your own computer or server, which requires technical setup.</p>
+      <p style="margin:0">As a real estate EA, you will use <strong>n8n Cloud</strong>. Everything in this guide is written for that version. You do not need to install anything.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: KEY TERMS -->
+  <div class="section" id="key-terms">
+    <h2>2. Key terms you need to know</h2>
+    <div class="section-sub">Learn these six words and the rest of this guide will make sense</div>
+
+    <div class="glossary">
+      <div class="gterm">
+        <div class="gterm-word">Workflow</div>
+        <div class="gterm-def">The full automation from start to finish. A workflow is the entire sequence of steps &mdash; what starts it, what it checks, what it does. Think of it as one complete process, like "Handle new buyer lead."</div>
+      </div>
+      <div class="gterm">
+        <div class="gterm-word">Node</div>
+        <div class="gterm-def">A single step inside a workflow. Each box you see on the canvas is a node. One node might fetch data from a Google Sheet. Another might send a Gmail. Another might check a condition. Nodes connect to each other like a chain.</div>
+      </div>
+      <div class="gterm">
+        <div class="gterm-word">Trigger</div>
+        <div class="gterm-def">The first node in any workflow &mdash; the thing that starts everything. A trigger is always an event: "A form was submitted," "A Google Sheet row was changed," "It's 9am on Monday." Nothing runs until the trigger fires.</div>
+      </div>
+      <div class="gterm">
+        <div class="gterm-word">Action</div>
+        <div class="gterm-def">A node that does something: sends an email, posts a Slack message, creates a task, adds a row to a spreadsheet. Actions are the "results" of your workflow.</div>
+      </div>
+      <div class="gterm">
+        <div class="gterm-word">Condition</div>
+        <div class="gterm-def">A yes/no question the workflow asks before deciding what to do next. "Is this buyer pre-approved? Yes or no." The answer determines which path the workflow takes.</div>
+      </div>
+      <div class="gterm">
+        <div class="gterm-word">Canvas</div>
+        <div class="gterm-def">The visual workspace in n8n where you build your workflow. It looks like a blank whiteboard with nodes connected by lines. You drag, drop, and connect nodes here.</div>
+      </div>
+    </div>
+
+    <div class="rule-box">
+      <div class="rule-icon">💡</div>
+      <div class="rule-label">Read this first</div>
+      <p>Every workflow in n8n follows the same pattern: <strong>Trigger &rarr; (optional condition) &rarr; Action.</strong> Everything you build &mdash; no matter how complex it looks &mdash; is just a combination of these three things.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: GETTING STARTED -->
+  <div class="section" id="getting-started">
+    <h2>3. Getting started on n8n Cloud</h2>
+    <div class="section-sub">Signing up and finding your way around the interface</div>
+
+    <h3>Creating your account</h3>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Go to app.n8n.cloud and sign up</div>
+          <div class="step-desc">Open a browser and visit <strong>app.n8n.cloud</strong>. Click <strong>Sign up</strong> and create an account with your work email. n8n offers a free trial &mdash; no credit card required to start.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Create a new workflow</div>
+          <div class="step-desc">After logging in, you land on the <strong>Workflows</strong> page. Click <strong>+ New workflow</strong> (top right). A blank canvas opens. This is where you will build.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Understand the canvas layout</div>
+          <div class="step-desc">The canvas is the large blank area. At the top is the workflow name (click to rename it). On the right side is a small toolbar for zooming. In the center you will see an <strong>Add first step</strong> button &mdash; that is where every workflow begins.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Learn the + button</div>
+          <div class="step-desc">Every node has a <strong>+</strong> (plus) button on its right edge. Clicking it opens the node picker &mdash; a search panel where you can find and add the next step. This is how you build a chain of nodes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-head">What you will see when you open the node picker</div>
+      <p>The picker shows a search bar and categories: <strong>Actions, Triggers, Data transformation, Flow,</strong> and more. For conditional logic, you will always look in the <strong>Flow</strong> category &mdash; that is where the IF node and Switch node live.</p>
+      <p style="margin:0">For connecting real estate apps (Gmail, Google Sheets, Typeform, Calendly, Slack), search the app name directly in the search bar.</p>
+    </div>
+
+    <h3>What a real estate EA workflow looks like visually</h3>
+    <p>Here is how a simple lead-routing workflow looks on the canvas &mdash; three nodes connected left to right:</p>
+
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-node node-trig">
+          <div class="flow-node-label">Node 1 &mdash; Trigger</div>
+          <div class="flow-node-title">Typeform: Buyer Intake submitted</div>
+          <div class="flow-node-sub">Starts the workflow when a new form comes in</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 10px;color:var(--dim);font-size:18px">→</div>
+        <div class="flow-node node-if">
+          <div class="flow-node-label">Node 2 &mdash; Condition (IF)</div>
+          <div class="flow-node-title">Is budget over $500K?</div>
+          <div class="flow-node-sub">Checks a rule &mdash; sends data left or right</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 10px;color:var(--dim);font-size:18px">→</div>
+        <div class="flow-node" style="border-color:rgba(251,146,60,0.3);background:rgba(251,146,60,0.05)">
+          <div class="flow-node-label" style="color:var(--orange)">Node 3 &mdash; Action</div>
+          <div class="flow-node-title">Send Slack alert to agent</div>
+          <div class="flow-node-sub">Does something with the result</div>
+        </div>
+      </div>
+    </div>
+
+    <p>Each arrow on the canvas is a connection you draw by dragging from one node's output dot to the next node's input dot.</p>
+  </div>
+
+  <!-- SECTION 4: WHAT IS A CONDITION -->
+  <div class="section" id="what-is-condition">
+    <h2>4. What is a condition?</h2>
+    <div class="section-sub">The "only if" rule that makes your automation smart</div>
+
+    <p>Without a condition, every workflow runs the same steps every time. It does not matter who the lead is, what stage the deal is at, or how urgent the situation is &mdash; the same email goes out, the same task gets created.</p>
+    <p>A condition adds judgment. It pauses the workflow, asks a yes/no question about the data, and then takes a different path depending on the answer.</p>
+
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label">Without a condition</div>
+        New lead submits buyer form &rarr; Send one generic follow-up email.<br><br>
+        A $1.2M cash buyer ready to close in 30 days gets the same email as someone who clicked an ad with no budget and no pre-approval. The agent never knows to prioritize.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label">With a condition (IF node)</div>
+        New lead submits buyer form &rarr; <strong>Is budget over $500K AND pre-approved?</strong><br>
+        Yes: agent gets an immediate Slack alert + a "Call within 1 hour" task is created.<br>
+        No: lead enters a 5-day automated email sequence.<br><br>
+        The agent knows immediately who needs their attention.
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-label">Think of it like a phone tree</div>
+      <p>You have used automated phone systems that say "Press 1 for sales, press 2 for support." That is a condition &mdash; depending on what you press (the data), the call goes somewhere different. n8n conditions work the same way, but with your real estate data instead of key presses.</p>
+    </div>
+
+    <h3>Every condition has three parts</h3>
+    <table>
+      <thead><tr><th>Part</th><th>What it is</th><th>Real estate example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The field</strong></td><td>The piece of data you are checking</td><td>The buyer's budget amount</td></tr>
+        <tr><td><strong>The operator</strong></td><td>How you are comparing it</td><td>"is greater than"</td></tr>
+        <tr><td><strong>The value</strong></td><td>What you are comparing it against</td><td>500000</td></tr>
+      </tbody>
+    </table>
+    <p>Together they form one rule: <em>Budget is greater than 500000.</em> That is a complete condition.</p>
+  </div>
+
+  <!-- SECTION 5: THE IF NODE -->
+  <div class="section" id="if-node">
+    <h2>5. The IF node: two-path decisions</h2>
+    <div class="section-sub">One condition, two possible routes &mdash; true and false</div>
+
+    <div class="node-badge badge-if">IF node &mdash; found under Flow in the node picker</div>
+
+    <p>The IF node is n8n's main conditional tool. You give it one question to ask. Based on the answer, it sends the data one of two ways:</p>
+    <ul>
+      <li><strong>True output</strong> &mdash; the condition was met. The data goes this way.</li>
+      <li><strong>False output</strong> &mdash; the condition was not met. The data goes this way instead.</li>
+    </ul>
+
+    <p>The big difference from other tools you may have heard of (like Zapier's free Filter): in n8n, <strong>both the true and false outputs are usable</strong>. You can connect a different action to each one. You are not forced to just "stop" when the condition fails.</p>
+
+    <h3>What it looks like on the canvas</h3>
+    <p>The IF node appears as a box with <strong>two output dots on the right side</strong> &mdash; one labeled <strong>true</strong> (top) and one labeled <strong>false</strong> (bottom). You drag a separate wire from each output to a different next step.</p>
+
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-node node-trig">
+          <div class="flow-node-label">Trigger</div>
+          <div class="flow-node-title">New buyer intake form submitted</div>
+          <div class="flow-node-sub">Typeform, Google Forms, or website form</div>
+        </div>
+      </div>
+      <div class="flow-branch-connector">↓</div>
+      <div class="flow-row">
+        <div class="flow-node node-if">
+          <div class="flow-node-label">IF Node</div>
+          <div class="flow-node-title">Is budget greater than $500,000?</div>
+          <div class="flow-node-sub">Checks the budget field &mdash; routes to true or false output</div>
+        </div>
+      </div>
+      <div class="flow-branch-connector">↙&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘</div>
+      <div class="flow-branch">
+        <div class="flow-node branch-yes">
+          <div class="flow-node-label">True output &mdash; High-value buyer</div>
+          <div class="flow-node-title">Slack alert to agent + "Call in 1hr" task</div>
+          <div class="flow-node-sub">Agent is notified immediately with full details</div>
+        </div>
+        <div class="flow-node branch-no">
+          <div class="flow-node-label">False output &mdash; Standard buyer</div>
+          <div class="flow-node-title">Add to Gmail drip sequence + 24hr follow-up task</div>
+          <div class="flow-node-sub">Enters automated nurture, no immediate agent alert</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <div class="quiz-tag">✦ Check your understanding</div>
+      <div class="quiz-q">A buyer submits the intake form with a budget of $300,000. Your IF node checks: "Is budget greater than 500000?" Which output does the data go to?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="pick(this)" data-correct="false" data-why="$300,000 does not meet the condition 'greater than $500,000', so the condition is false. The data routes to the false output."><span class="qmark">○</span> True output &mdash; the agent gets a Slack alert</button>
+        <button class="quiz-opt" onclick="pick(this)" data-correct="true" data-why="Correct. $300,000 is not greater than $500,000, so the condition is false. The data goes to the false output and enters the drip sequence instead of alerting the agent."><span class="qmark">○</span> False output &mdash; the lead enters the drip sequence</button>
+        <button class="quiz-opt" onclick="pick(this)" data-correct="false" data-why="The IF node always sends data to one of its two outputs. It does not stop or discard the data unless you leave the false output unwired intentionally."><span class="qmark">○</span> Neither &mdash; the workflow stops</button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="reset(this)">Reset</button>
+    </div>
+  </div>
+
+  <!-- SECTION 6: BUILDING AN IF NODE -->
+  <div class="section" id="building-if">
+    <h2>6. Building your first IF node (step by step)</h2>
+    <div class="section-sub">Literal instructions &mdash; exactly what to click and where</div>
+
+    <div class="card card-gold">
+      <div class="card-head">Before you start &mdash; run the trigger first</div>
+      <p>When you open the IF node settings, you need to map a field from your trigger. But n8n can only show you those fields if it has seen real data first. Before touching the IF node, click <strong>Test workflow</strong> and submit one test entry through your trigger (fill out the form, update a row in the sheet, etc.).</p>
+      <p style="margin:0">Once you do that, the data from your test appears inside the IF node and you can click to select fields instead of typing them manually. Skip this step and you will be working blind.</p>
+    </div>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Click the + button after your trigger node</div>
+          <div class="step-desc">On the right edge of your trigger node (the first box on the canvas), click the <strong>+</strong> button. The node picker panel opens on the right side of the screen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Search for "IF" and select it</div>
+          <div class="step-desc">In the search box at the top of the node picker, type <strong>IF</strong>. You will see "If" appear under the <strong>Flow</strong> category. Click it. The IF node appears on the canvas connected to your trigger.</div>
+          <div class="step-sub">You will see the IF node has two output dots on the right side &mdash; <strong>true</strong> (top) and <strong>false</strong> (bottom).</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Double-click the IF node to open its settings</div>
+          <div class="step-desc">A settings panel opens on the right side. You will see a section called <strong>Conditions</strong> with an <strong>Add condition</strong> button.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Click "Add condition" and set the data type</div>
+          <div class="step-desc">Click <strong>Add condition</strong>. A row appears with a dropdown on the left. This dropdown sets the <strong>data type</strong> &mdash; what kind of value you are checking.</div>
+          <div class="step-sub">
+            <strong>String</strong> = text values. Use for: lead type ("Buyer"/"Seller"), status ("Approved"), lead source ("Zillow").<br><br>
+            <strong>Number</strong> = numeric values. Use for: budget ($500,000), days on market (30), price per sq ft.<br><br>
+            <strong>Boolean</strong> = true/false values. Use for: pre-approved (yes/no), contract signed (yes/no).<br><br>
+            ⚠️ <strong>This matters a lot.</strong> If you set a price field as "String" and compare it as a number, the comparison will be wrong and leads will silently route to the wrong path. Set this correctly before anything else.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Map Value 1 to the field you want to check</div>
+          <div class="step-desc">Click inside the <strong>Value 1</strong> box. You will see a small <code>{"{{"}</code> icon appear. Click that icon to open the data picker. Your trigger's fields appear as a list &mdash; click the field you want to check (e.g. "budget" or "lead_type"). n8n fills in the expression automatically.</div>
+          <div class="step-sub"><strong>If the data picker shows no fields:</strong> close the IF node, click Test workflow, submit a test entry, then come back and try again. The fields only appear after n8n has seen real data.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Choose the operator</div>
+          <div class="step-desc">The middle dropdown is the operator &mdash; how you are comparing the field. Click it and choose the rule that fits your situation. Common ones for real estate:</div>
+          <div class="step-sub">
+            <strong>is equal to</strong> &mdash; the field must exactly match your value. Use for status fields ("Approved"), lead type ("Buyer"), lead source ("Zillow").<br><br>
+            <strong>is greater than</strong> &mdash; the number must be above your value. Use for budget, price, days on market.<br><br>
+            <strong>contains</strong> &mdash; the text includes your value anywhere. Use for notes fields (notes contains "cash offer"), email addresses, or any field where exact match is too strict.<br><br>
+            <strong>is not empty</strong> &mdash; the field has any value at all. Use to check if a phone number was provided before sending a text.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Type the comparison value in Value 2</div>
+          <div class="step-desc">Click <strong>Value 2</strong> and type what you are comparing against. For a budget check: <code>500000</code> (no dollar sign, no comma &mdash; just the number). For a status check: <code>Approved</code> (exact capitalization matters for "is equal to").</div>
+          <div class="step-sub">⚠️ <strong>Case sensitivity warning:</strong> "is equal to" is case-sensitive for String fields. "approved" will not match "Approved." Match the capitalization exactly as it appears in your form or sheet.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-body">
+          <div class="step-title">Connect the true output to your first action</div>
+          <div class="step-desc">Close the settings panel. On the IF node, find the output dot labeled <strong>true</strong> (top right). Click the <strong>+</strong> next to it, search for your action node (e.g. Slack, Gmail), and add it. This is what happens when the condition passes.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">9</div>
+        <div class="step-body">
+          <div class="step-title">Connect the false output to your second action</div>
+          <div class="step-desc">Find the output dot labeled <strong>false</strong> (bottom right). Click its <strong>+</strong> and add the action for when the condition fails. If you want nothing to happen when the condition fails, you can leave the false output unwired &mdash; the data simply stops there.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">10</div>
+        <div class="step-body">
+          <div class="step-title">Test with both a passing and a failing value</div>
+          <div class="step-desc">Click <strong>Test workflow</strong>. Submit one entry where the condition should pass (budget = 750000) and one where it should fail (budget = 200000). Watch the canvas &mdash; n8n highlights the path each item took. Confirm each went to the right output before activating the workflow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: AND / OR -->
+  <div class="section" id="and-or">
+    <h2>7. Multiple conditions: AND vs OR</h2>
+    <div class="section-sub">When one rule is not enough to make a decision</div>
+
+    <p>Sometimes one condition is not specific enough. You might not want to alert the agent for just any high-budget lead &mdash; you want to alert them for a high-budget lead who is <em>also</em> pre-approved and ready to move. For that, you add a second condition and combine them with AND.</p>
+    <p>Inside the IF node settings, after you add a second condition, a toggle appears at the top: <strong>AND</strong> or <strong>OR</strong>.</p>
+
+    <div class="compare">
+      <div class="col" style="background:rgba(93,169,244,0.06);border:1px solid rgba(93,169,244,0.2)">
+        <div class="col-label" style="color:var(--secure)">AND &mdash; every condition must pass</div>
+        Pre-approved = "Yes"<br>
+        AND Budget &gt; 400,000<br><br>
+        <strong>Both must be true</strong> for the item to go to the true output. If either one fails, it goes to false. Use AND when a lead must meet all your criteria together.
+      </div>
+      <div class="col" style="background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.2)">
+        <div class="col-label" style="color:var(--orange)">OR &mdash; any one condition is enough</div>
+        Lead source = "Referral"<br>
+        OR Notes contains "cash"<br><br>
+        <strong>If either is true</strong>, the item goes to the true output. Use OR when any one of several signals should trigger the same action.
+      </div>
+    </div>
+
+    <h3>How to add AND/OR conditions in n8n</h3>
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Open the IF node settings and add your first condition</div>
+          <div class="step-desc">Follow the same steps from Section 6. Set your first condition completely before adding a second one.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Click "Add condition" again</div>
+          <div class="step-desc">A second condition row appears below the first. A toggle labeled <strong>AND</strong> or <strong>OR</strong> appears between them (or at the top of the conditions block). It defaults to AND.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Set up the second condition exactly like the first</div>
+          <div class="step-desc">Choose the data type, map Value 1, choose the operator, and enter Value 2 for your second rule.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Choose AND or OR using the toggle</div>
+          <div class="step-desc">Click the toggle to switch between AND and OR. <strong>AND</strong> = all conditions must pass. <strong>OR</strong> = any one condition is enough. Pick the one that matches your decision logic.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-head">Real estate example: AND in action</div>
+      <p>You only want to create a priority task for buyers who are <strong>both</strong> pre-approved and have a budget over $400K. A buyer who is pre-approved for $200K is not a priority lead. A buyer with a $700K budget who is not pre-approved is not ready yet.</p>
+      <p style="margin:0">Condition 1 (String): pre_approved is equal to "Yes"<br>AND<br>Condition 2 (Number): budget is greater than 400000</p>
+    </div>
+  </div>
+
+  <!-- SECTION 8: THE SWITCH NODE -->
+  <div class="section" id="switch-node">
+    <h2>8. The Switch node: three or more paths</h2>
+    <div class="section-sub">When yes/no is not enough &mdash; for stages, lead sources, and client types</div>
+
+    <div class="node-badge badge-switch">Switch node &mdash; found under Flow in the node picker</div>
+
+    <p>The IF node is perfect for two outcomes. But real estate has situations with three, four, or more distinct outcomes from a single field. A transaction moves through multiple stages. Leads come from multiple sources. Each one might need a different action.</p>
+    <p>That is what the Switch node is for. Instead of two outputs, it has <strong>one output per rule you add</strong> &mdash; plus a fallback for anything that does not match.</p>
+
+    <div class="analogy">
+      <div class="analogy-label">Think of it like a post office sorter</div>
+      <p>A postal sorter reads the zip code on each envelope and sends it to a different bin: Bin 1 for 90210, Bin 2 for 10001, Bin 3 for 60601. Each envelope goes exactly where it belongs. Anything with an unrecognized zip code goes to a "miscellaneous" bin &mdash; that is your fallback output. The Switch node works the same way with your data.</p>
+    </div>
+
+    <h3>Example: Transaction stage routing</h3>
+    <p>Every time a row in your Transaction Tracker sheet is updated, the workflow checks the Stage field and triggers the right action for that stage automatically:</p>
+
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-node node-trig">
+          <div class="flow-node-label">Trigger</div>
+          <div class="flow-node-title">Google Sheets: Transaction Tracker row updated</div>
+          <div class="flow-node-sub">Fires whenever any row in the sheet changes</div>
+        </div>
+      </div>
+      <div class="flow-branch-connector">↓</div>
+      <div class="flow-row">
+        <div class="flow-node node-sw">
+          <div class="flow-node-label">Switch Node &mdash; checks the Stage field</div>
+          <div class="flow-node-title">What is the value of "Stage"?</div>
+          <div class="flow-node-sub">Routes to Output 1, 2, 3, 4, or fallback based on the value</div>
+        </div>
+      </div>
+      <div class="flow-branch-connector">4 outputs below &darr;</div>
+      <div class="flow-switch-grid-4">
+        <div class="flow-node branch-blue">
+          <div class="flow-node-label">Output 1 &mdash; "Under Contract"</div>
+          <div class="flow-node-title">Create inspection task (7-day deadline) + email TC</div>
+        </div>
+        <div class="flow-node branch-yes">
+          <div class="flow-node-label">Output 2 &mdash; "Inspection Done"</div>
+          <div class="flow-node-title">Create appraisal task + Slack: #transactions</div>
+        </div>
+        <div class="flow-node branch-gold">
+          <div class="flow-node-label">Output 3 &mdash; "Clear to Close"</div>
+          <div class="flow-node-title">Send closing checklist email to buyer/seller</div>
+        </div>
+        <div class="flow-node branch-no">
+          <div class="flow-node-label">Output 4 &mdash; "Closed"</div>
+          <div class="flow-node-title">Send thank-you + Google review request</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-danger" style="margin-top:18px">
+      <div class="card-head">The fallback output &mdash; do not skip this</div>
+      <p>The Switch node has one more output at the bottom: the <strong>fallback</strong>. This catches any item whose value does not match any of your rules. An agent types "under contract" (lowercase) when your rule expects "Under Contract." A new team member types "Pending" when your workflow expects "Under Contract."</p>
+      <p style="margin:0">Without a fallback, that row is <strong>silently ignored</strong>. No task gets created. No email goes out. A closing deadline gets missed. Always wire the fallback to a Slack message or a Google Sheet log so you can see when something unexpected came through.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 9: BUILDING SWITCH NODE -->
+  <div class="section" id="building-switch">
+    <h2>9. Building your first Switch node (step by step)</h2>
+    <div class="section-sub">Literal instructions for the transaction stage example</div>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Run the trigger first to load real data</div>
+          <div class="step-desc">Same rule as the IF node &mdash; click <strong>Test workflow</strong> and update a real row in your Transaction Tracker sheet before opening the Switch node. This loads your field names so you can click instead of type.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Click + after your trigger and search "Switch"</div>
+          <div class="step-desc">Click the + button on your trigger node &rarr; search <strong>Switch</strong> in the node picker &rarr; select <strong>Switch</strong> under the Flow category. The Switch node appears with one rule slot and a fallback output.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Open the Switch node and map Value 1</div>
+          <div class="step-desc">Double-click the Switch node to open settings. In the <strong>Value 1</strong> field, click the <code>{"{{"}</code> icon and select the field you are routing on &mdash; for this example, select <strong>stage</strong> from your Google Sheets data. This is the single field all your rules will check.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Set up Rule 1</div>
+          <div class="step-desc">In the first rule row, set the operator to <strong>is equal to</strong> and type the first stage value in Value 2: <code>Under Contract</code>. This creates Output 1.</div>
+          <div class="step-sub">⚠️ Type the value <strong>exactly</strong> as it appears in the sheet &mdash; same capitalization, same spacing. "Under Contract" and "under contract" are different values.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Click "Add routing rule" for each additional stage</div>
+          <div class="step-desc">Click <strong>Add routing rule</strong> and repeat step 4 for each stage: <code>Inspection Done</code>, <code>Clear to Close</code>, <code>Closed</code>. Each rule adds a numbered output connector to the node. You will see Output 1, 2, 3, 4 appear on the right side of the node.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Enable the fallback output</div>
+          <div class="step-desc">Scroll to the bottom of the Switch node settings. Find the <strong>Fallback output</strong> toggle and turn it on. A fallback output connector appears at the bottom of the node. Do not leave it there unwired.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <div class="step-title">Wire each output to its action node</div>
+          <div class="step-desc">Close the settings. Click the <strong>+</strong> next to Output 1 and add the "Under Contract" action (create inspection task + email TC). Repeat for each output. For the fallback, add a Slack message node that sends you an alert with the unrecognized value so you can investigate.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-body">
+          <div class="step-title">Test each route separately</div>
+          <div class="step-desc">Update your test sheet row to each stage value one at a time and run the workflow. Confirm each value routes to the correct output. Then test an unrecognized value (e.g. type "Pending") and confirm the fallback fires. Only activate the workflow after all routes are verified.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz">
+      <div class="quiz-tag">✦ Check your understanding</div>
+      <div class="quiz-q">You build a Switch node with four rules: "Under Contract," "Inspection Done," "Clear to Close," and "Closed." An agent updates a row to "UNDER CONTRACT" (all caps). What happens?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="pick(this)" data-correct="false" data-why="n8n's 'is equal to' operator is case-sensitive for text. 'UNDER CONTRACT' does not match 'Under Contract', so it does not trigger Output 1."><span class="qmark">○</span> Routes to Output 1 &mdash; n8n ignores capitalization</button>
+        <button class="quiz-opt" onclick="pick(this)" data-correct="true" data-why="Correct. 'UNDER CONTRACT' does not match any of the four rules because they are all set with title case. The item routes to the fallback output. This is exactly why the fallback matters &mdash; it catches real data entry inconsistencies."><span class="qmark">○</span> Routes to the fallback &mdash; the value does not match any rule exactly</button>
+        <button class="quiz-opt" onclick="pick(this)" data-correct="false" data-why="The Switch node does not throw an error for unmatched values. It silently sends the item to the fallback output (or drops it if the fallback is not wired). This is why you always wire the fallback to an alert."><span class="qmark">○</span> n8n throws an error</button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="reset(this)">Reset</button>
+    </div>
+  </div>
+
+  <!-- SECTION 10: EXPRESSIONS -->
+  <div class="section" id="expressions">
+    <h2>10. What are expressions?</h2>
+    <div class="section-sub">The way n8n reads data from a previous step &mdash; you do not need to write these by hand</div>
+
+    <p>When you click the <code>{"{{"}</code> icon in the Value 1 field and select a field from the picker, n8n inserts something that looks like this:</p>
+
+    <div class="expr-box">
+      <div class="expr-label">Example expression (n8n inserts this automatically)</div>
+      <span class="cp">{{</span> <span class="ck">$json</span><span class="cc">["budget"]</span> <span class="cp">}}</span>
+    </div>
+
+    <p>This is called an <strong>expression</strong>. It tells n8n: "take the value of the 'budget' field from the data that just came in." You do not need to write or understand this &mdash; just use the data picker and n8n writes it for you.</p>
+
+    <h3>Reading an expression if you have to</h3>
+    <p>If you ever need to read or understand an expression:</p>
+    <ul>
+      <li><code>$json</code> means "the data from the previous node"</li>
+      <li><code>["budget"]</code> means "the field named budget"</li>
+      <li>So <code>{"{{ $json[\"budget\"] }}"}</code> means "the budget value from the previous step"</li>
+    </ul>
+
+    <div class="card card-secure">
+      <div class="card-head">The most important thing to know about expressions</div>
+      <p><strong>Always use the data picker (the {{ icon) instead of typing field names by hand.</strong> Field names are case-sensitive in n8n. "Budget" and "budget" are different. "Lead Source" and "lead_source" are different. When you click to select, n8n uses the exact correct name. When you type, you risk a typo that silently breaks the condition.</p>
+      <p style="margin:0">If the picker shows no fields: the trigger has not been tested yet. Run it first.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 11: REAL ESTATE EXAMPLES -->
+  <div class="section" id="re-examples">
+    <h2>11. Real estate EA workflow examples</h2>
+    <div class="section-sub">Automations you will actually build as an EA for a US real estate agent</div>
+
+    <h3>IF node workflows</h3>
+    <table>
+      <thead><tr><th>Situation</th><th>Field checked</th><th>Condition</th><th>True: do this</th><th>False: do this</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>New buyer lead &mdash; priority routing</strong></td>
+          <td>budget</td>
+          <td>Number &gt; 500000</td>
+          <td>Slack agent immediately + create "Call in 1hr" task</td>
+          <td>Add to 5-day email drip + 24hr follow-up task</td>
+        </tr>
+        <tr>
+          <td><strong>Pre-approval check before showing</strong></td>
+          <td>pre_approved</td>
+          <td>String = "Yes"</td>
+          <td>Forward showing request to agent</td>
+          <td>Send lender referral email to buyer</td>
+        </tr>
+        <tr>
+          <td><strong>Cash vs financed offer &mdash; TC timeline</strong></td>
+          <td>financing_type</td>
+          <td>String = "Cash"</td>
+          <td>Send 14-day closing checklist to TC</td>
+          <td>Send 30-day financing timeline to TC</td>
+        </tr>
+        <tr>
+          <td><strong>Days on market alert</strong></td>
+          <td>days_on_market</td>
+          <td>Number &gt; 30</td>
+          <td>Slack: "Price reduction conversation needed for [address]"</td>
+          <td>No action (leave false output unwired)</td>
+        </tr>
+        <tr>
+          <td><strong>Open house follow-up</strong></td>
+          <td>interest_level</td>
+          <td>String = "High"</td>
+          <td>Create agent call task (same day)</td>
+          <td>Add to 3-day email nurture only</td>
+        </tr>
+        <tr>
+          <td><strong>Listing inquiry type</strong></td>
+          <td>client_type</td>
+          <td>String = "Buyer"</td>
+          <td>Add to buyer pipeline + send buyer consultation invite</td>
+          <td>Add to seller pipeline + send CMA request email</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Switch node workflows</h3>
+    <table>
+      <thead><tr><th>Situation</th><th>Field checked</th><th>Rules (each = one output)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Transaction stage tracker</strong></td>
+          <td>stage</td>
+          <td>"Under Contract" / "Inspection Done" / "Clear to Close" / "Closed" + fallback</td>
+        </tr>
+        <tr>
+          <td><strong>Lead source routing</strong></td>
+          <td>lead_source</td>
+          <td>"Zillow" / "Referral" / "Website" / "Open House" + fallback</td>
+        </tr>
+        <tr>
+          <td><strong>Client type &mdash; 3-way</strong></td>
+          <td>client_type</td>
+          <td>"Buyer" / "Seller" / "Both" + fallback</td>
+        </tr>
+        <tr>
+          <td><strong>Appointment outcome</strong></td>
+          <td>appointment_result</td>
+          <td>"Signed" / "Needs Time" / "Not Interested" + fallback</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 12: COMMON MISTAKES -->
+  <div class="section" id="mistakes">
+    <h2>12. Common mistakes and how to avoid them</h2>
+    <div class="section-sub">Things that trip up beginners &mdash; and exactly how to fix each one</div>
+
+    <div class="card card-danger" style="margin-bottom:12px">
+      <div class="card-head">Mistake 1 &mdash; Setting a price or number field as "String" type</div>
+      <p><strong>What happens:</strong> Your IF node checks budget "is greater than 500000" but uses String type. n8n compares text alphabetically. "$1,200,000" starts with "$" or "1" &mdash; both come before "5" alphabetically &mdash; so a million-dollar buyer silently routes to the false output. You never know.</p>
+      <p><strong>The fix:</strong> Always set the data type to <strong>Number</strong> for any field that holds a dollar amount, a count, or a date offset. Check the type dropdown before you do anything else when building an IF node.</p>
+      <p style="margin:0"><strong>How to spot it:</strong> Test with a value you know should pass (budget = 750000) and one that should obviously pass but is large (budget = 1500000). If the large one routes to false, your type is wrong.</p>
+    </div>
+
+    <div class="card card-danger" style="margin-bottom:12px">
+      <div class="card-head">Mistake 2 &mdash; Not testing the false/fallback path</div>
+      <p><strong>What happens:</strong> You test with one passing value, see it work, and assume the other path is fine. The false path was wired to the wrong node, or the fallback was not wired at all. A lead enters the wrong sequence for weeks and nobody knows.</p>
+      <p style="margin:0"><strong>The fix:</strong> Always test with at least two values: one that should pass, one that should fail. For Switch nodes, test every single rule AND an unrecognized value to confirm the fallback fires. Mark this as a required step in your workflow QA process.</p>
+    </div>
+
+    <div class="card card-danger" style="margin-bottom:12px">
+      <div class="card-head">Mistake 3 &mdash; Case sensitivity with text fields</div>
+      <p><strong>What happens:</strong> Your rule says Stage "is equal to" "Under Contract". An agent types "under contract" or "UNDER CONTRACT". The condition fails silently. The transaction falls out of the automation and no tasks get created.</p>
+      <p style="margin:0"><strong>The fix:</strong> Either (a) standardize your sheet/form so values always use the same capitalization (use a dropdown instead of freetext), or (b) add a Set node before the IF/Switch node that converts the field to lowercase, and then use all lowercase values in your rules. Option (a) is simpler.</p>
+    </div>
+
+    <div class="card card-danger" style="margin-bottom:12px">
+      <div class="card-head">Mistake 4 &mdash; Skipping the fallback on the Switch node</div>
+      <p><strong>What happens:</strong> You add rules for four stages but leave the fallback output disconnected. A new team member adds a "Contingent" stage that was not in your rules. Every "Contingent" row is silently dropped. Deadlines are missed.</p>
+      <p style="margin:0"><strong>The fix:</strong> Always enable and wire the fallback output. Even if you are confident you have covered all cases, wire it to a "log to Google Sheet" node or a Slack alert that says: "Unrecognized stage value: [value]. Please check." It costs 30 seconds to set up and saves hours of confusion.</p>
+    </div>
+
+    <div class="card card-danger" style="margin-bottom:12px">
+      <div class="card-head">Mistake 5 &mdash; Budget field arriving as "$500,000" (with symbols)</div>
+      <p><strong>What happens:</strong> Your form sends the budget as "$500,000" with a dollar sign and comma. n8n receives it as text, not a number. Even if you set the type to Number, the comparison breaks because n8n cannot convert "$500,000" to a number automatically.</p>
+      <p style="margin:0"><strong>The fix:</strong> Add a <strong>Set node</strong> between the trigger and the IF node. In the Set node, create a new field called "budget_clean" with the expression <code>{"{{ $json[\"budget\"].replace(/[$,]/g, '') }}"}</code>. This strips the dollar sign and commas, leaving just "500000". Then use budget_clean in your IF condition instead of budget.</p>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-head">Mistake 6 &mdash; Activating the workflow without testing it</div>
+      <p><strong>What happens:</strong> You build the workflow, click Activate, and live leads start flowing through. A misconfigured condition routes 20 high-value leads to the wrong sequence. You only notice days later.</p>
+      <p style="margin:0"><strong>The fix:</strong> Never activate a workflow until you have tested every branch with real (or realistic) test data. Use n8n's <strong>Test workflow</strong> button to run the full workflow manually before turning it on. When you are satisfied every path works correctly, then click Activate.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 13: QUICK REFERENCE -->
+  <div class="section" id="quick-ref" style="margin-bottom:0">
+    <h2>13. Quick reference</h2>
+    <div class="section-sub">The answers to the questions you will ask most often</div>
+
+    <h3>Which node do I use?</h3>
+    <table>
+      <thead><tr><th>Your situation</th><th>Use this</th></tr></thead>
+      <tbody>
+        <tr><td>Two outcomes: do X if yes, do Y if no</td><td><span class="pill pill-green">IF node</span></td></tr>
+        <tr><td>Just stop the workflow if condition fails</td><td><span class="pill pill-green">IF node</span> &mdash; leave false output unwired</td></tr>
+        <tr><td>Three or more outcomes from one field</td><td><span class="pill pill-blue">Switch node</span></td></tr>
+        <tr><td>Lead must meet all criteria together</td><td><span class="pill pill-green">IF node</span> &mdash; AND mode</td></tr>
+        <tr><td>Any one trigger signal is enough</td><td><span class="pill pill-green">IF node</span> &mdash; OR mode</td></tr>
+        <tr><td>Two separate decisions one after the other</td><td>Two <span class="pill pill-green">IF nodes</span> chained</td></tr>
+        <tr><td>Field has $ signs or commas (e.g. "$500,000")</td><td>Set node to clean it &rarr; then IF node</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Which data type do I choose in the IF node?</h3>
+    <table>
+      <thead><tr><th>Field contains</th><th>Use this type</th><th>Real estate example</th></tr></thead>
+      <tbody>
+        <tr><td>Dollar amounts, counts, days</td><td><span class="pill pill-blue">Number</span></td><td>budget, days_on_market, price</td></tr>
+        <tr><td>Words, statuses, names, sources</td><td><span class="pill pill-gold">String</span></td><td>stage, lead_source, client_type</td></tr>
+        <tr><td>Yes/No checkboxes</td><td><span class="pill pill-green">Boolean</span></td><td>pre_approved, contract_signed</td></tr>
+        <tr><td>Dates and times</td><td><span class="pill pill-red">Date &amp; Time</span></td><td>closing_date, appointment_date</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Common IF node operators for real estate</h3>
+    <table>
+      <thead><tr><th>Operator</th><th>Use it when</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>is equal to</strong></td><td>Field must match exactly</td><td>stage = "Under Contract"</td></tr>
+        <tr><td><strong>is greater than</strong></td><td>Number must be above a threshold</td><td>budget &gt; 500000</td></tr>
+        <tr><td><strong>contains</strong></td><td>Text includes a keyword (case-flexible)</td><td>notes contains "cash"</td></tr>
+        <tr><td><strong>is not empty</strong></td><td>Any value is present</td><td>phone_number is not empty</td></tr>
+        <tr><td><strong>is true</strong></td><td>Boolean field is checked</td><td>pre_approved is true</td></tr>
+        <tr><td><strong>is before</strong></td><td>Date deadline is approaching</td><td>closing_date is before [30 days from now]</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Pre-flight checklist before activating any workflow</h3>
+    <div class="card card-accent">
+      <div class="card-head">Run through this every time</div>
+      <ul style="margin:0;padding-left:20px">
+        <li>Trigger tested with real data &mdash; fields appear in the data picker</li>
+        <li>Data type set correctly (Number for prices, String for text)</li>
+        <li>Value 2 capitalization matches exactly what comes from the source</li>
+        <li>True output wired and tested with a passing value</li>
+        <li>False output wired (or intentionally left unwired) and tested with a failing value</li>
+        <li>Switch fallback enabled, wired, and tested with an unrecognized value</li>
+        <li>Every branch tested end-to-end before activating</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function pick(btn){
+  var quiz=btn.closest('.quiz');
+  if(quiz.classList.contains('answered'))return;
+  quiz.classList.add('answered');
+  var opts=[...quiz.querySelectorAll('.quiz-opt')];
+  var chose=btn.dataset.correct==='true';
+  opts.forEach(o=>{
+    o.disabled=true;
+    if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').textContent='✓';}
+  });
+  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').textContent='✗';}
+  var fb=quiz.querySelector('.quiz-fb');
+  fb.innerHTML=chose?'<strong class="ok">Correct.</strong> '+btn.dataset.why:'<strong class="no">Not quite.</strong> '+btn.dataset.why;
+  fb.classList.add('show');
+  quiz.querySelector('.quiz-reset').style.display='inline-block';
+}
+function reset(btn){
+  var quiz=btn.closest('.quiz');
+  quiz.classList.remove('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').textContent='○';});
+  quiz.querySelector('.quiz-fb').classList.remove('show');
+  btn.style.display='none';
+}
+</script>
+</body>
+</html>

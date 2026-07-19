@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | AI Tools Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --charcoal: #18181B;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --pill-bg: #166534;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 55%);
+    background-attachment: fixed;
+    color: var(--silver);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 100px; }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--silver); text-decoration: none; margin-bottom: 24px; transition: color 0.15s; }
+  .back:hover { color: var(--accent); }
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  h1 { font-size: 36px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 12px; }
+  .subtitle { font-size: 15px; color: var(--silver); max-width: 580px; margin: 0 auto; }
+
+  .cat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .tools-grid { grid-template-columns: 1fr; } }
+
+  .tool-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .tool-card:hover { border-color: rgba(34,197,94,0.3); }
+
+  .tool-head { display: flex; align-items: center; gap: 12px; }
+  .tool-icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); flex-shrink: 0;
+  }
+  .tool-icon svg { width: 18px; height: 18px; }
+  .tool-name { font-size: 15px; font-weight: 700; color: var(--white); }
+  .tool-maker { font-size: 12px; color: var(--silver); }
+
+  .tier-badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 20px;
+    align-self: flex-start;
+  }
+  .tier-free { background: rgba(34,197,94,0.1); color: var(--accent); border: 1px solid rgba(34,197,94,0.25); }
+  .tier-paid { background: rgba(234,179,8,0.08); color: #ca8a04; border: 1px solid rgba(234,179,8,0.2); }
+  .tier-both { background: rgba(99,102,241,0.08); color: #818cf8; border: 1px solid rgba(99,102,241,0.2); }
+
+  .tool-desc { font-size: 13px; color: var(--silver); line-height: 1.55; }
+
+  .use-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .use-list li { font-size: 12.5px; color: var(--silver); display: flex; gap: 7px; align-items: flex-start; }
+  .use-list li::before { content: '→'; color: var(--accent); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+
+  .when-tag {
+    font-size: 11px; font-weight: 600;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 4px; display: block;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="back" href="index.html">← Back to Course</a>
+    <div class="eyebrow">Reference</div>
+    <h1>AI Tools Reference</h1>
+    <p class="subtitle">Every AI and automation tool covered in the training — what each one does, when to use it, and what tier it's available on.</p>
+  </div>
+
+  <!-- AI ASSISTANTS -->
+  <div class="cat-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/></svg>
+    AI Assistants
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div>
+        <div><div class="tool-name">Claude</div><div class="tool-maker">Anthropic</div></div>
+      </div>
+      <span class="tier-badge tier-both">Free + Paid</span>
+      <p class="tool-desc">The primary AI assistant used throughout this training. Best for long-form writing, structured prompts, document processing, and working with Projects across sessions.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Drafting emails, SOPs, reports, and client content</li>
+        <li>Processing meeting transcripts into action items</li>
+        <li>Building and running prompts with the six-block framework</li>
+        <li>Working inside the Command Center</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div><div class="tool-name">ChatGPT</div><div class="tool-maker">OpenAI</div></div>
+      </div>
+      <span class="tier-badge tier-both">Free + Paid</span>
+      <p class="tool-desc">General-purpose AI assistant. Strong at conversational tasks, quick research, and image generation (with GPT-4o). Useful as a second opinion when Claude's output needs a different angle.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Quick research and summarisation tasks</li>
+        <li>Image generation with DALL-E</li>
+        <li>Cross-checking or rephrasing AI outputs</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div><div class="tool-name">Gemini</div><div class="tool-maker">Google</div></div>
+      </div>
+      <span class="tier-badge tier-both">Free + Paid</span>
+      <p class="tool-desc">Google's AI assistant. Best choice when working inside Google Workspace (Docs, Sheets, Gmail). Native integration makes it fast for summarising emails or pulling data from Sheets.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Google Docs and Gmail drafts</li>
+        <li>Summarising Google Sheets data</li>
+        <li>Tasks that stay inside the Google ecosystem</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- AUTOMATION PLATFORMS -->
+  <div class="cat-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+    Automation Platforms
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="12" y1="12" x2="6" y2="15"/><line x1="12" y1="12" x2="18" y2="15"/></svg></div>
+        <div><div class="tool-name">Make.com</div><div class="tool-maker">Make (formerly Integromat)</div></div>
+      </div>
+      <span class="tier-badge tier-free">Free Tier: 1,000 ops/mo</span>
+      <p class="tool-desc">Visual drag-and-drop automation builder. More powerful than Zapier for complex multi-step workflows. Supports conditional logic, routers, and AI steps. Covered extensively in Day 5 and Day 9.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Multi-step automations with branching logic</li>
+        <li>Connecting Google Sheets, GHL, Slack, and AI in one flow</li>
+        <li>Building social content schedulers and research pipelines</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div>
+        <div><div class="tool-name">Zapier</div><div class="tool-maker">Zapier</div></div>
+      </div>
+      <span class="tier-badge tier-free">Free Tier: 100 tasks/mo</span>
+      <p class="tool-desc">Simple trigger-action automation. Best for straightforward two-step automations or when a client already uses it. Easier to set up than Make.com but less powerful for complex flows.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Simple trigger-action automations (form → email, etc.)</li>
+        <li>Connecting apps without complex logic</li>
+        <li>Quick wins when a client is already on Zapier</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div><div class="tool-name">GoHighLevel (GHL)</div><div class="tool-maker">HighLevel</div></div>
+      </div>
+      <span class="tier-badge tier-paid">Paid</span>
+      <p class="tool-desc">All-in-one CRM and marketing automation platform. The core platform for most KeyPlayers clients. Replaces separate tools for email, SMS, pipelines, calendars, and workflows. Covered in Days 6 and 7.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>CRM management: contacts, pipelines, opportunities</li>
+        <li>Automated follow-up workflows and sequences</li>
+        <li>Conversations inbox: SMS, email, DM in one place</li>
+        <li>Calendar and appointment management</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- MEETING & NOTES -->
+  <div class="cat-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    Meeting & Notes Tools
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <div><div class="tool-name">Fathom</div><div class="tool-maker">Fathom Video</div></div>
+      </div>
+      <span class="tier-badge tier-free">Free Tier Available</span>
+      <p class="tool-desc">AI meeting note-taker. Joins Zoom, Google Meet, or Teams calls and automatically generates a summary, action items, and transcript. Recommended free-tier pick for VAs.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Capturing internal team and client meetings</li>
+        <li>Generating action items and follow-up tasks automatically</li>
+        <li>Feeding meeting output into the action pipeline</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div><div class="tool-name">Granola</div><div class="tool-maker">Granola</div></div>
+      </div>
+      <span class="tier-badge tier-both">Free + Paid</span>
+      <p class="tool-desc">AI note-taker that runs locally on your machine. Good for in-person meetings or when you can't have a bot join a call. Works by enhancing your own notes with AI.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>In-person meetings where a bot can't join</li>
+        <li>Enhancing rough notes after a call</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- PROJECT MANAGEMENT & COMMS -->
+  <div class="cat-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    Project Management & Communication
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div><div class="tool-name">ClickUp</div><div class="tool-maker">ClickUp</div></div>
+      </div>
+      <span class="tier-badge tier-free">Free Tier Available</span>
+      <p class="tool-desc">Project management platform. Used by many KeyPlayers clients to track tasks, projects, and team work. VAs use it to receive assigned tasks, update statuses, and log work. AI features available on paid tiers.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Receiving and managing task assignments</li>
+        <li>Logging meeting action items</li>
+        <li>Tracking project progress for clients</li>
+      </ul>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div><div class="tool-name">Slack</div><div class="tool-maker">Salesforce</div></div>
+      </div>
+      <span class="tier-badge tier-free">Free Tier Available</span>
+      <p class="tool-desc">Team messaging platform. Standard communication tool for VA-to-client and VA-to-team communication. Emoji reactions serve as lightweight workflow signals (✅ = done, 👀 = reviewing).</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Day-to-day communication with client teams</li>
+        <li>Receiving briefs, sharing deliverables</li>
+        <li>Automation notifications (Make.com → Slack alerts)</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- KEYPLAYERS PLATFORM -->
+  <div class="cat-label">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    KeyPlayers Platform
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-head">
+        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div><div class="tool-name">Command Center</div><div class="tool-maker">KeyPlayers HQ</div></div>
+      </div>
+      <span class="tier-badge tier-paid">KeyPlayers Platform</span>
+      <p class="tool-desc">KeyPlayers' internal AI operations platform. A system of 20+ specialized AI agents that VAs direct and manage as AI operators. VAs brief the right agent, review the output, and approve or redirect before delivery.</p>
+      <span class="when-tag">Use for:</span>
+      <ul class="use-list">
+        <li>Executing client work through specialized AI agents</li>
+        <li>Reviewing and approving AI output before client delivery</li>
+        <li>Operating as an AI operator — directing agents, not just using chat</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

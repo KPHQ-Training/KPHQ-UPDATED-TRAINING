@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>KeyPlayers VA Academy — AI Operator Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #070B09;
+  --bg-2: #0A100D;
+  --panel: #0E1512;
+  --panel-2: #121A15;
+  --border: #1A2620;
+  --border-2: #24332C;
+  --ink: #EAF0EC;
+  --text: #B8C5BD;
+  --muted: #94A49B;
+  --dim: #5C6B62;
+  --accent: #22C55E;
+  --accent-2: #34D399;
+  --accent-soft: rgba(34,197,94,0.10);
+  --accent-ring: rgba(34,197,94,0.22);
+  --blue: #5DA9F4;
+  --teal: #2DD4BF;
+  --gold: #EAB308;
+  --red: #F87171;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), var(--accent), transparent);
+}
+.header {
+  background: rgba(6,11,8,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.brand-mark { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+.brand-mark span { color: var(--accent); }
+.brand-sub { font-size: 10px; font-weight: 600; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; margin-top: 3px; }
+.header-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3);
+  color: #f87171; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px;
+}
+.header-chip svg { width: 11px; height: 11px; }
+
+/* Hero */
+.hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 64px 24px 52px;
+  text-align: center;
+  background: radial-gradient(900px 420px at 50% -60px, rgba(34,197,94,0.08), transparent 65%);
+}
+.hero h1 {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -1.2px;
+  line-height: 1.05;
+  margin-bottom: 14px;
+}
+.hero h1 span { color: var(--accent); }
+.hero-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+.hero-badges { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--panel); border: 1px solid var(--border-2);
+  color: var(--muted); font-size: 11px; font-weight: 600;
+  padding: 6px 13px; border-radius: 999px;
+}
+.badge svg { width: 12px; height: 12px; color: var(--accent); }
+
+/* Section label */
+.section-label {
+  max-width: 760px;
+  margin: 0 auto 16px;
+  padding: 0 24px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Day cards */
+.days-wrap { max-width: 760px; margin: 0 auto; padding: 0 24px 8px; }
+.days { list-style: none; position: relative; }
+.days::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 32px;
+  bottom: 32px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border-2) 8%, var(--border-2) 92%, transparent);
+}
+.days li { margin-bottom: 10px; }
+.day-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+.node {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  background: var(--panel);
+  border: 1px solid var(--border-2);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.day-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.day-ico {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  color: var(--accent-2);
+  flex-shrink: 0;
+}
+.day-ico svg { width: 18px; height: 18px; display: block; }
+.day-body { flex: 1; min-width: 0; }
+.day-title { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; display: block; }
+.day-desc { font-size: 12px; color: var(--muted); margin-top: 3px; display: block; line-height: 1.5; }
+.day-arrow { color: var(--dim); font-size: 18px; flex-shrink: 0; transition: color 0.2s, transform 0.2s; }
+
+.day-link:hover .day-card {
+  border-color: var(--accent-ring);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px var(--accent-ring);
+  transform: translateY(-2px);
+}
+.day-link:hover .node {
+  background: var(--accent);
+  border-color: var(--accent-2);
+  color: #04150B;
+  box-shadow: 0 0 0 4px rgba(34,197,94,0.15);
+}
+.day-link:hover .day-arrow { color: var(--accent); transform: translateX(3px); }
+
+/* Week divider */
+.week-divider {
+  max-width: 760px;
+  margin: 20px auto 18px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.week-divider-line { flex: 1; height: 1px; background: var(--border); }
+.week-divider-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+/* Reference grid */
+.ref-wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+.ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ref-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.ref-tile:hover {
+  border-color: var(--accent-ring);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px var(--accent-ring);
+  transform: translateY(-2px);
+}
+.ref-ico {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  color: var(--accent-2);
+  flex-shrink: 0;
+}
+.ref-ico.blue { background: rgba(93,169,244,0.09); border-color: rgba(93,169,244,0.22); color: var(--blue); }
+.ref-ico.teal { background: rgba(45,212,191,0.09); border-color: rgba(45,212,191,0.22); color: var(--teal); }
+.ref-ico.gold { background: rgba(234,179,8,0.09); border-color: rgba(234,179,8,0.22); color: var(--gold); }
+.ref-ico.red  { background: rgba(248,113,113,0.09); border-color: rgba(248,113,113,0.22); color: var(--red); }
+.ref-ico svg { width: 22px; height: 22px; }
+.ref-title { font-size: 13px; font-weight: 700; color: var(--ink); display: block; letter-spacing: -0.1px; }
+.ref-desc { font-size: 11px; color: var(--muted); margin-top: 3px; display: block; line-height: 1.5; }
+
+/* Footer */
+.footer {
+  max-width: 760px;
+  margin: 52px auto 0;
+  padding: 22px 24px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.footer-left { font-size: 11px; color: var(--dim); }
+.footer-right { font-size: 11px; color: var(--dim); }
+
+@media (max-width: 600px) {
+  .header { padding: 14px 18px; }
+  .hero { padding: 48px 18px 40px; }
+  .hero h1 { font-size: 28px; }
+  .days-wrap, .week-divider, .ref-wrap, .section-label { padding-left: 18px; padding-right: 18px; }
+  .ref-grid { grid-template-columns: 1fr; }
+  .day-arrow { display: none; }
+  .footer { padding-left: 18px; padding-right: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<header class="header">
+  <div>
+    <div class="brand-mark">Key<span>Players</span> HQ</div>
+    <div class="brand-sub">VA AI Academy</div>
+  </div>
+  <div class="header-chip">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Confidential — Internal Only
+  </div>
+</header>
+
+<section class="hero">
+  <h1>KP <span>AI</span> Academy</h1>
+  <p class="hero-sub">Your 10-day AI Operator training program. Work through sessions in order — each one builds on the last. Attendance is logged automatically when you open a day.</p>
+  <div class="hero-badges">
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      10 Days
+    </span>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Attendance tracked
+    </span>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      Cert on completion
+    </span>
+  </div>
+</section>
+
+<!-- Week 1 -->
+<div class="week-divider">
+  <div class="week-divider-line"></div>
+  <div class="week-divider-label">Week 1 — AI &amp; Claude</div>
+  <div class="week-divider-line"></div>
+</div>
+
+<div class="section-label">Training Days</div>
+<div class="days-wrap">
+  <ol class="days">
+
+    <li><a class="day-link" href="Day01_AI_Foundations.html">
+      <span class="node">1</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5.9 1.2 1 2h6c.1-.8.4-1.5 1-2A7 7 0 0 0 12 2Z"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">AI Foundations I</span>
+          <span class="day-desc">How AI works · what it can and can't do · trust &amp; data safety · prompting foundations</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day02_AI_Foundations_Tools.html">
+      <span class="node">2</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="9" cy="8" r="2.2"/><circle cx="15" cy="16" r="2.2"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">AI Foundations II &amp; the Right Tool</span>
+          <span class="day-desc">Prompting power blocks · full-prompt blueprint · refining output · choosing the right tool</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day03_Claude.html">
+      <span class="node">3</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M3 12h18"/><path d="M5.5 5.5l13 13"/><path d="M18.5 5.5l-13 13"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">Claude Deep Dive</span>
+          <span class="day-desc">Artifacts · MCP &amp; API · CLI · Cowork · Projects / Skills / Plugins · context engineering</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day04_Automation_Foundations.html">
+      <span class="node">4</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><polyline points="21 3 21 8 16 8"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">Automation Foundations</span>
+          <span class="day-desc">What automation is · triggers &amp; actions · what to automate · mapping a workflow</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day05_Building_Automations.html">
+      <span class="node">5</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="6" rx="1.5"/><rect x="15" y="14" width="6" height="6" rx="1.5"/><path d="M9 7h3a3 3 0 0 1 3 3v4"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">Building Automations</span>
+          <span class="day-desc">Free tool build (Apps Script &amp; Zapier) · data mapping · conditional logic · content pipeline · live build</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+  </ol>
+</div>
+
+<!-- Week 2 -->
+<div class="week-divider">
+  <div class="week-divider-line"></div>
+  <div class="week-divider-label">Week 2 — GHL, Tools &amp; KeyCommand</div>
+  <div class="week-divider-line"></div>
+</div>
+
+<div class="days-wrap">
+  <ol class="days" start="6">
+
+    <li style="counter-reset: none;"><a class="day-link" href="Day06_GoHighLevel_Foundations.html">
+      <span class="node">6</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M10 21v-5h4v5"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">GoHighLevel Foundations</span>
+          <span class="day-desc">Agency vs. sub-accounts · Contacts &amp; Tags · Pipelines · Conversations · Calendars</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day07_GHL_Automation_Workflows.html">
+      <span class="node">7</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 4 14 11 14 10 22 20 9 13 9 13 2"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">GHL Automation, API &amp; MCP</span>
+          <span class="day-desc">Workflows · Triggers &amp; Actions · APIs · Webhooks · MCP · Integrations</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day08_AI_Meetings_PM_Messaging.html">
+      <span class="node">8</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8 8 0 0 1-11.5 7.2L3 21l2.3-6.5A8 8 0 1 1 21 11.5Z"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">AI Meetings, PM &amp; Conditional Logic</span>
+          <span class="day-desc">AI note-takers · project management · Slack &amp; messaging · conditional logic in automations</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day09_KeyCommand.html">
+      <span class="node">9</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">KeyCommand — The AI Command Center</span>
+          <span class="day-desc">Agentic workflows &amp; agent types · security &amp; compliance · Operator Queue · Knowledge Map &amp; Genes · executive support</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+    <li><a class="day-link" href="Day10_Assessment.html">
+      <span class="node">10</span>
+      <span class="day-card">
+        <span class="day-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+        <span class="day-body">
+          <span class="day-title">Final Assessment &amp; Certification</span>
+          <span class="day-desc">AI &amp; Automation exam · real-world scenarios · 80% pass required · certification awarded</span>
+        </span>
+        <span class="day-arrow">&#8594;</span>
+      </span>
+    </a></li>
+
+  </ol>
+</div>
+
+<!-- Reference -->
+<div class="week-divider" style="margin-top:36px;">
+  <div class="week-divider-line"></div>
+  <div class="week-divider-label">Reference</div>
+  <div class="week-divider-line"></div>
+</div>
+
+<div class="ref-wrap" style="margin-top:4px;">
+  <div class="ref-grid">
+
+    <a class="ref-tile" href="KP_AI_Glossary.html">
+      <span class="ref-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4a2 2 0 0 1 2-2h6v18H6a2 2 0 0 0-2 2V4Z"/><path d="M20 4a2 2 0 0 0-2-2h-6v18h6a2 2 0 0 1 2 2V4Z"/></svg>
+      </span>
+      <span>
+        <span class="ref-title">AI Glossary</span>
+        <span class="ref-desc">Plain-English definitions for every AI term used across the program.</span>
+      </span>
+    </a>
+
+    <a class="ref-tile" href="GHL_Glossary.html">
+      <span class="ref-ico teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4a2 2 0 0 1 2-2h6v18H6a2 2 0 0 0-2 2V4Z"/><path d="M20 4a2 2 0 0 0-2-2h-6v18h6a2 2 0 0 1 2 2V4Z"/></svg>
+      </span>
+      <span>
+        <span class="ref-title">GoHighLevel Glossary</span>
+        <span class="ref-desc">Key GHL terms, menus, and modules explained simply.</span>
+      </span>
+    </a>
+
+    <a class="ref-tile" href="Data_Security.html">
+      <span class="ref-ico red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </span>
+      <span>
+        <span class="ref-title">Security &amp; Privacy</span>
+        <span class="ref-desc">What can and can't go into AI tools — PII, PHI, API keys, data handling standards.</span>
+      </span>
+    </a>
+
+    <a class="ref-tile" href="AI_Tools_Reference.html">
+      <span class="ref-ico blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      </span>
+      <span>
+        <span class="ref-title">AI Tools Reference</span>
+        <span class="ref-desc">Every AI and automation tool covered in training — what each does and when to use it.</span>
+      </span>
+    </a>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <span class="footer-left">KeyPlayers HQ &middot; KP AI Academy &middot; June 2026</span>
+  <span class="footer-right">For internal use only &mdash; do not distribute</span>
+</footer>
+
+</body>
+</html>

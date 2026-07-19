@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy: Day 1 - Prompting Mastery & AI Fundamentals</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Epilogue', Arial, sans-serif;
+    font-size: 11pt;
+    color: #E0E0E0;
+    background: radial-gradient(ellipse at top center, #101E14 0%, #0C1A10 55%, #080F0C 100%);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #050909 0%, #0A1510 50%, #050A07 100%);
+    padding: 22px 40px;
+    text-align: center;
+    border-bottom: 2px solid #6DB87A;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.6), 0 1px 0 rgba(109,184,122,0.15);
+  }
+
+  .header-text {
+    font-family: 'Fraunces', serif;
+    color: #DDEEE0;
+    font-size: 13pt;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 44px auto;
+    padding: 0 24px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    background: linear-gradient(135deg, #DDEEE0 40%, #6DB87A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 22pt;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #7A9880;
+    margin-bottom: 44px;
+    font-size: 10.5pt;
+    line-height: 1.6;
+  }
+
+  .session-index { margin-bottom: 28px; }
+
+  .session-index-title {
+    font-family: 'Fraunces', serif;
+    color: #6DB87A;
+    font-size: 11pt;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(109,184,122,0.2);
+  }
+
+  .session-card {
+    display: block;
+    background: linear-gradient(135deg, #111F17 0%, #0E1B13 100%);
+    border: 1px solid #1E3425;
+    border-radius: 8px;
+    padding: 16px 22px;
+    margin-bottom: 10px;
+    color: #8CA692;
+    text-decoration: none;
+    font-size: 10.5pt;
+    transition: all 0.22s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  }
+  .session-card:hover {
+    background: linear-gradient(135deg, #1A2E22 0%, #162518 100%);
+    border-color: #2A6636;
+    color: #DDEEE0;
+    box-shadow: 0 4px 20px rgba(42,102,54,0.25);
+    transform: translateY(-1px);
+  }
+  .session-card .snum {
+    color: #6DB87A;
+    font-weight: 700;
+    margin-right: 8px;
+    font-size: 10pt;
+    letter-spacing: 0.3px;
+  }
+
+  .slide {
+    display: none;
+    background: linear-gradient(160deg, #121E17 0%, #0F1A13 60%, #0C1710 100%);
+    border: 1px solid #1E3425;
+    border-radius: 10px;
+    padding: 34px 36px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(42,102,54,0.12);
+  }
+  .slide.active { display: block; }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19pt;
+    color: #DDEEE0;
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+    position: relative;
+    font-weight: 500;
+  }
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 56px;
+    height: 2px;
+    background: linear-gradient(90deg, #6DB87A 0%, rgba(109,184,122,0.1) 100%);
+    border-radius: 2px;
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    color: #DDEEE0;
+    margin-top: 26px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  p { line-height: 1.75; margin-bottom: 16px; }
+  ul, ol { margin-bottom: 22px; padding-left: 22px; }
+  li { margin-bottom: 11px; line-height: 1.65; }
+
+  .human-margin-box {
+    background: linear-gradient(135deg, #091610 0%, #0C1B12 100%);
+    border-left: 3px solid #2A6636;
+    padding: 22px 24px;
+    margin: 28px 0;
+    border-radius: 0 10px 10px 0;
+    box-shadow: inset 3px 0 18px rgba(42,102,54,0.08), 0 4px 18px rgba(0,0,0,0.35);
+  }
+  .human-margin-title {
+    font-family: 'Fraunces', serif;
+    color: #4A9B5A;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12pt;
+    letter-spacing: 0.2px;
+  }
+
+  .drill-box {
+    background: linear-gradient(135deg, rgba(109,184,122,0.07) 0%, rgba(109,184,122,0.03) 100%);
+    border: 1px solid rgba(109,184,122,0.28);
+    padding: 22px 24px;
+    margin: 28px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 24px rgba(109,184,122,0.06), 0 4px 18px rgba(0,0,0,0.3);
+  }
+  .drill-title {
+    font-family: 'Fraunces', serif;
+    color: #6DB87A;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 12pt;
+    letter-spacing: 0.2px;
+  }
+
+  .case-study {
+    background: linear-gradient(135deg, rgba(42,102,54,0.1) 0%, rgba(42,102,54,0.04) 100%);
+    border: 1px solid rgba(42,102,54,0.35);
+    padding: 22px 24px;
+    margin: 28px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 24px rgba(42,102,54,0.08), 0 4px 18px rgba(0,0,0,0.3);
+  }
+  .case-title {
+    font-family: 'Fraunces', serif;
+    color: #4A9B5A;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 12pt;
+    letter-spacing: 0.2px;
+  }
+
+  .prompt-block {
+    background: #040A07;
+    border: 1px solid #1A2E22;
+    border-left: 3px solid #2A6636;
+    border-radius: 0 8px 8px 0;
+    padding: 18px 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    color: #7AC888;
+    white-space: pre-wrap;
+    margin: 18px 0;
+    box-shadow: inset 0 2px 12px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+    line-height: 1.65;
+  }
+
+  .qa-section {
+    background: linear-gradient(135deg, #070E09 0%, #0A1510 100%);
+    border: 1px solid #1E3425;
+    border-radius: 10px;
+    padding: 28px 30px;
+    margin-top: 44px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .qa-title {
+    color: #DDEEE0;
+    font-weight: 700;
+    margin-bottom: 14px;
+    font-size: 13pt;
+    font-family: 'Fraunces', serif;
+  }
+
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .nav-buttons.end { justify-content: flex-end; }
+
+  .btn {
+    background: linear-gradient(135deg, #2A6636 0%, #1E4D27 100%);
+    color: #DDEEE0;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 10.5pt;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(42,102,54,0.35);
+  }
+  .btn:hover {
+    background: linear-gradient(135deg, #336B40 0%, #2A6636 100%);
+    box-shadow: 0 6px 22px rgba(42,102,54,0.45);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid rgba(42,102,54,0.6);
+    color: #6DB87A;
+    box-shadow: none;
+  }
+  .btn-outline:hover {
+    background: rgba(42,102,54,0.12);
+    border-color: #2A6636;
+    color: #DDEEE0;
+    box-shadow: 0 4px 14px rgba(42,102,54,0.2);
+  }
+
+  .footer {
+    text-align: center;
+    color: #3A5A42;
+    font-size: 9.5pt;
+    margin-top: 44px;
+    padding-bottom: 44px;
+    letter-spacing: 1px;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin: 22px 0; }
+  th, td { padding: 13px 15px; border: 1px solid #1A2E22; text-align: left; }
+  th {
+    background: linear-gradient(135deg, #060B08 0%, #0A1410 100%);
+    color: #6DB87A;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  tr:nth-child(even) td { background: rgba(42,102,54,0.04); }
+  tr:hover td { background: rgba(42,102,54,0.08); transition: background 0.15s; }
+
+  .survey-q { margin-bottom: 26px; }
+  .survey-q label { display: block; font-weight: 600; color: #DDEEE0; margin-bottom: 10px; }
+  .survey-options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .survey-options input[type="radio"], .survey-options input[type="checkbox"] { display: none; }
+  .survey-options .opt {
+    padding: 10px 16px; border-radius: 6px; font-size: 10pt;
+    background: linear-gradient(135deg, #0A1410 0%, #080F0C 100%);
+    color: #7A9880; border: 1px solid #1A2E22;
+    cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .survey-options .opt:hover { border-color: rgba(42,102,54,0.5); color: #DDEEE0; }
+  .survey-options input:checked + .opt {
+    background: linear-gradient(135deg, #1A2E22 0%, #152512 100%);
+    color: #6DB87A;
+    border-color: #2A6636;
+    box-shadow: 0 0 12px rgba(42,102,54,0.2);
+  }
+
+  .other-specify { margin-top: 10px; display: none; }
+  .other-specify input {
+    width: 100%; padding: 11px; background: #060B08; color: #E0E0E0;
+    border: 1px solid #1A2E22; border-radius: 6px; font-family: 'Epilogue', sans-serif;
+  }
+  .other-specify input:focus { outline: none; border-color: #2A6636; box-shadow: 0 0 8px rgba(42,102,54,0.2); }
+
+  .survey-text {
+    width: 100%; padding: 12px; background: #060B08; color: #E0E0E0;
+    border: 1px solid #1A2E22; border-radius: 6px; font-family: 'Epilogue', sans-serif;
+    transition: all 0.2s;
+  }
+  .survey-text:focus { outline: none; border-color: #2A6636; box-shadow: 0 0 10px rgba(42,102,54,0.2); }
+
+  /* ── Spacing & overlap fixes ── */
+
+  /* Kill default browser top margin on h1 */
+  h1 { margin-top: 0; }
+
+  /* No extra top push on first child inside slides */
+  .slide > *:first-child { margin-top: 0; }
+  .slide > h2:first-child { margin-top: 0; }
+
+
+  /* section-title: keep bottom margin, kill any stray top */
+  .section-title { margin-top: 0; }
+
+  /* No trailing margin on last child inside containers */
+  .slide > *:last-child,
+  .human-margin-box > *:last-child,
+  .drill-box > *:last-child,
+  .case-study > *:last-child,
+  .qa-section > *:last-child { margin-bottom: 0; }
+
+
+
+  /* Survey section: clean bottom gap */
+  #surveySection { margin-bottom: 28px; }
+
+  /* subtitle: no top margin bleed */
+  .subtitle { margin-top: 0; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-text">KeyPlayers VA Academy</span>
+</div>
+
+<div class="container">
+  <h1>Day 1: Prompting Mastery & AI Fundamentals</h1>
+  <p class="subtitle">The foundational skill of the modern AI Operator. Learn to communicate with machines to achieve precise, reliable results.</p>
+
+  <!-- PRE-TRAINING SURVEY -->
+  <div id="surveySection">
+    <h2 style="color:#2A6636; margin-top:0;">Pre-Training Baseline Survey</h2>
+    <p>Before we begin, please complete this survey honestly. There are no wrong answers. This helps your trainer understand where you're starting from.</p>
+
+    <div id="surveyForm" style="background: #0D1A13; padding: 25px; border-radius: 8px; border: 1px solid #1A2E22; margin-top: 20px;">
+      <div class="survey-q">
+        <label>Your Name</label>
+        <input type="text" class="survey-text" id="surveyName" placeholder="First and last name">
+      </div>
+      <div class="survey-q">
+        <label>1. How would you rate your prompting skills?</label>
+        <div class="survey-options">
+          <input type="radio" name="q1" id="q1a" value="1"><label class="opt" for="q1a">1. Never prompted AI</label>
+          <input type="radio" name="q1" id="q1b" value="2"><label class="opt" for="q1b">2. Tried it a few times</label>
+          <input type="radio" name="q1" id="q1c" value="3"><label class="opt" for="q1c">3. Use it weekly</label>
+          <input type="radio" name="q1" id="q1d" value="4"><label class="opt" for="q1d">4. Use it daily</label>
+          <input type="radio" name="q1" id="q1e" value="5"><label class="opt" for="q1e">5. Advanced/Templates</label>
+        </div>
+      </div>
+      <div class="survey-q">
+        <label>2. How would you rate your knowledge of AI?</label>
+        <div class="survey-options">
+          <input type="radio" name="q2" id="q2a" value="1"><label class="opt" for="q2a">1. Know nothing</label>
+          <input type="radio" name="q2" id="q2b" value="2"><label class="opt" for="q2b">2. Heard of ChatGPT</label>
+          <input type="radio" name="q2" id="q2c" value="3"><label class="opt" for="q2c">3. Use 1-2 tools</label>
+          <input type="radio" name="q2" id="q2d" value="4"><label class="opt" for="q2d">4. Understand models</label>
+          <input type="radio" name="q2" id="q2e" value="5"><label class="opt" for="q2e">5. Deep understanding</label>
+        </div>
+      </div>
+      <div class="survey-q">
+        <label>3. Automation & Coding Knowledge?</label>
+        <div class="survey-options">
+          <input type="radio" name="q3" id="q3a" value="1"><label class="opt" for="q3a">1. Zero experience</label>
+          <input type="radio" name="q3" id="q3b" value="2"><label class="opt" for="q3b">2. Used Zapier</label>
+          <input type="radio" name="q3" id="q3c" value="3"><label class="opt" for="q3c">3. Basic automations</label>
+          <input type="radio" name="q3" id="q3d" value="4"><label class="opt" for="q3d">4. Comfortable</label>
+          <input type="radio" name="q3" id="q3e" value="5"><label class="opt" for="q3e">5. Can code/script</label>
+        </div>
+      </div>
+      <div class="survey-q">
+        <label>4. Current Role(s)? (Select all that apply)</label>
+        <div class="survey-options">
+          <input type="checkbox" name="q4" id="q4a" value="General VA"><label class="opt" for="q4a">General VA</label>
+          <input type="checkbox" name="q4" id="q4b" value="Executive Assistant"><label class="opt" for="q4b">Executive Assistant</label>
+          <input type="checkbox" name="q4" id="q4c" value="Social Media Manager"><label class="opt" for="q4c">Social Media Manager</label>
+          <input type="checkbox" name="q4" id="q4d" value="Operations/Admin"><label class="opt" for="q4d">Operations/Admin</label>
+          <input type="checkbox" name="q4" id="q4e" value="Sales/Lead Gen"><label class="opt" for="q4e">Sales/Lead Gen</label>
+          <input type="checkbox" name="q4" id="q4f" value="Customer Support"><label class="opt" for="q4f">Customer Support</label>
+          <input type="checkbox" name="q4" id="q4g" value="Bookkeeping/Finance"><label class="opt" for="q4g">Bookkeeping/Finance</label>
+          <input type="checkbox" name="q4" id="q4h" value="Project Manager"><label class="opt" for="q4h">Project Manager</label>
+          <input type="checkbox" name="q4" id="q4i" value="Content Writer"><label class="opt" for="q4i">Content Writer</label>
+          <input type="checkbox" name="q4" id="q4j" value="Web/Tech VA"><label class="opt" for="q4j">Web/Tech VA</label>
+          <input type="checkbox" name="q4" id="q4k" value="Other" onchange="toggleOther(this)"><label class="opt" for="q4k">Other</label>
+        </div>
+        <div class="other-specify" id="otherSpecify">
+          <input type="text" class="survey-text" id="q4Other" placeholder="Please specify your role(s)...">
+        </div>
+      </div>
+      <div id="surveyError" style="display:none;color:#ef4444;font-size:10pt;margin-bottom:15px;"></div>
+      <button class="btn" id="surveyBtn" onclick="submitPreSurvey()" style="width: 100%;">Submit Baseline Survey</button>
+    </div>
+
+    <div id="surveyResult" style="display:none; text-align:center; padding: 30px; background: #1A2E22; border-radius: 8px; margin-top: 20px;">
+      <h2 style="margin-top: 0; color: #2A6636;">Survey Submitted!</h2>
+      <p>Your trainer has received your baseline data. You are ready to proceed to the sessions below.</p>
+    </div>
+  </div>
+
+  <!-- SESSION INDEX -->
+  <div class="session-index" id="sessionIndex">
+    <div class="session-index-title">Day 1 Sessions</div>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide1')"><span class="snum">Session 1:</span> The AI Landscape & Benchmarking</a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide2')"><span class="snum">Session 2:</span> The Anatomy of a Perfect Prompt</a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide3')"><span class="snum">Session 3:</span> Best Practices, Compliance & Security</a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide4')"><span class="snum">Session 4:</span> Advanced Constraints & Formatting</a>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="slide" id="slide1">
+    <div class="section-title">Session 1: The AI Landscape & Benchmarking</div>
+    <p>Welcome to the KeyPlayers HQ AI Training Program. Over the next 10 days, you will transition from a standard Virtual Assistant to an elite <strong>AI Operator</strong>.</p>
+    <p>Our goal isn't just to teach you how to use ChatGPT. Our goal is to teach you how to operate a business's Command Center using AI agents, workflow automations, and the most critical skill of all: <strong>The Human Margin</strong>.</p>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin</div>
+      <p>AI generates, drafts, and analyzes. But AI hallucinates, lacks context, and has no real-world experience. <strong>The Human Margin</strong> is where you step in. You bridge the gap between the business owner and the AI. You verify, you judge, and you execute. You are the pilot; AI is the engine.</p>
+    </div>
+
+    <h2>Benchmarking the Big Four (Free Tiers) - Updated May 2026</h2>
+    <p>As an operator, you must know which tool to reach for. The AI landscape moves fast. Here is the current benchmark for the free tiers of the major LLMs as of today:</p>
+    <table>
+      <tr><th>Tool</th><th>Current Model (Free)</th><th>Best For</th><th>Pros</th><th>Cons (Free Tier)</th></tr>
+      <tr><td><strong>Claude</strong></td><td>Sonnet 4.6 (free tier access with limits)</td><td>Nuanced writing, long documents, coding, deep analysis, agentic workflows.</td><td>Most human-like tone, 1M token context window, Artifacts UI, Projects, Extended Thinking, Adaptive Thinking.</td><td>Strict daily message limits on free tier, cuts off quickly during heavy use. Pro ($20/mo) or Max ($100+/mo) for more.</td></tr>
+      <tr><td><strong>ChatGPT</strong></td><td>GPT-5.5 Instant (free tier default since May 5, 2026)</td><td>Quick tasks, data formatting, brainstorming, voice mode, image generation (GPT Image 2).</td><td>Fast, 52% fewer hallucinations than previous models, massive ecosystem (GPTs, voice, Codex), native image generation with GPT Image 2, strong at structured data.</td><td>Can sound generic, tends to use filler phrases. Free tier has usage caps during peak hours.</td></tr>
+      <tr><td><strong>Gemini</strong></td><td>Gemini 3.5 Flash (free tier default since May 19, 2026 I/O launch)</td><td>Google Workspace integration, rapid web search, multimodal tasks, agentic workflows.</td><td>4x faster output than other frontier models, deep Docs/Drive/Sheets integration, 1M token context, Gemini Omni for combined reasoning + image/video/audio creation.</td><td>Can be overly cautious with sensitive topics, not yet available in all regions, Gemini Omni features still rolling out.</td></tr>
+      <tr><td><strong>Kimi AI</strong></td><td>Kimi K2.6 (free tier)</td><td>Massive document processing, agentic coding, parallel task execution.</td><td>262K token context window for free, open-source model (1T parameters), can orchestrate up to 300 parallel sub-agents, excellent for summarizing entire books or codebases.</td><td>Less polished UI than Claude, creative writing quality is lower, newer ecosystem with fewer integrations.</td></tr>
+      <tr><td><strong>Manus</strong></td><td>Free tier available</td><td>Autonomous task execution, web browsing, file creation, research.</td><td>True agentic AI that can browse the web, write code, create documents, and execute multi-step tasks without supervision.</td><td>Credit-based system on free tier, tasks can take longer for complex operations, less conversational than chat-based tools.</td></tr>
+    </table>
+
+    <h2>Flagship vs. Free Tier: What's the Difference?</h2>
+    <p>While we focus on free-tier tools for this training, you will likely encounter the premium/flagship versions when working with your clients. Here is the current flagship landscape (May 2026):</p>
+    <ul>
+      <li><strong>Claude Opus 4.7:</strong> The undisputed king of deep reasoning, coding, and complex logic. The standard for enterprise use. Launched April 16, 2026.</li>
+      <li><strong>GPT-5.5 Instant:</strong> Now the default for all ChatGPT users (May 5, 2026). Plus users get GPT-5.4 Pro for heavier tasks. GPT Image 2 replaced DALL-E entirely.</li>
+      <li><strong>Gemini 2.5 Pro / 3.5 Flash:</strong> 3.5 Flash is the new default (May 19, 2026). 2.5 Pro remains available for deep reasoning. Gemini Omni combines reasoning with image/video/audio creation.</li>
+      <li><strong>Kimi K2.6:</strong> Open-source (1T parameters, April 2026). Can orchestrate 300 parallel sub-agents. Free tier with 262K context.</li>
+    </ul>
+
+    <h2>Context Windows Explained (Why This Matters)</h2>
+    <p>A context window is how much text the AI can "see" at once. Think of it as the AI's short-term memory.</p>
+    <table>
+      <tr><th>Tool</th><th>Context Window</th><th>What That Means</th></tr>
+      <tr><td>Claude (Sonnet 4.6)</td><td>1,000,000 tokens (~750,000 words)</td><td>Can process an entire novel or a full quarter's worth of meeting transcripts in one go.</td></tr>
+      <tr><td>ChatGPT (GPT-5.5 Instant)</td><td>128,000 tokens (~96,000 words)</td><td>Good for most documents, but will struggle with very large files.</td></tr>
+      <tr><td>Gemini 3.5 Flash</td><td>1,000,000 tokens (~750,000 words)</td><td>Matches Claude for large document processing, especially when combined with Google Drive.</td></tr>
+      <tr><td>Kimi K2.6</td><td>262,000 tokens (~196,000 words)</td><td>Strong for long documents, especially technical papers and codebases.</td></tr>
+    </table>
+
+    <h2>Tool Selection by VA Role</h2>
+    <ul>
+      <li><strong>Executive Assistant (EA):</strong> Claude (for drafting sensitive emails/SOPs), Kimi AI (for summarizing massive reports).</li>
+      <li><strong>Social Media VA:</strong> ChatGPT (for rapid content ideation), Claude (for refining brand voice).</li>
+      <li><strong>Sales/Lead Gen VA:</strong> Perplexity (for deep prospect research), Gemini (for scraping web data).</li>
+    </ul>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('index')">← Back to Sessions</button>
+      <button type="button" class="btn" onclick="navSlide('slide2')">Next: The Anatomy of a Perfect Prompt →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="slide" id="slide2">
+    <div class="section-title">Session 2: The Anatomy of a Perfect Prompt</div>
+    <p>Prompting is not about "talking to a computer." It is about providing a highly constrained set of instructions to a reasoning engine. The difference between an amateur and an elite KeyPlayers VA is the precision of their prompts.</p>
+
+    <h2>The CLEAR Framework</h2>
+    <p>Every professional prompt must contain these five elements:</p>
+    <ul>
+      <li><strong>Context:</strong> Who are you? What is the background? (e.g., "Act as an Executive Assistant for a SaaS CEO.")</li>
+      <li><strong>Logic:</strong> What is the specific reasoning required? (e.g., "Analyze these emails and prioritize them based on urgency and sender seniority.")</li>
+      <li><strong>Examples:</strong> Show, don't just tell. (e.g., "Here is an example of the tone I want...")</li>
+      <li><strong>Action:</strong> What exactly do you want the AI to do? (e.g., "Draft three response options for the top priority email.")</li>
+      <li><strong>Restrictions:</strong> What should the AI NOT do? (e.g., "Do not use corporate jargon like 'synergy' or 'leverage'. Keep responses under 50 words.")</li>
+    </ul>
+
+    <div class="case-study">
+      <div class="case-title">Case Study: The Vague vs. The CLEAR Prompt</div>
+      <p><strong>Vague (Amateur):</strong> "Write an email to my team about the new vacation policy."<br><em>Result:</em> A generic, robotic, 5-paragraph essay that sounds like a corporate textbook.</p>
+      <p><strong>CLEAR (Professional):</strong> "Act as the Operations Manager for a 20-person remote team (Context). We are updating our vacation policy to unlimited PTO starting next month. Write an announcement email (Action). It needs to be upbeat but clear that 'unlimited' still requires 2 weeks notice for approval (Logic). Keep it under 150 words and do not use bullet points (Restrictions). Tone should be similar to: 'Hey team, great news about how we take time off...' (Examples)."<br><em>Result:</em> A perfectly formatted, ready-to-send email that requires zero editing.</p>
+    </div>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Intent Translation</div>
+      <p>Your client will often give you vague instructions like "Draft a reply to John." The AI cannot read your client's mind. The Human Margin is your ability to translate the client's vague intent into a CLEAR prompt.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">10-Minute Drill: Fix the Prompt</div>
+      <p>Take this amateur prompt and rewrite it using the CLEAR framework.</p>
+      <p><em>Amateur Prompt:</em> "Summarize this meeting transcript."</p>
+      <p>Write your CLEAR prompt now. Think about who the summary is for, what specific action items need to be extracted, and how it should be formatted.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide1')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide3')">Next: Best Practices, Compliance & Security →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="slide" id="slide3">
+    <div class="section-title">Session 3: Best Practices, Compliance & Security</div>
+    <p>As a KeyPlayers VA, you will handle sensitive client data. When using free-tier AI tools, you must assume that <strong>everything you type can be used to train future models</strong> by the AI companies.</p>
+
+    <h2>The Zero-Trust Policy & Data Sanitization</h2>
+    <p>Before pasting any client document into Claude, ChatGPT, or Kimi, you must sanitize it:</p>
+    <ul>
+      <li><strong>Remove PII (Personally Identifiable Information):</strong> Names, phone numbers, addresses.</li>
+      <li><strong>Remove Financials:</strong> Exact revenue numbers, bank accounts, passwords.</li>
+      <li><strong>Remove Proprietary IP:</strong> Secret formulas, unreleased product codes.</li>
+    </ul>
+    <p><em>Pro Tip:</em> Use placeholder names like [CLIENT_A] or [REVENUE_Q1] in your prompts. You can add the real data back in manually <em>after</em> the AI generates the draft.</p>
+
+    <h2>The Iteration Loop (Best Practice)</h2>
+    <p>Never accept the first output. The best operators use the "Iteration Loop":</p>
+    <ol>
+      <li><strong>Prompt:</strong> Submit your CLEAR prompt.</li>
+      <li><strong>Review:</strong> Read the output critically.</li>
+      <li><strong>Refine:</strong> Tell the AI exactly what to fix.</li>
+      <li><strong>Final Polish:</strong> Move the text to a Word doc and manually edit the final 10%.</li>
+    </ol>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">The Human Margin: Hallucination Checking</div>
+      <p>AI hallucinates (makes things up). If an AI gives you a statistic, a quote, or a legal precedent, the human margin dictates that you MUST verify it via a standard Google search before sending it to a client.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">5-Minute Drill: The Sanitization Exercise</div>
+      <p><strong>Scenario:</strong> Your client asks you to summarize this email: "Hi team, Q3 revenue was $4.2M, up from $3.8M. John Smith (jsmith@email.com) led the charge. Let's discuss Project Phoenix tomorrow."</p>
+      <p><strong>Task:</strong> Rewrite this text to be 100% sanitized before pasting it into a free-tier LLM.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn btn-outline" onclick="navSlide('slide2')">← Previous</button>
+      <button type="button" class="btn" onclick="navSlide('slide4')">Next: Advanced Constraints & Formatting →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="slide" id="slide4">
+    <div class="section-title">Session 4: Advanced Constraints & Formatting</div>
+    <p>Once you master the CLEAR framework, the next step is controlling the AI's output format. If you have to spend 10 minutes reformatting the AI's response, the prompt failed.</p>
+
+    <h2>Controlling Output Formats</h2>
+    <div class="prompt-block">"Output the results EXACTLY in this JSON format:
+{
+  "client_name": "[Name]",
+  "company": "[Company]",
+  "urgency_level": "[High/Medium/Low]",
+  "key_action_item": "[1 sentence summary]"
+}"</div>
+
+    <h2>Metaprompting: Let the AI Write the Prompt</h2>
+    <p>One of the most advanced skills an AI Operator can develop is <strong>Metaprompting</strong>. This means using the AI to write a better prompt for you.</p>
+    <div class="prompt-block">"I need to write a prompt that will take a 30-page PDF report and extract all the financial projections, formatting them into a specific table. I want the tone to be highly analytical. Can you write the perfect prompt for me to achieve this?"</div>
+    <p>The AI will generate a highly structured, constraint-heavy prompt that you can then copy, fill in with your specific details, and use. This is how you level up from a user to an architect.</p>
+
+    <h2>Cross-Referencing: The Ultimate Human Margin</h2>
+    <p>AI hallucinates. The best operators use <strong>Cross-Referencing</strong>. If Claude gives you a complex legal summary or a critical data point, copy that output and paste it into Gemini or ChatGPT with this prompt:</p>
+    <div class="prompt-block">"Review this summary for factual accuracy. Identify any logical leaps, missing context, or potential hallucinations."</div>
+    <p>This is the Human Margin in action: using one AI to verify another, and making the final judgment yourself.</p>
+
+    <h2>The Power of Negative Constraints</h2>
+    <p>AI models are trained to be helpful, which often makes them verbose. To eliminate this, use strong negative constraints:</p>
+    <ul>
+      <li>"Do not include any conversational filler."</li>
+      <li>"Output ONLY the requested table, nothing else."</li>
+      <li>"Never use exclamation points."</li>
+    </ul>
+
+    <div class="case-study">
+      <div class="case-title">Case Study: The Executive Briefing</div>
+      <p>A KeyPlayers VA was asked to summarize 15 pages of industry news for their CEO every morning. Initially, the VA used a basic prompt, resulting in a 2-page summary the CEO never read.</p>
+      <p>The VA updated the prompt with strict formatting constraints: "Output the summary as a markdown table with three columns: 'News Item', 'Impact on Our Business', and 'Recommended Action'. Limit each cell to exactly one sentence. Do not include introductory or concluding text."</p>
+      <p>The result was a highly scannable, 30-second read that the CEO praised as "the most valuable email I get all day."</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">10-Minute Drill: The Strict Formatter</div>
+      <p>Imagine you have a messy transcript of a client discovery call. Write a prompt that forces the AI to extract the client's pain points, budget, and timeline, and output them STRICTLY as a comma-separated values (CSV) list with no other text.</p>
+    </div>
+
+    <div class="qa-section">
+      <div class="qa-title">Day 1 Q&A (15 mins)</div>
+      <p style="font-size: 10pt; color: #8CA692;">This concludes today's content. Please ask the trainer any questions about the CLEAR framework, constraints, or building your prompt library.</p>
+      <div class="nav-buttons">
+        <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
+        <button type="button" class="btn" onclick="navSlide('done')">Complete Day 1 ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="max-width:820px;margin:0 auto;padding:0 24px 6px;">
+  <div style="font-family:'Fraunces',serif;color:#6DB87A;font-size:11pt;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(109,184,122,0.2);padding-bottom:10px;margin-bottom:16px;">Course Navigation</div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <a href="Day01_AI_Fundamentals.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:linear-gradient(135deg,#1A2E22,#152512);color:#6DB87A;border:1px solid #2A6636;font-weight:700;">Day 1 · AI Fundamentals</a>
+    <a href="Day02_Prompting_Mastery.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 2 · Prompting Mastery</a>
+    <a href="Day03_Tool_Selection.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 3 · Tool Selection</a>
+    <a href="Day04_Claude_Deep_Dive.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 4 · Claude Deep Dive</a>
+    <a href="Day05_Cowork_Agentic_AI.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 5 · Cowork & Agentic AI</a>
+    <a href="Day06_GoHighLevel_Foundations.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 6 · GHL Foundations</a>
+    <a href="Day07_GHL_Automation_Workflows.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 7 · GHL Automation</a>
+    <a href="Day08_AI_Meetings_PM_Messaging.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">Day 8 · AI Meetings & PM</a>
+    <a href="index.html" style="padding:9px 14px;border-radius:6px;font-size:9.5pt;text-decoration:none;background:#111F17;color:#8CA692;border:1px solid #1E3425;transition:all 0.2s;">&#8962; Home</a>
+  </div>
+</div>
+
+<div class="footer">
+  KeyPlayers HQ · KP VA AI Training Program · Day 1
+</div>
+
+<script>
+  // ── Navigation ──
+  function showIndex() {
+    document.getElementById('surveySection').style.display = 'block';
+    document.getElementById('sessionIndex').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('sessionIndex').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  function navSlide(slideId) {
+    // Remove active from all slides first
+    document.querySelectorAll('.slide').forEach(function(s) {
+      s.classList.remove('active');
+    });
+
+    // FIX 3: done state restores index instead of leaving blank
+    if (slideId === 'done') {
+      alert('Day 1 Completed! You have mastered the foundation of prompting. See you tomorrow for the Claude Introduction.');
+      showIndex();
+      return;
+    }
+
+    if (slideId === 'index') {
+      showIndex();
+      return;
+    }
+
+    // FIX 4: null guard
+    var el = document.getElementById(slideId);
+    if (!el) { showIndex(); return; }
+
+    // Hide survey and session index
+    document.getElementById('surveySection').style.display = 'none';
+    document.getElementById('sessionIndex').style.display = 'none';
+
+    el.classList.add('active');
+
+    // FIX 2: scrollIntoView instead of scrollTo+offsetTop (iframe-safe)
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+
+    // Update hash for GHL deep linking
+    try {
+      if (history.pushState) {
+        history.pushState(null, null, '#' + slideId);
+      } else {
+        location.hash = '#' + slideId;
+      }
+    } catch(e) {}
+  }
+
+  // Handle hash on page load (for GHL embedding)
+  document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var target = document.querySelector(hash);
+      if (target && target.classList.contains('slide')) {
+        navSlide(hash.substring(1));
+      }
+    }
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var target = document.querySelector(hash);
+      if (target && target.classList.contains('slide')) {
+        navSlide(hash.substring(1));
+      } else {
+        showIndex();
+      }
+    }
+  });
+
+  // Toggle "Other" text field
+  function toggleOther(checkbox) {
+    var otherBox = document.getElementById('otherSpecify');
+    otherBox.style.display = checkbox.checked ? 'block' : 'none';
+  }
+
+  // Formspree Integration for Day 1 Survey
+  const FORMSPREE_URL = 'https://formspree.io/f/mdajlwrk';
+
+  function submitPreSurvey() {
+    var name = document.getElementById('surveyName').value.trim();
+    var q1 = document.querySelector('input[name="q1"]:checked');
+    var q2 = document.querySelector('input[name="q2"]:checked');
+    var q3 = document.querySelector('input[name="q3"]:checked');
+    var q4Checked = document.querySelectorAll('input[name="q4"]:checked');
+    var errEl = document.getElementById('surveyError');
+
+    if (!name || !q1 || !q2 || !q3 || q4Checked.length === 0) {
+      errEl.textContent = 'Please fill in all fields before submitting.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var roles = [];
+    q4Checked.forEach(function(cb) {
+      if (cb.value === 'Other') {
+        var otherText = document.getElementById('q4Other').value.trim();
+        if (otherText) roles.push('Other: ' + otherText);
+        else roles.push('Other');
+      } else {
+        roles.push(cb.value);
+      }
+    });
+
+    errEl.style.display = 'none';
+    var btn = document.getElementById('surveyBtn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    var payload = {
+      _subject: 'Day 1 Pre-Training Survey',
+      surveyType: 'pre-training-baseline',
+      name: name,
+      prompting_skill: q1.value,
+      ai_knowledge: q2.value,
+      automation_knowledge: q3.value,
+      roles: roles.join(', ')
+    };
+
+    fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(response) {
+      if (response.ok) {
+        document.getElementById('surveyForm').style.display = 'none';
+        document.getElementById('surveyResult').style.display = 'block';
+        // FIX 6: Auto-scroll to session index after successful submission
+        setTimeout(function() {
+          document.getElementById('sessionIndex').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 400);
+      } else {
+        errEl.textContent = 'Submission failed. Please try again.';
+        errEl.style.display = 'block';
+        btn.textContent = 'Submit Baseline Survey';
+        btn.disabled = false;
+      }
+    }).catch(function() {
+      errEl.textContent = 'Network error. Please check your connection and try again.';
+      errEl.style.display = 'block';
+      btn.textContent = 'Submit Baseline Survey';
+      btn.disabled = false;
+    });
+  }
+</script>
+
+</body>
+</html>

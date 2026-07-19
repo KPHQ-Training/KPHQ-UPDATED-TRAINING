@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | 3 Simple Workflows Every VA Can Build</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#010D07;--bg-glow:#062817;--accent:#22C55E;--accent-2:#34D399;
+    --white:#FFFFFF;--silver:#A1A1AA;--gold:#EAB308;--charcoal:#18181B;
+    --card-bg:#0f1a14;--panel-2:#121A15;--border:#1e2e26;--border-2:#24332C;
+    --ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--red:#ef4444;
+    --font:'Inter',system-ui,-apple-system,sans-serif;--r:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);background:var(--bg-deep);color:var(--silver);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;
+    background:radial-gradient(ellipse at 50% 0%,var(--bg-glow) 0%,var(--bg-deep) 55%);background-attachment:fixed}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 80px}
+
+  /* Header */
+  .page-header{text-align:center;margin-bottom:40px}
+  .logo{font-size:17px;font-weight:800;color:var(--white);letter-spacing:-0.3px;margin-bottom:16px}
+  .logo span{color:var(--accent)}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);padding:5px 14px;border-radius:20px;margin-bottom:16px}
+  h1{font-size:34px;font-weight:800;color:var(--white);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--silver);max-width:600px;margin:0 auto}
+
+  /* Jump nav */
+  .jumpnav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:24px 0 0}
+  .jumpnav a{background:var(--charcoal);color:var(--silver);border:1px solid var(--border);border-radius:20px;padding:7px 15px;font-size:12.5px;font-weight:600;text-decoration:none;transition:all .15s}
+  .jumpnav a:hover{color:var(--white);border-color:var(--accent)}
+
+  /* Example block */
+  .example{margin-top:56px;padding-top:32px;border-top:1px solid var(--border)}
+  .example:first-of-type{margin-top:48px}
+  .ex-num{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.22);padding:5px 13px;border-radius:20px;margin-bottom:14px}
+  .ex-title{font-size:26px;font-weight:800;color:var(--white);letter-spacing:-0.4px;margin-bottom:10px}
+  .ex-desc{font-size:15px;color:var(--silver);margin-bottom:24px;max-width:640px}
+  .ex-desc strong{color:var(--white)}
+
+  h2.sub{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin:28px 0 14px;display:flex;align-items:center;gap:8px}
+  h2.sub svg{width:14px;height:14px}
+
+  /* Vertical flow diagram (GHL-builder style) */
+  .flow-v{display:flex;flex-direction:column;align-items:center;margin:8px 0 4px}
+  .flow-node{flex:none;width:100%;max-width:380px;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-align:left}
+  .flow-node .flow-kind{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);margin-bottom:4px}
+  .flow-node .flow-text{font-size:14px;color:var(--white);font-weight:600}
+  .flow-node.flow-trigger{border-left:3px solid var(--gold)}
+  .flow-node.flow-trigger .flow-kind{color:var(--gold)}
+  .flow-node.flow-wait{border-left:3px solid var(--border-2);background:#0c1410}
+  .flow-node.flow-wait .flow-kind{color:var(--dim)}
+  .flow-connector{width:2px;height:24px;background:var(--border-2);position:relative}
+  .flow-connector::after{content:'+';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--card-bg);border:1px solid var(--border-2);color:var(--dim);font-size:12px;line-height:16px;text-align:center}
+
+  /* Build steps */
+  .step-flow{display:flex;flex-direction:column;gap:0;margin:4px 0 0}
+  .step-item{display:flex;gap:16px;position:relative}
+  .step-item:not(:last-child){padding-bottom:20px}
+  .step-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .step-dot{width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content{flex:1;padding-top:4px}
+  .step-content strong{display:block;color:var(--white);margin-bottom:4px;font-size:14.5px}
+  .step-content p{margin:0;font-size:13.5px;color:var(--silver)}
+
+  /* Callout / tip */
+  .callout{display:flex;gap:13px;align-items:flex-start;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:9px;padding:15px 17px;margin:22px 0 0}
+  .callout-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+  .callout-body{font-size:13.5px;line-height:1.6;color:var(--silver)}
+  .callout-body strong{color:var(--white)}
+
+  /* Universal checklist (bottom) */
+  .checklist-section{margin-top:56px;padding-top:32px;border-top:1px solid var(--border)}
+  .checklist{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .checklist ul{margin:0;padding-left:0;list-style:none}
+  .checklist li{display:flex;gap:11px;align-items:flex-start;margin-bottom:13px;font-size:14px;color:var(--silver)}
+  .checklist li:last-child{margin-bottom:0}
+  .checklist li::before{content:'';flex-shrink:0;width:18px;height:18px;margin-top:1px;border-radius:5px;border:1.5px solid rgba(34,197,94,0.4);background:rgba(34,197,94,0.06)}
+  .checklist strong{color:var(--white)}
+
+  .warn-card{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.22);border-left:3px solid var(--red);border-radius:var(--r);padding:18px 22px;margin-top:20px}
+  .warn-card .warn-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--red);margin-bottom:8px}
+  .warn-card p{margin:0;font-size:13.5px;color:var(--silver)}
+  .warn-card strong{color:var(--white)}
+
+  /* Footer */
+  .page-footer{text-align:center;margin-top:56px;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:#6b7280}
+  .page-footer a{color:var(--accent);text-decoration:none}
+  .page-footer a:hover{text-decoration:underline}
+
+  @media(max-width:640px){
+    .wrap{padding:28px 16px 60px}
+    h1{font-size:26px}
+    .ex-title{font-size:21px}
+    .jumpnav{gap:6px}
+    .jumpnav a{padding:6px 12px;font-size:11.5px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="page-header">
+    <div class="logo">Key<span>Players</span> HQ</div>
+    <div class="eyebrow">AI Training &middot; Reference</div>
+    <h1>3 Simple Workflows Every VA Can Build</h1>
+    <p class="subtitle">No coding, no theory, just trigger &rarr; action. Each example below is something you can build, test, and publish in a single GHL sub-account in under 15 minutes. Bookmark this page; you'll come back to it.</p>
+    <div class="jumpnav">
+      <a href="#ex1">1. New Lead Welcome</a>
+      <a href="#ex2">2. Appointment Reminder</a>
+      <a href="#ex3">3. Missed-Call Text-Back</a>
+    </div>
+  </div>
+
+  <!-- EXAMPLE 1: NEW LEAD WELCOME -->
+  <div class="example" id="ex1">
+    <div class="ex-num">Example 1 of 3</div>
+    <div class="ex-title">New Lead Welcome</div>
+    <p class="ex-desc">The moment a new lead comes in, they get a text and an email instead of waiting hours for a human to notice them. This is the single most common workflow in GHL, and the first one most VAs ever build.</p>
+
+    <h2 class="sub">The Flow</h2>
+    <div class="flow-v">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Tag "new-lead" added to a contact</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send a welcome SMS</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node flow-wait"><div class="flow-kind">Wait</div><div class="flow-text">Wait 5 minutes</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send a welcome email</div></div>
+    </div>
+
+    <h2 class="sub">How to Build It</h2>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Go to Automation &rarr; Workflows &rarr; Create Workflow</strong><p>Choose "Start from Scratch" so you can see every piece being added.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Click "Add New Trigger"</strong><p>Search for and select <em>Tag Added</em>. In the trigger's settings, choose the tag <em>new-lead</em> (or whichever tag this client uses to mark a fresh lead).</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Click the + below the trigger, add "Send SMS"</strong><p>Write a short, friendly message confirming you received their info. Use a merge field like <code>{{contact.first_name}}</code> so it feels personal.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Click + again, add "Wait"</strong><p>Set it to wait 5 minutes. This small gap is what keeps the sequence from feeling like a robot fired two messages at once.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Click + again, add "Send Email"</strong><p>Write a slightly longer welcome message, what to expect next, and a way to book a call if relevant.</p></div></div>
+      <div class="step-item"><div class="step-dot">6</div><div class="step-content"><strong>Test, then publish</strong><p>Add the <em>new-lead</em> tag to your own test contact and confirm both messages arrive correctly before turning the workflow on for real leads.</p></div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">&#128161;</div>
+      <div class="callout-body"><strong>Why it matters:</strong> responding to a new lead in minutes instead of hours is one of the biggest levers in sales. This workflow does it automatically, 24/7, with zero ongoing effort from you once it's live.</div>
+    </div>
+  </div>
+
+  <!-- EXAMPLE 2: APPOINTMENT REMINDER -->
+  <div class="example" id="ex2">
+    <div class="ex-num">Example 2 of 3</div>
+    <div class="ex-title">Appointment Reminder</div>
+    <p class="ex-desc">Every booked appointment gets a confirmation right away and a reminder the day before, so the client shows up. This is the easiest way to cut no-shows for almost any service business.</p>
+
+    <h2 class="sub">The Flow</h2>
+    <div class="flow-v">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Appointment booked</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send confirmation SMS immediately</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node flow-wait"><div class="flow-kind">Wait</div><div class="flow-text">Wait until 24 hours before the appointment</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send reminder SMS</div></div>
+    </div>
+
+    <h2 class="sub">How to Build It</h2>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Create a new workflow</strong><p>Same starting point: Automation &rarr; Workflows &rarr; Create Workflow &rarr; Start from Scratch.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Add the trigger "Appointment Status"</strong><p>Set the condition to fire when status changes to <em>Booked</em> or <em>Confirmed</em>, depending on the calendar setup.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Add "Send SMS" for the instant confirmation</strong><p>Confirm the date, time, and location or link, using the <code>{{appointment.time}}</code> merge field so it's always correct.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Add a "Wait" step set to "Until a specific time before/after an event"</strong><p>Configure it to wait until 24 hours before the appointment date and time. This is different from a simple "wait 24 hours," it always lands relative to the actual appointment.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Add a second "Send SMS" for the reminder</strong><p>Keep it short: "Reminder: your appointment is tomorrow at {{appointment.time}}. Reply C to confirm."</p></div></div>
+      <div class="step-item"><div class="step-dot">6</div><div class="step-content"><strong>Test on a real (or fake) booking, then publish</strong><p>Book a test appointment for a few minutes out, shrink the wait step temporarily to confirm timing logic, then set it back and publish.</p></div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">&#128161;</div>
+      <div class="callout-body"><strong>Why it matters:</strong> automated reminders are consistently one of the biggest levers for cutting no-shows for service businesses, often by a wide margin, and they require zero manual follow-up once built.</div>
+    </div>
+  </div>
+
+  <!-- EXAMPLE 3: MISSED-CALL TEXT-BACK -->
+  <div class="example" id="ex3">
+    <div class="ex-num">Example 3 of 3</div>
+    <div class="ex-title">Missed-Call Text-Back</div>
+    <p class="ex-desc">The simplest workflow on this page: one trigger, one action. If a call goes unanswered, the caller gets an instant text instead of just a dial tone.</p>
+
+    <h2 class="sub">The Flow</h2>
+    <div class="flow-v">
+      <div class="flow-node flow-trigger"><div class="flow-kind">Trigger</div><div class="flow-text">Inbound call goes unanswered</div></div>
+      <div class="flow-connector"></div>
+      <div class="flow-node"><div class="flow-kind">Action</div><div class="flow-text">Send "sorry we missed you" SMS with a booking link</div></div>
+    </div>
+
+    <h2 class="sub">How to Build It</h2>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Create a new workflow</strong><p>Automation &rarr; Workflows &rarr; Create Workflow &rarr; Start from Scratch.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Add the trigger "Customer Missed Call"</strong><p>This trigger type fires specifically when an inbound call to the business number isn't answered.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Add "Send SMS"</strong><p>Write something like: "Sorry we missed your call! How can we help? Book a time here: [link]." Keep it short and immediate. The caller is texting from the moment they hang up.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Test by calling the business number and not picking up</strong><p>Confirm the text arrives within a few seconds, then publish.</p></div></div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-icon">&#128161;</div>
+      <div class="callout-body"><strong>Why it matters:</strong> a missed call is one of the easiest leads to lose. Most callers won't leave a voicemail or call back; they'll just call the next business on the list. This workflow catches them before they do.</div>
+    </div>
+  </div>
+
+  <!-- UNIVERSAL CHECKLIST -->
+  <div class="checklist-section">
+    <h2 class="sub" style="margin-top:0">Before You Publish, Any Workflow</h2>
+    <div class="checklist">
+      <ul>
+        <li><span><strong>Enrolled a test contact</strong> and watched the workflow run start to finish.</span></li>
+        <li><span><strong>Read every message</strong> out loud, checking tone, spelling, and merge fields (no "Hi {{contact.first_name}}" showing up literally).</span></li>
+        <li><span><strong>Confirmed the trigger</strong> is scoped correctly (right tag, right calendar, right pipeline), not accidentally firing for every contact.</span></li>
+        <li><span><strong>Checked the timing</strong> of any Wait steps, especially time-of-day sends, so messages don't land at 3am.</span></li>
+        <li><span><strong>Turned the workflow ON</strong> (built workflows are paused by default until you toggle them live).</span></li>
+      </ul>
+    </div>
+
+    <div class="warn-card">
+      <div class="warn-head">&#9888; The #1 mistake</div>
+      <p>Publishing a workflow without testing it on a fake contact first. A broken automation doesn't fail quietly. It can text the wrong message to every real contact who matches the trigger, repeatedly. <strong>Always test on yourself before you go live.</strong></p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    KeyPlayers HQ &middot; VA AI Training Program &nbsp;&middot;&nbsp; Workflow Examples Reference<br>
+    Companion to Day 7: GHL Automation Workflows.
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1072 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 1: AI Foundations I</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
+    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
+    --border:#1A2620; --border-2:#24332C;
+    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
+    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
+    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
+    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
+    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
+    --sidebar-w:268px; --maxw:860px; --r:14px;
+    --font-d:'Inter',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
+    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
+    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
+    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}
+  .course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+
+  /* DECK */
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}
+  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
+    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+
+  /* TYPE */
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+
+  /* CARDS */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}
+  .card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}
+  .card-danger .card-head{color:var(--danger)}
+  .card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));
+    border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));
+    border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}
+  .col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+
+  .prompt{position:relative;background:#06100B;border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:36px 18px 16px;margin:14px 0;font-family:'SF Mono','Consolas',monospace;
+    font-size:13px;color:#bfe9cc;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
+  .prompt-tag{position:absolute;top:10px;left:18px;font-family:var(--font-b);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:5px}
+
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}
+  .ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+
+  .predict{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;margin:18px 0}
+  .predict-prompt{font-family:'SF Mono','Consolas',monospace;font-size:16px;color:var(--ink);margin-bottom:18px}
+  .predict-prompt .cursor{display:inline-block;width:9px;background:var(--accent);color:transparent;animation:blink 1s steps(1) infinite;margin-left:2px}
+  @keyframes blink{50%{opacity:0}}
+  .po{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .po-word{font-family:'SF Mono','Consolas',monospace;font-size:14px;width:56px;color:var(--ink)}
+  .po-bar{flex:1;height:9px;background:var(--bg);border-radius:5px;overflow:hidden}
+  .po-bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:grow 1.6s cubic-bezier(.4,0,.2,1) forwards}
+  .po-bar.dim i{background:var(--border-2)}
+  .po-pct{font-size:12px;color:var(--muted);width:42px;text-align:right;font-variant-numeric:tabular-nums}
+  @keyframes grow{to{width:var(--w)}}
+
+  .pipeline{display:flex;align-items:center;gap:0;margin:18px 0}
+  .stage{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 10px 14px;text-align:center;position:relative;animation:stageOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage .step-no{position:absolute;top:7px;left:11px;font-size:10px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
+  .stage-ico{width:42px;height:42px;margin:2px auto 10px;border-radius:12px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--dim);animation:icoOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-ico svg{width:21px;height:21px}
+  .stage-name{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:5px;animation:nameOn 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-cap{font-size:11px;color:var(--dim);line-height:1.45}
+  @keyframes stageOn{0%,17%{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 10px 26px rgba(34,197,94,0.16)}33%,100%{border-color:var(--border);box-shadow:none}}
+  @keyframes icoOn{0%,17%{background:var(--accent);border-color:var(--accent);color:#04150B}33%,100%{background:var(--panel);border-color:var(--border);color:var(--dim)}}
+  @keyframes nameOn{0%,17%{color:var(--ink)}33%,100%{color:var(--muted)}}
+  .connector{flex:0 0 30px;position:relative;height:24px;display:flex;align-items:center;justify-content:center}
+  .connector .line{width:100%;height:2px;background:var(--border);border-radius:2px}
+  .connector .pulse{position:absolute;top:50%;left:0;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-50%);box-shadow:0 0 9px var(--accent);opacity:0;animation:pulseMove 6s linear infinite;animation-delay:var(--pd,0s)}
+  @keyframes pulseMove{0%{left:0;opacity:0}4%{opacity:1}15%{left:calc(100% - 7px);opacity:0}100%{left:calc(100% - 7px);opacity:0}}
+  .pipe-note{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:8px}
+  .pipe-note svg{width:17px;height:17px;color:var(--accent);flex-shrink:0;margin-top:2px}
+  .pipe-note strong{color:var(--ink)}
+
+  /* human-margin flow */
+  .hflow{display:flex;align-items:stretch;gap:0;margin:20px 0}
+  .hnode{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:15px 12px;text-align:center}
+  .hnode .ht{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);margin-bottom:6px}
+  .hnode .hd{font-size:12.5px;color:var(--muted);line-height:1.4}
+  .hnode.you{background:linear-gradient(135deg,rgba(234,179,8,0.13),rgba(34,197,94,0.05));border-color:rgba(234,179,8,0.42)}
+  .hnode.you .ht{color:var(--gold)}
+  .hnode.you .hd{color:var(--ink);font-weight:500}
+  .harrow{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--dim)}
+  .harrow svg{width:16px;height:16px}
+  @media(max-width:680px){.hflow{flex-direction:column}.harrow{transform:rotate(90deg);flex-basis:22px}}
+
+  /* interactive drills */
+  .quiz,.fluffdrill{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}
+  .quiz-fb .no{color:var(--danger);font-weight:700}
+  .quiz-fb strong{color:var(--ink)}
+  .quiz-reset,.fd-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover,.fd-reset:hover{color:var(--accent)}
+  .fd-instr{font-size:13px;color:var(--dim);margin-bottom:12px}
+  .fd-text{font-size:16px;line-height:2.1;color:var(--ink);margin-bottom:16px}
+  .fd-w{cursor:pointer;padding:3px 5px;border-radius:6px;border:1px dashed transparent;transition:all .12s}
+  .fd-w:hover{background:rgba(255,255,255,.045)}
+  .fd-w.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .fluffdrill.answered .fd-w{cursor:default}
+  .fluffdrill.answered .fd-w.fl{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .fluffdrill.answered .fd-w.fp{opacity:.55;text-decoration:line-through;border-color:var(--border-2)}
+  .fd-check{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#04150B;border:none;font-family:var(--font-b);font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:9px;cursor:pointer;transition:all .15s}
+  .fd-check:hover:not(:disabled){transform:translateY(-1px)}
+  .fd-check:disabled{opacity:.45;cursor:default}
+
+  /* Philippines stats */
+  .hookline{display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border:1px solid rgba(234,179,8,.25);border-radius:10px;padding:11px 14px;margin:16px 0 0;font-size:13px;color:var(--muted);line-height:1.55}
+  .hookline svg{width:15px;height:15px;color:var(--gold);flex-shrink:0;margin-top:2px}
+  .hookline strong{color:var(--ink)}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .stat{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:15px 14px}
+  .stat.risk{border-top:2px solid var(--danger)}
+  .stat.win{border-top:2px solid var(--accent)}
+  .stat .num{font-family:var(--font-b);font-size:29px;font-weight:800;line-height:1;letter-spacing:-1px}
+  .stat.risk .num{color:var(--danger)}
+  .stat.win .num{color:var(--accent)}
+  .stat .lab{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
+  .stat .src{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:9px;font-weight:600}
+  .srcline{font-size:10.5px;color:var(--dim);margin:12px 0 0;line-height:1.5}
+  @media(max-width:680px){.stat-grid{grid-template-columns:1fr 1fr}}
+
+  .niche{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .niche-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+  .niche-tab{background:var(--panel-2);border:1px solid var(--border);color:var(--muted);font-family:var(--font-b);font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:pointer;transition:all .15s}
+  .niche-tab:hover{color:var(--ink);border-color:var(--border-2)}
+  .niche-tab.active{background:var(--accent);color:#04150B;border-color:var(--accent)}
+  .niche-panel{display:none;animation:fade .25s ease}
+  .niche-panel.active{display:block}
+  .niche-panel .role{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:6px}
+
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .q{margin-bottom:20px}
+  .q>label{display:block;font-weight:600;color:var(--ink);margin-bottom:10px;font-size:14px}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opts input{position:absolute;opacity:0;width:0;height:0}
+  .opt{padding:9px 14px;border-radius:9px;font-size:13px;background:var(--panel-2);color:var(--muted);border:1px solid var(--border);cursor:pointer;transition:all .15s}
+  .opt:hover{border-color:var(--border-2);color:var(--ink)}
+  .opts input:checked + .opt{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .other-wrap{margin-top:10px;display:none}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){
+    .sidebar{transform:translateX(-100%);transition:transform .3s ease}
+    .sidebar.open{transform:translateX(0)}
+    .mobile-bar{display:flex}
+    .scrim.show{display:block}
+    .main{margin-left:0;padding-top:54px}
+    .slide{padding:24px 18px 30px}
+    .deckbar{height:60px;padding:0 12px}
+    .nav-btn{padding:9px 13px;font-size:13px}
+    .compare{grid-template-columns:1fr}
+    h1{font-size:25px}h2{font-size:21px}
+    .pipeline{flex-direction:column;align-items:stretch}
+    .stage{width:100%}
+    .connector{width:100%;height:24px;flex:0 0 24px}
+    .connector .line{width:2px;height:100%}
+    .connector .pulse{left:50%;top:0;transform:translateX(-50%);animation:pulseMoveV 6s linear infinite;animation-delay:var(--pd,0s)}
+  }
+  @keyframes pulseMoveV{0%{top:0;opacity:0}4%{opacity:1}15%{top:calc(100% - 7px);opacity:0}100%{top:calc(100% - 7px);opacity:0}}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M10.4 6.9 6.6 17.1M13.6 6.9l3.8 10.2M7.5 19h9"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-cpu"/></svg> Day 1 · AI Foundations I</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>How AI Actually Works</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>What It Can &amp; Can't Do</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-shield"/></svg></span>Trust, Security &amp; Judgment</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-target"/></svg></span>Prompting Foundations I</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Practice &amp; Your Niche</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a class="current"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- OPENER -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Today</div>
+    <h1>AI Foundations I</h1>
+    <p class="subtitle">Welcome to Week 1. Over the next two weeks you go from AI foundations to building real automations and running GoHighLevel. Today is the bedrock: how AI actually thinks, what you can trust it with, and your first prompts.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objective</div>
+      <p style="margin-bottom:10px">By the end of today you can:</p>
+      <ul>
+        <li>Explain in plain terms how AI works (why an LLM predicts, it does not look things up)</li>
+        <li>Judge what AI can and cannot be trusted with, and tell fluff from substance</li>
+        <li>Handle client data safely using the operator's standard</li>
+        <li>Write a reliable basic prompt using Role, Task, and Context</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What we'll cover (~2 hrs)</div>
+      <ol>
+        <li>How AI actually works (the prediction engine)</li>
+        <li>What it can and can't do (strengths, hard limits, spotting fluff)</li>
+        <li>Trust, security &amp; judgment (the Trust Scale, handling data safely)</li>
+        <li>Prompting Foundations I (Role, Task, Context)</li>
+        <li>Practice in your niche + Q&amp;A</li>
+      </ol>
+    </div>
+  </div></section>
+
+  <!-- SESSION 0 -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Session 1</div>
+    <h1>How AI Actually Works</h1>
+    <p class="subtitle">Welcome to Day 1. Before tools and prompts, you need the mental model. Understand how these systems work and you will adapt to every update they ship.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> First, a 2-minute baseline</div>
+      <p style="margin-bottom:14px">Tell us where you are starting from. There are no wrong answers. This just helps your trainer pitch the room. (One submission per person.)</p>
+      <div id="surveyForm">
+        <div class="q"><label>Your name</label><input class="field" id="svName" placeholder="First and last name"></div>
+        <div class="q"><label>1. How would you rate your prompting skill today?</label>
+          <div class="opts">
+            <input type="radio" name="q1" id="q1a" value="1"><label class="opt" for="q1a">Never prompted</label>
+            <input type="radio" name="q1" id="q1b" value="2"><label class="opt" for="q1b">Tried a few times</label>
+            <input type="radio" name="q1" id="q1c" value="3"><label class="opt" for="q1c">Use it weekly</label>
+            <input type="radio" name="q1" id="q1d" value="4"><label class="opt" for="q1d">Use it daily</label>
+            <input type="radio" name="q1" id="q1e" value="5"><label class="opt" for="q1e">Advanced / templates</label>
+          </div>
+        </div>
+        <div class="q"><label>2. How well do you understand how AI / LLMs work?</label>
+          <div class="opts">
+            <input type="radio" name="q2" id="q2a" value="1"><label class="opt" for="q2a">Not at all</label>
+            <input type="radio" name="q2" id="q2b" value="2"><label class="opt" for="q2b">Heard of it</label>
+            <input type="radio" name="q2" id="q2c" value="3"><label class="opt" for="q2c">Use 1-2 tools</label>
+            <input type="radio" name="q2" id="q2d" value="4"><label class="opt" for="q2d">Understand models</label>
+            <input type="radio" name="q2" id="q2e" value="5"><label class="opt" for="q2e">Deep understanding</label>
+          </div>
+        </div>
+        <div class="q"><label>3. Automation &amp; technical comfort?</label>
+          <div class="opts">
+            <input type="radio" name="q3" id="q3a" value="1"><label class="opt" for="q3a">Zero experience</label>
+            <input type="radio" name="q3" id="q3b" value="2"><label class="opt" for="q3b">Used Zapier once</label>
+            <input type="radio" name="q3" id="q3c" value="3"><label class="opt" for="q3c">Basic automations</label>
+            <input type="radio" name="q3" id="q3d" value="4"><label class="opt" for="q3d">Comfortable</label>
+            <input type="radio" name="q3" id="q3e" value="5"><label class="opt" for="q3e">Can code / script</label>
+          </div>
+        </div>
+        <div class="q"><label>4. Your role / niche (select all that apply)</label>
+          <div class="opts">
+            <input type="checkbox" name="q4" id="r1" value="General Admin"><label class="opt" for="r1">General Admin</label>
+            <input type="checkbox" name="q4" id="r2" value="Executive Assistant"><label class="opt" for="r2">Executive Assistant</label>
+            <input type="checkbox" name="q4" id="r3" value="Marketing / Ads"><label class="opt" for="r3">Marketing / Ads</label>
+            <input type="checkbox" name="q4" id="r4" value="Social Media"><label class="opt" for="r4">Social Media</label>
+            <input type="checkbox" name="q4" id="r5" value="Bookkeeping / Finance"><label class="opt" for="r5">Bookkeeping / Finance</label>
+            <input type="checkbox" name="q4" id="r6" value="Tech / Web"><label class="opt" for="r6">Tech / Web</label>
+            <input type="checkbox" name="q4" id="r7" value="HR / Recruitment"><label class="opt" for="r7">HR / Recruitment</label>
+            <input type="checkbox" name="q4" id="r8" value="Sales"><label class="opt" for="r8">Sales</label>
+            <input type="checkbox" name="q4" id="r9" value="Operations"><label class="opt" for="r9">Operations</label>
+            <input type="checkbox" name="q4" id="r10" value="Specialized (RE/Mortgage/Health)"><label class="opt" for="r10">Real Estate / Mortgage / Health</label>
+            <input type="checkbox" name="q4" id="r11" value="Other" onchange="toggleOther(this)"><label class="opt" for="r11">Other</label>
+          </div>
+          <div class="other-wrap" id="otherWrap"><input class="field" id="svOther" placeholder="Tell us your role"></div>
+        </div>
+        <div class="err" id="svErr"></div>
+        <button class="btn btn-primary btn-block" id="svBtn" onclick="submitSurvey()">Submit &amp; Begin Day 1</button>
+      </div>
+      <div id="surveyDone" style="display:none;text-align:center;padding:10px 0">
+        <div style="width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg style="width:24px;height:24px;color:#04150B"><use href="#i-check"/></svg></div>
+        <p style="color:var(--ink);font-weight:600;margin-bottom:4px">Baseline recorded. Thank you.</p>
+        <p style="margin:0;font-size:13px">Use the Next button below, or your arrow keys, to begin.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Flip the switch: from user to operator</h2>
+    <p>You already use AI, and that is exactly the right place to build from. Most people only ever scratch the surface, using a fraction of what these tools can do. Today we flip a switch: once you understand how AI actually works, you stop reaching for quick answers and start directing it like a capable teammate. Same tools, far bigger results. And because you understand the engine underneath, you keep up no matter how fast the models change.</p>
+    <p class="hookline"><svg><use href="#i-target"/></svg><span><strong>Why this matters now:</strong> by 2025, 92% of Philippine organizations were already using AI, and the IMF flags the country's vast BPO sector as highly exposed, with routine roles most at risk of automation. Learn to direct AI and you stay on the winning side of that shift.</span></p>
+    <h3>An LLM is a prediction engine</h3>
+    <p>A large language model does one core thing: it reads the text so far and <strong>predicts the most likely next chunk of text</strong>, over and over. It is not looking anything up or "thinking." It produces the most statistically probable continuation, based on patterns it learned from enormous amounts of text.</p>
+    <div class="predict">
+      <div class="predict-prompt">The cat sat on the <span class="cursor">_</span></div>
+      <div class="po"><span class="po-word">mat</span><span class="po-bar"><i style="--w:92%"></i></span><span class="po-pct">92%</span></div>
+      <div class="po"><span class="po-word">rug</span><span class="po-bar dim"><i style="--w:5%"></i></span><span class="po-pct">5%</span></div>
+      <div class="po"><span class="po-word">roof</span><span class="po-bar dim"><i style="--w:3%"></i></span><span class="po-pct">3%</span></div>
+    </div>
+    <p style="margin-bottom:0">That is the whole idea, scaled up billions of times: pick the next word, add it, repeat. Everything impressive AI does is this prediction loop running on patterns it absorbed in training.</p>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>From your prompt to its answer</h2>
+    <p>Zoom out and here is the full journey every request takes. It looks like understanding, but each step is pattern-matching and probability, not comprehension.</p>
+    <div class="pipeline">
+      <div class="stage" style="--d:0s"><span class="step-no">1</span><div class="stage-ico"><svg><use href="#i-msg"/></svg></div><div class="stage-name">Your prompt</div><div class="stage-cap">the text you send in</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:.5s"></span></div>
+      <div class="stage" style="--d:1.1s"><span class="step-no">2</span><div class="stage-ico"><svg><use href="#i-grid"/></svg></div><div class="stage-name">Tokenize</div><div class="stage-cap">split into tokens (word-pieces)</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:1.6s"></span></div>
+      <div class="stage" style="--d:2.2s"><span class="step-no">3</span><div class="stage-ico"><svg><use href="#i-network"/></svg></div><div class="stage-name">Weigh &amp; relate</div><div class="stage-cap">which words matter to each other</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:2.7s"></span></div>
+      <div class="stage" style="--d:3.3s"><span class="step-no">4</span><div class="stage-ico"><svg><use href="#i-target"/></svg></div><div class="stage-name">Predict</div><div class="stage-cap">picks the most likely next token</div></div>
+      <div class="connector"><span class="line"></span><span class="pulse" style="--pd:3.8s"></span></div>
+      <div class="stage" style="--d:4.4s"><span class="step-no">5</span><div class="stage-ico"><svg><use href="#i-align"/></svg></div><div class="stage-name">Assemble</div><div class="stage-cap">adds the token, then repeats</div></div>
+    </div>
+    <p class="pipe-note"><svg><use href="#i-compass"/></svg><span><strong>Steps 3 to 5 loop for every token.</strong> The model builds your answer one piece at a time, always asking the same question: given everything so far, what is the most likely next token? That loop is the "deducing" and "predicting." There is no lookup and no real understanding underneath it.</span></p>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>How it learned: machine learning in one breath</h2>
+    <p>Traditional software is <strong>programmed</strong>: a human writes explicit rules. Machine learning is <strong>trained</strong>: you show the system millions of examples and it learns the patterns itself. Three ideas explain almost everything you will see:</p>
+    <table>
+      <thead><tr><th>Concept</th><th>What it means</th><th>Why you will feel it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Training data</strong></td><td>The text it learned from. It can only pattern-match what it saw.</td><td>Niche or very recent topics get weaker, vaguer answers.</td></tr>
+        <tr><td><strong>Knowledge cutoff</strong></td><td>Training stopped on a date, with no built-in awareness after it.</td><td>It will not know last week's news unless it can search the web.</td></tr>
+        <tr><td><strong>Context window</strong></td><td>How much text it can hold in mind at once. Its short-term memory.</td><td>In long chats, early details get pushed out and forgotten.</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>An LLM does not <em>know</em> facts. It predicts likely text. Once that clicks, every strength and flaw it has makes sense.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>Quick check: how AI works</h2>
+    <p>Before we move on, a fast gut-check. Pick one.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
+      <div class="quiz-q">When an AI assistant gives you an answer, what is it actually doing?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It has no database to search. There is no lookup step happening inside the model."><span class="qmark"></span><span class="qtext">Searching a built-in database of facts</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="It generates text one token at a time, choosing the most probable continuation from patterns it learned in training."><span class="qmark"></span><span class="qtext">Predicting the most likely next words from patterns it learned</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="It imitates reasoning patterns, but it has no real understanding and no stakes in the outcome."><span class="qmark"></span><span class="qtext">Reasoning like a human, with real understanding</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Only if a search tool is connected. By default it predicts from training data and does not browse the web."><span class="qmark"></span><span class="qtext">Copying answers live from the internet</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- SESSION 1 -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Session 2</div>
+    <h1>What It Can &amp; Can't Do</h1>
+    <p class="subtitle">Knowing the line between superpower and trap is what separates an operator from a casual user. Same engine, two faces.</p>
+    <h2>The three things it genuinely excels at</h2>
+    <table>
+      <thead><tr><th>Strength</th><th>What it looks like</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Generate</strong></td><td>Produce new text from a brief: drafts, outlines, ideas, variations, code.</td></tr>
+        <tr><td><strong>Transform</strong></td><td>Reshape existing content: summarize, rewrite, translate, change format or tone.</td></tr>
+        <tr><td><strong>Reason-assist</strong></td><td>Work through structured problems with you: compare options, explain, organize messy input.</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-bottom:0">The pattern: it is strongest when it has <strong>material to work from</strong> and a <strong>clear shape</strong> to produce. Give it both and it performs. Leave it to guess and it drifts.</p>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The hard limits</h2>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Built into how it works: prediction, not knowledge</div>
+      <ul style="margin-bottom:0">
+        <li><strong>Hallucination.</strong> It will invent facts, quotes, and numbers, all stated with total confidence.</li>
+        <li><strong>No live knowledge.</strong> Past its cutoff it is blind, unless it has a web or search tool connected.</li>
+        <li><strong>Weak at exact math and counting</strong> unless it uses a calculator or code tool.</li>
+        <li><strong>Inherited bias.</strong> It reflects patterns, and skews, in its training data.</li>
+        <li><strong>No real stakes or understanding.</strong> It does not grasp consequences the way a person does.</li>
+      </ul>
+    </div>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Confidently wrong</div>"The 2023 study by Henderson et al. found a 47% increase..." It sounds authoritative and is perfectly formatted, yet it may be <strong>entirely invented</strong>.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Safely useful</div>"Summarize the three documents I pasted into a 5-bullet brief." This is grounded in material you supplied and easy to verify.</div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>More limits VAs run into every day</h2>
+    <p>Beyond hallucination, there are four practical limits you will hit on the job. These are not bugs — they are how LLMs are built. Knowing them prevents surprises.</p>
+    <table>
+      <thead><tr><th>Limit</th><th>What it means for you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>No memory between sessions</strong></td><td>Every new conversation starts blank. It does not remember the client context you gave it last Tuesday. You have to re-brief it each time, or use a memory tool like Projects.</td></tr>
+        <tr><td><strong>Context window degrades</strong></td><td>In very long conversations, it starts losing track of earlier instructions. If output starts drifting, start a fresh conversation and paste only what matters.</td></tr>
+        <tr><td><strong>Can't take real-world actions</strong></td><td>It does not send emails, book appointments, post to social, or touch any platform unless a tool is explicitly connected. By default it only produces text.</td></tr>
+        <tr><td><strong>Can't verify its own errors</strong></td><td>A confident wrong answer looks identical to a confident right one. It does not flag its own mistakes. You are the only one who catches them.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The one that trips people up most</div>
+      <p style="margin:0">No memory between sessions. VAs assume it "knows" the client from last time. It does not. <strong>Re-brief every session</strong>, or use Projects to keep context alive between conversations.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Spotting AI slant &amp; fluff</h2>
+    <p>There is a subtler failure than hallucination. AI does not just risk being wrong. It defaults to being <strong>bland</strong>. Because it predicts the most average, probable phrasing, its first draft is usually padded, hedge-y, and over-formal. Learning to hear that "AI sound" and cut it is one of the most valuable editing skills you will build.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-x"/></svg> The tells: common AI giveaways</div>
+      <ul style="margin-bottom:0">
+        <li><strong>Empty openers:</strong> "In today's fast-paced world...", "In the ever-evolving landscape of..."</li>
+        <li><strong>Throat-clearing:</strong> restating your question, or "Certainly! Great question!" first</li>
+        <li><strong>Hedging filler:</strong> "It's important to note that...", "It's worth mentioning..."</li>
+        <li><strong>Stacked connectors:</strong> "Furthermore," "Moreover," "Additionally" piling up</li>
+        <li><strong>Vague buzzwords:</strong> "robust," "seamless," "cutting-edge," "leverage," "game-changing"</li>
+        <li><strong>Words people rarely say:</strong> "delve," "tapestry," "testament to," "navigate the complexities"</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Fluff vs. substance</h2>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Fluffy (AI default)</div>"In today's fast-paced digital landscape, it's important to note that leveraging a robust, seamless follow-up strategy can be a true game-changer for unlocking your business's full potential."</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Tightened (operator)</div>"Reply within the first hour, while the lead is still warm. Here is a 3-step sequence you can send today."</div>
+    </div>
+    <p>The fluffy version sounds impressive but says almost nothing. The tight version is specific, concrete, and gets to the point.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> The 2-question fluff test</div>
+      <ol style="margin-bottom:0">
+        <li><strong>Delete test:</strong> could I cut this sentence and lose no real information? Then cut it.</li>
+        <li><strong>Specifics test:</strong> does it say something concrete (a number, a name, a real step), or does it just sound nice? If it only sounds nice, rewrite or remove it.</li>
+      </ol>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>AI is confidently wrong as easily as confidently right, and confidently <em>bland</em> by default. Confidence is not correctness, and polish is not substance.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>Drill: spot the fluff</h2>
+    <p>Here is a draft reply to a client. Tap the phrases that are fluff, then check your answer.</p>
+    <div class="fluffdrill">
+      <div class="quiz-tag"><svg><use href="#i-x"/></svg> Spot the fluff</div>
+      <p class="fd-instr">Tap each phrase you think adds no real information.</p>
+      <p class="fd-text">
+        <span class="fd-w" data-fluff="true" onclick="fdToggle(this)">In today's fast-paced world,</span>
+        <span class="fd-w" onclick="fdToggle(this)">we will</span>
+        <span class="fd-w" data-fluff="true" onclick="fdToggle(this)">leverage cutting-edge strategies to</span>
+        <span class="fd-w" onclick="fdToggle(this)">send your weekly report every Friday</span>
+        <span class="fd-w" onclick="fdToggle(this)">and flag anything urgent.</span>
+      </p>
+      <button class="fd-check" onclick="fdCheck(this)">Check answers</button>
+      <div class="quiz-fb"></div>
+      <button class="fd-reset" onclick="fdReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <!-- SESSION 2 -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Session 3</div>
+    <h1>Trust, Security &amp; Judgment</h1>
+    <p class="subtitle">AI is the engine. You are the pilot. Your real job is the part AI cannot do: the judgment, decisions, and care that turn raw output into work people can trust.</p>
+    <h2>You are the human margin</h2>
+    <p>AI handles speed and volume. You handle everything that needs a human: deciding what is right for this client, catching what is off, and owning the result. That gap between a fast draft and a decision someone can act on is where you add value. We call it the <em>human margin</em>, and it is the reason an operator beats AI working alone.</p>
+    <div class="hflow">
+      <div class="hnode"><div class="ht">Task</div><div class="hd">The work that needs doing</div></div>
+      <div class="harrow"><svg><use href="#i-arrow"/></svg></div>
+      <div class="hnode"><div class="ht">AI</div><div class="hd">Drafts fast, at volume</div></div>
+      <div class="harrow"><svg><use href="#i-arrow"/></svg></div>
+      <div class="hnode you"><div class="ht">You · Human margin</div><div class="hd">Judge, decide, refine, own it</div></div>
+      <div class="harrow"><svg><use href="#i-arrow"/></svg></div>
+      <div class="hnode"><div class="ht">Outcome</div><div class="hd">Work someone can trust</div></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>What only you bring</h2>
+    <p>These are the things AI cannot do, no matter how advanced it gets. They are your edge as an operator, and the reason a human stays in the loop.</p>
+    <table>
+      <thead><tr><th>You provide</th><th>Why AI cannot</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Judgment &amp; decisions</strong></td><td>It offers generic "best practice." You choose what is right for this client, in this moment.</td></tr>
+        <tr><td><strong>Context &amp; relationships</strong></td><td>You know the history, the preferences, and the things nobody wrote down.</td></tr>
+        <tr><td><strong>Intuition &amp; taste</strong></td><td>You sense when something feels off, read tone, and know what will actually land.</td></tr>
+        <tr><td><strong>Accountability</strong></td><td>A real person stands behind the work. AI has no stakes and carries no responsibility.</td></tr>
+        <tr><td><strong>Discretion &amp; ethics</strong></td><td>You know what not to send, and when to pause and ask first.</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>The human margin grows, it does not shrink, as AI improves. The more AI produces, the more your judgment decides what is actually good.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>By the numbers: AI and work in the Philippines</h2>
+    <p>Our team is in the Philippines; our clients are in the US and Canada. So this is your home market, and here is where the AI shift stands as of the latest 2025 and 2026 reports.</p>
+    <div class="stat-grid">
+      <div class="stat risk"><div class="num">1 in 3</div><div class="lab">Filipino workers are highly exposed to AI in their jobs.</div><div class="src">IMF, 2025</div></div>
+      <div class="stat risk"><div class="num">14%</div><div class="lab">of jobs are at risk of displacement; another 22% will change significantly.</div><div class="src">IMF, 2025</div></div>
+      <div class="stat win"><div class="num">~60%</div><div class="lab">of those exposed jobs are also "complementary": AI boosts them, not replaces them.</div><div class="src">IMF, 2025</div></div>
+      <div class="stat win"><div class="num">92%</div><div class="lab">of Philippine organizations already used AI in some form in 2025 (most still early-stage).</div><div class="src">PH AI Report, 2025</div></div>
+      <div class="stat win"><div class="num">1.9M</div><div class="lab">Filipino BPO workers; the sector hit a record ~$40B and grew jobs +4% in 2025, beating the world.</div><div class="src">IBPAP, Jan 2026</div></div>
+      <div class="stat win"><div class="num">57%</div><div class="lab">of firms say they lack AI-skilled talent, so AI-literate operators are in demand.</div><div class="src">PH AI Report, 2025</div></div>
+    </div>
+    <p style="margin:0"><strong style="color:var(--ink)">The takeaway:</strong> AI is reshaping Filipino work, not erasing it. The roles at risk are the routine ones that do not adapt. Learn to direct AI, the human margin, and you stay on the side that is in demand.</p>
+    <p class="srcline">Sources: IMF Working Paper (2025), "AI and the Philippine Labor Market"; Philippine AI Report 2025 (Swarm); IBPAP year-end 2025 results (Jan 2026). Figures cover Philippine organizations and the BPO/IT-BPM sector, not virtual assistants specifically.</p>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>The Trust Scale</h2>
+    <table>
+      <thead><tr><th>Level</th><th>Use freely for</th><th>Your check</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--accent)">Trust</strong></td><td>Brainstorming, outlines, first drafts, internal notes, reformatting</td><td>Light skim</td></tr>
+        <tr><td><strong style="color:var(--gold)">Verify</strong></td><td>Client emails, social posts, summaries, anything someone will read</td><td>Read every line; fix tone and facts</td></tr>
+        <tr><td><strong style="color:var(--danger)">Never blind-trust</strong></td><td>Stats, quotes, legal, medical, or financial claims, names, dates, anything published</td><td>Verify against a real source first</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Handling data safely: the operator's standard</h2>
+    <p>We work with real businesses and real people's information, so <strong>compliance is not optional. It is part of the job</strong>. Treat every free AI tool as a public space: assume anything you paste could be stored or used to train the model. Before client data goes near a tool, classify it:</p>
+    <table>
+      <thead><tr><th>Data type</th><th>Examples</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Public</strong></td><td>Marketing copy, public website text</td><td>Safe to use</td></tr>
+        <tr><td><strong>Internal</strong></td><td>Draft plans, non-sensitive notes</td><td>Generally fine, use judgment</td></tr>
+        <tr><td><strong style="color:var(--gold)">Sensitive (PII)</strong></td><td>Names, emails, phone numbers, addresses</td><td>Sanitize first, use placeholders</td></tr>
+        <tr><td><strong style="color:var(--danger)">Regulated</strong></td><td>Financial, lending, health, or legal records; account numbers, IDs</td><td>Never in a general AI tool</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-bottom:0"><strong>Sanitize before you paste.</strong> Swap real details for placeholders like <strong>[CLIENT]</strong>, <strong>[AMOUNT]</strong>, and <strong>[ACCOUNT#]</strong>. Let AI work on the template, then add the real values back yourself. <strong>Separate your accounts:</strong> use a dedicated work account, never personal, and turn off model-training and chat-history settings where the tool allows it.</p>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> Why the bar is higher in some industries</div>
+      <p style="margin:0">Certain fields carry legal duties around personal data, including finance, lending, healthcare, and legal. For regulated data the rule is simple: it does <strong>not</strong> go into a general AI tool, only an approved, contracted environment. If you are ever unsure whether something is safe to share, <strong>ask before you act</strong>, never after.</p>
+    </div>
+    <h2>Three verification habits</h2>
+    <ul>
+      <li><strong>Ground it.</strong> Give AI the source material instead of asking from memory, so the output is checkable.</li>
+      <li><strong>Cross-check the risky bits.</strong> Any figure, quote, or claim: confirm with a real source before sending.</li>
+      <li><strong>The "would I sign this?" test.</strong> Before anything leaves your hands: would I put my name on this and stand behind it?</li>
+    </ul>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Security Standard</div>
+      <p>When in doubt, leave it out. Sanitize sensitive data, keep regulated data out of general AI tools, and ask before you act.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>AI drafts. <em>You</em> decide. That never changes, no matter how good the model gets.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>Drill: would you share this data?</h2>
+    <p>A client running a home remodeling company asks you to use AI to write personalized follow-up emails for 50 leads. They send you a spreadsheet — names, phone numbers, email addresses, and the quote amount from each visit. What is the right approach?</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-shield"/></svg> Data security scenario</div>
+      <div class="quiz-q">Which move is correct?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Speed never justifies sharing PII. Pasting the spreadsheet means 50 real people's names, numbers, and financial details go into a general AI tool. That is a data breach, not an efficiency win."><span class="qmark"></span><span class="qtext">Paste the whole spreadsheet — faster work = better service.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Correct. Replace real values with placeholders ([NAME], [EMAIL], [AMOUNT]), paste the sanitized version, and let AI draft the template. Then add the real data back yourself. AI does the heavy lifting; the PII never leaves your hands."><span class="qmark"></span><span class="qtext">Sanitize first — replace names, emails, and amounts with placeholders. Paste that. Add real data back yourself after.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Too cautious — and it defeats the point of using AI. The task is fine. The fix is sanitizing, not skipping. Refusing every task with personal data is not a security policy, it is a productivity problem."><span class="qmark"></span><span class="qtext">Don't use AI at all — personal data means no AI involvement.</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Incognito mode hides your browsing from your local browser history. It does nothing to protect what you send to the AI provider's servers. The data still travels to and is processed by the model."><span class="qmark"></span><span class="qtext">Open an incognito browser window — that keeps the data private.</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+    <div class="card card-secure" style="margin-top:20px">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> What incognito actually does</div>
+      <p style="margin:0">Incognito hides activity from your <strong>local browser history</strong>. It does not encrypt, hide, or protect anything you send to an external service. The AI provider still receives and processes every character you paste. Data security happens before you hit send, not in how you open the tab.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 3 -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Session 4</div>
+    <h1>Prompting Foundations I</h1>
+    <p class="subtitle">Prompting is a learnable skill, not a talent. Today: the first three building blocks. Tomorrow we finish the set and learn to debug bad output.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The golden rule</div>
+      <p style="margin:0;color:var(--ink);font-size:16px;font-weight:600">Treat AI like a brilliant new hire on their first day.</p>
+      <p style="margin:8px 0 0">Capable and eager, but they do not know your business, your client, your tone, or what "good" looks like until you tell them. The more you give them, the better they perform.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>The first three blocks: Role, Task, Context</h2>
+    <h3>1. Role: tell it who to be</h3>
+    <p>Sets the voice, vocabulary, and perspective. The fastest way to stop getting generic output.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Without</div>"Write a social post." The voice is random and could be anything.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> With</div>"You are a social media manager for a boutique real-estate brokerage." Now it writes for the right audience.</div>
+    </div>
+    <h3>2. Task: say exactly what you want done</h3>
+    <p>Be specific about the deliverable, length, and format. Vague tasks produce vague results.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Vague</div>"Help me with emails." Write? Review? Summarize? It guesses.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Specific</div>"Draft a 5-day follow-up email, under 100 words, friendly, ending in a soft call to action."</div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h3>3. Context: give the background a new hire would need</h3>
+    <p>Who is this for? What has happened already? What do they care about? Missing context is the number-one reason output is "technically fine but wrong for the situation."</p>
+    <h2>Putting it together</h2>
+    <div class="prompt"><span class="prompt-tag">Role, Task, Context</span>You are an executive assistant for a busy consultant. (Role)
+
+Write a short reply declining a meeting request without closing the door. (Task)
+
+Context: the sender is a potential partner we like but cannot prioritize this quarter; the consultant wants to stay warm and revisit in Q3.</div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Context in, quality out. The model cannot read your mind, so give it what a capable new hire would need to do the job right.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 4 -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 1 · Session 5</div>
+    <h1>Practice &amp; Your Niche</h1>
+    <p class="subtitle">Foundations only stick when you apply them to your own work. Try the drill, then see the building blocks in your field.</p>
+    <div class="exercise">
+      <div class="ex-head"><span class="ex-badge"><svg><use href="#i-flask"/></svg> Drill</span><span class="ex-title">Fix the weak prompt</span></div>
+      <p>Take this lazy prompt and rebuild it using <strong>Role, Task, Context</strong>:</p>
+      <div class="prompt"><span class="prompt-tag">Before</span>Summarize this meeting.</div>
+      <p style="margin:0">Decide: who is the summary for? What should it pull out? What format do they need? Write your improved version, run it, and compare.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>See it in your niche</h2>
+    <p>Same three blocks, every role. Pick yours:</p>
+    <div class="niche">
+      <div class="niche-tabs">
+        <button class="niche-tab active" onclick="showNiche('admin',this)">Admin</button>
+        <button class="niche-tab" onclick="showNiche('ea',this)">Exec Assistant</button>
+        <button class="niche-tab" onclick="showNiche('mkt',this)">Marketing / Ads</button>
+        <button class="niche-tab" onclick="showNiche('social',this)">Social Media</button>
+        <button class="niche-tab" onclick="showNiche('book',this)">Bookkeeping</button>
+        <button class="niche-tab" onclick="showNiche('tech',this)">Tech / Web</button>
+        <button class="niche-tab" onclick="showNiche('hr',this)">HR</button>
+        <button class="niche-tab" onclick="showNiche('sales',this)">Sales</button>
+        <button class="niche-tab" onclick="showNiche('ops',this)">Operations</button>
+        <button class="niche-tab" onclick="showNiche('re',this)">Real Estate</button>
+        <button class="niche-tab" onclick="showNiche('mort',this)">Mortgage</button>
+        <button class="niche-tab" onclick="showNiche('health',this)">Healthcare</button>
+      </div>
+      <div class="niche-panel active" id="niche-admin"><div class="role">General Admin</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an admin assistant for a 10-person design studio. Turn these messy notes into a clean, prioritized to-do list grouped by owner. Context: it is our Monday stand-up dump; the team scans it on mobile, so keep each item to one line.</div></div>
+      <div class="niche-panel" id="niche-ea"><div class="role">Executive Assistant</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an EA for a startup founder. Draft a calm reply pushing a call to next week without sounding flaky. Context: we have rescheduled once already; the relationship matters and the founder is genuinely slammed.</div></div>
+      <div class="niche-panel" id="niche-mkt"><div class="role">Marketing / Ads</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a paid-ads specialist. Write 5 primary-text variations for a Meta lead-gen ad. Context: a local HVAC company, audience is homeowners aged 35 to 60, offer is a free tune-up; tone is trustworthy, not hypey.</div></div>
+      <div class="niche-panel" id="niche-social"><div class="role">Social Media Manager</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a social media manager for a wellness coach. Draft 3 Instagram captions on "consistency beats intensity." Context: a warm voice; audience is busy moms; each caption ends with a simple question to drive comments.</div></div>
+      <div class="niche-panel" id="niche-book"><div class="role">Bookkeeping / Finance</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a bookkeeper. Draft a polite reminder for an invoice 14 days overdue. Context: a long-standing client we want to keep; firm but friendly; offer to resend the invoice and a payment link. (Never paste real account numbers into a free AI tool.)</div></div>
+      <div class="niche-panel" id="niche-tech"><div class="role">Tech / Web</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a web VA. Explain to a non-technical client why their site loads slowly, in plain language. Context: a WordPress site with large unoptimized images; the client is nervous about "tech stuff," so end with the 2 fixes that matter most.</div></div>
+      <div class="niche-panel" id="niche-hr"><div class="role">HR / Recruitment</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a recruitment assistant. Write a friendly LinkedIn outreach to a passive candidate. Context: a mid-level designer; we are remote-first; under 80 words; lead with what is in it for them, not us.</div></div>
+      <div class="niche-panel" id="niche-sales"><div class="role">Sales</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are a sales assistant. Turn this discovery-call transcript into a 4-line recap. Context: pull out the prospect's main pain point, budget signal, the objection raised, and the agreed next step, nothing else.</div></div>
+      <div class="niche-panel" id="niche-ops"><div class="role">Operations</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an ops coordinator. Draft a one-page weekly status update from these project notes. Context: it goes to leadership who skim in 30 seconds, so lead with wins, then risks, then what you need from them.</div></div>
+      <div class="niche-panel" id="niche-re"><div class="role">Real Estate</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an assistant at a real-estate team. Draft a warm follow-up to a buyer who toured a home but went quiet. Context: they loved the kitchen but worried about the commute; offer two similar listings. (Keep personal and financial details out of the AI tool.)</div></div>
+      <div class="niche-panel" id="niche-mort"><div class="role">Mortgage</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an assistant at a mortgage brokerage. Draft a clear, reassuring email explaining which documents a first-time buyer needs to start pre-approval. Context: they are nervous and not finance-savvy; keep it to a short checklist; warm and plain-language. (Never paste Social Security numbers, account numbers, or pay stubs into a free AI tool.)</div></div>
+      <div class="niche-panel" id="niche-health"><div class="role">Healthcare</div><div class="prompt"><span class="prompt-tag">R, T, C</span>You are an admin assistant at a small medical clinic. Draft a friendly appointment-reminder text plus a short follow-up for no-shows. Context: patients skim on mobile; keep each message under two lines and include how to reschedule. (Never put patient names, conditions, or any health details into a free AI tool; that is protected information.)</div></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Wrap-up &amp; what's next</h2>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 2 (activity)</div>
+      <p><strong>1.</strong> Rewrite 3 prompts you would actually use this week with Role, Task, and Context. Save them in a doc called "Prompt Library."</p>
+      <p style="margin:0"><strong>2.</strong> Run one of them, then change just the Context and run it again. Notice how much the output shifts.</p>
+    </div>
+    <div class="qa">
+      <h3>Day 1 Q&amp;A</h3>
+      <p>Bring your questions on prediction, hallucinations, the Trust Scale, data safety, or the building blocks. Tomorrow we add Constraints and Examples, learn to debug bad output, and build your decision framework for picking the right tool.</p>
+      <a class="btn btn-primary" href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener" style="margin-top:6px">Continue to Day 2 <svg><use href="#i-arrow"/></svg></a>
+    </div>
+  </div></section>
+
+  </div>
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">How AI Actually Works</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 22</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script src="./class-schedule.js"></script>
+<script>
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 1', DAY_INDEX:1 };
+
+/* ---- date-unlock guardrail ---- */
+(function(){
+  if(new URLSearchParams(window.location.search).has('admin')){
+    function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b(); return;
+  }
+  if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}
+  var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);
+  if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
+    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    function showLock(){
+      var el=document.createElement('div'); el.id='kpLocked';
+      el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+      el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
+        '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
+        '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">session not yet open</div>'+
+        '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+CONFIG.DAY+' opens on '+d+'</h2>'+
+        '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">Check back on '+d+'. Your instructor will share the link when the session goes live.</p>'+
+      '</div>';
+      document.body.appendChild(el);
+    }
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',showLock):showLock();
+  }
+})();
+
+/* ---- login gate (serves as Day 1 attendance) ---- */
+function kpD1Track_(p){try{navigator.sendBeacon(CONFIG.SUBMIT_URL,JSON.stringify(p));}catch(e){}}
+function kpD1Once_(k){if(localStorage.getItem(k))return false;localStorage.setItem(k,'1');return true;}
+function kpD1GateOpen(){
+  if(localStorage.getItem('kp_gate_Day 1'))return;
+  var g=document.createElement('div');g.id='kpGate';
+  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">KeyPlayers VA Academy · Day 1</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Login to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">Enter your name to check in and unlock Day 1. This records your attendance.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Login &amp; start training &#9654;</button></div>';
+  document.body.appendChild(g);
+  var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');
+  function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);localStorage.setItem('kp_name',f+' '+l);localStorage.setItem('kp_gate_Day 1','1');if(kpD1Once_('kp_att_Day 1'))kpD1Track_({formType:'attendance',day:'Day 1',name:f+' '+l,firstName:f,lastName:l,userAgent:navigator.userAgent});var gate=document.getElementById('kpGate');if(gate&&gate.parentNode)gate.parentNode.removeChild(gate);}
+  btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});
+  setTimeout(function(){try{fn.focus();}catch(e){}},50);
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpD1GateOpen):kpD1GateOpen();
+
+/* ---- past sessions navigator ---- */
+const KP_SESSIONS=[
+  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
+  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
+  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
+  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
+  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
+  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
+  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},
+  {day:'Day 9',label:'KeyCommand',url:'Day09_KeyCommand.html'},
+  {day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}
+];
+function kpNavBuild(){
+  var base='https://kphq-updated-training.vercel.app/';
+  var panel=document.createElement('div'); panel.id='kpNavPanel';
+  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
+  panel.innerHTML='<a href="index.html" style="display:flex;align-items:center;gap:7px;padding:8px 10px;margin-bottom:10px;border-radius:8px;text-decoration:none;color:#9fb0a4;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)">&#8592; Course Home</a><div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
+  KP_SESSIONS.forEach(function(s){
+    var done=!!localStorage.getItem('kp_done_'+s.day);
+    var isCur=(s.day===CONFIG.DAY);
+    var a=document.createElement('a');
+    a.href=base+s.url;
+    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
+    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
+    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
+    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
+    panel.appendChild(a);
+  });
+  document.body.appendChild(panel);
+  var btn=document.createElement('div'); btn.id='kpNavBtn';
+  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
+  btn.innerHTML='&#9776; Sessions';
+  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
+  document.body.appendChild(btn);
+  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+
+const sesNames = ['How AI Actually Works','What It Can & Can’t Do','Trust, Security & Judgment','Prompting Foundations I','Practice & Your Niche'];
+
+const slides = [...document.querySelectorAll('.slide')];
+const navLinks = [...document.querySelectorAll('#nav a')];
+const pfill = document.getElementById('pfill'), ptext = document.getElementById('ptext');
+const dbLabel = document.getElementById('dbLabel'), dbCount = document.getElementById('dbCount');
+const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
+let cur = 0;
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active', i===cur));
+  const ses = +slides[cur].dataset.ses;
+  navLinks.forEach((a,i)=>{a.classList.toggle('active', i===ses); a.classList.toggle('done', i<ses);});
+  pfill.style.width = Math.round(((cur+1)/slides.length)*100)+'%';
+  ptext.textContent = 'Slide '+(cur+1)+' of '+slides.length;
+  dbLabel.textContent = sesNames[ses];
+  dbCount.innerHTML = '<strong>'+(cur+1)+'</strong> / '+slides.length;
+  prevBtn.disabled = cur===0;
+  if(cur===slides.length-1){
+    nextBtn.innerHTML = 'Day 2 <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = ()=>{ if(kpD1Once_('kp_done_Day 1')) kpD1Track_({formType:'completed',day:'Day 1',name:localStorage.getItem('kp_name')||'',nextDay:'Day 2',userAgent:navigator.userAgent}); window.open('https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html','_blank'); };
+  } else {
+    nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = next;
+  }
+  const sc = slides[cur]; sc.scrollTop = 0;
+  sc.querySelectorAll('.po-bar i').forEach(el=>{el.style.animation='none'; void el.offsetHeight; el.style.animation='';});
+}
+function next(){ if(cur<slides.length-1){ cur++; render(); } }
+function prev(){ if(cur>0){ cur--; render(); } }
+function goSession(s){ const i = slides.findIndex(sl=>+sl.dataset.ses===s); if(i>=0){ cur=i; render(); } closeNav(); }
+
+document.addEventListener('keydown', e=>{
+  const t = document.activeElement.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); next(); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+
+function toggleNav(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('scrim').classList.toggle('show'); }
+function closeNav(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
+function showNiche(id,btn){
+  document.querySelectorAll('.niche-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.niche-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('niche-'+id).classList.add('active'); btn.classList.add('active');
+}
+function quizPick(btn){
+  const quiz=btn.closest('.quiz'); if(quiz.classList.contains('answered'))return;
+  quiz.classList.add('answered');
+  const opts=[...quiz.querySelectorAll('.quiz-opt')];
+  const correctOpt=opts.find(o=>o.dataset.correct==='true');
+  const chose=btn.dataset.correct==='true';
+  opts.forEach(o=>{o.disabled=true; if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});
+  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}
+  const fb=quiz.querySelector('.quiz-fb');
+  fb.innerHTML = chose
+    ? '<strong class="ok">Correct.</strong> '+btn.dataset.why
+    : '<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;
+  fb.classList.add('show');
+  quiz.querySelector('.quiz-reset').style.display='inline-block';
+}
+function quizReset(btn){
+  const quiz=btn.closest('.quiz'); quiz.classList.remove('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});
+  const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
+  btn.style.display='none';
+}
+function fdToggle(w){const d=w.closest('.fluffdrill'); if(d.classList.contains('answered'))return; w.classList.toggle('sel');}
+function fdCheck(btn){
+  const d=btn.closest('.fluffdrill'); if(d.classList.contains('answered'))return;
+  d.classList.add('answered');
+  let total=0,hit=0,fp=0;
+  d.querySelectorAll('.fd-w').forEach(w=>{const fl=w.dataset.fluff==='true',sel=w.classList.contains('sel');
+    if(fl){total++;w.classList.add('fl');if(sel)hit++;}
+    if(sel&&!fl){fp++;w.classList.add('fp');}});
+  const fb=d.querySelector('.quiz-fb');
+  fb.innerHTML='<strong class="ok">'+hit+' of '+total+'</strong> fluff phrases caught'+(fp?(', plus '+fp+' you marked that were actually fine'):'')+'. The phrases in red sound impressive but add no information. What is left is the real message.';
+  fb.classList.add('show'); btn.disabled=true;
+  d.querySelector('.fd-reset').style.display='inline-block';
+}
+function fdReset(btn){
+  const d=btn.closest('.fluffdrill'); d.classList.remove('answered');
+  d.querySelectorAll('.fd-w').forEach(w=>w.classList.remove('sel','fl','fp'));
+  const fb=d.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
+  d.querySelector('.fd-check').disabled=false; btn.style.display='none';
+}
+function toggleOther(cb){ document.getElementById('otherWrap').style.display = cb.checked?'block':'none'; }
+function submitSurvey(){
+  const name=document.getElementById('svName').value.trim();
+  const q1=document.querySelector('input[name="q1"]:checked'), q2=document.querySelector('input[name="q2"]:checked'), q3=document.querySelector('input[name="q3"]:checked');
+  const roles=[...document.querySelectorAll('input[name="q4"]:checked')];
+  const err=document.getElementById('svErr');
+  if(!name||!q1||!q2||!q3||roles.length===0){ err.textContent='Please fill in your name and all four questions.'; err.style.display='block'; return; }
+  err.style.display='none';
+  try{ localStorage.setItem('kp_name', name); }catch(e){}  // remember name so later days auto-check-in
+  const roleVals=roles.map(r=>r.value==='Other'?('Other: '+(document.getElementById('svOther').value.trim()||'')):r.value);
+  const payload={ formType:'pre-training-baseline', day:CONFIG.DAY, name, prompting_skill:q1.value, ai_knowledge:q2.value, automation_knowledge:q3.value, roles:roleVals.join(', '), submitted_at:new Date().toISOString() };
+  const btn=document.getElementById('svBtn'); btn.textContent='Submitting...'; btn.disabled=true;
+  const finish=()=>{ document.getElementById('surveyForm').style.display='none'; document.getElementById('surveyDone').style.display='block'; };
+  if(CONFIG.SUBMIT_URL.startsWith('http')){
+    fetch(CONFIG.SUBMIT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(finish).catch(finish);
+  } else { console.log('[Survey payload, set CONFIG.SUBMIT_URL to capture]',payload); setTimeout(finish,400); }
+}
+render();
+</script>
+</body>
+</html>
+

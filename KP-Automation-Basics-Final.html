@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy: Automation Basics — If/Else Conditions</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Epilogue:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Epilogue', Arial, sans-serif;
+  font-size: 11pt;
+  color: #E0E0E0;
+  background: radial-gradient(ellipse at top center, #101E14 0%, #0C1A10 55%, #080F0C 100%);
+  background-attachment: fixed;
+  margin: 0; padding: 0;
+}
+
+.header {
+  background: linear-gradient(135deg, #050909 0%, #0A1510 50%, #050A07 100%);
+  padding: 22px 40px; text-align: center;
+  border-bottom: 2px solid #6DB87A;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.6), 0 1px 0 rgba(109,184,122,0.15);
+}
+.header-text {
+  font-family: 'Fraunces', serif; color: #DDEEE0;
+  font-size: 13pt; font-weight: 500; letter-spacing: 4px; text-transform: uppercase;
+}
+
+.container { max-width: 820px; margin: 44px auto; padding: 0 24px; }
+
+h1 {
+  font-family: 'Fraunces', serif;
+  background: linear-gradient(135deg, #DDEEE0 40%, #6DB87A 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  font-size: 22pt; font-weight: 500; text-align: center; margin-bottom: 12px; line-height: 1.25;
+}
+
+.subtitle { text-align: center; color: #7A9880; margin-bottom: 44px; font-size: 10.5pt; line-height: 1.6; }
+
+/* Session Index */
+.session-index { margin-bottom: 28px; }
+.session-index-title {
+  font-family: 'Fraunces', serif; color: #6DB87A; font-size: 11pt;
+  margin-bottom: 14px; padding-bottom: 10px; letter-spacing: 2px; text-transform: uppercase;
+  border-bottom: 1px solid rgba(109,184,122,0.2);
+}
+.session-card {
+  display: block;
+  background: linear-gradient(135deg, #111F17 0%, #0E1B13 100%);
+  border: 1px solid #1E3425; border-radius: 8px; padding: 16px 22px; margin-bottom: 10px;
+  color: #8CA692; text-decoration: none; font-size: 10.5pt;
+  transition: all 0.22s ease; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+.session-card:hover {
+  background: linear-gradient(135deg, #1A2E22 0%, #162518 100%);
+  border-color: #2A6636; color: #DDEEE0;
+  box-shadow: 0 4px 20px rgba(42,102,54,0.25); transform: translateY(-1px);
+}
+.session-card .snum { color: #6DB87A; font-weight: 700; margin-right: 8px; font-size: 10pt; }
+
+/* Slides */
+.slide {
+  display: none;
+  background: linear-gradient(160deg, #121E17 0%, #0F1A13 60%, #0C1710 100%);
+  border: 1px solid #1E3425; border-radius: 10px; padding: 34px 36px; margin-bottom: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 1px 0 rgba(42,102,54,0.12);
+}
+.slide.active { display: block; }
+
+.section-title {
+  font-family: 'Fraunces', serif; font-size: 19pt; color: #DDEEE0;
+  padding-bottom: 14px; margin-bottom: 24px; position: relative; font-weight: 500;
+}
+.section-title::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 56px; height: 2px;
+  background: linear-gradient(90deg, #6DB87A 0%, rgba(109,184,122,0.1) 100%); border-radius: 2px;
+}
+
+h2 { font-family: 'Fraunces', serif; font-size: 14pt; color: #DDEEE0; margin-top: 26px; margin-bottom: 12px; font-weight: 500; }
+p { line-height: 1.75; margin-bottom: 16px; }
+ul, ol { margin-bottom: 22px; padding-left: 22px; }
+li { margin-bottom: 11px; line-height: 1.65; }
+
+/* Callout boxes */
+.human-margin-box {
+  background: linear-gradient(135deg, #091610 0%, #0C1B12 100%);
+  border-left: 3px solid #2A6636; padding: 22px 24px; margin: 28px 0;
+  border-radius: 0 10px 10px 0;
+  box-shadow: inset 3px 0 18px rgba(42,102,54,0.08), 0 4px 18px rgba(0,0,0,0.35);
+}
+.human-margin-title {
+  font-family: 'Fraunces', serif; color: #4A9B5A; font-weight: 600;
+  margin-bottom: 10px; font-size: 12pt; letter-spacing: 0.2px;
+}
+
+.drill-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(201,168,76,0.03) 100%);
+  border: 1px solid rgba(201,168,76,0.28); padding: 22px 24px; margin: 28px 0;
+  border-radius: 10px; box-shadow: 0 0 24px rgba(201,168,76,0.06), 0 4px 18px rgba(0,0,0,0.3);
+}
+.drill-title {
+  font-family: 'Fraunces', serif; color: #C9A84C; font-weight: 700;
+  margin-bottom: 10px; font-size: 12pt; letter-spacing: 0.2px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.case-study {
+  background: linear-gradient(135deg, rgba(42,102,54,0.1) 0%, rgba(42,102,54,0.04) 100%);
+  border: 1px solid rgba(42,102,54,0.35); padding: 22px 24px; margin: 28px 0;
+  border-radius: 10px; box-shadow: 0 0 24px rgba(42,102,54,0.08), 0 4px 18px rgba(0,0,0,0.3);
+}
+.case-title {
+  font-family: 'Fraunces', serif; color: #4A9B5A; font-weight: 700;
+  margin-bottom: 10px; font-size: 12pt; letter-spacing: 0.2px;
+}
+
+.pill {
+  display: inline-block; background: #1A2E22; color: #6DB87A;
+  padding: 4px 11px; border-radius: 4px; font-size: 9pt; font-weight: 700;
+  margin-right: 6px; margin-bottom: 8px; letter-spacing: 0.3px;
+  border: 1px solid rgba(109,184,122,0.2);
+}
+
+.prompt-block {
+  background: #040A07; border: 1px solid #1A2E22; border-left: 3px solid #2A6636;
+  border-radius: 0 8px 8px 0; padding: 18px 20px;
+  font-family: 'Courier New', monospace; font-size: 10pt; color: #7AC888;
+  white-space: pre-wrap; margin: 18px 0;
+  box-shadow: inset 0 2px 12px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  line-height: 1.65;
+}
+
+/* Step number styling */
+.step-list { list-style: none; padding-left: 0; counter-reset: step-counter; }
+.step-list li {
+  counter-increment: step-counter;
+  padding: 14px 18px 14px 54px;
+  margin-bottom: 10px;
+  position: relative;
+  background: linear-gradient(135deg, #0E1A13 0%, #0B1610 100%);
+  border: 1px solid #1A2E22;
+  border-radius: 8px;
+  line-height: 1.65;
+}
+.step-list li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  background: linear-gradient(135deg, #2A6636 0%, #1E4D27 100%);
+  color: #DDEEE0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 9.5pt;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(42,102,54,0.4);
+}
+.step-list li strong { color: #DDEEE0; }
+.step-list li .note { display: block; color: #6DB87A; font-size: 9.5pt; margin-top: 5px; }
+
+/* Section divider */
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(109,184,122,0.12);
+  margin: 32px 0;
+}
+
+/* Q&A section */
+.qa-section {
+  background: linear-gradient(135deg, #070E09 0%, #0A1510 100%);
+  border: 1px solid #1E3425; border-radius: 10px; padding: 28px 30px;
+  margin-top: 44px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.qa-title { color: #DDEEE0; font-weight: 700; margin-bottom: 14px; font-size: 13pt; font-family: 'Fraunces', serif; }
+
+/* Navigation */
+.nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; gap: 12px; }
+.nav-buttons.end { justify-content: flex-end; }
+.nav-right { display: flex; gap: 12px; }
+
+.btn {
+  background: linear-gradient(135deg, #2A6636 0%, #1E4D27 100%);
+  color: #DDEEE0; border: none; padding: 11px 22px; border-radius: 6px;
+  font-weight: 700; cursor: pointer; font-family: 'Epilogue', sans-serif;
+  font-size: 10.5pt; letter-spacing: 0.3px; transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(42,102,54,0.35);
+}
+.btn:hover {
+  background: linear-gradient(135deg, #336B40 0%, #2A6636 100%);
+  box-shadow: 0 6px 22px rgba(42,102,54,0.45); transform: translateY(-1px);
+}
+.btn-outline {
+  background: transparent; border: 1px solid rgba(42,102,54,0.6); color: #6DB87A; box-shadow: none;
+}
+.btn-outline:hover {
+  background: rgba(42,102,54,0.12); border-color: #2A6636; color: #DDEEE0;
+  box-shadow: 0 4px 14px rgba(42,102,54,0.2);
+}
+.btn-ghost {
+  background: transparent; border: none; color: #4A6B52; font-size: 9.5pt;
+  padding: 6px 2px; cursor: pointer; font-family: 'Epilogue', sans-serif; transition: color 0.18s;
+}
+.btn-ghost:hover { color: #6DB87A; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; margin: 22px 0; }
+th, td { padding: 13px 15px; border: 1px solid #1A2E22; text-align: left; }
+th {
+  background: linear-gradient(135deg, #060B08 0%, #0A1410 100%);
+  color: #6DB87A; font-weight: 700; font-size: 9.5pt; letter-spacing: 0.8px; text-transform: uppercase;
+}
+tr:nth-child(even) td { background: rgba(42,102,54,0.04); }
+tr:hover td { background: rgba(42,102,54,0.08); transition: background 0.15s; }
+
+/* Footer */
+.footer { text-align: center; color: #3A5A42; font-size: 9.5pt; margin-top: 44px; padding-bottom: 44px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-text">KeyPlayers VA Academy</span>
+</div>
+
+<div class="container">
+  <h1>Automation Basics — If/Else Conditions</h1>
+  <p class="subtitle">Three step-by-step automations using Make and ActivePieces — free tools that work with your Google Workspace apps.</p>
+
+  <div id="sessionIndex" class="session-index">
+    <div class="session-index-title">Sessions</div>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide1')">
+      <span class="snum">Session 1:</span> How Automations Work — Concepts &amp; If/Else Logic
+    </a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide2')">
+      <span class="snum">Session 2:</span> Automation 1 — Gmail Label Router (Make)
+    </a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide3')">
+      <span class="snum">Session 3:</span> Automation 2 — Google Form → Conditional Email (Make)
+    </a>
+    <a class="session-card" href="javascript:void(0)" onclick="navSlide('slide4')">
+      <span class="snum">Session 4:</span> Automation 3 — Google Sheet → Task Creator (ActivePieces)
+    </a>
+  </div>
+
+  <!-- SESSION 1 -->
+  <div class="slide" id="slide1">
+    <div class="section-title">Session 1: How Automations Work</div>
+
+    <h2>What is an automation?</h2>
+    <p>An automation is a task your tools do for you — no clicking, no copy-pasting. You set it up once, and it runs on its own every time the trigger happens.</p>
+    <p>Think of it like a rule you set in your email inbox: <em>"If an email is from my boss, mark it as important."</em> You wrote that rule once. Now your inbox handles it forever.</p>
+
+    <h2>What is an if/else condition?</h2>
+    <p>An if/else condition is the decision point inside your automation. It tells the tool: <em>"Check this one thing — and depending on the answer, take this path or that path."</em></p>
+
+    <div class="case-study">
+      <div class="case-title">Real Example</div>
+      <p style="margin-bottom:10px;">A Google Form comes in. Your automation checks the "Urgency" field.</p>
+      <ul style="margin-bottom:0;">
+        <li><strong>If</strong> it says "High" → email the manager immediately</li>
+        <li><strong>Else</strong> (anything other than High) → log it to a spreadsheet</li>
+      </ul>
+    </div>
+
+    <h2>The two free tools you'll use</h2>
+    <table>
+      <thead>
+        <tr><th>Tool</th><th>Best For</th><th>Free Tier</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Make.com</strong></td><td>Multi-step flows, routers, Gmail/Forms/Sheets</td><td>1,000 operations/month</td></tr>
+        <tr><td><strong>ActivePieces</strong></td><td>Simple flows, beginner-friendly interface, no credit card</td><td>Unlimited runs (fair use)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>The three automations in this module</h2>
+    <ul>
+      <li><span class="pill">Make</span> <strong>Gmail Label Router</strong> — Reads incoming emails and labels them based on the subject or sender</li>
+      <li><span class="pill">Make</span> <strong>Google Form → Conditional Email</strong> — Sends a manager alert for urgent submissions; logs normal ones to a spreadsheet</li>
+      <li><span class="pill">ActivePieces</span> <strong>Google Sheet → Task Creator</strong> — When a new row is added, creates a Google Task for qualified leads and sends a review email for everything else</li>
+    </ul>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">Before You Start</div>
+      <p style="margin-bottom:0;">Make sure you are logged into your Google Workspace account in your browser. Both Make and ActivePieces connect to Google directly — you'll authorize them once, and they'll remember it from then on.</p>
+    </div>
+
+    <div class="nav-buttons end">
+      <button type="button" class="btn" onclick="navSlide('slide2')">Next: Gmail Label Router →</button>
+    </div>
+  </div>
+
+  <!-- SESSION 2 -->
+  <div class="slide" id="slide2">
+    <div class="section-title">Session 2: Gmail Label Router</div>
+
+    <p><span class="pill">Make</span> <span class="pill">Gmail</span> — When an email arrives, check what it is and label it automatically.</p>
+    <p>This automation reads your incoming emails and sorts them into labels — no manual inbox management needed.</p>
+
+    <div class="case-study">
+      <div class="case-title">What This Automation Does</div>
+      <ul style="margin-bottom:0;">
+        <li><strong>If</strong> the subject contains "invoice" → apply the label "Invoices" and star the email</li>
+        <li><strong>Else if</strong> the sender is from your client's domain → apply the label "Clients"</li>
+        <li><strong>Else</strong> → do nothing (the email stays as normal)</li>
+      </ul>
+    </div>
+
+    <hr class="section-divider">
+
+    <h2>Part 1 — Account Setup (do once)</h2>
+    <ol class="step-list">
+      <li>Go to <strong>make.com</strong> in your browser and click <strong>Sign up for free</strong><span class="note">Use your Google account to sign up — it's faster and you won't need a separate password.</span></li>
+      <li>Once you're in, click <strong>Create a new scenario</strong> (top right button)</li>
+      <li>You'll see a blank canvas with a large <strong>+</strong> in the middle — click it</li>
+    </ol>
+
+    <h2>Part 2 — Set Up the Trigger (Gmail)</h2>
+    <ol class="step-list" style="counter-reset: step-counter 3;">
+      <li>In the search box that appears, type <strong>Gmail</strong> and select it from the list</li>
+      <li>Choose <strong>Watch Emails</strong> as your trigger — this means Make will check for new emails on a schedule</li>
+      <li>Click <strong>Add</strong> next to the Google connection field, then click <strong>Continue</strong> and authorize your Google account<span class="note">A Google login popup will appear. Select the same account you use for work and click Allow.</span></li>
+      <li>Set <strong>Folder</strong> to <strong>Inbox</strong></li>
+      <li>Set <strong>Maximum number of results</strong> to <strong>5</strong> (this controls how many emails it processes per run)</li>
+      <li>Click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 3 — Add the Router (the If/Else)</h2>
+    <ol class="step-list" style="counter-reset: step-counter 9;">
+      <li>Hover over the Gmail circle on the canvas and click the small <strong>+</strong> that appears to its right</li>
+      <li>Search for <strong>Router</strong> and select it — a Router splits one path into two (or more) separate branches</li>
+      <li>You'll now see two empty route boxes coming out of the Router — these are your two conditions</li>
+    </ol>
+
+    <h2>Part 4 — Route 1: Invoice Emails</h2>
+    <ol class="step-list" style="counter-reset: step-counter 12;">
+      <li>Click the <strong>wrench icon</strong> (🔧) on Route 1 to set its filter condition</li>
+      <li>Under <strong>Label</strong>, type: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Route 1 — Invoices</code></li>
+      <li>Click <strong>Add AND rule</strong> and set: <strong>Subject</strong> | <strong>Contains (case insensitive)</strong> | type <strong>invoice</strong><span class="note">Lowercase is fine — the "case insensitive" option means it will also match "Invoice" or "INVOICE".</span></li>
+      <li>Click <strong>OK</strong></li>
+      <li>Now click the <strong>+</strong> at the end of Route 1 to add an action. Search <strong>Gmail</strong> → choose <strong>Add a Label to an Email</strong></li>
+      <li>Under <strong>Message ID</strong>, click in the field — a panel will open on the left. Click the Gmail icon and select <strong>Message ID</strong> from the dropdown<span class="note">This maps the email that triggered the automation to this action.</span></li>
+      <li>Under <strong>Label Name</strong>, type: <strong>Invoices</strong> (Make will create this label in Gmail if it doesn't exist yet)</li>
+      <li>Click <strong>OK</strong></li>
+      <li>Click the <strong>+</strong> after that label action. Search <strong>Gmail</strong> → choose <strong>Modify an Email</strong></li>
+      <li>Map <strong>Message ID</strong> the same way as before. Then find <strong>Starred</strong> and set it to <strong>Yes</strong></li>
+      <li>Click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 5 — Route 2: Client Emails</h2>
+    <ol class="step-list" style="counter-reset: step-counter 23;">
+      <li>Click the <strong>wrench icon</strong> on Route 2</li>
+      <li>Label it: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Route 2 — Clients</code></li>
+      <li>Add rule: <strong>From</strong> | <strong>Contains</strong> | type your client's email domain — example: <strong>acmecorp.com</strong><span class="note">You only need the domain (everything after the @). This catches any email from anyone at that company.</span></li>
+      <li>Click <strong>OK</strong></li>
+      <li>Add a <strong>Gmail → Add a Label</strong> action on Route 2. Map the Message ID and set the label name to <strong>Clients</strong></li>
+      <li>Click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 6 — Test and Turn On</h2>
+    <ol class="step-list" style="counter-reset: step-counter 29;">
+      <li>Click <strong>Run once</strong> (bottom left of the screen) — Make will grab your last 5 emails and run them through both routes<span class="note">You'll see green checkmarks on each step that ran successfully, and the number of items processed.</span></li>
+      <li>Open your Gmail and check that the matching emails now have the correct labels applied</li>
+      <li>If everything looks right, click the <strong>toggle switch</strong> at the bottom of the screen to turn the scenario ON<span class="note">Once ON, Make will check for new emails every 15 minutes automatically (on the free plan).</span></li>
+    </ol>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">You Only Authorize Google Once</div>
+      <p style="margin-bottom:0;">Once you connect your Google account in Make, it stays connected for all your future scenarios. You won't need to log in again unless you manually disconnect it.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">⚡ Practice</div>
+      <p style="margin-bottom:0;">Look at your last 10 emails and decide what two labels would be most useful for your inbox. Build this scenario using your own label names instead of "Invoices" and "Clients." What trigger word or sender would you filter by?</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn-ghost" onclick="navSlide('index')">↩ All Sessions</button>
+      <div class="nav-right">
+        <button type="button" class="btn btn-outline" onclick="navSlide('slide1')">← Previous</button>
+        <button type="button" class="btn" onclick="navSlide('slide3')">Next: Form → Conditional Email →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 3 -->
+  <div class="slide" id="slide3">
+    <div class="section-title">Session 3: Google Form → Conditional Email</div>
+
+    <p><span class="pill">Make</span> <span class="pill">Google Forms</span> <span class="pill">Gmail</span> <span class="pill">Google Sheets</span> — When a form is submitted, check the urgency and respond differently depending on the answer.</p>
+    <p>This is the most common automation shape in VA work. Learn this pattern and you'll recognize it everywhere.</p>
+
+    <div class="case-study">
+      <div class="case-title">What This Automation Does</div>
+      <ul style="margin-bottom:0;">
+        <li><strong>If</strong> the "Urgency Level" answer = "High" → send an email alert to the manager right away</li>
+        <li><strong>Else</strong> (Normal or anything else) → add the submission to a Google Sheet log only</li>
+      </ul>
+    </div>
+
+    <hr class="section-divider">
+
+    <h2>Part 1 — Build the Google Form</h2>
+    <ol class="step-list">
+      <li>Go to <strong>forms.google.com</strong> and click the <strong>+</strong> to create a new blank form</li>
+      <li>Title the form: <strong>Task Request Form</strong></li>
+      <li>Click on the first question field. Type: <strong>Your Name</strong> — leave the type as <strong>Short answer</strong></li>
+      <li>Click <strong>Add question</strong> (the + icon on the right sidebar). Type: <strong>Urgency Level</strong></li>
+      <li>Click the question type dropdown (currently says "Multiple choice") and change it to <strong>Dropdown</strong></li>
+      <li>Add two options: type <strong>High</strong> in Option 1, and <strong>Normal</strong> in Option 2</li>
+      <li>Click the <strong>eye icon</strong> (Preview) at the top right to see your form, then submit two test responses:<br>
+        — First response: Name = <em>Test High</em>, Urgency = <em>High</em><br>
+        — Second response: Name = <em>Test Normal</em>, Urgency = <em>Normal</em><span class="note">You need real test responses before Make can detect the form. This step is important — don't skip it.</span></li>
+    </ol>
+
+    <h2>Part 2 — Create a Google Sheet for Logging</h2>
+    <ol class="step-list" style="counter-reset: step-counter 8;">
+      <li>Go to <strong>sheets.google.com</strong> and create a new blank spreadsheet</li>
+      <li>Name it: <strong>Task Request Log</strong></li>
+      <li>In Row 1, add these column headers: <strong>Name</strong> | <strong>Urgency</strong> | <strong>Date Submitted</strong><span class="note">Leave this tab open — you'll need to select it inside Make.</span></li>
+    </ol>
+
+    <h2>Part 3 — Set Up Make</h2>
+    <ol class="step-list" style="counter-reset: step-counter 11;">
+      <li>In Make, create a new scenario</li>
+      <li>Click the <strong>+</strong> on the canvas, search for <strong>Google Forms</strong>, and select <strong>Watch Responses</strong></li>
+      <li>Connect your Google account if prompted</li>
+      <li>Under <strong>Spreadsheet</strong>, find and select your form — it will appear as a spreadsheet file in your Google Drive<span class="note">Google Forms stores responses in a linked spreadsheet. Make accesses it this way.</span></li>
+      <li>Set <strong>Maximum number of results</strong> to <strong>5</strong>, then click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 4 — Add the Router</h2>
+    <ol class="step-list" style="counter-reset: step-counter 16;">
+      <li>Click the <strong>+</strong> after Google Forms and add a <strong>Router</strong></li>
+    </ol>
+
+    <h2>Part 5 — Route 1: High Urgency → Email the Manager</h2>
+    <ol class="step-list" style="counter-reset: step-counter 17;">
+      <li>Click the <strong>wrench icon</strong> on Route 1. Label it: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Route 1 — High</code></li>
+      <li>Add a rule: <strong>Urgency Level</strong> | <strong>Equal to</strong> | <strong>High</strong><span class="note">The field name comes from your form question. Click in the first dropdown to see the list of form fields.</span></li>
+      <li>Click <strong>OK</strong></li>
+      <li>Add action: <strong>Gmail → Send an Email</strong></li>
+      <li>Fill in the fields:
+        <ul style="margin-top:8px;">
+          <li><strong>To:</strong> type your manager's email address</li>
+          <li><strong>Subject:</strong> click in the field, then click the Google Forms icon on the left panel and select <strong>Your Name</strong> — then type around it so the subject reads: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">URGENT Task Request from {{Your Name}}</code></li>
+          <li><strong>Content:</strong> type a short message, e.g. <em>A high-urgency task was just submitted. Please review the form immediately.</em></li>
+        </ul>
+      </li>
+      <li>Click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 6 — Route 2: Normal → Log to Sheet</h2>
+    <ol class="step-list" style="counter-reset: step-counter 23;">
+      <li>Click the <strong>wrench icon</strong> on Route 2. Label it: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Route 2 — Normal</code></li>
+      <li>Leave this route with <strong>no filter</strong> — it will catch everything that did not match Route 1<span class="note">In Make, a route with no filter acts as the "else" — it catches everything that didn't match an earlier route.</span></li>
+      <li>Click <strong>OK</strong></li>
+      <li>Add action: <strong>Google Sheets → Add a Row</strong></li>
+      <li>Select your <strong>Task Request Log</strong> spreadsheet and the correct sheet tab</li>
+      <li>Map the columns:
+        <ul style="margin-top:8px;">
+          <li><strong>Name</strong> → click the field, select <strong>Your Name</strong> from the form data</li>
+          <li><strong>Urgency</strong> → select <strong>Urgency Level</strong> from the form data</li>
+          <li><strong>Date Submitted</strong> → type <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">{{now}}</code> — this inserts the current date/time automatically</li>
+        </ul>
+      </li>
+      <li>Click <strong>OK</strong></li>
+    </ol>
+
+    <h2>Part 7 — Test and Turn On</h2>
+    <ol class="step-list" style="counter-reset: step-counter 30;">
+      <li>Click <strong>Run once</strong> — Make will process your two test responses</li>
+      <li>Check your Gmail inbox — you should have received the URGENT email for the "High" test response</li>
+      <li>Check your Task Request Log spreadsheet — the "Normal" test response should appear as a new row</li>
+      <li>If both worked, click the <strong>toggle</strong> to turn the scenario ON</li>
+    </ol>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">This is the Core Pattern</div>
+      <p style="margin-bottom:0;">Trigger → check a value → two different outcomes. Once you understand this shape, you can apply it to almost any repetitive decision in your workflow. The form and the labels will change — the logic stays the same.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">⚡ Practice</div>
+      <p style="margin-bottom:0;">Think of a form you currently fill out or receive in your work. What one question could you add an if/else rule to? Write out: "If the answer is ____, then ____. Otherwise, ____." You don't need to build it — just write the logic.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" class="btn-ghost" onclick="navSlide('index')">↩ All Sessions</button>
+      <div class="nav-right">
+        <button type="button" class="btn btn-outline" onclick="navSlide('slide2')">← Previous</button>
+        <button type="button" class="btn" onclick="navSlide('slide4')">Next: Sheet → Task Creator →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SESSION 4 -->
+  <div class="slide" id="slide4">
+    <div class="section-title">Session 4: Google Sheet → Task Creator</div>
+
+    <p><span class="pill">ActivePieces</span> <span class="pill">Google Sheets</span> <span class="pill">Google Tasks</span> <span class="pill">Gmail</span> — When a new row is added to your lead tracker, check the status and either create a task or send a review email.</p>
+    <p>This automation uses <strong>ActivePieces</strong> — a free tool with no credit card required. It's a great starting point if Make feels like too much at once.</p>
+
+    <div class="case-study">
+      <div class="case-title">What This Automation Does</div>
+      <ul style="margin-bottom:0;">
+        <li><strong>If</strong> the Status column = "Qualified" → create a Google Task to follow up with that lead</li>
+        <li><strong>Else</strong> (Junk, No Show, Callback, etc.) → send an email alert so someone reviews it</li>
+      </ul>
+    </div>
+
+    <hr class="section-divider">
+
+    <h2>Part 1 — Build the Google Sheet</h2>
+    <ol class="step-list">
+      <li>Go to <strong>sheets.google.com</strong> and create a new spreadsheet</li>
+      <li>Name it: <strong>Lead Tracker</strong></li>
+      <li>In Row 1, add these four column headers exactly as shown:
+        <div class="prompt-block">A1: Name
+B1: Status
+C1: VA Name
+D1: Date</div>
+        <span class="note" style="display:block;color:#6DB87A;font-size:9.5pt;margin-top:8px;">The column names are important — ActivePieces will map your data using them.</span>
+      </li>
+      <li>Add two test rows so the automation has something to process:
+        <div class="prompt-block">Row 2: Test Lead 1 | Qualified | Sarah | 2026-06-18
+Row 3: Test Lead 2 | Junk | Sarah | 2026-06-18</div>
+      </li>
+    </ol>
+
+    <h2>Part 2 — Sign Up for ActivePieces</h2>
+    <ol class="step-list" style="counter-reset: step-counter 5;">
+      <li>Go to <strong>activepieces.com</strong> and click <strong>Get started free</strong><span class="note">No credit card required. You can sign up with your Google account.</span></li>
+      <li>Once you're inside, click <strong>New Flow</strong> in the top right corner</li>
+      <li>Give your flow a name: <strong>Lead Status Router</strong>, then click <strong>Create</strong></li>
+    </ol>
+
+    <h2>Part 3 — Set Up the Trigger</h2>
+    <ol class="step-list" style="counter-reset: step-counter 8;">
+      <li>Click <strong>Select Trigger</strong> on the canvas</li>
+      <li>Search for <strong>Google Sheets</strong> and select it</li>
+      <li>Choose <strong>New Row</strong> as the trigger event</li>
+      <li>Click <strong>Connect</strong> next to the Google connection and sign in with your Google account</li>
+      <li>Under <strong>Spreadsheet</strong>, find and select your <strong>Lead Tracker</strong> sheet</li>
+      <li>Under <strong>Sheet Name</strong>, select the first tab (usually called <strong>Sheet1</strong>)</li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+
+    <h2>Part 4 — Add the Branch (Your If/Else)</h2>
+    <ol class="step-list" style="counter-reset: step-counter 15;">
+      <li>Click the <strong>+</strong> below the trigger step</li>
+      <li>Search for <strong>Branch</strong> and select it — in ActivePieces, a Branch is the if/else step</li>
+      <li>Under <strong>Conditions</strong>, click <strong>Add condition</strong></li>
+      <li>Set the condition:
+        <ul style="margin-top:8px;">
+          <li>First field: click the field and select <strong>Status</strong> from the sheet data on the left</li>
+          <li>Operator: choose <strong>Equals</strong></li>
+          <li>Value: type <strong>Qualified</strong> (match the exact text from your sheet, including capital Q)</li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+
+    <h2>Part 5 — True Branch: Qualified → Create a Task</h2>
+    <ol class="step-list" style="counter-reset: step-counter 20;">
+      <li>Under the <strong>True</strong> path, click the <strong>+</strong></li>
+      <li>Search for <strong>Google Tasks</strong> and select <strong>Add Task</strong></li>
+      <li>Connect your Google account if prompted</li>
+      <li>Fill in the task details:
+        <ul style="margin-top:8px;">
+          <li><strong>Task List:</strong> select <strong>My Tasks</strong> (the default Google Task list)</li>
+          <li><strong>Title:</strong> click in the field, then select <strong>Name</strong> from the sheet data — type around it so it reads: <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Follow up with {{Name}}</code></li>
+          <li><strong>Notes:</strong> type: <em>Qualified lead added by {{VA Name}} on {{Date}}</em> — use the data fields for the parts in curly brackets</li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+
+    <h2>Part 6 — False Branch: Everything Else → Send a Review Email</h2>
+    <ol class="step-list" style="counter-reset: step-counter 25;">
+      <li>Under the <strong>False</strong> path, click the <strong>+</strong></li>
+      <li>Search for <strong>Gmail</strong> and select <strong>Send Email</strong></li>
+      <li>Connect your Google account if prompted</li>
+      <li>Fill in the email:
+        <ul style="margin-top:8px;">
+          <li><strong>To:</strong> type your own email address (or a manager's)</li>
+          <li><strong>Subject:</strong> <code style="background:#040A07;padding:2px 6px;border-radius:3px;color:#7AC888;">Lead marked {{Status}} — needs review</code></li>
+          <li><strong>Body:</strong> <em>{{VA Name}} added a lead that was not marked Qualified. Name: {{Name}}. Status: {{Status}}. Date: {{Date}}.</em></li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+
+    <h2>Part 7 — Test and Publish</h2>
+    <ol class="step-list" style="counter-reset: step-counter 29;">
+      <li>Click <strong>Test Flow</strong> at the top of the screen — ActivePieces will run using your two test rows</li>
+      <li>Check <strong>Google Tasks</strong> (tasks.google.com) — you should see "Follow up with Test Lead 1" as a new task</li>
+      <li>Check your Gmail inbox — you should have received the review email about "Test Lead 2 — Junk"</li>
+      <li>If both worked, click <strong>Publish</strong> (top right) to turn the flow on<span class="note">Once published, the flow will trigger automatically every time a new row is added to your Lead Tracker sheet.</span></li>
+    </ol>
+
+    <div class="human-margin-box">
+      <div class="human-margin-title">What About Other Statuses?</div>
+      <p style="margin-bottom:0;">Right now, your False branch catches everything that isn't "Qualified" — including Callback, No Show, Cold, and anything else. That's fine as a starting point. As you grow comfortable with this, you can nest a second Branch inside the False path to handle more statuses individually.</p>
+    </div>
+
+    <div class="drill-box">
+      <div class="drill-title">⚡ Practice</div>
+      <p>Think through the logic for adding more statuses. Write out each one:</p>
+      <ul style="margin-bottom:0;">
+        <li>If Status = "Callback" → do what?</li>
+        <li>If Status = "No Show" → do what?</li>
+        <li>If Status = "Cold" → do what?</li>
+      </ul>
+    </div>
+
+    <div class="qa-section">
+      <div class="qa-title">Q&amp;A — Common Questions</div>
+
+      <h2 style="margin-top:16px;">What if the automation doesn't trigger?</h2>
+      <p>In Make: make sure the scenario is toggled <strong>ON</strong> (bottom left). On the free plan, it checks every 15 minutes — not instantly. You can also click <strong>Run once</strong> to force a test check immediately.</p>
+      <p>In ActivePieces: make sure the flow is <strong>Published</strong>, not in Draft. Click Publish if you see a blue button at the top.</p>
+
+      <h2>What if I connected the wrong Google account?</h2>
+      <p>In Make: go to <strong>Connections</strong> in the left sidebar, find the Google connection, and click <strong>Verify</strong> or <strong>Delete</strong> it to reconnect with the right account.</p>
+      <p>In ActivePieces: click on any Google step, then click the connection dropdown and select <strong>Add new connection</strong>.</p>
+
+      <h2>Can I add more than two routes or conditions?</h2>
+      <p>Yes. In Make, click the Router module and add a third route. In ActivePieces, add a second Branch step inside the False path. This is called <em>nested logic</em> and it's how you handle three or more possible outcomes.</p>
+
+      <h2>What if I make a mistake while building?</h2>
+      <p>Both tools have an undo button (Ctrl+Z in Make, and a back arrow in ActivePieces). You can also delete any step by right-clicking it and selecting Delete. Nothing is permanent until you turn the automation ON or Publish it.</p>
+
+      <div class="nav-buttons">
+        <button type="button" class="btn-ghost" onclick="navSlide('index')">↩ All Sessions</button>
+        <div class="nav-right">
+          <button type="button" class="btn btn-outline" onclick="navSlide('slide3')">← Previous</button>
+          <button type="button" class="btn" onclick="navSlide('done')">Complete Module ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">KeyPlayers HQ &nbsp;·&nbsp; KP VA AI Training Program &nbsp;·&nbsp; Automation Basics</div>
+
+<script>
+function showIndex() {
+  var idx = document.getElementById('sessionIndex');
+  idx.style.display = 'block';
+  setTimeout(function() {
+    idx.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function navSlide(slideId) {
+  document.querySelectorAll('.slide').forEach(function(s) {
+    s.classList.remove('active');
+  });
+
+  if (slideId === 'done') {
+    alert('Automation Basics Complete — You can now build if/else automations in Make and ActivePieces!');
+    showIndex();
+    return;
+  }
+
+  if (slideId === 'index') {
+    showIndex();
+    return;
+  }
+
+  var el = document.getElementById(slideId);
+  if (!el) { showIndex(); return; }
+
+  document.getElementById('sessionIndex').style.display = 'none';
+  el.classList.add('active');
+
+  setTimeout(function() {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+
+  try {
+    if (history.pushState) { history.pushState(null, null, '#' + slideId); }
+    else { location.hash = '#' + slideId; }
+  } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var hash = window.location.hash;
+  if (hash) {
+    var target = document.querySelector(hash);
+    if (target && target.classList.contains('slide')) {
+      navSlide(hash.substring(1));
+      return;
+    }
+  }
+  showIndex();
+});
+
+window.addEventListener('hashchange', function() {
+  var hash = window.location.hash;
+  if (hash) {
+    var target = document.querySelector(hash);
+    if (target && target.classList.contains('slide')) {
+      navSlide(hash.substring(1));
+      return;
+    }
+  }
+  showIndex();
+});
+</script>
+
+</body>
+</html>

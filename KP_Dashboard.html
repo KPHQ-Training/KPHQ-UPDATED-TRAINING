@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KP Training Dashboard</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#04100A;color:#e2e8e4;font-family:Inter,system-ui,sans-serif;min-height:100vh;padding:32px 24px}
+  h1{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+  .sub{font-size:13px;color:#6b8079;margin-bottom:32px}
+  .token-wrap{background:#0c1410;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:24px;max-width:480px;margin-bottom:32px}
+  .token-wrap h2{font-size:14px;font-weight:600;color:#F59E0B;margin-bottom:12px;letter-spacing:.05em;text-transform:uppercase}
+  .row{display:flex;gap:10px;align-items:center}
+  input{flex:1;padding:10px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:#08100c;color:#fff;font-size:14px;outline:none;font-family:inherit}
+  input:focus{border-color:#22C55E}
+  button{padding:10px 20px;border:none;border-radius:8px;background:#22C55E;color:#04150B;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;font-family:inherit}
+  button:hover{background:#16a34a}
+  .err{color:#F87171;font-size:13px;margin-top:10px;display:none}
+  table{width:100%;border-collapse:collapse;max-width:680px}
+  th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#6b8079;font-weight:600;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+  td{padding:14px 16px;font-size:14px;border-bottom:1px solid rgba(255,255,255,.05)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  .day-label{font-weight:600;color:#e2e8e4}
+  .num{color:#d1fae5;font-weight:600}
+  .pct{font-weight:700}
+  .pct-high{color:#22C55E}
+  .pct-mid{color:#F59E0B}
+  .pct-low{color:#F87171}
+  .pct-none{color:#4b5563}
+  .card{background:#0c1410;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;max-width:680px}
+  .card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .card-title{font-size:13px;font-weight:700;color:#9fb0a4;letter-spacing:.05em;text-transform:uppercase}
+  .refresh-btn{font-size:12px;background:transparent;color:#6b8079;border:1px solid rgba(255,255,255,.1);padding:5px 12px;border-radius:6px}
+  .refresh-btn:hover{color:#e2e8e4;background:rgba(255,255,255,.05)}
+  .updated{font-size:12px;color:#4b5563;margin-top:12px;max-width:680px;text-align:right}
+  .loading{color:#6b8079;font-size:14px;padding:32px 20px}
+  .week-divider td{padding:6px 16px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;background:rgba(245,158,11,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+</style>
+</head>
+<body>
+
+<h1>KP Training Dashboard</h1>
+<p class="sub">KeyPlayers VA Academy · Class 4 · Jun 22 – Jul 3, 2026</p>
+
+<div class="token-wrap" id="tokenWrap">
+  <h2>Access</h2>
+  <div class="row">
+    <input id="tokenInput" type="password" placeholder="Enter dashboard token" autocomplete="off">
+    <button onclick="load()">Load</button>
+  </div>
+  <div class="err" id="tokenErr">Invalid token or connection error.</div>
+</div>
+
+<div class="card" id="tableCard" style="display:none">
+  <div class="card-head">
+    <span class="card-title">Attendance &amp; Completion</span>
+    <button class="refresh-btn" onclick="refresh_()">&#8635; Refresh</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Attended</th>
+        <th>Completed</th>
+        <th>% Completed</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <tr><td colspan="4" class="loading">Loading…</td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="updated" id="updatedAt" style="display:none"></p>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec';
+let activeToken = '';
+let refreshTimer = null;
+
+// Auto-load if token in URL
+(function(){
+  var t = new URLSearchParams(location.search).get('token');
+  if(t){ activeToken = t; document.getElementById('tokenWrap').style.display='none'; document.getElementById('tableCard').style.display='block'; fetchData(); }
+})();
+
+function load(){
+  var t = document.getElementById('tokenInput').value.trim();
+  activeToken = t;
+  document.getElementById('tokenErr').style.display='none';
+  document.getElementById('tableCard').style.display='block';
+  fetchData();
+}
+
+document.getElementById('tokenInput').addEventListener('keydown', function(e){ if(e.key==='Enter') load(); });
+
+function refresh_(){ fetchData(); }
+
+function fetchData(){
+  var url = SCRIPT_URL + '?action=stats' + (activeToken ? '&token='+encodeURIComponent(activeToken) : '');
+  fetch(url, { redirect: 'follow' })
+    .then(function(r){ return r.json(); })
+    .then(function(json){
+      if(!json.ok){ showErr('unauthorized'); return; }
+      render(json.data, json.updated);
+      clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(fetchData, 60000);
+    })
+    .catch(function(){ showErr('connection'); });
+}
+
+function showErr(type){
+  document.getElementById('tokenErr').textContent = type==='unauthorized' ? 'Invalid token.' : 'Could not connect. Check the Apps Script URL.';
+  document.getElementById('tokenErr').style.display = 'block';
+}
+
+function pctClass(pct){
+  if(pct==='—') return 'pct-none';
+  var n = parseInt(pct);
+  if(n>=80) return 'pct-high';
+  if(n>=50) return 'pct-mid';
+  return 'pct-low';
+}
+
+var WEEK1 = ['Day 1','Day 2','Day 3','Day 4','Day 5'];
+
+function render(data, updated){
+  var tbody = document.getElementById('tableBody');
+  if(!data||!data.length){ tbody.innerHTML='<tr><td colspan="4" class="loading">No data yet.</td></tr>'; return; }
+  var html = '';
+  data.forEach(function(row, i){
+    if(i===5){
+      html += '<tr class="week-divider"><td colspan="4">Week 2 — Jun 29 – Jul 3</td></tr>';
+    }
+    if(i===0){
+      html += '<tr class="week-divider"><td colspan="4">Week 1 — Jun 22 – 26</td></tr>';
+    }
+    var pc = pctClass(String(row['% Completed']||'—'));
+    html += '<tr>'+
+      '<td class="day-label">'+row['Day']+'</td>'+
+      '<td class="num">'+(row['Attended']||0)+'</td>'+
+      '<td class="num">'+(row['Completed']||0)+'</td>'+
+      '<td class="pct '+pc+'">'+(row['% Completed']||'—')+'</td>'+
+      '</tr>';
+  });
+  tbody.innerHTML = html;
+  var el = document.getElementById('updatedAt');
+  el.style.display = 'block';
+  el.textContent = 'Last updated: ' + (updated ? new Date(updated).toLocaleString() : new Date().toLocaleString());
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | Tools by Niche</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --charcoal: #18181B;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --pill-bg: #166534;
+    --warn: #f59e0b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 55%);
+    background-attachment: fixed;
+    color: var(--silver);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 100px; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 48px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--silver); text-decoration: none; margin-bottom: 24px; transition: color 0.15s; }
+  .back:hover { color: var(--accent); }
+  .eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; color: var(--accent); background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  h1 { font-size: 36px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 12px; }
+  .subtitle { font-size: 15px; color: var(--silver); max-width: 560px; margin: 0 auto; }
+
+  /* NICHE GRID */
+  .niche-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 680px) { .niche-grid { grid-template-columns: 1fr; } }
+
+  .niche-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s;
+  }
+  .niche-card:hover { border-color: rgba(34,197,94,0.3); }
+
+  .niche-head { display: flex; align-items: center; gap: 12px; }
+  .niche-icon {
+    width: 44px; height: 44px;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); flex-shrink: 0;
+  }
+  .niche-icon svg { width: 20px; height: 20px; }
+  .niche-title { font-size: 17px; font-weight: 800; color: var(--white); }
+  .niche-sub { font-size: 12px; color: var(--silver); margin-top: 1px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--accent); margin-bottom: 8px;
+  }
+
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px; font-weight: 600;
+    background: rgba(34,197,94,0.08);
+    border: 1px solid rgba(34,197,94,0.18);
+    color: var(--accent);
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  .automation-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .automation-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--silver); }
+  .automation-list li::before { content: '→'; color: var(--accent); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+
+  .caution-box {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #d97706;
+    line-height: 1.5;
+  }
+  .caution-box strong { color: var(--warn); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <a class="back" href="index.html">← Back to Course</a>
+    <div class="eyebrow">Reference</div>
+    <h1>Tools by Niche</h1>
+    <p class="subtitle">The AI tools, automations, and compliance considerations most relevant to each client industry your VA may work in.</p>
+  </div>
+
+  <div class="niche-grid">
+
+    <!-- LEGAL -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Legal</div>
+          <div class="niche-sub">Law firms, solo practitioners, legal VAs</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">ChatGPT</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>Client intake form → CRM contact + onboarding sequence</li>
+          <li>Consultation booking reminders (24hr + 1hr)</li>
+          <li>Post-consultation follow-up with next steps</li>
+          <li>Retainer renewal reminders</li>
+          <li>Document request follow-up sequence</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Drafting client email templates and intake forms</li>
+          <li>Summarising internal meeting notes</li>
+          <li>Writing FAQ content and website copy</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ Compliance:</strong> Never input client names, case details, or privileged information into AI tools. Use AI for templates only — not case-specific content.</div>
+    </div>
+
+    <!-- HEALTHCARE -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Healthcare</div>
+          <div class="niche-sub">Clinics, private practices, health VAs</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">Fathom</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>Appointment reminders via SMS and email</li>
+          <li>No-show follow-up and rebooking sequence</li>
+          <li>Post-visit check-in message</li>
+          <li>Review request (after confirmed positive experience)</li>
+          <li>New patient welcome sequence</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Admin and front-desk email templates</li>
+          <li>Internal meeting notes (Fathom — staff meetings only)</li>
+          <li>Patient education content drafts for review</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ HIPAA:</strong> Never input patient names, DOB, diagnosis, symptoms, or any PHI into AI tools. AI is for admin and templates only — not patient-specific content.</div>
+    </div>
+
+    <!-- HOME SERVICE -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Home Service</div>
+          <div class="niche-sub">Cleaning, HVAC, plumbing, pest control</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+          <span class="tag">Zapier</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>Speed-to-lead: instant SMS when a new lead comes in</li>
+          <li>Estimate follow-up sequence (2 day, 5 day, 10 day)</li>
+          <li>Post-job review request</li>
+          <li>Missed-call text-back</li>
+          <li>Seasonal reactivation campaign</li>
+          <li>Referral request after 5-star review</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Writing estimate follow-up and review request copy</li>
+          <li>Before/after social content from job photos</li>
+          <li>Seasonal promotion emails and SMS scripts</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ Note:</strong> Always verify AI-generated pricing or scope language before sending to clients. Pricing is the VA's responsibility to confirm.</div>
+    </div>
+
+    <!-- REAL ESTATE -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Real Estate</div>
+          <div class="niche-sub">Agents, brokers, property managers</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">Fathom</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>New lead instant follow-up (speed-to-lead)</li>
+          <li>Open house follow-up sequence</li>
+          <li>Long-term buyer/seller nurture (30–90 day)</li>
+          <li>Listing update notifications to interested leads</li>
+          <li>Post-close referral request</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Listing descriptions and property copy</li>
+          <li>Buyer/seller email templates and follow-up scripts</li>
+          <li>Market update newsletter content</li>
+          <li>Meeting notes and action items from client calls</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ Note:</strong> Do not include undisclosed seller details, client financials, or offer amounts in AI prompts. Use anonymised placeholders.</div>
+    </div>
+
+    <!-- FINANCE -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Finance</div>
+          <div class="niche-sub">Financial advisors, accountants, mortgage brokers</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">Fathom</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>New client onboarding sequence</li>
+          <li>Appointment scheduling and reminders</li>
+          <li>Quarterly check-in reminder sequences</li>
+          <li>Document request follow-ups</li>
+          <li>Annual review meeting booking campaign</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Client communication templates and newsletters</li>
+          <li>Meeting summary and action item drafts</li>
+          <li>Educational content and FAQ copy</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ Compliance:</strong> Never input client account numbers, SSNs, portfolio details, or financial data into AI tools. Regulatory compliance (SEC, FINRA) awareness required.</div>
+    </div>
+
+    <!-- CONTRACTORS / HOME IMPROVEMENT -->
+    <div class="niche-card">
+      <div class="niche-head">
+        <div class="niche-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div>
+          <div class="niche-title">Contractors & Home Improvement</div>
+          <div class="niche-sub">Remodelers, roofers, painters, landscapers</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div>
+        <div class="section-label">AI Tools</div>
+        <div class="tool-tags">
+          <span class="tag">Claude</span>
+          <span class="tag">Make.com</span>
+          <span class="tag">GHL</span>
+          <span class="tag">Zapier</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Automations</div>
+        <ul class="automation-list">
+          <li>Speed-to-lead SMS within 2 minutes of form submit</li>
+          <li>Estimate follow-up (3, 7, 14 day)</li>
+          <li>Project milestone update messages to homeowner</li>
+          <li>Post-completion review request</li>
+          <li>Referral request after 5-star review</li>
+          <li>Seasonal promotion campaign (spring/fall)</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label">AI Best Use</div>
+        <ul class="automation-list">
+          <li>Estimate cover letters and project proposals</li>
+          <li>Before/after social captions from job photos</li>
+          <li>Review request and referral scripts</li>
+          <li>Seasonal email and SMS campaign copy</li>
+        </ul>
+      </div>
+      <div class="caution-box"><strong>⚠ Note:</strong> Always confirm scope and pricing language with the contractor before sending AI-drafted estimates or proposals to homeowners.</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Training Course Outline — KeyPlayers VA Academy</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #1B4332;
+    --green-mid: #2D6A4F;
+    --green-light: #e8f0ec;
+    --accent: #40916C;
+    --text: #1a1a1a;
+    --muted: #555;
+    --border: #d4e4da;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #fff;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* --- PAGE LAYOUT --- */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 14mm 16mm;
+    background: #fff;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* --- COVER PAGE --- */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 297mm;
+    background: var(--green);
+    padding: 20mm 18mm;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .cover-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 20px;
+  }
+  .cover h1 {
+    font-size: 44px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+  .cover-divider {
+    width: 60px;
+    height: 4px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    max-width: 400px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+  .cover-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .cover-footer {
+    position: absolute;
+    bottom: 20mm;
+    left: 18mm;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  /* --- SECTION PAGES --- */
+  .page-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--green);
+  }
+  .page-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 520px;
+  }
+
+  /* --- MODULE CARDS --- */
+  .modules-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .module-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: #fff;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .module-card:hover { background: var(--green-light); }
+  .module-num {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--green);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .module-body { flex: 1; }
+  .module-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 3px;
+  }
+  .module-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* --- COMPETENCY LIST --- */
+  .competency-block {
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+  }
+  .competency-block h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .competency-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .competency-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .competency-list li::before {
+    content: '';
+    min-width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  /* --- CERTIFICATION BLOCK --- */
+  .cert-block {
+    background: var(--green);
+    border-radius: 10px;
+    padding: 24px 28px;
+    color: #fff;
+    margin-top: 16px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .cert-block h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .cert-block p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.85);
+  }
+  .cert-block strong { color: #fff; }
+
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .stat-pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 10px 16px;
+    text-align: center;
+    flex: 1;
+  }
+  .stat-pill .num {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    display: block;
+  }
+  .stat-pill .label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* --- FOOTER --- */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #aaa;
+  }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { margin: 0; width: 100%; }
+    .cover { min-height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="page cover">
+  <div class="cover-eyebrow">KeyPlayers VA Academy</div>
+  <h1>What Your VA<br>is Trained On</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-sub">Every KeyPlayers VA is trained as an executive assistant and AI operator. They use AI as a thinking partner, are trained to catch AI fluff, and serve as the final decision layer on every output before it reaches you.</p>
+  <div class="cover-badge">AI & Automation Operations — Certified VA Program</div>
+  <div class="cover-footer">keyplayershq.com &nbsp;·&nbsp; Confidential Client Document</div>
+</div>
+
+<!-- PAGE 2 — PROGRAM OVERVIEW -->
+<div class="page" style="display:flex;flex-direction:column;">
+  <div class="page-header">
+    <h2>The Program</h2>
+    <p>10 days. 4 core skill areas. One certification. Built specifically for the tools and workflows VAs use every day.</p>
+  </div>
+
+  <div class="modules-grid">
+    <div class="module-card">
+      <div class="module-num">01</div>
+      <div class="module-body">
+        <div class="module-title">How AI Actually Works</div>
+        <div class="module-desc">How large language models work, where they fail, what a human must still own, and how to handle client data before anything gets typed into a prompt.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">02</div>
+      <div class="module-body">
+        <div class="module-title">Prompt Engineering</div>
+        <div class="module-desc">A structured six-block framework for writing prompts that produce reliable output every time. The four failure modes and how to debug them.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">03</div>
+      <div class="module-body">
+        <div class="module-title">The Claude Ecosystem</div>
+        <div class="module-desc">Using Claude as a daily work tool: Artifacts, Projects, context engineering habits, and the patterns that separate power users from basic users.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">04</div>
+      <div class="module-body">
+        <div class="module-title">Automation Thinking</div>
+        <div class="module-desc">Mapping workflows before building them. The four automation types, trigger-action logic, human-in-the-loop principles, data security, compliance guardrails, and the full QA checklist.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">05</div>
+      <div class="module-body">
+        <div class="module-title">Hands-On Automation Builds</div>
+        <div class="module-desc">Three live builds from scratch: Google Sheets + Apps Script, Zapier, and a Make.com multi-step workflow with Claude as the AI step. Build, test, debug, hand over.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">06</div>
+      <div class="module-body">
+        <div class="module-title">GoHighLevel: CRM, Pipelines & Communication</div>
+        <div class="module-desc">Full GHL foundations covering contact management, tags, custom fields, smart lists, pipeline hygiene, the conversations inbox, calendar management, and AI-assisted drafting.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">07</div>
+      <div class="module-body">
+        <div class="module-title">GHL Workflows & Integrations</div>
+        <div class="module-desc">The seven core automation recipes: speed-to-lead, appointment reminders, nurture sequences, review requests, internal notifications, database reactivation, missed-call text-back. Plus API, webhooks, and the three levels of AI inside GHL.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">08</div>
+      <div class="module-body">
+        <div class="module-title">Meetings, Project Management & Operations</div>
+        <div class="module-desc">AI note-takers, meeting-to-action pipelines, ClickUp, Slack, WhatsApp, and the Command Center: a platform of 20+ specialized AI agents that your VA directs and manages as an AI operator.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">09</div>
+      <div class="module-body">
+        <div class="module-title">Conditional Logic & Advanced Automation</div>
+        <div class="module-desc">Routing, conditional paths, fallbacks, logging, and the most common automation mistakes, with live debugging in Make.com.</div>
+      </div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">10</div>
+      <div class="module-body">
+        <div class="module-title">Final Assessment & Certification</div>
+        <div class="module-desc">Multiple choice, real-world scenarios, and automation sequencing across all nine modules. 80% pass requirement. Retake mandatory if not met.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>KeyPlayers VA Academy — AI & Automation Operations</span>
+    <span>keyplayershq.com</span>
+  </div>
+</div>
+
+<!-- PAGE 3 — CERTIFIED IN + CLOSING -->
+<div class="page" style="display:flex;flex-direction:column;">
+  <div class="page-header">
+    <h2>What Your VA Arrives Certified In</h2>
+    <p>This is a documented, tested standard. If a specific competency is ever in question, this document is the baseline.</p>
+  </div>
+
+  <div class="competency-block">
+    <h3>Core Competencies</h3>
+    <ul class="competency-list">
+      <li>Precision prompting: structuring AI instructions that produce consistent, usable output the first time</li>
+      <li>Acting as the decision layer on every AI output: trained to catch fluff, errors, and hallucinations before anything reaches you</li>
+      <li>Using AI as a thinking partner, not a replacement for judgment</li>
+      <li>Precision prompting: structuring AI instructions that produce consistent, usable output the first time</li>
+      <li>Diagnosing and fixing broken automations, bad AI outputs, and failed workflows. Not just flagging them.</li>
+      <li>Building, testing, and documenting automations in Make.com, Zapier, and GoHighLevel</li>
+      <li>Operating GoHighLevel at a professional level: CRM management, pipeline hygiene, workflow builds, conversations inbox, and client communication</li>
+      <li>Running a full meeting-to-action pipeline: capturing, processing, routing, and assigning outputs without supervision</li>
+      <li>Handling data responsibly: knowing what can and cannot go into an AI tool, and verifying all outputs before they touch a client</li>
+      <li>Operating the Command Center as an AI operator, directing 20+ specialized AI agents to execute, review, and deliver work on your behalf</li>
+    </ul>
+  </div>
+
+  <div class="cert-block">
+    <h3>Certification & Ongoing Training</h3>
+    <p>Placement requires an <strong>80% pass</strong> on our certification assessment. Once your VA is with you, weekly training continues, backed by <strong>30+ training modules</strong> and <strong>30+ tutorial videos</strong> covering AI and the Command Center platform. Your VA doesn't just start strong. The skills they arrive with keep compounding.</p>
+    <div class="stats-row">
+      <div class="stat-pill">
+        <span class="num">10</span>
+        <span class="label">Day Program</span>
+      </div>
+      <div class="stat-pill">
+        <span class="num">80%</span>
+        <span class="label">Pass Requirement</span>
+      </div>
+      <div class="stat-pill">
+        <span class="num">30+</span>
+        <span class="label">Training Modules</span>
+      </div>
+      <div class="stat-pill">
+        <span class="num">30+</span>
+        <span class="label">Tutorial Videos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer" style="margin-top:24px;">
+    <span>KeyPlayers VA Academy — AI & Automation Operations</span>
+    <span>keyplayershq.com</span>
+  </div>
+</div>
+
+</body>
+</html>

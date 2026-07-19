@@ -1,0 +1,1416 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 3: Claude Deep Dive</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B09; --bg-2:#0A100D; --sidebar:#090E0B;
+    --panel:#0E1512; --panel-2:#121A15; --surface:#101813;
+    --border:#1A2620; --border-2:#24332C;
+    --ink:#EAF0EC; --muted:#94A49B; --dim:#5C6B62;
+    --accent:#22C55E; --accent-2:#34D399; --accent-soft:rgba(34,197,94,0.10);
+    --gold:#EAB308; --gold-soft:rgba(234,179,8,0.10);
+    --danger:#F87171; --danger-soft:rgba(248,113,113,0.09);
+    --secure:#5DA9F4; --secure-soft:rgba(93,169,244,0.09);
+    --sidebar-w:268px; --maxw:860px; --r:14px;
+    --font-d:'Inter',system-ui,-apple-system,sans-serif;
+    --font-b:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+  /* SIDEBAR */
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+    background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);
+    border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);
+    border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;
+    font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+    background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}
+  .course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+
+  /* DECK */
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}
+  .slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);
+    font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+
+  /* TYPE */
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+
+  /* CARDS */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}
+  .card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}
+  .card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}
+  .card-danger .card-head{color:var(--danger)}
+  .card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));
+    border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));
+    border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}
+  .col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+
+  .prompt{position:relative;background:#06100B;border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 10px 10px 0;padding:36px 18px 16px;margin:14px 0;font-family:'SF Mono','Consolas',monospace;
+    font-size:13px;color:#bfe9cc;line-height:1.65;white-space:pre-wrap;overflow-x:auto}
+  .prompt-tag{position:absolute;top:10px;left:18px;font-family:var(--font-b);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:5px}
+
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}
+  .ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+
+  /* Day 3 motion: flowing data-stream connectors + sequential icon pop */
+  .pipeline{display:flex;align-items:center;gap:0;margin:18px 0}
+  .stage{flex:1;min-width:0;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 10px 14px;text-align:center;position:relative}
+  .stage .step-no{position:absolute;top:7px;left:11px;font-size:10px;font-weight:700;color:var(--dim);font-variant-numeric:tabular-nums}
+  .stage-ico{width:42px;height:42px;margin:2px auto 10px;border-radius:12px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.28);display:flex;align-items:center;justify-content:center;color:var(--accent);animation:icoPop 4s ease-in-out infinite;animation-delay:var(--d,0s)}
+  .stage-ico svg{width:21px;height:21px}
+  @keyframes icoPop{0%,68%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(34,197,94,0)}10%{transform:scale(1.18);box-shadow:0 0 0 7px rgba(34,197,94,0.10),0 8px 20px rgba(34,197,94,0.20)}22%{transform:scale(1)}}
+  .stage-name{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:5px}
+  .stage-cap{font-size:11px;color:var(--dim);line-height:1.45}
+  .connector{flex:0 0 30px;position:relative;height:24px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .connector .line{width:100%;height:3px;border-radius:3px;background-image:linear-gradient(90deg,var(--accent) 0 42%,transparent 42% 100%);background-size:12px 100%;background-repeat:repeat-x;opacity:.7;animation:flowDash .65s linear infinite}
+  @keyframes flowDash{to{background-position:12px 0}}
+  @keyframes flowDashV{to{background-position:0 12px}}
+
+  /* Artifact split-panel simulation */
+  .art-sim{display:flex;height:215px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel);margin:16px 0}
+  .art-chat{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+  .art-panel-r{flex:1;display:flex;flex-direction:column}
+  .art-chrome{height:28px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 10px;gap:5px;flex-shrink:0}
+  .art-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .art-dot.r{background:#EF4444}.art-dot.y{background:#F59E0B}.art-dot.g{background:#22C55E}
+  .art-chrome-title{font-size:11px;color:var(--dim);flex:1;text-align:center;margin-right:20px}
+  .art-msgs{flex:1;padding:10px 12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;overflow:hidden}
+  .art-umsg{align-self:flex-end;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.22);color:var(--ink);font-size:12px;padding:7px 11px;border-radius:10px 10px 3px 10px;max-width:90%;opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+  .art-umsg.show{opacity:1;transform:translateY(0)}
+  .art-cmsg{display:flex;gap:7px;opacity:0;transition:opacity .4s ease}
+  .art-cmsg.show{opacity:1}
+  .art-ava{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .art-dots{display:flex;gap:3px;padding:3px 0}
+  .art-dots span{width:5px;height:5px;background:var(--dim);border-radius:50%;animation:artBlink 1s infinite}
+  .art-dots span:nth-child(2){animation-delay:.2s}.art-dots span:nth-child(3){animation-delay:.4s}
+  .art-dots.hide{display:none}
+  .art-ctext{font-size:12px;color:var(--muted);display:none}
+  .art-ctext.show{display:block}
+  .art-bar{height:32px;border-top:1px solid var(--border);display:flex;align-items:center;padding:0 10px;gap:6px;flex-shrink:0;background:var(--panel-2)}
+  .art-prompt-hint{flex:1;font-size:11px;color:var(--dim)}
+  .art-rbtn{font-size:11px;color:var(--accent);background:none;border:1px solid rgba(34,197,94,0.25);padding:3px 9px;border-radius:6px;cursor:pointer;font-family:var(--font-b)}
+  .art-rbtn:hover{background:var(--accent-soft)}
+  .art-panel-btns{margin-left:auto;display:flex;gap:4px}
+  .art-pbtn{font-size:10px;padding:2px 7px;border:1px solid var(--border);background:var(--panel-2);color:var(--dim);border-radius:5px;cursor:default}
+  .art-content{flex:1;position:relative;overflow:hidden}
+  .art-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .3s ease}
+  .art-empty.hide{opacity:0;pointer-events:none}
+  .art-lines{position:absolute;inset:0;padding:12px 14px;display:flex;flex-direction:column;gap:5px;opacity:0;transition:opacity .3s ease}
+  .art-lines.show{opacity:1}
+  .art-ln{height:9px;background:var(--border-2);border-radius:4px;width:0;transition:width .45s ease}
+  .art-ln.fill{width:var(--w,100%)}
+  .art-ln.dim{background:var(--border);height:8px}
+  .art-gap{height:3px}
+  .art-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .art-tricard{display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--panel);border:1px solid var(--border);border-radius:10px;font-size:12.5px;line-height:1.5}
+  .art-trico{width:30px;height:30px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;margin-top:2px}
+  @keyframes artBlink{0%,80%,100%{opacity:.35;transform:scale(1)}40%{opacity:1;transform:scale(1.2)}}
+
+  /* Cowork + Canva workflow animation */
+  .cw-wrap{margin:4px 0 12px}
+  .cw-prompt-row{margin-bottom:12px}
+  .cw-you{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);color:var(--ink);font-size:12.5px;padding:9px 14px;border-radius:10px;line-height:1.5;font-style:italic}
+  .cw-you-label{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;font-style:normal}
+  .cw-layout{display:flex;gap:16px;align-items:flex-start}
+  .cw-steps-col{flex:1}
+  .cw-step-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:8px;background:var(--panel);border:1px solid var(--border);margin-bottom:6px;opacity:0;transform:translateX(-8px);transition:opacity .35s ease,transform .35s ease}
+  .cw-step-item.show{opacity:1;transform:translateX(0)}
+  .cw-step-num{width:22px;height:22px;border-radius:6px;background:var(--panel-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--dim);flex-shrink:0;margin-top:2px}
+  .cw-step-canva .cw-step-num{background:rgba(0,196,204,0.12);border-color:rgba(0,196,204,0.3);color:#00C4CC;font-size:12px;font-weight:800}
+  .cw-step-item-name{font-size:13px;font-weight:600;color:var(--ink)}
+  .cw-step-item-cap{font-size:11px;color:var(--dim);margin-top:1px}
+  .cw-canvas-col{width:152px;flex-shrink:0}
+  .cw-canvas-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--dim);margin-bottom:7px;text-align:center}
+  .cw-canvas{width:152px;height:196px;border-radius:10px;background:#0A1628;border:1px solid var(--border);overflow:hidden;position:relative}
+  .cw-el{position:absolute;opacity:0;transition:opacity .4s ease,transform .4s ease;transform:translateY(-6px)}
+  .cw-el.show{opacity:1;transform:translateY(0)}
+  .cw-el-header{top:0;left:0;right:0;height:65px;background:linear-gradient(135deg,#00B4D8,#0077B6);border-radius:0}
+  .cw-el-logo{top:12px;left:10px;width:30px;height:30px;background:rgba(255,255,255,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;letter-spacing:-.3px}
+  .cw-el-badge{top:18px;right:8px;background:rgba(255,255,255,0.22);border-radius:4px;padding:3px 6px;font-size:8.5px;font-weight:700;color:#fff;letter-spacing:.3px;display:flex;align-items:center}
+  .cw-el-headline{top:76px;left:10px;right:10px;height:10px;background:rgba(234,240,236,0.65);border-radius:3px}
+  .cw-el-sub1{top:93px;left:10px;right:18px;height:7px;background:rgba(234,240,236,0.28);border-radius:3px}
+  .cw-el-sub2{top:105px;left:10px;right:30px;height:7px;background:rgba(234,240,236,0.18);border-radius:3px}
+  .cw-el-divider{top:122px;left:10px;right:10px;height:1px;background:rgba(255,255,255,0.07)}
+  .cw-el-icon1{top:134px;left:10px;width:24px;height:24px;background:rgba(0,180,216,0.14);border-radius:5px;border:1px solid rgba(0,180,216,0.25)}
+  .cw-el-icontxt{top:138px;left:40px;right:10px;height:7px;background:rgba(234,240,236,0.22);border-radius:3px}
+  .cw-el-icontxt2{top:149px;left:40px;width:38px;height:7px;background:rgba(234,240,236,0.12);border-radius:3px}
+  .cw-el-cta{bottom:10px;left:10px;right:10px;height:25px;background:linear-gradient(90deg,#22C55E,#16A34A);border-radius:6px}
+
+  /* Claude Secrets grid */
+  .secrets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+  .secret-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;gap:10px}
+  .secret-num{font-size:11px;font-weight:800;color:var(--accent);opacity:.55;min-width:20px;padding-top:2px;font-variant-numeric:tabular-nums}
+  .secret-body strong{font-size:13px;color:var(--ink);display:block;margin-bottom:4px}
+  .secret-body p{font-size:12px;color:var(--muted);margin:0;line-height:1.55}
+
+  /* Agentic multi-tool flow */
+  .agent-flow{display:flex;flex-direction:column;gap:6px;margin:12px 0 10px}
+  .agent-step{display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--panel);border:1px solid var(--border);border-radius:10px;opacity:0;transform:translateX(-10px);transition:opacity .35s ease,transform .35s ease}
+  .agent-step.show{opacity:1;transform:translateX(0)}
+  .agent-tool-ico{width:34px;height:34px;border-radius:9px;border:1px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .agent-step-body{flex:1}
+  .agent-tool-name{font-size:13.5px;font-weight:600;color:var(--ink)}
+  .agent-tool-cap{font-size:11.5px;color:var(--dim)}
+  .agent-tick{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);display:flex;align-items:center;justify-content:center;color:var(--accent);opacity:0;transition:opacity .4s ease;flex-shrink:0}
+  .agent-tick.show{opacity:1}
+  .agent-done{display:flex;align-items:center;gap:9px;padding:10px 14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.28);border-radius:10px;color:var(--accent);font-size:13px;font-weight:600;opacity:0;transition:opacity .5s ease;margin-bottom:12px}
+  .agent-done.show{opacity:1}
+
+  /* terminal (Day 3 CLI) */
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}
+  .terminal-dot.yellow{background:var(--gold)}
+  .terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}
+  .terminal-body .ccmd{color:var(--ink)}
+  .terminal-body .ccmt{color:var(--dim)}
+
+  /* live dot (Day 3 Live Artifacts) */
+  .live-dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:7px;vertical-align:middle;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
+  /* interactive drills */
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}
+  .quiz-fb .no{color:var(--danger);font-weight:700}
+  .quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+
+  /* attendance gate */
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){
+    .sidebar{transform:translateX(-100%);transition:transform .3s ease}
+    .sidebar.open{transform:translateX(0)}
+    .mobile-bar{display:flex}
+    .scrim.show{display:block}
+    .main{margin-left:0;padding-top:54px}
+    .slide{padding:24px 18px 30px}
+    .deckbar{height:60px;padding:0 12px}
+    .nav-btn{padding:9px 13px;font-size:13px}
+    .compare{grid-template-columns:1fr}
+    h1{font-size:25px}h2{font-size:21px}
+    .pipeline{flex-direction:column;align-items:stretch}
+    .stage{width:100%}
+    .connector{width:100%;height:24px;flex:0 0 24px}
+    .connector .line{width:3px;height:100%;background-image:linear-gradient(180deg,var(--accent) 0 42%,transparent 42% 100%);background-size:100% 12px;animation:flowDashV .65s linear infinite}
+  }
+  /* live artifact simulation */
+  .sim{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0}
+  .sim-head{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid var(--border);background:var(--panel-2);font-size:13px;font-weight:600;color:var(--ink)}
+  .sim-updated{color:var(--dim);font-weight:500;font-size:11.5px}
+  .sim-refresh{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-family:var(--font-b);font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .15s}
+  .sim-refresh:hover{background:rgba(34,197,94,0.18)}
+  .sim-refresh svg{width:13px;height:13px}
+  .sim.loading .sim-refresh svg{animation:spin .7s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .sim-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);transition:opacity .2s}
+  .sim.loading .sim-grid{opacity:.45}
+  .sim-card{background:var(--panel);padding:16px 18px;transition:background .4s}
+  .sim-card.flash{background:rgba(34,197,94,0.10)}
+  .sc-label{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);margin-bottom:8px}
+  .sc-label svg{width:14px;height:14px;color:var(--accent)}
+  .sc-val{font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+  .sc-sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+  @media(max-width:680px){.sim-grid{grid-template-columns:1fr}}
+
+  /* MCP round-trip animation */
+  .rt{position:relative;display:flex;align-items:center;justify-content:space-between;gap:0;margin:26px 0 18px;padding:18px 0}
+  .rt-track{position:absolute;top:50%;left:14%;right:14%;height:2px;background:var(--border-2);transform:translateY(-50%);z-index:0}
+  .rt-node{position:relative;z-index:2;width:28%;text-align:center;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:16px 8px}
+  .rt-node .rt-ico{width:40px;height:40px;margin:0 auto 8px;border-radius:11px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+  .rt-node .rt-ico svg{width:20px;height:20px}
+  .rt-node .rt-name{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .rt-node .rt-sub{font-size:10.5px;color:var(--dim);margin-top:2px}
+  .rt-node.mcp{border-color:rgba(34,197,94,.35);animation:rtGlow 3s ease-in-out infinite}
+  .rt-node.mcp .rt-ico{background:var(--accent-soft);border-color:rgba(34,197,94,.35)}
+  @keyframes rtGlow{0%,30%,72%,100%{box-shadow:none}42%,60%{box-shadow:0 0 0 1px var(--accent),0 8px 24px rgba(34,197,94,.18)}}
+  .rt-packet{position:absolute;top:50%;z-index:3;transform:translate(-50%,-50%);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:4px 9px;border-radius:20px;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .rt-req{background:var(--accent);color:#04150B;animation:rtReq 3s ease-in-out infinite}
+  .rt-res{background:var(--gold);color:#1a1300;animation:rtRes 3s ease-in-out infinite}
+  @keyframes rtReq{0%{left:16%;opacity:0}6%{opacity:1}44%{left:84%;opacity:1}50%{left:84%;opacity:0}100%{left:84%;opacity:0}}
+  @keyframes rtRes{0%,50%{left:84%;opacity:0}56%{opacity:1}94%{left:16%;opacity:1}99%{left:16%;opacity:0}100%{opacity:0}}
+  @media(max-width:680px){.rt-packet{font-size:8px;padding:3px 6px}.rt-node .rt-sub{display:none}}
+
+  /* Claude Code blinking cursor */
+  .term-cursor{display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:text-bottom;margin-left:1px;animation:termBlink 1.1s steps(1) infinite}
+  @keyframes termBlink{50%{opacity:0}}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-cpu"/></svg> Day 3 · Claude Deep Dive</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-compass"/></svg></span>Which Claude Tool?</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Live Artifacts</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-tool"/></svg></span>MCP &amp; API</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-terminal"/></svg></span>CLI &amp; Claude Code</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-cpu"/></svg></span>Cowork</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-spark"/></svg></span>Projects, Skills &amp; Plugins</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-book"/></svg></span>Context Engineering</a>
+    <a onclick="goSession(7)"><span class="ico"><svg><use href="#i-clock"/></svg></span>Claude on Autopilot</a>
+    <a onclick="goSession(8)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Recap &amp; Next</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a class="current"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- OPENER -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Start Here</div>
+    <h1>Which Claude Tool for This Job?</h1>
+    <p class="subtitle">Claude is not one tool — it is a family of access modes. Before diving into each one, know which door to use. This map covers the rest of today.</p>
+    <table>
+      <thead><tr><th>Access mode</th><th>What it is</th><th>Reach for it when</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude Chat</strong><br><span style="color:var(--dim);font-size:12px">claude.ai</span></td><td>The browser chat interface. Conversations, drafts, quick tasks, Q&amp;A.</td><td>One-off tasks, quick answers, learning, experimenting. The starting point for almost everything.</td></tr>
+        <tr><td><strong>Claude Projects</strong><br><span style="color:var(--dim);font-size:12px">inside Claude Chat</span></td><td>A saved workspace inside Claude Chat. Keeps your files, instructions, and chat history for a specific client or job.</td><td>Ongoing client work. When you are tired of re-explaining context every session.</td></tr>
+        <tr><td><strong>Claude Cowork</strong><br><span style="color:var(--dim);font-size:12px">desktop app</span></td><td>Claude's desktop app. Connects to your real tools (Slack, Gmail, Canva, Google Docs) and can act across them in one flow.</td><td>Multi-step tasks involving your tools. When you need Claude to do the work in the actual app, not just write instructions.</td></tr>
+        <tr><td><strong>Claude Code / CLI</strong><br><span style="color:var(--dim);font-size:12px">terminal</span></td><td>Claude running inside a terminal window. Can read files, write code, run scripts, and build automations directly on your computer.</td><td>Building or automating at scale. Working alongside developers. Setting up persistent memory (CLAUDE.md). Advanced workflows.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's focus</div>
+      <p style="margin:0">Today you learn each mode: what it does, when it makes sense, and what the VA's job looks like inside it. You will not master all four today. You will know which door to open for any given task.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick Day 2 recap</div>
+      <p style="margin:0">The 6-block prompt · Refining &amp; iterating output · Matching the tool to the task. Today builds on that: same skills, more specific tools.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 0: ARTIFACTS -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 1</div>
+    <h1>Artifacts: Finished Work, Not Just Answers</h1>
+    <p class="subtitle">When you ask Claude to build something (a document, a table, an email) it does not just type it into the chat. It opens a separate panel on the right and builds it there. That panel is an artifact: a finished file you can copy, download, or keep editing.</p>
+    <div class="gate">
+      <div class="card-head" style="color:var(--accent)"><svg><use href="#i-check"/></svg> Mark your attendance</div>
+      <div id="attForm">
+        <p style="margin-bottom:14px">Enter your name to check in to today's session. (One per person.)</p>
+        <input class="field" id="attName" placeholder="First and last name" style="margin-bottom:12px">
+        <div class="err" id="attErr"></div>
+        <button class="btn btn-primary btn-block" onclick="markAttendance()">Mark me present &amp; start <svg><use href="#i-arrow"/></svg></button>
+      </div>
+      <div id="attDone" style="display:none;text-align:center;padding:6px 0">
+        <div style="width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg style="width:24px;height:24px;color:#04150B"><use href="#i-check"/></svg></div>
+        <p style="color:var(--ink);font-weight:600;margin-bottom:4px">You are checked in. Welcome back.</p>
+        <p style="margin:0;font-size:13px">Use the Next button below, or your arrow keys, to begin.</p>
+      </div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Bridge from Day 2</div>
+      <p style="margin:0">Day 2 was about prompting well and picking the right tool. Today is about Claude itself: four features you will touch every time you use it as a VA. No definitions to memorize, just what each one does and when it matters.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0" id="artSlide"><div class="slide-inner">
+    <h2>What you can do with an artifact</h2>
+    <p>Claude builds it in a panel on the right. You keep chatting on the left. This is the split that turns Claude from a chatbot into a production tool: finished work, not just answers.</p>
+    <div class="art-sim">
+      <div class="art-chat">
+        <div class="art-chrome"><span class="art-dot r"></span><span class="art-dot y"></span><span class="art-dot g"></span><span class="art-chrome-title">Claude</span></div>
+        <div class="art-msgs">
+          <div class="art-umsg" id="artU">Draft a follow-up email after our discovery call with Acme Corp.</div>
+          <div class="art-cmsg" id="artC">
+            <div class="art-ava">C</div>
+            <div style="flex:1;min-width:0">
+              <div class="art-dots" id="artDots"><span></span><span></span><span></span></div>
+              <div class="art-ctext" id="artCText">Done. I built the email in the artifact panel on the right.</div>
+            </div>
+          </div>
+        </div>
+        <div class="art-bar"><span class="art-prompt-hint">Ask Claude anything...</span><button class="art-rbtn" onclick="replayArt()">Replay</button></div>
+      </div>
+      <div class="art-panel-r">
+        <div class="art-chrome"><svg style="width:12px;height:12px;color:var(--accent)" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg><span class="art-chrome-title">Follow-Up Email</span><div class="art-panel-btns"><span class="art-pbtn">Copy</span><span class="art-pbtn">Download</span></div></div>
+        <div class="art-content">
+          <div class="art-empty" id="artEmpty"><svg style="width:22px;height:22px;opacity:.25" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg><div style="font-size:11px;color:var(--dim);margin-top:6px">Building...</div></div>
+          <div class="art-lines" id="artLines">
+            <div class="art-ln" style="--w:58%"></div>
+            <div class="art-ln dim" style="--w:40%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln" style="--w:96%"></div>
+            <div class="art-ln" style="--w:86%"></div>
+            <div class="art-ln dim" style="--w:72%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln" style="--w:92%"></div>
+            <div class="art-ln dim" style="--w:54%"></div>
+            <div class="art-gap"></div>
+            <div class="art-ln dim" style="--w:38%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="art-trio">
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></div><div><strong>Edit it</strong><div style="font-size:12px">Tell Claude to change it -- updates in place.</div></div></div>
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/></svg></div><div><strong>Copy it</strong><div style="font-size:12px">Paste into Docs or email. Comes out clean.</div></div></div>
+      <div class="art-tricard"><div class="art-trico"><svg style="width:15px;height:15px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg></div><div><strong>Make several</strong><div style="font-size:12px">One chat, many connected artifacts at once.</div></div></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <h2>What this looks like</h2>
+    <p>Here is one prompt that produces three connected artifacts in a single conversation.</p>
+    <div class="prompt"><span class="prompt-tag">What you type</span>I have a list of 38 client contacts. Create a meeting agenda for an onboarding call, a follow-up email to send after the call, and a checklist of tasks for the VA's first week.</div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> What Claude creates</div>
+      <p style="margin:0"><strong>Artifact 1:</strong> Meeting agenda with time blocks and talking points<br>
+      <strong>Artifact 2:</strong> Follow-up email that references the meeting<br>
+      <strong>Artifact 3:</strong> First-week checklist with tasks and deadlines<br><br>
+      All three built in one chat. Change one without breaking the others.</p>
+    </div>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-msg"/></svg> Just chat when</div>You are asking questions, brainstorming, or getting a quick answer you will not save.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-grid"/></svg> Use an artifact when</div>You are making something you will send, save, or paste somewhere: emails, docs, tables, checklists.</div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Simple rule: if you would copy and paste it somewhere else, it should be an <em>artifact</em>.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 1: LIVE ARTIFACTS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 2</div>
+    <h1><span class="live-dot"></span>Live Artifacts</h1>
+    <p class="subtitle">A regular artifact is built once and frozen, like a document. A live artifact is different: it connects to your real tools and pulls fresh information every time you open it. Think of it as a personal dashboard that stays up to date on its own.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-book"/></svg> Regular artifact</div><strong style="color:var(--ink)">Built once.</strong> Claude makes it from your prompt and the content is frozen at that moment. Great for a doc, email, or table you need right now. Copy it, use it, done.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-activity"/></svg> Live artifact</div><strong style="color:var(--ink)">Always fresh.</strong> Claude builds it and connects it to your tools. Every time you open it, it pulls the latest: new emails, new Slack messages, today's calendar. A page you come back to.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-tool"/></svg> What it connects to</div>
+      <p style="margin:0">If you have connected a tool in Cowork, a live artifact can read from it with no extra setup: <strong>Slack</strong> (messages, channels, threads), <strong>Gmail</strong> (emails, drafts), <strong>Calendar</strong> (meetings, schedules), and <strong>Files</strong> (documents, folders).</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>What VAs actually build</h2>
+    <p>Live artifacts shine for anything you check repeatedly. Instead of digging through five tabs, you open one page that refreshes itself.</p>
+    <table>
+      <thead><tr><th>Live dashboard</th><th>What it shows</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Morning briefing</strong></td><td>Today's calendar, priority emails, and Slack mentions on one page. Open it each morning, no typing needed.</td></tr>
+        <tr><td><strong>Client email tracker</strong></td><td>Every email from key clients in the last 7 days, so you see what needs a reply without searching your inbox.</td></tr>
+        <tr><td><strong>Team update board</strong></td><td>The last 24 hours of Slack across your channels: what is urgent, what is waiting on you, what you can skip.</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Regular artifact = something you build once. Live artifact = something you open every day. If you keep checking the same thing, <em>make it a live artifact</em>.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>See a live artifact in action</h2>
+    <p>This is a mock "Morning Briefing" live artifact. Each time it refreshes, it re-pulls the latest numbers from your tools. Press refresh, or just watch: a real one updates on its own every time you open it.</p>
+    <div class="sim" id="simBriefing">
+      <div class="sim-head"><span class="live-dot"></span> Morning Briefing <span class="sim-updated">updated <span id="simTime">just now</span></span>
+        <button class="sim-refresh" onclick="simRefresh()"><svg><use href="#i-refresh"/></svg> Refresh</button>
+      </div>
+      <div class="sim-grid">
+        <div class="sim-card" id="simCal"><div class="sc-label"><svg><use href="#i-clock"/></svg> Calendar</div><div class="sc-val">3</div><div class="sc-sub">meetings today</div></div>
+        <div class="sim-card" id="simMail"><div class="sc-label"><svg><use href="#i-book"/></svg> Priority email</div><div class="sc-val">5</div><div class="sc-sub">need a reply</div></div>
+        <div class="sim-card" id="simSlack"><div class="sc-label"><svg><use href="#i-msg"/></svg> Slack mentions</div><div class="sc-val">2</div><div class="sc-sub">waiting on you</div></div>
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-activity"/></svg> What just happened</div>
+      <p style="margin:0">A regular artifact would show the same numbers forever. This one re-pulls live data, so the counts and the "updated" time change on every refresh. That is the whole point of a live artifact: a page that keeps itself current.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 2: MCP & API -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 3</div>
+    <h1>MCP &amp; API</h1>
+    <p class="subtitle">These are the behind-the-scenes pieces that let Claude talk to Slack, read your Gmail, and check your calendar. You will never touch them directly, but knowing what they are helps you understand what is happening when Claude connects to your tools.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-book"/></svg> API = the menu</div>Every app (Slack, Gmail, Calendar) has a set list of things it lets other software do: read messages, search emails, list events. That list of allowed actions is the API. Like a restaurant menu: it says what Claude can order and how to ask.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-tool"/></svg> MCP = the translator</div>Every app's menu is written in a slightly different language. MCP is the universal translator that lets Claude read all of them the same way, instead of learning each app separately.</div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">Think of it this way</div>
+      <p>You walk into a restaurant abroad. The menu is in a language you do not speak. <em>MCP</em> is the translator who reads it and places your order. The menu itself, the dishes and how to customize them, is the <em>API</em>.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <h2>When you ask Claude to check your Slack</h2>
+    <p>This whole chain happens in under a second. You type in plain English and the data comes back.</p>
+    <div class="rt">
+      <div class="rt-track"></div>
+      <div class="rt-node"><div class="rt-ico"><svg><use href="#i-msg"/></svg></div><div class="rt-name">You + Claude</div><div class="rt-sub">ask in plain English</div></div>
+      <div class="rt-node mcp"><div class="rt-ico"><svg><use href="#i-tool"/></svg></div><div class="rt-name">MCP</div><div class="rt-sub">the translator</div></div>
+      <div class="rt-node"><div class="rt-ico"><svg><use href="#i-grid"/></svg></div><div class="rt-name">Slack (API)</div><div class="rt-sub">the app's menu</div></div>
+      <div class="rt-packet rt-req">request &rarr;</div>
+      <div class="rt-packet rt-res">&larr; data</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-activity"/></svg> Two legs, both automatic</div>
+      <p style="margin:0"><em>Green, going out:</em> your plain-English request runs through MCP, which translates it into the exact call the app's API expects. <em>Gold, coming back:</em> the app returns the data, MCP hands it to Claude, and you see the answer. The whole round trip takes under a second.</p>
+    </div>
+    <h3>Why you should know this</h3>
+    <table>
+      <thead><tr><th>Reason</th><th>Why it helps you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Troubleshooting</strong></td><td>When something fails, knowing the chain helps you find where it broke: the app, the connection, or the way you asked.</td></tr>
+        <tr><td><strong>Talking to clients</strong></td><td>Clients ask "how does this work?" Explaining it simply builds trust and shows you know your tools.</td></tr>
+        <tr><td><strong>Choosing tools</strong></td><td>When a client wants to connect a new app, you will know whether it is possible and how it fits.</td></tr>
+      </tbody>
+    </table>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">The simple version</div>
+      <p>You never have to think about API or MCP. You ask Claude what you need in plain English; the rest is automatic. Knowing the plumbing just makes you better at the job.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 3: CLI -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 4</div>
+    <h1>What Is a CLI?</h1>
+    <p class="subtitle">CLI stands for Command Line Interface. It is a way to use a computer by typing commands instead of clicking buttons. You type what you want, hit Enter, and it happens. No menus, no icons, just text.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-grid"/></svg> Buttons and clicking</div><strong style="color:var(--ink)">What you are used to.</strong> Chrome, Gmail, Slack, Canva: anything with buttons, menus, and a mouse. This is a GUI, a graphical interface. You see things and click them. Easy and visual.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-terminal"/></svg> Typing commands</div><strong style="color:var(--ink)">What a CLI looks like.</strong> A plain text window where you type instructions. No buttons. It looks like a hacker movie, but it is just a faster way to talk to your computer. It is how developers and many AI tools work.</div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">Think of it this way</div>
+      <p>Clicking buttons is like ordering food by pointing at pictures: anyone can do it. Typing commands is like telling the chef exactly what you want by name: <em>faster and more precise</em>, but you need to know the words.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>A real example</h2>
+    <p>Here is a CLI in action. The green text is waiting for your input. You type a command, hit Enter, and get a result. That is the whole loop.</p>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <div class="terminal-title">Terminal</div>
+      </div>
+      <div class="terminal-body"><div><span class="ccmt"># Show all files in a folder</span></div>
+<div><span class="cprompt">$ </span><span class="ccmd">ls Documents/Clients/</span></div>
+<div>MOCK_DATA.csv    onboarding.docx    meeting-notes.md</div>
+<div>&nbsp;</div>
+<div><span class="ccmt"># Find a name inside a file</span></div>
+<div><span class="cprompt">$ </span><span class="ccmd">grep "Scarlett" MOCK_DATA.csv</span></div>
+<div>Scarlett,Runchman,srunchmanf@prlog.org,877-904-4954</div>
+<div>&nbsp;</div>
+<div><span class="ccmt"># Count how many contacts are in the file</span></div>
+<div><span class="cprompt">$ </span><span class="ccmd">wc -l MOCK_DATA.csv</span></div>
+<div>39 MOCK_DATA.csv</div>
+<div><span class="cprompt">$ </span><span class="term-cursor"></span></div></div>
+    </div>
+    <h3>Where you'll meet Claude Code</h3>
+    <table>
+      <thead><tr><th>Where</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude Code</strong></td><td>Claude in a terminal window: the CLI version. Same brain, different interface.</td></tr>
+        <tr><td><strong>Behind Cowork</strong></td><td>When Cowork runs a script or processes a file, it uses CLI commands. You just see the finished result.</td></tr>
+        <tr><td><strong>Automations</strong></td><td>Scheduled reports and batch jobs run through CLI. When a client says "we have a script," that is CLI.</td></tr>
+        <tr><td><strong>Client talk</strong></td><td>Tech-savvy clients mention CLI tools often. Recognizing what they mean builds your credibility.</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Claude Code — what it is</h2>
+    <p>Claude Code is the CLI version of Claude. Instead of opening a browser tab, you open a terminal and type commands. Claude can then read your files, edit code, run scripts, and build automations directly on your computer — not just in a chat window.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-msg"/></svg> Claude Chat</div>Runs in a browser. You type, Claude replies with text. You copy the output and use it somewhere else. Claude cannot touch your actual files.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-terminal"/></svg> Claude Code</div>Runs in the terminal. Claude can open, read, and edit your real files. It can run commands, check errors, and fix them in the same flow — no copy-pasting required.</div>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> What CLAUDE.md is</div>
+      <p style="margin:0">When Claude Code opens a project folder, it looks for a file called <strong>CLAUDE.md</strong>. This is a set of instructions written for Claude specifically — the client's preferences, the rules for this project, how to name files, what to never touch. Think of it as the Project system prompt, but stored in the file itself so it survives across every Claude Code session.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Using Claude Code as an EA</h2>
+    <p>We want you comfortable in Claude Code — it's where the heavier work gets done. Here's where you'll meet it and what each moment means for you.</p>
+    <table>
+      <thead><tr><th>Situation</th><th>What it means for you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A developer sends you a terminal screenshot</strong></td><td>That is Claude Code in action. You are looking at Claude working inside a file system, not a chat window.</td></tr>
+        <tr><td><strong>You're asked to add a CLAUDE.md file to a project folder</strong></td><td>You are setting persistent memory for Claude Code. Write the instructions clearly — Claude reads this before every session.</td></tr>
+        <tr><td><strong>A skill or automation needs to be set up from a file</strong></td><td>Claude Code can install and run skills directly from the terminal. You may be guided through this by a tech lead.</td></tr>
+        <tr><td><strong>Batch processing: rename 200 files, sort a folder</strong></td><td>Claude Code can do in one command what would take a VA hours manually. Know when to ask for this.</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Claude Code commands you'll use</h2>
+    <p>Inside Claude Code you steer the session with short slash-commands. These are the ones an EA reaches for most.</p>
+    <table>
+      <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>/init</strong></td><td>Scans the folder you're in and drafts a <strong>CLAUDE.md</strong> memory file for it — the fastest way to set up per-client instructions.</td></tr>
+        <tr><td><strong>/clear</strong></td><td>Wipes the conversation and starts fresh. Run it when you switch clients so context doesn't bleed across.</td></tr>
+        <tr><td><strong>/compact</strong></td><td>Compresses a long conversation into a summary so you keep going without losing the thread.</td></tr>
+        <tr><td><strong>/model</strong></td><td>Switches the model — a heavier one for hard reasoning, a lighter one for quick, cheap tasks.</td></tr>
+        <tr><td><strong>/mcp</strong></td><td>Shows and manages your connected tools (Slack, Gmail, Notion…). Check here if a connector stops responding.</td></tr>
+        <tr><td><strong>/help</strong></td><td>Lists every command available. When you forget one, start here.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-terminal"/></svg> The one to remember</div>
+      <p style="margin:0"><strong>/init</strong> is your first move on any new client folder: it builds the CLAUDE.md so Claude knows the rules before you type your first real task.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Claude Code best practices for an EA</h2>
+    <p>Claude Code is powerful because it acts on real files and tools. These habits keep it fast and safe.</p>
+    <table>
+      <thead><tr><th>Do this</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>One CLAUDE.md per client folder</strong></td><td>Claude reads it before every session. Put the client's rules, tone, file-naming, and "never touch" list there once — stop re-explaining.</td></tr>
+        <tr><td><strong>Use Plan Mode for big or irreversible steps</strong></td><td>Claude shows the plan first and waits for your approval before it moves files, sends, or deletes anything.</td></tr>
+        <tr><td><strong>Match the model to the task</strong></td><td>Heavier model for tricky reasoning; lighter one for quick edits. Switch with /model to save time and cost.</td></tr>
+        <tr><td><strong>Review before it sends or deletes</strong></td><td>You are accountable for the output. Read the draft, the email, the change — then approve. Claude assists; you decide.</td></tr>
+        <tr><td><strong>Never paste passwords or API keys into a prompt</strong></td><td>Treat every prompt as if it could be stored. Share credentials through your team's proper tool, never in chat.</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Set the memory once, approve before it acts, and never hand it a secret. Claude Code does the work — <em>you stay in control</em>.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 4: COWORK -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 5</div>
+    <h1>Cowork: Claude at Your Desk <span style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(245,158,11,.15);color:#F59E0B;border:1px solid rgba(245,158,11,.3);padding:3px 9px;border-radius:6px;vertical-align:middle;margin-left:6px">Pro</span></h1>
+    <p class="subtitle">Cowork is Anthropic's desktop app — available on Claude Pro and Max. It connects to your tools, files, and skills so it does not just answer, it gets the work done with you.</p>
+    <div class="pipeline">
+      <div class="stage"><span class="step-no">1</span><div class="stage-ico" style="--d:0s"><svg><use href="#i-msg"/></svg></div><div class="stage-name">You ask</div><div class="stage-cap">in plain English</div></div>
+      <div class="connector"><div class="line"></div></div>
+      <div class="stage"><span class="step-no">2</span><div class="stage-ico" style="--d:.6s"><svg><use href="#i-compass"/></svg></div><div class="stage-name">Claude plans</div><div class="stage-cap">breaks it into steps</div></div>
+      <div class="connector"><div class="line"></div></div>
+      <div class="stage"><span class="step-no">3</span><div class="stage-ico" style="--d:1.2s"><svg><use href="#i-tool"/></svg></div><div class="stage-name">Uses your tools</div><div class="stage-cap">files, Slack, Gmail</div></div>
+      <div class="connector"><div class="line"></div></div>
+      <div class="stage"><span class="step-no">4</span><div class="stage-ico" style="--d:1.8s"><svg><use href="#i-check"/></svg></div><div class="stage-name">Delivers</div><div class="stage-cap">finished work</div></div>
+    </div>
+    <div class="cw-wrap" id="cwWrap">
+      <div class="cw-prompt-row">
+        <div class="cw-you"><div class="cw-you-label">You ask</div>"Create a Canva social post announcing our new VA placement offer."</div>
+      </div>
+      <div class="cw-layout">
+        <div class="cw-steps-col">
+          <div class="cw-step-item" id="cws1"><div class="cw-step-num">1</div><div><div class="cw-step-item-name">Cowork reads the brief</div><div class="cw-step-item-cap">understands context and goal</div></div></div>
+          <div class="cw-step-item cw-step-canva" id="cws2"><div class="cw-step-num">C</div><div><div class="cw-step-item-name">Opens Canva connector</div><div class="cw-step-item-cap">tool already linked -- no login needed</div></div></div>
+          <div class="cw-step-item" id="cws3"><div class="cw-step-num">3</div><div><div class="cw-step-item-name">Applies brand + writes copy</div><div class="cw-step-item-cap">headline, colors, layout, CTA</div></div></div>
+          <div class="cw-step-item" id="cws4"><div class="cw-step-num">4</div><div><div class="cw-step-item-name">Delivers the finished post</div><div class="cw-step-item-cap">ready to review and publish</div></div></div>
+        </div>
+        <div class="cw-canvas-col">
+          <div class="cw-canvas-lbl">Output Preview</div>
+          <div class="cw-canvas">
+            <div class="cw-el cw-el-header" id="cwEl1"></div>
+            <div class="cw-el cw-el-logo" id="cwEl2">KP</div>
+            <div class="cw-el cw-el-badge" id="cwEl3">NEW</div>
+            <div class="cw-el cw-el-headline" id="cwEl4"></div>
+            <div class="cw-el cw-el-sub1" id="cwEl5"></div>
+            <div class="cw-el cw-el-sub2" id="cwEl6"></div>
+            <div class="cw-el cw-el-divider" id="cwEl7"></div>
+            <div class="cw-el cw-el-icon1" id="cwEl8"></div>
+            <div class="cw-el cw-el-icontxt" id="cwEl9"></div>
+            <div class="cw-el cw-el-icontxt2" id="cwEl10"></div>
+            <div class="cw-el cw-el-cta" id="cwEl11"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> Why it matters for VAs</div>
+      <p style="margin:0">This is where most of your AI work will happen. Cowork can read a brief, open Canva, build the post, and hand it back to you in one flow -- no tab switching, no manual setup.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Cowork or Claude Code?</h2>
+    <p>Same Claude underneath, two different doors. Pick the one that matches the job.</p>
+    <div class="compare">
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-grid"/></svg> Cowork (most VAs)</div>A friendly desktop app. You point, talk, and watch. Connected to your everyday tools. Best for daily work: drafting, organizing, and running tasks across apps.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-terminal"/></svg> Claude Code (builders)</div>Claude in the terminal. More technical, great for building automations and processing files in bulk. You meet it when a task turns developer-shaped.</div>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Start in <em>Cowork</em>. Reach for <em>Claude Code</em> when the work turns into building or automating at scale. Same brain, two doors.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 5: PROJECTS, SKILLS & PLUGINS -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 6</div>
+    <h1>Organize and Extend Claude</h1>
+    <p class="subtitle">Three features turn Claude from a general assistant into your specialist. Projects keep your context, Skills teach repeatable tasks, and Plugins bundle it all so a whole capability installs in one click.</p>
+    <table>
+      <thead><tr><th>Feature</th><th>What it is</th><th>Use it to</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Projects</strong></td><td>A saved workspace with your files and custom instructions</td><td>Keep recurring work in context: a client, a campaign, an account</td></tr>
+        <tr><td><strong>Skills</strong></td><td>A small folder (a SKILL file) that teaches Claude one repeatable task</td><td>Make Claude do a task your way, the same way, every time</td></tr>
+        <tr><td><strong>Plugins</strong></td><td>A bundle of skills and tools you install at once</td><td>Add a whole capability set in one click, and share it with the team</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Plain version</div>
+      <p style="margin:0">A <strong>Project</strong> remembers your stuff. A <strong>Skill</strong> teaches a trick. A <strong>Plugin</strong> is a box of tricks you can hand to anyone.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>How they work together</h2>
+    <p>They stack. Here is one job, built up across all three.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> Example: client onboarding</div>
+      <p><strong>Project:</strong> an "Acme Onboarding" workspace holds Acme's docs, brand voice, and instructions.</p>
+      <p><strong>Skill:</strong> a "welcome sequence" skill writes the onboarding emails in your exact format.</p>
+      <p style="margin:0"><strong>Plugin:</strong> an "onboarding pack" bundles several skills so every VA on the team installs them at once.</p>
+    </div>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Projects <em>remember</em>, Skills <em>specialize</em>, Plugins <em>distribute</em>. Together they turn a generalist into your team's specialist.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>What a Project Remembers</h2>
+    <p>A Project is not just a folder. It holds everything Claude needs before you type a single message -- the client, the rules, the tone, the files. That context is ready the moment you open it.</p>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-msg"/></svg> Regular chat</div>Starts blank every time. Claude does not know your client, your tone, or what you discussed last week. You re-explain from scratch.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-grid"/></svg> Inside a Project</div>Opens with memory. Claude already knows the client brief, the rules, the brand voice. Your first message is the task, not the introduction.</div>
+    </div>
+    <table>
+      <thead><tr><th>What you store</th><th>What Claude gains</th></tr></thead>
+      <tbody>
+        <tr><td><strong>System prompt</strong></td><td>Standing role and rules: who Claude is, what tone to use, what never to do -- set once, active always</td></tr>
+        <tr><td><strong>Files and docs</strong></td><td>Brand guides, SOPs, previous reports -- Claude reads them before you ask anything</td></tr>
+        <tr><td><strong>Chat history</strong></td><td>Past conversations in this Project stay visible, so nothing gets forgotten between sessions</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>One Project per client or recurring responsibility. Everything Claude needs to know about them lives there. You stop re-explaining -- <em>Claude already knows</em>.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>Skills you'll actually use as an EA</h2>
+    <p>A Skill teaches Claude one repeatable job — your way, every time. These are real skills already built for EA and VA work.</p>
+    <table>
+      <thead><tr><th>Skill</th><th>What it does for you</th></tr></thead>
+      <tbody>
+        <tr><td><strong>keyplayers-ea</strong></td><td>The full EA operating system: drafting comms, calendar management, onboarding coordination, meeting prep, CEO updates, and task tracking — all to KeyPlayers standards.</td></tr>
+        <tr><td><strong>executive-briefing</strong></td><td>Turns messy inputs — notes, threads, docs — into a tight executive summary a leader can read in a minute.</td></tr>
+        <tr><td><strong>va-email-responder</strong></td><td>Drafts email replies in your voice and format, so a full inbox becomes a review-and-send job.</td></tr>
+        <tr><td><strong>schedule</strong></td><td>Sets up a task that runs on its own — a daily reminder, a recurring report, an "every Monday" job.</td></tr>
+        <tr><td><strong>doc-coauthoring</strong></td><td>Builds and edits a document with you — SOPs, proposals, briefs — instead of dumping text in one shot.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> How to spot one</div>
+      <p style="margin:0">If you catch yourself explaining the same job to Claude every week, that job should be a Skill. Teach it once; run it forever.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <h2>Plugins &amp; connectors for an EA</h2>
+    <p>A Skill teaches a task. A <strong>connector</strong> gives Claude a hand in a real tool you already use. A <strong>Plugin</strong> bundles skills and connectors so a whole capability installs at once. Here's what that looks like in an EA's day.</p>
+    <table>
+      <thead><tr><th>Connector</th><th>Sample task you can hand off</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Slack</strong></td><td>"Summarize what I missed in #clients today and draft a reply to Alex's question." Claude reads the channel and drafts — you approve.</td></tr>
+        <tr><td><strong>Gmail / Email</strong></td><td>"Draft replies to the unread emails in my inbox, matching my tone." Comes back as drafts to review, not auto-sent.</td></tr>
+        <tr><td><strong>Granola</strong></td><td>"Pull the transcript from this morning's call and turn it into action items with owners." Meeting notes become a task list.</td></tr>
+        <tr><td><strong>Notion</strong></td><td>"Add these five onboarding tasks to the client tracker and set due dates." Claude writes straight into the workspace.</td></tr>
+        <tr><td><strong>Canva</strong></td><td>"Build a social post from this brief using our brand." Claude opens Canva, applies the brand, hands back a draft.</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>Chat can <em>talk about</em> your tools. A connector lets Claude <em>reach into</em> them. A Plugin hands the whole set to a teammate in one click.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 6: CONTEXT ENGINEERING -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 7</div>
+    <h1>Context Engineering</h1>
+    <p class="subtitle">Prompting is what you ask. Context engineering is everything you put around the ask: the system prompt, the files, the tools, and the memory. It is the difference between a generic answer and one built for your exact job.</p>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-book"/></svg> First, the system prompt</div>
+      <p style="margin:0">A <strong>system prompt</strong> is the standing instruction that sets who Claude is and the rules it follows for a whole session or Project, before you type a single message. "You are a careful bookkeeping assistant. Never invent numbers." That one line shapes everything after it.</p>
+    </div>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Thin context</div>Just a question, no setup. "Write the client update." Claude has to guess the client, the tone, and the facts, and usually guesses wrong.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Engineered context</div>The system prompt sets the role and rules, the client's last report is attached, and your tone example is included. The same ask now produces drop-in work.</div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <h2>Why context is the real skill</h2>
+    <p>The model can only be as good as what you put in front of it. A brilliant model with thin context gives thin answers. An average model with rich, relevant context gives great ones.</p>
+    <table>
+      <thead><tr><th>Put in the context</th><th>Keep it out</th></tr></thead>
+      <tbody>
+        <tr><td>The role and rules (system prompt)</td><td>Irrelevant chat history</td></tr>
+        <tr><td>The exact source material it needs</td><td>Files it does not need this time</td></tr>
+        <tr><td>One or two examples of "good"</td><td>Conflicting or outdated instructions</td></tr>
+        <tr><td>The tools or connectors for the task</td><td>Everything "just in case" (it crowds the window)</td></tr>
+      </tbody>
+    </table>
+    <div class="principle">
+      <div class="badge"><svg><use href="#i-compass"/></svg></div>
+      <div class="pl">The Principle</div>
+      <p>The best operators do not write cleverer one-liners. They <em>engineer better context</em>: the right role, the right files, the right examples, and nothing that distracts.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Claude Secrets</div>
+    <h2>Habits That Separate Power Users</h2>
+    <p>Most people use Claude like a search engine. These six habits change that. Each one takes seconds to apply and noticeably improves what you get back.</p>
+    <div class="secrets-grid">
+      <div class="secret-card"><div class="secret-num">01</div><div class="secret-body"><strong>Ask Claude to critique itself</strong><p>"What is wrong with that answer?" triggers a sharper second draft. Claude catches its own weak points better than most editors.</p></div></div>
+      <div class="secret-card"><div class="secret-num">02</div><div class="secret-body"><strong>Upload the actual file</strong><p>Do not paste text from a PDF -- upload the file. Claude reads the full document including tables and layout. Pasting loses that.</p></div></div>
+      <div class="secret-card"><div class="secret-num">03</div><div class="secret-body"><strong>"Think step by step"</strong><p>Add this before a complex task. It forces Claude to reason before concluding -- dramatically fewer wrong answers and invented facts.</p></div></div>
+      <div class="secret-card"><div class="secret-num">04</div><div class="secret-body"><strong>Set your system prompt once</strong><p>A Project system prompt shapes every response. "You are a concise EA. Never use bullet points." -- set it once, active in every session.</p></div></div>
+      <div class="secret-card"><div class="secret-num">05</div><div class="secret-body"><strong>"One more thing"</strong><p>After Claude finishes any answer, type exactly this. It reliably surfaces the most important insight Claude left out the first time.</p></div></div>
+      <div class="secret-card"><div class="secret-num">06</div><div class="secret-body"><strong>End with "plain English"</strong><p>Add "explain the key point in one plain sentence" to any prompt. Forces Claude to name what actually matters instead of padding.</p></div></div>
+    </div>
+  </div></section>
+
+  <!-- SESSION 7: CLAUDE ON AUTOPILOT -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 8</div>
+    <h1>Claude on Autopilot</h1>
+    <p class="subtitle">You do not have to be at the keyboard for Claude to work. Scheduled tasks, routines, and dispatch let Claude run on a timer or a trigger, even while you sleep.</p>
+    <table>
+      <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Scheduled tasks</strong><br><span style="color:var(--dim);font-size:12px">in Cowork</span></td><td>Run a Cowork session on a schedule, with the same access to your connectors, files, and skills</td></tr>
+        <tr><td><strong>Routines</strong><br><span style="color:var(--dim);font-size:12px">in Claude Code</span></td><td>Scheduled agent tasks that run in Anthropic's cloud, so nothing needs your laptop to be open</td></tr>
+        <tr><td><strong>Dispatch</strong></td><td>Start or steer a Claude task from your phone, while you are away from your desk</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-clock"/></svg> What this unlocks</div>
+      <p style="margin:0">A morning briefing that is ready before you wake. A weekly report that posts itself. A job you kick off from your phone on the commute. The work happens on a schedule, not on your attention.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <h2>Autopilot, with a seatbelt</h2>
+    <p>Unattended work is powerful, which is exactly why the Day 1 rules still apply, even more so when no one is watching.</p>
+    <div class="standard">
+      <div class="badge"><svg><use href="#i-lock"/></svg></div>
+      <div class="pl">Same rules, higher stakes</div>
+      <p>Anything that runs on its own needs the same data-safety guardrails and a human checkpoint for risky steps. Schedule the gathering and drafting; keep a person on the send and approve.</p>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Quick check</div>
+      <div class="quiz-q">You want a sales summary built and posted to the team every Monday at 7am, with no one clicking anything. Which feature fits?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="A scheduled task or routine runs on a timer with your connectors and files, no one at the keyboard. Perfect for a weekly auto-posted summary."><span class="qmark"></span><span class="qtext">A scheduled task / routine</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="An artifact is something you build in a chat. It will not run itself every Monday."><span class="qmark"></span><span class="qtext">A regular artifact</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Dispatch is for starting a task from your phone, not for running one automatically on a fixed schedule."><span class="qmark"></span><span class="qtext">Dispatch from your phone</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="MCP is the behind-the-scenes translator, not a scheduler."><span class="qmark"></span><span class="qtext">An MCP</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="7" id="agentSlide"><div class="slide-inner">
+    <h2>One Instruction, Four Tools</h2>
+    <p>This is agentic AI in action. You give Claude one goal. It plans the steps, opens each tool in sequence, completes the work, and delivers -- with no clicks from you in between.</p>
+    <div class="cw-prompt-row">
+      <div class="cw-you"><div class="cw-you-label">One instruction</div>"Research 3 VA productivity tips, write a short post in Google Docs, create a Canva graphic for it, and post the summary to the team Slack."</div>
+    </div>
+    <div class="agent-flow">
+      <div class="agent-step" id="ags1">
+        <div class="agent-tool-ico" style="background:rgba(93,169,244,0.12);border-color:rgba(93,169,244,0.28);color:#5DA9F4"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Research</div><div class="agent-tool-cap">reads sources, pulls 3 tips</div></div>
+        <div class="agent-tick" id="agTick1"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags2">
+        <div class="agent-tool-ico" style="background:rgba(66,133,244,0.12);border-color:rgba(66,133,244,0.28);color:#4285F4"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Google Docs</div><div class="agent-tool-cap">writes and formats the post</div></div>
+        <div class="agent-tick" id="agTick2"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags3">
+        <div class="agent-tool-ico" style="background:rgba(0,196,204,0.12);border-color:rgba(0,196,204,0.28);color:#00C4CC"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Canva</div><div class="agent-tool-cap">creates the social graphic</div></div>
+        <div class="agent-tick" id="agTick3"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+      <div class="agent-step" id="ags4">
+        <div class="agent-tool-ico" style="background:rgba(163,66,160,0.12);border-color:rgba(163,66,160,0.28);color:#A342A0"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg></div>
+        <div class="agent-step-body"><div class="agent-tool-name">Slack</div><div class="agent-tool-cap">posts the summary to the team</div></div>
+        <div class="agent-tick" id="agTick4"><svg style="width:13px;height:13px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div>
+      </div>
+    </div>
+    <div class="agent-done" id="agentDone"><svg style="width:16px;height:16px" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> 4 actions completed -- 0 clicks from you</div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> What makes this agentic</div>
+      <p style="margin:0">Claude did not wait for your permission between steps. It planned, acted, checked its work, and moved to the next tool on its own. You gave it a goal -- it handled the path. That is the difference between a chatbot and an agent.</p>
+    </div>
+  </div></section>
+
+  <!-- SESSION 8: RECAP & NEXT -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Day 3 · Session 9</div>
+    <h1>Quick Check</h1>
+    <p class="subtitle">One scenario to tie the four concepts together. Read it, then pick the best answer.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
+      <div class="quiz-q">You want a single page that shows today's calendar, priority emails, and Slack mentions, and refreshes itself every morning. What should you ask Claude to build?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A regular artifact is frozen at the moment it is built, so it would not refresh with new emails or messages."><span class="qmark"></span><span class="qtext">A regular artifact</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="It needs fresh data from Slack, Gmail, and Calendar every time you open it. That is exactly what a live artifact does."><span class="qmark"></span><span class="qtext">A live artifact</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="A CLI is for typing commands, not for building a self-updating dashboard page."><span class="qmark"></span><span class="qtext">A CLI command</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="MCP is the behind-the-scenes translator. You do not ask for it directly; it works automatically when a live artifact pulls your data."><span class="qmark"></span><span class="qtext">An MCP</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <h2>Wrap-up &amp; what's next</h2>
+    <table>
+      <thead><tr><th>Concept</th><th>The one-line version</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Artifacts</strong></td><td>Finished work Claude builds in a side panel. If you would paste it elsewhere, make it an artifact.</td></tr>
+        <tr><td><strong>Live artifacts</strong></td><td>Dashboards that pull fresh data from your tools every time you open them.</td></tr>
+        <tr><td><strong>MCP &amp; API</strong></td><td>The plumbing: API is each app's menu, MCP is the translator. It runs automatically.</td></tr>
+        <tr><td><strong>CLI &amp; Claude Code</strong></td><td>Talking to a computer by typing. Claude Code runs Claude from the terminal — reads/edits real files, runs scripts, sets up automations. You recognize it; CLAUDE.md is its persistent memory.</td></tr>
+        <tr><td><strong>Which tool?</strong></td><td>Chat for quick tasks. Projects to keep context. Cowork to act across tools. Claude Code to build and automate. Match the door to the job.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Before Day 4 (activity)</div>
+      <p><strong>1.</strong> In Cowork, ask Claude to build one artifact you would actually use this week (an email, a checklist, or a table). Copy it into the real tool.</p>
+      <p style="margin:0"><strong>2.</strong> Write down one thing you check every morning. That is your first live-artifact idea for when your tools are connected.</p>
+    </div>
+    <div class="qa">
+      <h3>Day 3 Q&amp;A</h3>
+      <p>Bring your questions on artifacts, live artifacts, or how Claude connects to your tools. Tomorrow we move into Automation Foundations: making work happen without you in every step.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 4 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div>
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Artifacts</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 11</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script src="./class-schedule.js"></script>
+<script>
+const CONFIG = { SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec', DAY:'Day 3', DAY_INDEX:3, PREV_DAY_KEY:'' };
+const NEXT_DECK = 'https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html';
+
+/* ---- KeyPlayers attendance + completion tracking ---- */
+const TRACK = {
+  URL: CONFIG.SUBMIT_URL,   // same Apps Script web app as Day 1 and 2
+  DAY: CONFIG.DAY,          // 'Day 3'
+  NEXT: 'Day 4',            // where the Proceed button goes
+  TOKEN: '',                // must match SHARED_TOKEN in Apps Script (leave '' if unused)
+  BEACON_ON_OPEN: true      // anonymous open-ping on load (named if ?name= is in the URL)
+};
+let attendeeName = (new URLSearchParams(location.search).get('name'))
+  || localStorage.getItem('kp_name')                  // remembered across every day
+  || localStorage.getItem('kp_name_'+TRACK.DAY) || ''; // migrate any older per-day value
+attendeeName = (attendeeName||'').trim();
+if(attendeeName) localStorage.setItem('kp_name', attendeeName);
+
+function kpTrack(eventType, extra){
+  if(!TRACK.URL || !TRACK.URL.startsWith('http')){ console.log('[track]', eventType, Object.assign({name:attendeeName}, extra||{})); return; }
+  const payload = Object.assign({
+    formType:eventType, day:TRACK.DAY, token:TRACK.TOKEN,
+    name:attendeeName, userAgent:navigator.userAgent, ts:new Date().toISOString()
+  }, extra||{});
+  kpSend(payload);
+}
+function kpSend(payload){
+  fetch(TRACK.URL, { method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+    .catch(()=>kpQueue(payload));   // endpoint unreachable: hold it and retry on next load
+}
+function kpQueue(payload){
+  try{ const q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); q.push(payload);
+    localStorage.setItem('kp_queue', JSON.stringify(q.slice(-50))); }catch(e){}
+}
+function kpFlush(){
+  let q; try{ q=JSON.parse(localStorage.getItem('kp_queue')||'[]'); }catch(e){ q=[]; }
+  if(!q.length) return; localStorage.removeItem('kp_queue'); q.forEach(kpSend);
+}
+function kpOnce(key){ if(localStorage.getItem(key)) return false; localStorage.setItem(key,'1'); return true; }
+
+kpFlush(); // resend anything that failed to send on a previous visit
+/* anonymous (or named) open beacon, once per day per browser */
+/* ---- presence + blocking check-in gate ---- */
+function kpSetName(n){ n=(n||'').trim(); if(!n) return false;
+  attendeeName=n; localStorage.setItem('kp_name', n); localStorage.setItem('kp_name_'+TRACK.DAY, n); return true; }
+function kpRecordPresence(){
+  if(TRACK.BEACON_ON_OPEN && kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString())) kpTrack('opened', {});
+  if(kpOnce('kp_att_'+TRACK.DAY)) kpTrack('attendance', {firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});
+  var f=document.getElementById('attForm'), d=document.getElementById('attDone');
+  if(f) f.style.display='none'; if(d) d.style.display='block';
+}
+function kpGateClose(){ var g=document.getElementById('kpGate'); if(g&&g.parentNode) g.parentNode.removeChild(g); }
+function kpGateOpen(){
+  if(document.getElementById('kpGate')) return;
+  var g=document.createElement('div'); g.id='kpGate';
+  g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)">'+
+    '<div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div>'+
+    '<h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2>'+
+    '<p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+
+    '<input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '<input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none">'+
+    '</div>'+
+    '<div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div>'+
+    '<button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button>'+
+  '</div>';
+  document.body.appendChild(g);
+  var fn=g.querySelector('#kpGateFname'), ln=g.querySelector('#kpGateLname'), btn=g.querySelector('#kpGateBtn'), er=g.querySelector('#kpGateErr');
+  function go(){ var f=(fn.value||'').trim(), l=(ln.value||'').trim(); if(!f||!l){ er.textContent='Please enter both your first and last name.'; er.style.display='block'; (f?ln:fn).focus(); return; } er.style.display='none'; localStorage.setItem('kp_fname',f); localStorage.setItem('kp_lname',l); kpSetName(f+' '+l); kpRecordPresence(); kpGateClose(); }
+  btn.onclick=go; [fn,ln].forEach(function(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter') go(); }); });
+  setTimeout(function(){ try{ fn.focus(); }catch(e){} }, 50);
+}
+/* ---- date-unlock + completion-gate guardrails ---- */
+function kpShowLocked(badge,heading,body){
+  if(document.getElementById('kpLocked')) return;
+  var el=document.createElement('div'); el.id='kpLocked';
+  el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';
+  el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center">'+
+    '<div style="font-size:42px;margin-bottom:14px">🔒</div>'+
+    '<div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div>'+
+    '<h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2>'+
+    '<p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p>'+
+  '</div>';
+  document.body.appendChild(el);
+}
+/* ---- past sessions navigator ---- */
+const KP_SESSIONS=[
+  {day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},
+  {day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},
+  {day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},
+  {day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},
+  {day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},
+  {day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},
+  {day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},
+  {day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},
+  {day:'Day 9',label:'KeyCommand',url:'Day09_KeyCommand.html'},
+  {day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}
+];
+function kpNavBuild(){
+  var base='https://kphq-updated-training.vercel.app/';
+  var panel=document.createElement('div'); panel.id='kpNavPanel';
+  panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';
+  panel.innerHTML='<a href="index.html" style="display:flex;align-items:center;gap:7px;padding:8px 10px;margin-bottom:10px;border-radius:8px;text-decoration:none;color:#9fb0a4;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)">&#8592; Course Home</a><div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';
+  KP_SESSIONS.forEach(function(s){
+    var done=!!localStorage.getItem('kp_done_'+s.day);
+    var isCur=(s.day===CONFIG.DAY);
+    var a=document.createElement('a');
+    a.href=base+s.url;
+    a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';
+    a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};
+    a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};
+    a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';
+    panel.appendChild(a);
+  });
+  document.body.appendChild(panel);
+  var btn=document.createElement('div'); btn.id='kpNavBtn';
+  btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';
+  btn.innerHTML='&#9776; Sessions';
+  btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};
+  document.body.appendChild(btn);
+  document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});
+}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){
+  function _b(){ if(document.getElementById('kpAdminBadge')) return; var b=document.createElement('div'); b.id='kpAdminBadge'; b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)'; b.textContent='ADMIN'; document.body.appendChild(b); }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();
+}
+function kpCheckAccess(){
+  if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
+  if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}
+  var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);
+  if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
+    var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
+  }
+  if(CONFIG.PREV_DAY_KEY && !localStorage.getItem(CONFIG.PREV_DAY_KEY)){
+    var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);
+    var fn2=function(){ kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' isn\'t marked complete on this device. Go back and click through to the end of '+prev+', then return here.'); };
+    document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2(); return;
+  }
+  if(attendeeName){ kpRecordPresence(); }
+  else if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',kpGateOpen); }
+  else { kpGateOpen(); }
+}
+kpCheckAccess();
+
+function markAttendance(){
+  var inp=document.getElementById('attName'); var err=document.getElementById('attErr');
+  if(!kpSetName(inp?inp.value:'')){ if(err){ err.textContent='Please enter your name to mark attendance.'; err.style.display='block'; } return; }
+  if(err) err.style.display='none';
+  kpRecordPresence();
+}
+
+function proceedNext(){
+  if(kpOnce('kp_done_'+TRACK.DAY)) kpTrack('completed', { nextDay: TRACK.NEXT });
+  setTimeout(function(){ window.open(NEXT_DECK, '_blank'); }, 250);
+}
+
+const sesNames = ['Which Claude Tool?','Live Artifacts','MCP & API','CLI & Claude Code','Cowork','Projects, Skills & Plugins','Context Engineering','Claude on Autopilot','Recap & Next'];
+
+const slides = [...document.querySelectorAll('.slide')];
+const navLinks = [...document.querySelectorAll('#nav a')];
+const pfill = document.getElementById('pfill'), ptext = document.getElementById('ptext');
+const dbLabel = document.getElementById('dbLabel'), dbCount = document.getElementById('dbCount');
+const prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
+let cur = 0;
+
+function render(){
+  slides.forEach((s,i)=>s.classList.toggle('active', i===cur));
+  const ses = +slides[cur].dataset.ses;
+  navLinks.forEach((a,i)=>{a.classList.toggle('active', i===ses); a.classList.toggle('done', i<ses);});
+  pfill.style.width = Math.round(((cur+1)/slides.length)*100)+'%';
+  ptext.textContent = 'Slide '+(cur+1)+' of '+slides.length;
+  dbLabel.textContent = sesNames[ses];
+  dbCount.innerHTML = '<strong>'+(cur+1)+'</strong> / '+slides.length;
+  prevBtn.disabled = cur===0;
+  if(cur===slides.length-1){
+    nextBtn.innerHTML = 'Day 4 <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = proceedNext;
+  } else {
+    nextBtn.innerHTML = 'Next <svg><use href="#i-arrow"/></svg>';
+    nextBtn.onclick = next;
+  }
+  const sc = slides[cur]; sc.scrollTop = 0;
+  if(sc.id==='artSlide') setTimeout(initArt, 60);
+  if(sc.querySelector('#cwWrap')) setTimeout(initCw, 60);
+  if(sc.id==='agentSlide') setTimeout(initAgent, 60);
+}
+function next(){ if(cur<slides.length-1){ cur++; render(); } }
+function prev(){ if(cur>0){ cur--; render(); } }
+function goSession(s){ const i = slides.findIndex(sl=>+sl.dataset.ses===s); if(i>=0){ cur=i; render(); } closeNav(); }
+
+document.addEventListener('keydown', e=>{
+  const t = document.activeElement.tagName;
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); next(); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); prev(); }
+});
+
+function toggleNav(){ document.getElementById('sidebar').classList.toggle('open'); document.getElementById('scrim').classList.toggle('show'); }
+function closeNav(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('scrim').classList.remove('show'); }
+function quizPick(btn){
+  const quiz=btn.closest('.quiz'); if(quiz.classList.contains('answered'))return;
+  quiz.classList.add('answered');
+  const opts=[...quiz.querySelectorAll('.quiz-opt')];
+  const correctOpt=opts.find(o=>o.dataset.correct==='true');
+  const chose=btn.dataset.correct==='true';
+  opts.forEach(o=>{o.disabled=true; if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});
+  if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}
+  const fb=quiz.querySelector('.quiz-fb');
+  fb.innerHTML = chose
+    ? '<strong class="ok">Correct.</strong> '+btn.dataset.why
+    : '<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;
+  fb.classList.add('show');
+  quiz.querySelector('.quiz-reset').style.display='inline-block';
+}
+function quizReset(btn){
+  const quiz=btn.closest('.quiz'); quiz.classList.remove('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});
+  const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';
+  btn.style.display='none';
+}
+render();
+
+/* live artifact simulation */
+function simRand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function setSimCard(id,val){ var c=document.getElementById(id); if(!c)return; c.querySelector('.sc-val').textContent=val; c.classList.add('flash'); setTimeout(function(){c.classList.remove('flash');},650); }
+function simRefresh(){
+  var sim=document.getElementById('simBriefing'); if(!sim) return;
+  sim.classList.add('loading');
+  setTimeout(function(){
+    setSimCard('simCal', simRand(2,6)); setSimCard('simMail', simRand(1,12)); setSimCard('simSlack', simRand(0,7));
+    var t=document.getElementById('simTime'); if(t) t.textContent='just now'; simAge=0;
+    sim.classList.remove('loading');
+  }, 650);
+}
+/* artifact split-panel demo */
+function initArt(){
+  var u=document.getElementById('artU'),c=document.getElementById('artC'),dots=document.getElementById('artDots'),ct=document.getElementById('artCText'),emp=document.getElementById('artEmpty'),lns=document.getElementById('artLines');
+  if(!u) return;
+  u.classList.remove('show'); c.classList.remove('show'); dots.classList.remove('hide'); ct.classList.remove('show'); emp.classList.remove('hide'); lns.classList.remove('show');
+  document.querySelectorAll('#artLines .art-ln').forEach(function(l){ l.classList.remove('fill'); });
+  setTimeout(function(){ u.classList.add('show'); }, 500);
+  setTimeout(function(){ c.classList.add('show'); }, 1500);
+  setTimeout(function(){
+    emp.classList.add('hide'); lns.classList.add('show');
+    document.querySelectorAll('#artLines .art-ln').forEach(function(l,i){ setTimeout(function(){ l.classList.add('fill'); }, i*110); });
+  }, 2400);
+  setTimeout(function(){ dots.classList.add('hide'); ct.classList.add('show'); }, 3100);
+}
+function replayArt(){ initArt(); }
+
+/* agentic multi-tool demo */
+function initAgent(){
+  var steps=['ags1','ags2','ags3','ags4'];
+  var ticks=['agTick1','agTick2','agTick3','agTick4'];
+  var done=document.getElementById('agentDone');
+  steps.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  ticks.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  if(done) done.classList.remove('show');
+  var sDelays=[300,900,1500,2100];
+  var tDelays=[750,1350,1950,2550];
+  steps.forEach(function(id,i){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, sDelays[i]); });
+  ticks.forEach(function(id,i){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, tDelays[i]); });
+  setTimeout(function(){ if(done) done.classList.add('show'); }, 3100);
+}
+
+/* cowork canva demo */
+function initCw(){
+  var ids=['cws1','cws2','cws3','cws4','cwEl1','cwEl2','cwEl3','cwEl4','cwEl5','cwEl6','cwEl7','cwEl8','cwEl9','cwEl10','cwEl11'];
+  ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  var delays={cws1:250,cws2:800,cws3:1350,cws4:1900,cwEl1:800,cwEl2:900,cwEl3:960,cwEl4:1400,cwEl5:1520,cwEl6:1600,cwEl7:1700,cwEl8:1800,cwEl9:1860,cwEl10:1920,cwEl11:2200};
+  ids.forEach(function(id){ setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, delays[id]||0); });
+}
+
+var simAge=0;
+setInterval(function(){
+  var t=document.getElementById('simTime'); if(!t) return;
+  simAge++;
+  if(simAge>=8){ simRefresh(); }
+  else { t.textContent = simAge+'s ago'; }
+}, 1000);
+</script>
+</body>
+</html>
+

@@ -1,0 +1,1021 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 9: Conditional Logic</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .gate{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin:6px 0}
+  .field{width:100%;padding:12px 14px;background:var(--bg-2);color:var(--ink);border:1px solid var(--border);border-radius:9px;font-family:var(--font-b);font-size:14px;transition:all .15s}
+  .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .err{display:none;color:var(--danger);font-size:12.5px;margin:6px 0 12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+  .footnote{margin-top:14px;padding-top:10px;border-top:1px solid var(--border)}
+  .table-compact th,.table-compact td{padding:7px 12px}
+  .table-compact{margin:6px 0 10px}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  /* Flow diagram classes using Day05 variables */
+  .flow-wrap{margin:24px 0;display:flex;flex-direction:column;align-items:center}
+  .flow-trigger{background:var(--panel-2);border:2px solid var(--accent);border-radius:10px;padding:14px 28px;text-align:center;width:100%;max-width:500px}
+  .flow-trigger-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+  .flow-trigger-text{font-size:14px;font-weight:600;color:var(--ink)}
+  .flow-down{width:2px;height:22px;background:var(--border-2);position:relative;margin:0 auto}
+  .flow-down::after{content:'';position:absolute;bottom:-6px;left:-5px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid var(--border-2)}
+  .flow-condition{background:var(--panel-2);border:2px solid var(--gold);border-radius:10px;padding:14px 28px;text-align:center;width:100%;max-width:500px;margin-top:6px}
+  .flow-condition-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+  .flow-condition-text{font-size:14px;font-weight:700;color:var(--ink)}
+  .flow-h-line{width:100%;height:2px;background:linear-gradient(90deg,transparent 12.5%,var(--border-2) 12.5%,var(--border-2) 87.5%,transparent 87.5%);margin:16px 0 0}
+  .flow-ticks{display:grid;grid-template-columns:repeat(4,1fr);width:100%;margin-bottom:4px}
+  .flow-tick{height:16px;display:flex;justify-content:center}
+  .flow-tick span{width:2px;background:var(--border-2);display:block}
+  .flow-tick.fallback span{background:var(--gold)}
+  .flow-branches{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
+  .flow-branch{display:flex;flex-direction:column;gap:7px}
+  .branch-label{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);border-radius:8px;padding:8px 10px;text-align:center;font-size:12px;font-weight:700;color:var(--accent)}
+  .branch-label.fb{border-color:rgba(234,179,8,0.35);color:var(--gold);background:var(--gold-soft)}
+  .branch-action{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;font-size:12px;color:var(--muted);line-height:1.55;flex:1}
+  .branch-action.fb{border-color:rgba(234,179,8,0.18)}
+  .branch-log{border-radius:8px;padding:7px 10px;text-align:center;font-size:11px;font-weight:700;letter-spacing:0.5px}
+  .branch-log.ok{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent)}
+  .branch-log.fail{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.3);color:var(--danger)}
+  /* Review grid */
+  .review-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0}
+  .review-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+  .review-card-day{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+  .review-card-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .review-card-point{font-size:12px;color:var(--muted);line-height:1.6}
+  /* Step list */
+  .step-list{list-style:none;padding-left:0;margin:16px 0}
+  .step-list>li{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
+  .step-num{flex-shrink:0;width:28px;height:28px;background:var(--accent);color:#04150B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px}
+  .step-content{flex:1;line-height:1.7}
+  /* Tag badges */
+  .tag-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin:0 6px 6px 0}
+  .tag-free{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(34,197,94,0.3)}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}.review-grid{grid-template-columns:1fr 1fr}.flow-branches{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.review-grid{grid-template-columns:1fr}}
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0;counter-reset:n8nstep;flex-wrap:wrap}
+  .n8n-node{flex:1;min-width:120px;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node::before{counter-increment:n8nstep;content:counter(n8nstep);position:absolute;top:7px;right:9px;font-size:9px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:.5px;font-family:var(--font-d)}
+  .n8n-node.n8n-active{border-color:#22c55e;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards, n8nShimmer 2.4s 1.2s ease-in-out infinite;animation-delay:var(--d,0s),1.2s}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 40px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:2px;flex:1;background:rgba(255,255,255,.1);position:relative;overflow:hidden;border-radius:1px}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:n8nPulse 2.2s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid rgba(255,255,255,.3)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:110%}}
+  @keyframes n8nShimmer{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.1)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.04),0 0 20px rgba(34,197,94,.1)}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-bolt"/></svg> Day 9 &middot; Conditional Logic</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-check"/></svg></span>Welcome Back</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-grid"/></svg></span>Conditional Logic</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-compass"/></svg></span>The Scenario</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-activity"/></svg></span>Logic Map</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Make.com Build</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-target"/></svg></span>Week Review</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Activity</a>
+    <a onclick="goSession(7)"><span class="ico"><svg><use href="#i-alert"/></svg></span>Common Mistakes</a>
+    <a onclick="goSession(8)"><span class="ico"><svg><use href="#i-clock"/></svg></span>Social Scheduler</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; AI Meetings</a>
+    <a class="current"><span class="cn">Day 9</span> Conditional Logic</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- S0-0: WELCOME BACK -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Today</div>
+    <h1>Automation in Practice</h1>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Quick review of Day 8</div>
+      <ul>
+        <li>AI note-takers capture decisions automatically — so nothing is lost after a meeting</li>
+        <li>Claude turns meeting transcripts into structured tasks and action items</li>
+        <li>Your role is the judgment layer between raw AI output and what actually gets sent</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Today's objectives</div>
+      <ul style="margin:0">
+        <li>Understand conditional logic: what it is and why it makes automations more robust</li>
+        <li>Map out the router, path, fallback, and log structure in a real scenario</li>
+        <li>Build the Smart Social Media Scheduler scenario in Make.com step by step</li>
+        <li>Complete 4 hands-on activities to confirm you understand the build, not just follow it</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S0-1: ATTENDANCE -->
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Check-in</div>
+    <h1>Mark Your Attendance</h1>
+    <p class="subtitle">Takes 60 seconds. This logs your participation for today's session.</p>
+    <div id="attDone">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Marked present</div><p style="margin:0">Your Day 9 attendance is logged. Let's build.</p></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Prep check</div>
+      <ul style="margin:0">
+        <li>Do you have a Make.com free account? Create one at make.com before this session.</li>
+        <li>Do you have a Google Sheet with at least two tabs? You will need it for the build today.</li>
+        <li>Have a Buffer free account ready — or a substitute social scheduling tool.</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S1-0: CONDITIONAL LOGIC EXPLAINED -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 2</div>
+    <h1>What is Conditional Logic?</h1>
+    <p>Conditional logic is the difference between an automation that does the same thing every time and one that <strong>thinks before it acts</strong>.</p>
+    <p>In plain language: <strong>If X is true, do A. If Y is true, do B. If nothing matches, do C (the fallback).</strong></p>
+    <p>You already use this logic every day without calling it that:</p>
+    <ul>
+      <li>If the client is urgent, call them. If not, send an email.</li>
+      <li>If the invoice is unpaid after 7 days, send a reminder. If paid, send a thank-you.</li>
+      <li>If the post is for Instagram, add hashtags. If it is for LinkedIn, keep the tone professional.</li>
+    </ul>
+    <p>In Make.com, this is handled with a module called a <strong>Router</strong>. You set a filter condition on each route, and the automation directs itself to the right action depending on what it finds.</p>
+  </div></section>
+
+  <!-- S1-1: THE 5 KEY TERMS -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <h2>The 5 Key Terms</h2>
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th><th>In Make.com</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Trigger</strong></td><td>The event that starts the automation</td><td>New row in Google Sheets</td></tr>
+        <tr><td><strong>Condition</strong></td><td>The rule being tested</td><td>Platform = "Instagram"?</td></tr>
+        <tr><td><strong>Path</strong></td><td>The branch taken when a condition is true</td><td>Make.com Router route</td></tr>
+        <tr><td><strong>Fallback</strong></td><td>What runs when NO condition matches</td><td>The final route with no filter</td></tr>
+        <tr><td><strong>Log</strong></td><td>A written record of every outcome</td><td>Append row to a Sheets log tab</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Why the fallback matters</div>
+      <p>Most beginners skip the fallback. If someone adds a row with Platform = "TikTok" and there is no fallback route, the Scenario fails silently — no error, no alert, no post scheduled. Nobody knows. The fallback is your safety net. It catches anything unexpected and notifies a human to review it.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Why the log matters</div>
+      <p style="margin:0">The log is your paper trail. When something breaks (and it will), you need to know: when did it trigger, what was the platform, what happened? Without a log, debugging is pure guesswork. With one, you pull up the sheet and the answer is right there.</p>
+    </div>
+  </div></section>
+
+  <!-- S2-0: THE SCENARIO -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 3</div>
+    <h1>The Scenario: Smart Social Media Scheduler</h1>
+    <p>You are a Social Media VA managing content for a client who posts on three platforms: Instagram, Twitter/X, and LinkedIn. Every week, the content team adds posts to a shared <strong>Google Sheet</strong> (the Content Calendar). Each row is one post.</p>
+    <table>
+      <thead><tr><th>Column</th><th>Example value</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Post Title</strong></td><td>Monday Motivation</td></tr>
+        <tr><td><strong>Platform</strong></td><td>Instagram</td></tr>
+        <tr><td><strong>Caption</strong></td><td>Start your week with purpose. Here are 3 habits...</td></tr>
+        <tr><td><strong>Hashtags</strong></td><td>#mondaymotivation #keyplayershq</td></tr>
+        <tr><td><strong>Scheduled Date</strong></td><td>2026-06-16 09:00</td></tr>
+        <tr><td><strong>Status</strong></td><td>(filled by automation)</td></tr>
+      </tbody>
+    </table>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Without Automation</div>
+        Open the sheet, read each row manually. Open Buffer or the platform directly. Reformat the caption per platform. Schedule it, then update the Status column. Repeat for every row, every week. That is 20-40 minutes per week at minimum.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> With Automation</div>
+        Make.com watches the Google Sheet. When a new row is added, it reads the Platform column, routes the post to the right Buffer queue with the right formatting, then writes the outcome to a log tab — automatically, every time.
+      </div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Why Make.com?</div>
+      <p style="margin:0">Make.com's free tier includes <strong>1,000 operations/month</strong> and supports the Router module (true if/else branching) at no cost. Zapier's equivalent feature (Paths) requires a paid plan. For learning and client-testing, Make.com is the practical free choice.</p>
+    </div>
+  </div></section>
+
+  <!-- S3-0: LOGIC MAP -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 4</div>
+    <h1>The Logic Map</h1>
+    <p>Before you open Make.com, map the logic. This is what the automation does at each step:</p>
+    <div class="flow-wrap">
+      <div class="flow-trigger">
+        <div class="flow-trigger-label">Trigger</div>
+        <div class="flow-trigger-text">New row added to Google Sheets — Content Calendar</div>
+      </div>
+      <div class="flow-down"></div>
+      <div class="flow-condition">
+        <div class="flow-condition-label">Condition Check</div>
+        <div class="flow-condition-text">What is the Platform value?</div>
+      </div>
+      <div class="flow-h-line"></div>
+      <div class="flow-ticks">
+        <div class="flow-tick"><span></span></div>
+        <div class="flow-tick"><span></span></div>
+        <div class="flow-tick"><span></span></div>
+        <div class="flow-tick fallback"><span></span></div>
+      </div>
+      <div class="flow-branches">
+        <div class="flow-branch">
+          <div class="branch-label">Instagram</div>
+          <div class="branch-action">Schedule to Buffer<br>(Instagram profile)<br>Caption + Hashtags</div>
+          <div class="branch-log ok">LOG: Scheduled</div>
+        </div>
+        <div class="flow-branch">
+          <div class="branch-label">Twitter / X</div>
+          <div class="branch-action">Buffer handles<br>280-char limit<br>Caption only</div>
+          <div class="branch-log ok">LOG: Scheduled</div>
+        </div>
+        <div class="flow-branch">
+          <div class="branch-label">LinkedIn</div>
+          <div class="branch-action">Schedule to Buffer<br>(LinkedIn profile)<br>Caption only</div>
+          <div class="branch-log ok">LOG: Scheduled</div>
+        </div>
+        <div class="flow-branch">
+          <div class="branch-label fb">Unknown / Blank</div>
+          <div class="branch-action fb">Email alert<br>to manager<br>Needs review</div>
+          <div class="branch-log fail">LOG: FAILED</div>
+        </div>
+      </div>
+    </div>
+    <div class="exercise" style="margin-top:24px">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-book"/></svg> How to read</div><div class="ex-title">How to read this map</div></div>
+      <ul style="margin:0">
+        <li>Every new row in the sheet triggers the Scenario — no exceptions</li>
+        <li>Only one route runs per trigger (the first condition that matches wins)</li>
+        <li>If none of the three platforms match, the fallback path runs — not silence</li>
+        <li>Every path — success or failure — writes a row to the log</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S4-0: MAKE.COM BUILD PART 1 -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 5</div>
+    <h1>Make.com Build</h1>
+    <h2>What you need before starting</h2>
+    <p>
+      <span class="tag-badge tag-free">Make.com — Free</span>
+      <span class="tag-badge tag-free">Google Sheets — Free</span>
+      <span class="tag-badge tag-free">Buffer — Free plan</span>
+      <span class="tag-badge tag-free">Gmail — Free</span>
+    </p>
+    <p>Prepare two tabs in your Google Sheet: <strong>Content Calendar</strong> (the input, columns: Post Title, Platform, Caption, Hashtags, Scheduled Date, Status) and <strong>Log</strong> (the output, columns: Timestamp, Platform, Post Title, Scheduled Date, Status).</p>
+    <ol class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-content"><strong>Create a new Scenario.</strong> In Make.com, click Create a new scenario. You will build it module by module from left to right.</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-content"><strong>Set the Trigger: Google Sheets — Watch New Rows.</strong> Search for Google Sheets and select Watch New Rows. Connect your Google account. Select your spreadsheet and the Content Calendar sheet. Set the limit to 1 row during testing so you can step through each run cleanly.</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-content"><strong>Add a Router module.</strong> Click the + after the trigger bubble and search for Router. Make.com creates two routes automatically (Route 1 and Route 2). You will add Route 3 and a fallback.</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-content"><strong>Route 1 — Instagram.</strong> Click the wrench icon on Route 1's connector to open its filter. Set: Platform — Text operator: Equal to — Instagram. Add two modules inside Route 1: Buffer Create Update (Instagram profile, Caption + Hashtags, Scheduled Date) and Google Sheets Add a Row to the Log tab (Timestamp, Platform, Post Title, Scheduled Date, Status: Scheduled).</div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-content"><strong>Route 2 — Twitter/X.</strong> Filter: Platform — Equal to — Twitter. Same two modules: Buffer (Twitter profile, Caption only) + log row. Buffer enforces the 280-character limit automatically.</div>
+      </li>
+    </ol>
+  </div></section>
+
+  <!-- S4-1: MAKE.COM BUILD PART 2 -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <ol class="step-list" start="6">
+      <li>
+        <div class="step-num">6</div>
+        <div class="step-content"><strong>Route 3 — LinkedIn.</strong> Click + Add route on the Router. Filter: Platform — Equal to — LinkedIn. Same structure: Buffer (LinkedIn profile) + log row.</div>
+      </li>
+      <li>
+        <div class="step-num">7</div>
+        <div class="step-content"><strong>Fallback Route — Unknown/Blank.</strong> Add one more route. Leave its filter blank (no condition = always runs when no prior route matched). Two modules: Gmail Send an Email (to manager, subject: ACTION NEEDED: Post could not be scheduled, body includes Post Title and Platform value entered) and Google Sheets Add a Row to Log (Status: FAILED — Unknown Platform).</div>
+      </li>
+      <li>
+        <div class="step-num">8</div>
+        <div class="step-content"><strong>Name and activate.</strong> Name it "Social Media Scheduler — Conditional." Toggle the Scenario on (bottom-left switch). Set scheduling to "Immediately" so it runs each time a row is added.</div>
+      </li>
+      <li>
+        <div class="step-num">9</div>
+        <div class="step-content"><strong>Test all 4 routes.</strong> Add four rows to the Content Calendar — Instagram, Twitter, LinkedIn, and one unrecognized platform like "TikTok." Click Run once to step through each. Check the execution log in Make.com, the Log tab in Sheets, and your inbox for the fallback email.</div>
+      </li>
+    </ol>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Case sensitivity — the most common failure point</div>
+      <p style="margin:0">"Instagram" and "instagram" are not the same string in Make.com filters. Your team must enter platform names exactly as written. To avoid this, use the text function <strong>{{lower(Platform)}}</strong> in your filter and match against lowercase values like "instagram", "twitter", "linkedin." This way it works regardless of how the team typed it in the sheet.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-0: WEEK 1 REVIEW (Days 1–3) -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Week 1 Review</div>
+    <h1>Key Takeaways &mdash; Week 1</h1>
+    <p style="margin-bottom:20px">Days 1&ndash;5. These are the concepts you will be assessed on. Know them cold.</p>
+
+    <div class="card card-accent" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-target"/></svg> Day 1 &mdash; AI Foundations</div>
+      <ul style="margin:0">
+        <li><strong>LLMs predict tokens, not think.</strong> No memory, beliefs, or understanding &mdash; they pattern-match on training data. Every output needs your judgment before it reaches a client.</li>
+        <li><strong>Context window</strong> = the maximum text the AI can see at once. Past the limit, earlier content is silently dropped. Longer conversations need active context management.</li>
+        <li><strong>Zero-Trust Policy:</strong> on free tiers, assume your inputs can train future models. Never paste client data, credentials, or confidential information into a free AI tool.</li>
+        <li><strong>Hallucination</strong> = AI confidently stating something false. It doesn&rsquo;t know it&rsquo;s wrong &mdash; it predicted a plausible token. Always verify facts, numbers, names, and links before forwarding.</li>
+        <li><strong>Free vs paid tiers differ in privacy:</strong> free tiers often allow training on your inputs. Pro/paid tiers typically opt you out. Know your plan before pasting anything sensitive.</li>
+        <li><strong>Metaprompting</strong> = asking the AI to write or improve the prompt for you. Useful when you know what you want but not how to phrase it.</li>
+        <li><strong>Negative constraints</strong> tell the AI what NOT to do &mdash; often more powerful than positive instructions. (&ldquo;Do not use bullet points.&rdquo; &ldquo;Do not mention pricing.&rdquo;)</li>
+        <li><strong>Benchmarking:</strong> test the Big Four (Claude, ChatGPT, Gemini, Grok) against the same prompt for high-stakes tasks. No single model wins every time.</li>
+        <li><strong>Iteration loop:</strong> prompt &rarr; output &rarr; evaluate &rarr; refine &rarr; repeat. Bad outputs are not failure &mdash; they are input for the next prompt. Expect 3&ndash;5 iterations for anything important.</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> Day 2 &mdash; Prompt Blocks &amp; Right Tool</div>
+      <ul style="margin:0">
+        <li><strong>Six prompt blocks:</strong> Role, Task, Context, Constraints, Examples, Format. Each has a job. Missing one is usually why the output is wrong.</li>
+        <li><strong>Role</strong> = who the AI is; <strong>Task</strong> = the deliverable; <strong>Context</strong> = background it needs; <strong>Constraints</strong> = what to avoid; <strong>Examples</strong> = show, don&rsquo;t just tell; <strong>Format</strong> = length, structure, tone.</li>
+        <li><strong>Format matters more than most people expect:</strong> &ldquo;bullet points, max 3 per section, plain language&rdquo; produces something usable. &ldquo;Be professional&rdquo; produces nothing actionable.</li>
+        <li><strong>Four failure modes:</strong> too vague (no task/context), too broad (no constraints), wrong format (output unusable as-is), no examples (AI guesses your style).</li>
+        <li><strong>Debug loop:</strong> identify the failure mode first. Change ONE block. Re-run. Never rewrite the whole prompt &mdash; you lose the ability to know what fixed it.</li>
+        <li><strong>Zero-shot vs few-shot:</strong> 0 examples = zero-shot. 1 example = one-shot. 2+ = few-shot. More examples = better style and format matching for recurring content tasks.</li>
+        <li><strong>Prompting vs context engineering:</strong> prompting = what you type in one message. Context engineering = what you set up before the conversation (project instructions, reference docs, stored examples).</li>
+        <li><strong>Right tool for the job:</strong> Chat = quick one-off answers. Automation = repeatable trigger+action tasks. Agent = multi-step work needing tool access.</li>
+      </ul>
+    </div>
+
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Day 3 &mdash; Claude Deep Dive</div>
+      <ul style="margin:0">
+        <li><strong>Artifacts</strong> = finished, reusable outputs in a side panel: documents, code, tables, HTML. A deliverable you can copy, edit, or ship &mdash; not a conversation.</li>
+        <li><strong>MCP (Model Context Protocol)</strong> = a universal translator that lets Claude connect to external tools (Google Drive, GitHub, calendars) without custom code for each integration.</li>
+        <li><strong>CLI (Command Line Interface)</strong> = text-based terminal interface. Claude Code, scripts, and agents run here &mdash; outside the browser, directly on your machine.</li>
+        <li><strong>Projects</strong> give Claude persistent context across conversations &mdash; system instructions, files, and notes stay loaded every session. <strong>Skills</strong> give it domain-specific instructions for recurring tasks.</li>
+        <li><strong>Claude Code vs Cowork:</strong> Claude Code = terminal CLI for coding tasks on your machine. Cowork = the Projects panel inside Claude.ai &mdash; for ongoing non-code work with file and conversation continuity.</li>
+        <li><strong>Fresh chat vs Project:</strong> a fresh chat has no memory of previous conversations. A Project retains context across sessions. Use Projects for any ongoing client work where continuity matters.</li>
+        <li><strong>When to use which model:</strong> Claude for nuanced writing, analysis, reasoning. ChatGPT for broad general use. Gemini for Google Workspace integration. Grok for real-time Twitter/X context.</li>
+        <li><strong>Context engineering</strong> = structuring everything you feed the AI so it has exactly what it needs and nothing it doesn&rsquo;t. The habit that separates power users from casual ones.</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S5-1: WEEK 1 REVIEW CONT (Days 4–5) -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Week 1 Review (cont.)</div>
+    <h1>Key Takeaways &mdash; Days 4 &amp; 5</h1>
+
+    <div class="card card-accent" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Day 4 &mdash; Automation Foundations</div>
+      <ul style="margin:0">
+        <li><strong>Every automation is one shape:</strong> trigger &rarr; (filter) &rarr; action(s) &rarr; result. This never changes regardless of tool.</li>
+        <li><strong>Four automation types:</strong> simple (1 trigger &rarr; 1 action), scheduled (time-based), multi-step (chain of actions), conditional (if/else branching).</li>
+        <li><strong>The trigger</strong> = the event that starts it. <strong>Filter</strong> = decides whether to run. <strong>Action</strong> = what it does. <strong>Result</strong> = the outcome (post published, email sent, row updated).</li>
+        <li><strong>Four-question map before building:</strong> What triggers it? What does it do? What are the edge cases? What can go wrong?</li>
+        <li><strong>Human-in-the-loop rule:</strong> anything that sends a message to a client, makes a permanent change, or handles money needs a human checkpoint before it fires.</li>
+        <li><strong>Data compliance:</strong> never automate sending client PII (name + email + phone together) to a third-party tool without checking its privacy policy and getting client consent first.</li>
+        <li><strong>Debugging ladder:</strong> first check if the trigger fired (run history). Then check if the filter matched. Then check if the action had the right data. Always work downstream from the trigger &mdash; never start from the output.</li>
+        <li><strong>QA before going live:</strong> test with perfect data, messy data, empty fields, and unexpected values. Test the fallback &mdash; not just the happy path.</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-tool"/></svg> Day 5 &mdash; Building Automations</div>
+      <ul style="margin:0">
+        <li><strong>Build the trigger alone first.</strong> Test it. Confirm it fires. Only then add the first action.</li>
+        <li><strong>Add one module at a time.</strong> Test after each. Complexity multiplies problems &mdash; especially untested ones.</li>
+        <li><strong>Your prompt IS the logic</strong> inside an AI step. The automation output quality equals the prompt quality. Garbage in, garbage out.</li>
+        <li><strong>Label every module</strong> with a descriptive name. &ldquo;Google Sheets 3&rdquo; tells you nothing. &ldquo;Update Status Column&rdquo; tells you everything when debugging at midnight.</li>
+        <li><strong>Never connect to live client data on the first run.</strong> Use a test spreadsheet or test contact until every path is verified.</li>
+        <li><strong>QA checklist:</strong> perfect data? Messy data? Missing fields? Edge cases? Never go live without testing all four.</li>
+        <li><strong>Simplest working version first.</strong> A 3-module Scenario that runs reliably beats a 12-module one you half-understand.</li>
+        <li><strong>Debugging: disable all modules except one.</strong> Re-enable one at a time until the break appears. Isolate variables, then fix.</li>
+      </ul>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-spark"/></svg> The Week 1 thread</div>
+      <p style="margin:0">Week 1 is the same principle at different layers: <strong>structured inputs produce reliable outputs.</strong> A prompt with six blocks. An automation with a trigger, filter, action, and fallback. A Claude Project with proper context. All the same idea &mdash; applied to text, logic, and systems. Week 2 applies it inside real client tools.</p>
+    </div>
+  </div></section>
+
+  <!-- S5-2: WEEK 2 REVIEW (Days 6–9) -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Week 2 Review</div>
+    <h1>Key Takeaways &mdash; Week 2</h1>
+    <p style="margin-bottom:20px">Days 6&ndash;9. These concepts carry directly into client work.</p>
+
+    <div class="card card-accent" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-grid"/></svg> Day 6 &mdash; GoHighLevel Foundations</div>
+      <ul style="margin:0">
+        <li><strong>GHL replaces 8&ndash;10 tools:</strong> CRM, email, SMS, social planner, calendar, funnels, reputation management, conversations inbox &mdash; one platform.</li>
+        <li><strong>Agency account = the parent.</strong> Each client gets a <strong>sub-account</strong> &mdash; a completely separate workspace. Never mix client data across sub-accounts.</li>
+        <li><strong>Contacts</strong> are the central record. Every message, pipeline stage, tag, and automation connects back to a contact.</li>
+        <li><strong>Tags</strong> = simple labels. They trigger workflows, create smart lists, and segment messaging. One tag can start an entire automation sequence.</li>
+        <li><strong>Custom fields</strong> store specific data per contact. <strong>Smart lists</strong> update dynamically based on conditions &mdash; never manually sorted.</li>
+        <li><strong>Pipelines</strong> track where each lead sits. Moving a contact to a new stage can trigger a workflow automatically.</li>
+        <li><strong>Conversations inbox</strong> = unified messaging: SMS, email, Facebook Messenger, Instagram DMs, and WhatsApp all in one view per contact &mdash; full cross-channel history in one place.</li>
+        <li><strong>Reputation management:</strong> GHL automates review requests &mdash; sends an SMS or email 24 hours after job completion asking for a Google or Facebook review. High-volume clients use this to build review counts systematically.</li>
+      </ul>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Day 7 &mdash; GHL Workflows &amp; API</div>
+      <ul style="margin:0">
+        <li><strong>Workflow building blocks:</strong> trigger (what starts it) + condition (if/else) + action (what it does). Same shape as every automation from Week 1.</li>
+        <li><strong>7 essential recipes:</strong> speed-to-lead, appointment reminder, no-show follow-up, long-term nurture, review request, missed-call text-back, database reactivation.</li>
+        <li><strong>Speed-to-lead timing:</strong> responding within 5 minutes is 9&times; more likely to convert than 30 minutes. The recipe sends an instant SMS the moment a form is submitted &mdash; no manual action needed.</li>
+        <li><strong>Missed-call text-back</strong> = highest-ROI recipe. Someone calls, gets no answer &rarr; instant SMS: &ldquo;Hi, missed your call! When&rsquo;s a good time?&rdquo; Clients routinely recover leads they would have lost permanently.</li>
+        <li><strong>Bulk vs workflow:</strong> bulk = you manually select contacts and push an action now (one-time batch). Workflow = automated trigger, runs forever. Never confuse them.</li>
+        <li><strong>API = waiter</strong> (you ask, it fetches). <strong>Webhook = doorbell</strong> (external system pushes to you instantly). Different use cases &mdash; different trigger types.</li>
+        <li><strong>3 levels of AI in GHL:</strong> draft assist (suggestions in conversations), Conversation AI (live AI replies to leads), workflow AI (AI step mid-automation for content or decisions).</li>
+        <li><strong>API keys = passwords.</strong> Store in a password manager. Never share in Docs, Slack, or email. If exposed, rotate immediately.</li>
+      </ul>
+    </div>
+
+    <div class="card card-secure" style="margin-bottom:6px">
+      <div class="card-head"><svg><use href="#i-activity"/></svg> Day 8 &mdash; AI Meetings &amp; PM</div>
+      <ul style="margin:0">
+        <li><strong>AI note-takers</strong> join calls, transcribe in real time, and generate summaries with decisions and action items automatically.</li>
+        <li><strong>Meeting-to-action pipeline:</strong> meeting &rarr; note-taker records &rarr; Claude processes transcript &rarr; VA verifies output &rarr; tasks routed to PM tool.</li>
+        <li><strong>VA role = the judgment layer.</strong> AI captures and drafts. You verify accuracy, catch hallucinations, route tasks. Never forward raw AI output to a client without review.</li>
+        <li><strong>Three verification checks:</strong> (1) decisions attributed to the right person? (2) action items realistic given project context? (3) summary missing important context the AI didn&rsquo;t catch?</li>
+        <li><strong>Fathom</strong> = free unlimited, works best on Zoom, generates structured summaries with action items. Best entry-level choice for VA work on Zoom-based clients.</li>
+        <li><strong>PM tools</strong> (ClickUp, Asana, Trello, Notion): every task needs an owner, a deadline, and enough context to action without follow-up questions.</li>
+        <li><strong>KeyCommand</strong>: Starter/Pro/Agency tiers. Genes = AI-generated content from an executive&rsquo;s existing posts. Approval workflow = content drafted, holds for human sign-off before posting. Critical for client-facing accounts.</li>
+      </ul>
+    </div>
+
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-compass"/></svg> Day 9 &mdash; Conditional Logic</div>
+      <ul style="margin:0">
+        <li><strong>Router</strong> splits one flow into multiple paths. Only one path runs per trigger &mdash; the first condition that matches wins. Route order matters.</li>
+        <li><strong>Every path needs three things:</strong> the condition check, the action(s) for that path, and a log entry recording the result.</li>
+        <li><strong>Fallback path is non-negotiable.</strong> Without it, unexpected inputs fail silently &mdash; you find out from the client, not from a log.</li>
+        <li><strong>Case sensitivity kills automations.</strong> &ldquo;Instagram&rdquo; and &ldquo;instagram&rdquo; are different strings. Always use <code>lower()</code> to normalise text before matching in any filter.</li>
+        <li><strong>Operations math:</strong> each module execution = 1 op. A 5-module Scenario &times; 200 rows/month = 1,000 ops = the entire free tier. Plan volume before going live.</li>
+        <li><strong>When no route matches and there&rsquo;s no fallback:</strong> Make.com stops the run with an error, not a graceful skip. Silent errors in production = missing posts and confused clients.</li>
+        <li><strong>lower() syntax in Make.com:</strong> in a filter&rsquo;s left field, wrap the field reference: <code>lower(&#123;&#123;1.Platform&#125;&#125;)</code> &mdash; normalises the input before comparison regardless of how the team typed it.</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S6-0: ACTIVITY -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Activity</div>
+    <h1>Hands-On Activity</h1>
+    <p>Build a live social scheduling automation: <strong>Google Sheets &rarr; Make.com Router &rarr; Buffer</strong>. Follow every step exactly. Do not move forward until the current step is verified.</p>
+    <div class="n8n-canvas" style="margin:18px 0 20px">
+      <div class="n8n-node" style="--d:0s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#4285F4"><svg><use href="#i-activity"/></svg></div>
+          <div class="n8n-node-title">Google Sheets</div>
+        </div>
+        <div class="n8n-node-sub">Content calendar — trigger source</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0.3s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:0.15s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#FF4A00"><svg><use href="#i-bolt"/></svg></div>
+          <div class="n8n-node-title">Make.com</div>
+        </div>
+        <div class="n8n-node-sub">Router + conditional logic</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:0.3s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#F59E0B"><svg><use href="#i-spark"/></svg></div>
+          <div class="n8n-node-title">Buffer</div>
+        </div>
+        <div class="n8n-node-sub">Schedules post to correct platform</div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> Step 1</div><div class="ex-title">Set Up Google Sheets</div></div>
+      <ol>
+        <li>Go to <strong>sheets.google.com</strong> &rarr; create a new spreadsheet &rarr; name it <strong>Content Calendar</strong>.</li>
+        <li>In Row 1 add these exact column headers, one per cell: <code>Platform</code> &nbsp;|&nbsp; <code>Caption</code> &nbsp;|&nbsp; <code>Hashtags</code> &nbsp;|&nbsp; <code>Post Date</code> &nbsp;|&nbsp; <code>Status</code></li>
+        <li>Add 3 test rows (rows 2&ndash;4). Use real post text, not placeholder text:
+          <ul>
+            <li>Row 2: <code>instagram</code> | your caption | <code>#hashtag1 #hashtag2</code> | today&rsquo;s date | (leave blank)</li>
+            <li>Row 3: <code>twitter</code> | your caption | (leave blank) | today&rsquo;s date | (leave blank)</li>
+            <li>Row 4: <code>linkedin</code> | your caption | (leave blank) | today&rsquo;s date | (leave blank)</li>
+          </ul>
+        </li>
+        <li><strong>Critical:</strong> Platform values must be <strong>lowercase, no spaces</strong>. Make.com reads this cell exactly as typed.</li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> Step 2</div><div class="ex-title">Connect Buffer Channels</div></div>
+      <ol>
+        <li>Go to <strong>buffer.com</strong> &rarr; log in or create a free account.</li>
+        <li>In the left sidebar click <strong>&ldquo;Connect a channel&rdquo;</strong> (or &ldquo;Add a channel&rdquo;).</li>
+        <li>Select a platform &rarr; complete the OAuth flow. Connect at least one <strong>Instagram Business, Twitter/X, and LinkedIn</strong> account. Buffer&rsquo;s free plan supports 3 channels.</li>
+        <li>Once connected, each channel appears in your Buffer dashboard. <strong>Note the exact channel name</strong> &mdash; you will select it inside Make.com later.</li>
+        <li><strong>Verify:</strong> Buffer&rsquo;s queue should show 3 connected channels with empty queues, ready to receive posts.</li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> Step 3</div><div class="ex-title">Build the Make.com Scenario</div></div>
+      <p><strong>A &mdash; Create the scenario</strong></p>
+      <ol>
+        <li>Go to <strong>make.com</strong> &rarr; log in &rarr; click the blue <strong>&ldquo;Create a new scenario&rdquo;</strong> button (top right of dashboard).</li>
+        <li>The scenario editor opens with an empty canvas and a large &ldquo;+&rdquo; in the center.</li>
+      </ol>
+      <p><strong>B &mdash; Add the Google Sheets trigger</strong></p>
+      <ol start="3">
+        <li>Click the center &ldquo;+&rdquo; &rarr; in the search bar type <code>Google Sheets</code> &rarr; select <strong>Google Sheets</strong> &rarr; then select the module <strong>&ldquo;Watch Rows&rdquo;</strong>.</li>
+        <li>Click <strong>&ldquo;Add&rdquo;</strong> next to the Google connection &rarr; a popup opens &rarr; log in with your Google account &rarr; click <strong>&ldquo;Allow&rdquo;</strong> on both permission prompts.</li>
+        <li>Back in the module settings panel, fill in:
+          <ul>
+            <li><strong>Spreadsheet ID:</strong> click the field &rarr; your spreadsheets load &rarr; select <strong>Content Calendar</strong></li>
+            <li><strong>Sheet Name:</strong> select <strong>Sheet1</strong> (the default tab)</li>
+            <li><strong>Table contains headers:</strong> set to <strong>Yes</strong></li>
+            <li><strong>Row with headers:</strong> enter <code>1</code></li>
+            <li><strong>Where to Start:</strong> click <strong>&ldquo;Choose manually&rdquo;</strong> &rarr; in the dialog select <strong>&ldquo;All&rdquo;</strong> &rarr; confirm</li>
+          </ul>
+        </li>
+        <li>Click <strong>OK</strong>. A Google Sheets module icon now appears on the canvas.</li>
+      </ol>
+      <p><strong>C &mdash; Add the Router</strong></p>
+      <ol start="7">
+        <li>Hover over the Sheets module &rarr; a small <strong>&ldquo;+&rdquo;</strong> appears on its right edge &rarr; click it.</li>
+        <li>Search <code>Router</code> &rarr; select <strong>&ldquo;Router&rdquo;</strong> (it is a Make.com built-in, not a third-party app).</li>
+        <li>The Router appears connected. It starts with one route. Click <strong>&ldquo;Add route&rdquo;</strong> twice &rarr; you now have 3 routes.</li>
+      </ol>
+      <p><strong>D &mdash; Instagram route (Route 1)</strong></p>
+      <ol start="10">
+        <li>Click the <strong>wrench/filter icon</strong> on Route 1 (the small icon on the line between the Router and the empty circle).</li>
+        <li>In the filter dialog:
+          <ul>
+            <li><strong>Label:</strong> type <code>Instagram</code></li>
+            <li><strong>Left field (condition):</strong> click the field &rarr; look for the <strong>formula toggle</strong> (labelled <code>f(x)</code> or a formula mode button) &rarr; type <code>lower({{1.Platform}})</code> — the <code>{{1.Platform}}</code> references the Platform column from Module 1 (your Sheets trigger)</li>
+            <li><strong>Operator:</strong> select <strong>&ldquo;Text operator&rdquo;</strong> &rarr; <strong>&ldquo;Equal to&rdquo;</strong></li>
+            <li><strong>Right field:</strong> type exactly <code>instagram</code> (all lowercase)</li>
+          </ul>
+        </li>
+        <li>Click <strong>OK</strong>.</li>
+        <li>Click the <strong>&ldquo;+&rdquo;</strong> at the end of Route 1 &rarr; search <code>Buffer</code> &rarr; select <strong>Buffer</strong> &rarr; select module <strong>&ldquo;Create a Status Update&rdquo;</strong>.</li>
+        <li>Connect your Buffer account if prompted (OAuth popup).</li>
+        <li>In the Buffer module settings:
+          <ul>
+            <li><strong>Profile ID:</strong> click the dropdown &rarr; select your <strong>Instagram channel</strong></li>
+            <li><strong>Text:</strong> click the field &rarr; from the Sheets module output, click <strong>Caption</strong> to insert it. Then click after it in the field and also insert <strong>Hashtags</strong> (final text = Caption + space + Hashtags)</li>
+          </ul>
+        </li>
+        <li>Click <strong>OK</strong>.</li>
+      </ol>
+      <p><strong>E &mdash; Twitter/X route (Route 2)</strong></p>
+      <ol start="17">
+        <li>Click the filter icon on Route 2 &rarr; Label: <code>Twitter</code> &rarr; left field formula: <code>lower({{1.Platform}})</code> &rarr; Equal to &rarr; right field: <code>twitter</code> &rarr; OK.</li>
+        <li>Add <strong>Buffer &mdash; Create a Status Update</strong> &rarr; Profile ID: your <strong>Twitter/X channel</strong> &rarr; Text: <strong>Caption only</strong> (no hashtags for Twitter) &rarr; OK.</li>
+      </ol>
+      <p><strong>F &mdash; LinkedIn route (Route 3)</strong></p>
+      <ol start="19">
+        <li>Click the filter icon on Route 3 &rarr; Label: <code>LinkedIn</code> &rarr; left field: <code>lower({{1.Platform}})</code> &rarr; Equal to &rarr; right field: <code>linkedin</code> &rarr; OK.</li>
+        <li>Add <strong>Buffer &mdash; Create a Status Update</strong> &rarr; Profile ID: your <strong>LinkedIn channel</strong> &rarr; Text: <strong>Caption only</strong> &rarr; OK.</li>
+      </ol>
+      <p><strong>G &mdash; Fallback route (Route 4)</strong></p>
+      <ol start="21">
+        <li>Click <strong>&ldquo;Add route&rdquo;</strong> on the Router &rarr; Route 4 appears. <strong>Do NOT add a filter</strong> &mdash; leave it empty. Make.com treats a filterless route as the fallback for everything that didn&rsquo;t match routes 1&ndash;3.</li>
+        <li>Add <strong>Google Sheets &mdash; Update a Row</strong>:
+          <ul>
+            <li><strong>Spreadsheet ID:</strong> Content Calendar</li>
+            <li><strong>Sheet Name:</strong> Sheet1</li>
+            <li><strong>Row Number:</strong> click the field &rarr; from the Sheets module (Module 1) output, select <strong>&ldquo;Row Number&rdquo;</strong> (the system field that identifies which row triggered this run)</li>
+            <li><strong>Values &rarr; Column E (Status):</strong> type <code>FAILED - unknown platform</code></li>
+          </ul>
+        </li>
+        <li>Click <strong>OK</strong>.</li>
+      </ol>
+      <p><strong>H &mdash; Add &ldquo;Scheduled&rdquo; status updates to success routes</strong></p>
+      <ol start="24">
+        <li>On each of Routes 1, 2, and 3 &mdash; click the <strong>&ldquo;+&rdquo; after the Buffer module</strong> &rarr; add <strong>Google Sheets &mdash; Update a Row</strong> with the same settings as Route 4, but Status column value = <code>Scheduled</code>.</li>
+      </ol>
+      <p><strong>I &mdash; Save and name</strong></p>
+      <ol start="25">
+        <li>Click the scenario title (top left, shows &ldquo;New scenario&rdquo;) &rarr; rename to <strong>Content Calendar &rarr; Buffer</strong>.</li>
+        <li>Click the blue <strong>Save</strong> button (top right).</li>
+      </ol>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> Step 4</div><div class="ex-title">Test and Verify</div></div>
+      <ol>
+        <li>In Make.com, click <strong>&ldquo;Run once&rdquo;</strong> (bottom left of the scenario editor). The scenario runs against your 3 test rows.</li>
+        <li>Open <strong>Buffer</strong> &rarr; confirm 3 posts appear in the correct channel queues (Instagram, Twitter/X, LinkedIn).</li>
+        <li>Open your <strong>Google Sheet</strong> &rarr; confirm the Status column (E) shows <code>Scheduled</code> for rows 2, 3, and 4.</li>
+        <li>Add a 4th test row: Platform = <code>Pinterest</code>, Caption = any text, leave the rest blank.</li>
+        <li>Click <strong>&ldquo;Run once&rdquo;</strong> again &rarr; open the sheet &rarr; row 5 Status should show <code>FAILED - unknown platform</code>.</li>
+        <li>In Make.com, click <strong>History</strong> (top menu) &rarr; all runs should show a <strong>green checkmark</strong>. If any show orange or red, click the run to see which module failed.</li>
+      </ol>
+      <p style="margin:0"><strong>Mark complete only when:</strong> Buffer shows 3 scheduled posts AND the sheet shows &ldquo;Scheduled&rdquo; for rows 2&ndash;4 AND the Pinterest row shows the FAILED message.</p>
+    </div>
+
+    <div class="card card-gold" style="margin-top:8px">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Troubleshooting</div>
+      <ul style="margin:0">
+        <li><strong>lower() not working / can&rsquo;t type it:</strong> you must be in formula mode. Click the <code>f(x)</code> icon or formula toggle in the filter left field. Then type the full expression: <code>lower({{1.Platform}})</code>. The <code>1</code> refers to Module 1 (your Sheets trigger).</li>
+        <li><strong>Buffer says &ldquo;no profile found&rdquo;:</strong> the Buffer connection expired. Re-open the Buffer module &rarr; click the Profile ID field &rarr; if channels don&rsquo;t appear, click <strong>&ldquo;Add&rdquo;</strong> to reconnect via OAuth.</li>
+        <li><strong>Status column not updating:</strong> verify the Update Row module uses <strong>Row Number</strong> from Module 1&rsquo;s output &mdash; not a hardcoded number and not a value from another module.</li>
+        <li><strong>Posts going to the wrong Buffer channel:</strong> re-check the Profile ID dropdown in each Buffer module. Make.com can auto-select the wrong profile if you have multiple Buffer accounts connected.</li>
+        <li><strong>Free tier math:</strong> Make.com free = 1,000 ops/month. Your current Scenario has ~5 modules. 5 modules &times; 4 test rows = 20 ops. At 200 posts/month production: 5 &times; 200 = 1,000 ops &mdash; you hit the ceiling. Upgrade before a client goes live at scale.</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S7-0: COMMON MISTAKES -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 8</div>
+    <h1>Common Mistakes to Avoid</h1>
+    <p>These are the most frequent errors from VAs building their first conditional automations — and from applying this week's lessons in real client work.</p>
+    <h2>Automation Mistakes</h2>
+    <ol>
+      <li><strong>No fallback route.</strong> The Scenario fails silently when an unexpected value appears. You find out a week later when someone asks why a post was never published.</li>
+      <li><strong>Case sensitivity ignored.</strong> "Instagram" and "instagram" are different strings. Use the lower() text function in your filters to normalize text before routing.</li>
+      <li><strong>Testing only the happy path.</strong> You test Instagram, it works, you turn it on. You never test Twitter, LinkedIn, or the fallback. One month later, a LinkedIn row breaks the Scenario and nobody notices for two weeks.</li>
+      <li><strong>No log.</strong> When something goes wrong, you have no record of what triggered, when, or what the outcome was. Debugging becomes a guessing game that wastes hours.</li>
+      <li><strong>Adding complexity too early.</strong> A 4-route Scenario with 3 modules each is not a starter project. Build one route, test it completely, then add the next. Complexity multiplies problems — especially untested ones.</li>
+    </ol>
+    <h2>General Mistakes from This Week</h2>
+    <ol>
+      <li><strong>Trusting AI output without verification.</strong> AI answers confidently — even when wrong. Every deliverable that goes to a client needs a human check first.</li>
+      <li><strong>Using the wrong tool because it is familiar.</strong> Defaulting to one AI for everything instead of picking the right tool for the task. Familiarity is not the same as fit.</li>
+      <li><strong>Skipping context in prompts.</strong> "Write a LinkedIn post" and "Write a 150-word LinkedIn post for a staffing agency CEO targeting HR managers, professional tone, ends with a question" are not the same prompt. One produces a generic result. The other produces something usable.</li>
+    </ol>
+    <div class="exercise">
+      <div class="ex-head"><div class="ex-badge"><svg><use href="#i-target"/></svg> Self-check</div><div class="ex-title">Catch it before it becomes a problem</div></div>
+      <p style="margin:0">Pick one mistake from each list that you have already made — or that you know you are likely to make. Write one sentence on how you will catch it before it becomes a problem for a client.</p>
+    </div>
+  </div></section>
+
+  <!-- S8-0: SOCIAL MEDIA SCHEDULING AUTOMATION -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Day 9 &middot; Session 9</div>
+    <h1>Social Media Scheduling Automation</h1>
+    <p>A real automation you can build today using only free tools you already have. No API keys, no paid upgrades — just Google Drive, Zapier (free tier), and the GHL Social Planner.</p>
+
+    <h2>The Pipeline</h2>
+    <div class="n8n-canvas">
+      <div class="n8n-node" style="--d:0s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#4285F4"><svg><use href="#i-activity"/></svg></div>
+          <div class="n8n-node-title">Google Drive</div>
+        </div>
+        <div class="n8n-node-sub">Trigger: new file added to a &ldquo;Ready to Post&rdquo; folder</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0.3s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:0.15s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#FF4A00"><svg><use href="#i-bolt"/></svg></div>
+          <div class="n8n-node-title">Zapier</div>
+        </div>
+        <div class="n8n-node-sub">Reads the file + caption, formats it for GHL</div>
+      </div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:0.6s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node n8n-active" style="--d:0.3s">
+        <div class="n8n-node-head">
+          <div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-check"/></svg></div>
+          <div class="n8n-node-title">GHL Social Planner</div>
+        </div>
+        <div class="n8n-node-sub">Post is scheduled to the client&rsquo;s connected social accounts</div>
+      </div>
+    </div>
+
+    <h2>How It Works — Step by Step</h2>
+    <ol>
+      <li><strong>Set up a Google Drive folder</strong> — name it something like <code>Ready to Post</code>. This is where the VA drops the creative (image or video) and a short text file with the caption and hashtags.</li>
+      <li><strong>Create a Zapier Zap (free tier)</strong> — Trigger: &ldquo;New File in Google Drive Folder.&rdquo; Zapier watches your folder and fires every time a new file lands.</li>
+      <li><strong>Add a Zapier action: GoHighLevel</strong> — Zapier has a native GHL integration (OAuth — no API key needed). Use the &ldquo;Create Social Planner Post&rdquo; action. Map the image URL and caption from Drive into the GHL fields.</li>
+      <li><strong>GHL Social Planner publishes</strong> — the post goes into the client&rsquo;s social queue. GHL handles the scheduling and publishing to connected platforms (Facebook, Instagram, Google Business Profile).</li>
+    </ol>
+
+    <h2>Why This Is Free</h2>
+    <div class="compare" style="margin:16px 0">
+      <div class="col col-strong">
+        <h3>What You Use</h3>
+        <ul>
+          <li><strong>Google Drive</strong> — free with any Google account</li>
+          <li><strong>Zapier Free Tier</strong> — 100 tasks/month, 5 Zaps. Plenty for a demo or low-volume client</li>
+          <li><strong>GHL Social Planner</strong> — already included in every GHL plan. No extra API calls</li>
+        </ul>
+      </div>
+      <div class="col col-weak">
+        <h3>What You Skip</h3>
+        <ul>
+          <li>No paid Zapier plan needed at this volume</li>
+          <li>No GHL API key or developer account</li>
+          <li>No third-party scheduling tool (Buffer, Hootsuite, etc.)</li>
+          <li>No custom code or webhooks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Zapier Free Tier Limits</div>
+      <p style="margin:0">100 tasks/month means roughly 100 posts. If a client posts once per day per platform, that&rsquo;s ~30 tasks/month for one client — well within the free limit. If you scale past that, Zapier&rsquo;s Starter plan or switching to Make.com (which has a more generous free tier) are the next moves.</p>
+    </div>
+
+    <div class="card card-accent" style="margin-top:16px">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Before Day 10</div>
+      <ul style="margin:0">
+        <li>Complete the 4 activities from Session 6 if not finished in class</li>
+        <li>Identify one repetitive task in your current role that has a clear trigger and a predictable output — you may use it for the final project</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S8-1: QUIZ + WRAP UP -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <h2>Quick Check</h2>
+    <p>One scenario to put conditional logic together.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-target"/></svg> Multiple choice</div>
+      <div class="quiz-q">You built a social media scheduler with 3 routes (Instagram, Twitter, LinkedIn) and a fallback. A new row with Platform = "facebook" is added to the sheet. What happens?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="true" data-why="Since no filter condition matches 'facebook', the fallback route runs. It sends an alert email to the manager and logs a FAILED row. The fallback is exactly what prevents silent failures."><span class="qmark"></span><span class="qtext">The fallback route runs — an alert email goes to the manager and the log records FAILED</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Make.com does not error out — it simply routes to the fallback when no condition matches. The Scenario continues running."><span class="qmark"></span><span class="qtext">The Scenario throws an error and stops completely</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="With no fallback, the row would be silently ignored. But you built a fallback — so it runs. Nothing is ignored."><span class="qmark"></span><span class="qtext">Nothing happens — the row is silently ignored</span></button>
+        <button class="quiz-opt" onclick="quizPick(this)" data-correct="false" data-why="Make.com filters are exact matches. 'facebook' does not match 'Instagram', 'Twitter', or 'LinkedIn'. The fallback runs."><span class="qmark"></span><span class="qtext">The Instagram route runs because Facebook is a social platform</span></button>
+      </div>
+      <div class="quiz-fb"></div>
+      <button class="quiz-reset" onclick="quizReset(this)">Reset for next person</button>
+    </div>
+    <div class="qa" style="margin-top:8px;padding:16px">
+      <h3>Day 9 complete.</h3>
+      <p>9 days down. The fundamentals are locked in. Week 2 starts next session. Bring your build from the activities and the workflow you identified for the final project.</p>
+      <button class="btn btn-primary" onclick="proceedNext()" style="margin-top:6px">Proceed to Day 10 <svg><use href="#i-arrow"/></svg></button>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Welcome Back</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 13</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script>
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 9',UNLOCK_DATE:'2026-07-02',PREV_DAY_KEY:''};
+const NEXT_DECK='https://kphq-updated-training.vercel.app/Day10_Assessment.html';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 10',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpTrack('attendance',{firstName:f,lastName:l});localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},{day:'Day 9',label:'Conditional Logic',url:'Day09_Automation_Week_Review.html'},{day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){var isAdmin=new URLSearchParams(window.location.search).has('admin')||localStorage.getItem('kp_admin')==='1';if(isAdmin){kpShowAdminBadge();return;}if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=new Date(CONFIG.UNLOCK_DATE+'T07:30:00');if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+function markAttendance(){var inp=document.getElementById('attName');var err=document.getElementById('attErr');if(!kpSetName(inp?inp.value:'')){if(err){err.textContent='Please enter your name to mark attendance.';err.style.display='block';}return;}if(err)err.style.display='none';kpRecordPresence();}
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Welcome Back','Conditional Logic','The Scenario','Logic Map','Make.com Build','Week Review','Activity','Common Mistakes','Social Scheduler'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 10 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function next(){if(cur<slides.length-1){cur++;render();}}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function quizPick(btn){const quiz=btn.closest('.quiz');if(quiz.classList.contains('answered'))return;quiz.classList.add('answered');const opts=[...quiz.querySelectorAll('.quiz-opt')];const correctOpt=opts.find(o=>o.dataset.correct==='true');const chose=btn.dataset.correct==='true';opts.forEach(o=>{o.disabled=true;if(o.dataset.correct==='true'){o.classList.add('correct');o.querySelector('.qmark').innerHTML='<svg><use href="#i-check"/></svg>';}});if(!chose){btn.classList.add('wrong');btn.querySelector('.qmark').innerHTML='<svg><use href="#i-x"/></svg>';}const fb=quiz.querySelector('.quiz-fb');fb.innerHTML=chose?'<strong class="ok">Correct.</strong> '+btn.dataset.why:'<strong class="no">Not quite.</strong> '+btn.dataset.why+'<br><strong>Right answer:</strong> "'+correctOpt.querySelector('.qtext').textContent+'": '+correctOpt.dataset.why;fb.classList.add('show');quiz.querySelector('.quiz-reset').style.display='inline-block';}
+function quizReset(btn){const quiz=btn.closest('.quiz');quiz.classList.remove('answered');quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.disabled=false;o.classList.remove('correct','wrong');o.querySelector('.qmark').innerHTML='';});const fb=quiz.querySelector('.quiz-fb');fb.classList.remove('show');fb.innerHTML='';btn.style.display='none';}
+render();
+</script>
+</body>
+</html>
+

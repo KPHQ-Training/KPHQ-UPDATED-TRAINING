@@ -1,0 +1,1000 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Day 9: KeyCommand for Executive Assistants</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22);color:var(--accent);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(34,197,94,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--accent);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--accent)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(34,197,94,0.06),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--accent)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#04150B}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}.kc-shot{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin:18px 0}.kc-shot img{width:100%;display:block;border-radius:8px;border:1px solid var(--border-2)}.kc-shot figcaption{margin-top:10px;font-size:12.5px;color:var(--dim);line-height:1.5}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .principle{position:relative;background:linear-gradient(135deg,rgba(234,179,8,0.08),rgba(34,197,94,0.05));border:1px solid rgba(234,179,8,0.25);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .principle .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--gold);color:#1A1300;display:flex;align-items:center;justify-content:center}
+  .principle .badge svg{width:17px;height:17px}
+  .principle .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .principle p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .standard{position:relative;background:linear-gradient(135deg,rgba(93,169,244,0.09),rgba(34,197,94,0.04));border:1px solid rgba(93,169,244,0.26);border-radius:var(--r);padding:20px 24px 20px 56px;margin:24px 0}
+  .standard .badge{position:absolute;left:16px;top:20px;width:28px;height:28px;border-radius:8px;background:var(--secure);color:#04101F;display:flex;align-items:center;justify-content:center}
+  .standard .badge svg{width:17px;height:17px}
+  .standard .pl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--secure);margin-bottom:5px}
+  .standard p{margin:0;color:var(--ink);font-size:15.5px;font-weight:500}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .exercise{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .ex-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+  .ex-badge{display:flex;align-items:center;gap:6px;background:var(--accent);color:#04150B;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:5px 11px;border-radius:7px}
+  .ex-badge svg{width:14px;height:14px}.ex-title{font-size:15px;font-weight:600;color:var(--ink)}
+  .exercise>*:last-child{margin-bottom:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+  .stat-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:18px 16px}
+  .stat-num{font-size:32px;font-weight:800;color:var(--accent);letter-spacing:-1px;font-family:var(--font-d);line-height:1;margin-bottom:8px}
+  .stat-label{font-size:13px;color:var(--muted);line-height:1.5}
+  .stat-src{font-size:10.5px;color:var(--dim);margin-top:6px}
+  .n8n-canvas{background:#101410;background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);background-size:22px 22px;border-radius:12px;padding:22px 18px;margin:16px 0;display:flex;align-items:center;gap:0;counter-reset:n8nstep}
+  .n8n-node{flex:1;min-width:0;background:#181f1a;border:1.5px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 13px;position:relative;opacity:0;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards;animation-delay:var(--d,0s)}
+  .n8n-node::before{counter-increment:n8nstep;content:counter(n8nstep);position:absolute;top:7px;right:9px;font-size:9px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:.5px;font-family:var(--font-d)}
+  .n8n-node.n8n-active{border-color:#22c55e;animation:n8nPop .42s cubic-bezier(.34,1.45,.64,1) forwards, n8nShimmer 2.4s 1.2s ease-in-out infinite;animation-delay:var(--d,0s),1.2s}
+  .n8n-node-head{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .n8n-node-ico{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .n8n-node-ico svg{width:16px;height:16px;color:#fff}
+  .n8n-node-title{font-size:12.5px;font-weight:700;color:#e8f0ea;letter-spacing:-.2px}
+  .n8n-node-sub{font-size:10.5px;color:rgba(255,255,255,.35);line-height:1.4}
+  .n8n-arrow{flex:0 0 40px;display:flex;align-items:center;position:relative;height:24px}
+  .n8n-arrow-line{height:2px;flex:1;background:rgba(255,255,255,.1);position:relative;overflow:hidden;border-radius:1px}
+  .n8n-arrow-pulse{position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:n8nPulse 2.2s ease-in-out infinite;animation-delay:var(--pd,0s)}
+  .n8n-arrow-head{border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:8px solid rgba(255,255,255,.3)}
+  @keyframes n8nPop{from{opacity:0;transform:scale(.88) translateY(5px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes n8nPulse{0%{left:-100%}55%,100%{left:110%}}
+  @keyframes n8nShimmer{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.1)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.04),0 0 20px rgba(34,197,94,.1)}}
+  .terminal{background:#06100B;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:16px 0}
+  .terminal-bar{background:var(--panel-2);padding:9px 14px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
+  .terminal-dot{width:11px;height:11px;border-radius:50%}
+  .terminal-dot.red{background:var(--danger)}.terminal-dot.yellow{background:var(--gold)}.terminal-dot.green{background:var(--accent)}
+  .terminal-title{font-size:11.5px;color:var(--dim);margin-left:6px}
+  .terminal-body{padding:16px 18px;font-family:'SF Mono','Consolas',monospace;font-size:13px;line-height:1.8;color:var(--muted);overflow-x:auto}
+  .terminal-body .cprompt{color:var(--accent)}.terminal-body .ccmd{color:var(--ink)}.terminal-body .ccmt{color:var(--dim)}
+  .quiz{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+  .quiz-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid rgba(234,179,8,.3);color:var(--gold);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px;margin-bottom:14px}
+  .quiz-tag svg{width:13px;height:13px}
+  .quiz-q{font-size:16.5px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.45}
+  .quiz-opts{display:flex;flex-direction:column;gap:9px}
+  .quiz-opt{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:var(--panel);border:1px solid var(--border);color:var(--ink);font-family:var(--font-b);font-size:14px;font-weight:500;padding:13px 16px;border-radius:10px;cursor:pointer;transition:all .15s}
+  .quiz-opt:hover:not(:disabled){border-color:var(--accent)}.quiz-opt:disabled{cursor:default}
+  .quiz-opt.correct{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .quiz-opt.wrong{background:var(--danger-soft);border-color:var(--danger);color:var(--danger)}
+  .quiz-opt .qmark{width:20px;height:20px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center}
+  .quiz-opt.correct .qmark{background:var(--accent);border-color:var(--accent);color:#04150B}
+  .quiz-opt.wrong .qmark{background:var(--danger);border-color:var(--danger);color:#220707}
+  .quiz-opt .qmark svg{width:13px;height:13px}
+  .quiz-fb{display:none;margin-top:14px;padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;font-size:13.5px;line-height:1.65;color:var(--muted)}
+  .quiz-fb.show{display:block;animation:fade .25s}
+  .quiz-fb .ok{color:var(--accent);font-weight:700}.quiz-fb .no{color:var(--danger);font-weight:700}.quiz-fb strong{color:var(--ink)}
+  .quiz-reset{display:none;margin-top:14px;background:none;border:none;color:var(--dim);font-family:var(--font-b);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
+  .quiz-reset:hover{color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:var(--font-b);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .16s ease;text-decoration:none}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#1aa64f);color:#04150B;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,0.35)}
+  .btn-block{width:100%;justify-content:center}
+  .qa{background:linear-gradient(135deg,rgba(34,197,94,0.05),transparent);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-top:18px}
+  .qa h3{margin-top:0;color:var(--ink)}
+  .footnote{margin-top:14px;padding-top:10px;border-top:1px solid var(--border)}
+  .table-compact th,.table-compact td{padding:7px 12px}
+  .table-compact{margin:6px 0 10px}
+  .footnote-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
+  .footnote-list{display:flex;flex-wrap:wrap;gap:8px}
+  .fn-item{background:var(--panel-2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px}
+  .fn-item strong{color:var(--ink);display:block;margin-bottom:1px}.fn-item span{color:var(--dim);font-size:11px}
+  .step-flow{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .step-item{display:flex;gap:16px;position:relative}
+  .step-item:not(:last-child){padding-bottom:20px}
+  .step-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .step-dot{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.3);color:var(--accent);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-content{flex:1;padding-top:4px}
+  .step-content strong{display:block;margin-bottom:4px;color:var(--ink)}
+  .step-content p{margin:0;font-size:14px}
+  .block-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:20px 0}
+  .block-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .block-num{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(34,197,94,0.25);color:var(--accent);font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .block-name{font-size:17px;font-weight:700;color:var(--ink)}
+  .block-body{padding:16px 20px}
+  .block-body p{margin-bottom:10px}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.stat-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}}
+
+  /* ============================================================
+     KC MOTION GRAPHICS (S5 KeyCommand session)
+     ============================================================ */
+
+  /* --- MG1: Convergence Strip (S5-0) --- */
+  @keyframes kcSlideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes kcDotMove{0%{left:-100%}60%,100%{left:110%}}
+  @keyframes kcCenterAppear{0%{opacity:0;transform:scale(.8)}55%{opacity:1;transform:scale(1.06);box-shadow:0 0 28px rgba(34,197,94,.45)}80%{transform:scale(1);box-shadow:0 0 18px rgba(34,197,94,.25)}100%{opacity:1;transform:scale(1);box-shadow:0 0 10px rgba(34,197,94,.15)}}
+  .kc-converge-wrap{margin:16px 0 10px}
+  .kc-converge{display:flex;align-items:center;justify-content:center;gap:0;padding:12px 0;flex-wrap:nowrap;overflow:hidden}
+  .kc-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;flex-shrink:0;opacity:0;animation:kcSlideIn .4s ease forwards;animation-delay:var(--d,0s)}
+  .kc-pill svg{width:12px;height:12px;color:var(--accent);flex-shrink:0}
+  .kc-flow-line{flex:1 1 22px;min-width:16px;max-width:42px;height:2px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;border-radius:1px}
+  .kc-flow-dot{position:absolute;top:0;left:-100%;width:70%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.9),transparent);animation:kcDotMove 1.6s linear infinite;animation-delay:var(--pd,0s)}
+  .kc-kc-badge{display:flex;align-items:center;gap:8px;background:var(--accent);color:#04150B;font-size:13px;font-weight:800;border-radius:20px;padding:8px 16px;white-space:nowrap;flex-shrink:0;opacity:0;animation:kcCenterAppear 1s cubic-bezier(.34,1.1,.64,1) forwards;animation-delay:.95s}
+  .kc-kc-badge svg{width:14px;height:14px}
+  .kc-converge-label{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:var(--dim);font-weight:700;margin-top:4px}
+
+  /* --- MG2: Animated Org Hierarchy (S5-2) --- */
+  @keyframes kcFadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes kcConnGrow{from{height:0;opacity:0}to{height:22px;opacity:1}}
+  @keyframes kcT1Pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.1)}50%{box-shadow:0 0 0 8px rgba(34,197,94,.05),0 0 18px rgba(34,197,94,.12)}}
+  .kc-hierarchy{background:rgba(255,255,255,.018);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:0 0 18px}
+  .kc-h-row{display:flex;align-items:center;gap:10px;opacity:0;animation:kcFadeDown .45s ease forwards;animation-delay:var(--hd,0s)}
+  .kc-h-node{flex:1;display:flex;align-items:center;gap:9px;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.35}
+  .kc-h-node svg{width:15px;height:15px;flex-shrink:0}
+  .kc-h-t1{background:var(--accent-soft);border:1px solid rgba(34,197,94,.3);color:var(--accent);animation:kcT1Pulse 3s 1.2s ease-in-out infinite}
+  .kc-h-t1 svg{color:var(--accent)}
+  .kc-h-t2{background:rgba(93,169,244,.07);border:1px solid rgba(93,169,244,.2);color:var(--secure)}
+  .kc-h-t2 svg{color:var(--secure)}
+  .kc-h-t3{background:var(--panel-2);border:1px solid var(--border);color:var(--muted)}
+  .kc-h-t3 svg{color:var(--dim)}
+  .kc-h-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;white-space:nowrap;min-width:60px;text-align:right}
+  .kc-h-badge.kc-green{color:var(--accent)}.kc-h-badge.kc-blue{color:var(--secure)}.kc-h-badge.kc-gray{color:var(--dim)}
+  .kc-h-conn{width:2px;height:0;background:linear-gradient(180deg,var(--accent),rgba(34,197,94,.2));margin-left:23px;animation:kcConnGrow .28s ease forwards;animation-delay:var(--cd,.2s)}
+
+  /* --- MG3: Daily Rhythm Timeline (S5-5) --- */
+  @keyframes kcTrackFill{from{width:0}to{width:100%}}
+  @keyframes kcDotPop{0%{transform:scale(0)}65%{transform:scale(1.3)}100%{transform:scale(1)}}
+  @keyframes kcDotGlow{0%,100%{box-shadow:0 0 5px rgba(34,197,94,.5)}50%{box-shadow:0 0 14px rgba(34,197,94,.95)}}
+  @keyframes kcPhaseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .kc-timeline{margin:16px 0}
+  .kc-tl-header{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:8px}
+  .kc-tl-header svg{width:14px;height:14px}
+  .kc-tl-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:16px}
+  .kc-tl-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:kcTrackFill 1.6s cubic-bezier(.4,0,.2,1) .2s forwards}
+  .kc-tl-phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .kc-tl-phase{opacity:0;animation:kcPhaseIn .45s ease forwards;animation-delay:var(--tpd,0s)}
+  .kc-tl-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);margin-bottom:10px;flex-shrink:0;transform:scale(0);animation:kcDotPop .35s cubic-bezier(.34,1.45,.64,1) forwards, kcDotGlow 2s ease-in-out infinite;animation-delay:var(--tpd,0s), calc(var(--tpd,0s) + .5s)}
+  .kc-tl-phase-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--accent);margin-bottom:6px}
+  .kc-tl-phase-body{font-size:12.5px;line-height:1.65;color:var(--muted)}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M6.5 14h11"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.2 7.8 14.1 14.1 7.8 16.2 9.9 9.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.9-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 4 11.5a8.5 8.5 0 1 1 17 0z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-align" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h16M4 18h8"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-1.7-1.7 2.3-2.3z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-grid"/></svg> Day 9 &mdash; KeyCommand</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Today's Sessions</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-bolt"/></svg></span>Opener</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-refresh"/></svg></span>Agentic Workflows</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-users"/></svg></span>The AI Agent Family</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-tool"/></svg></span>Under the Hood</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-grid"/></svg></span>What Is KeyCommand</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-shield"/></svg></span>Security &amp; Compliance</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-layers"/></svg></span>Remembers &amp; Learns</a>
+    <a onclick="goSession(7)"><span class="ico"><svg><use href="#i-align"/></svg></span>Briefing &amp; Approving</a>
+    <a onclick="goSession(8)"><span class="ico"><svg><use href="#i-compass"/></svg></span>EA in KeyCommand</a>
+    <a onclick="goSession(9)"><span class="ico"><svg><use href="#i-flask"/></svg></span>Scenario &amp; Wrap-Up</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations I</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II &amp; Right Tool</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GoHighLevel Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GoHighLevel Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> AI Meetings &amp; PM</a>
+    <a class="current"><span class="cn">Day 9</span> KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a href="https://kphq-updated-training.vercel.app/Data_Security.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- ============ S0: OPENER ============ -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Opener</div>
+    <h1>From Using AI to Commanding It</h1>
+    <p class="subtitle">Yesterday you connected the tools around a business. Today you stop doing the work by hand &mdash; and start directing a team of AI agents as an executive assistant.</p>
+    <div class="card" style="background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(234,179,8,0.04));border:1px solid rgba(34,197,94,0.2)">
+      <div class="card-head" style="color:var(--gold)"><svg><use href="#i-book"/></svg> Yesterday, on Day 8</div>
+      <p><strong>You stitched the stack together</strong> &mdash; meetings, project tools, and team messaging all feeding one workflow.</p>
+      <p><strong>Note-takers, PM tools, and messaging automations</strong> turn conversations into tracked action, automatically.</p>
+      <p style="margin:0"><strong>You review, you don't rebuild.</strong> The tools draft; you verify and route. Today that same principle scales to a whole workforce of agents.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-target"/></svg> The big picture for today</div>
+      <p>A great executive assistant doesn't personally write every post, chase every lead, and format every deliverable. They <em>direct</em> a team &mdash; and approve the work before it ships.</p>
+      <p style="margin:0">Today that team is AI. First you'll learn how agents actually work &mdash; agentic workflows, the agent family, and the plumbing (APIs, webhooks, MCP) underneath. Then you'll meet <strong>KeyCommand</strong>, the command center where you run that team as a KeyPlayers EA.</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Check-in</div>
+    <h1>Mark Your Attendance</h1>
+    <p class="subtitle">Takes 30 seconds. This logs your participation for today's session.</p>
+    <div id="attDone" style="display:none">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Marked present</div><p style="margin:0">Your Day 9 attendance is logged. Let's get into it.</p></div>
+    </div>
+    <div id="attForm">
+      <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> Ready to begin?</div><p style="margin:0">Your name was entered at login. Click below to confirm your attendance for today.</p></div>
+      <button class="btn btn-primary" style="margin-top:16px" onclick="kpRecordPresence()">Mark me present <svg><use href="#i-check"/></svg></button>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="card-head"><svg><use href="#i-book"/></svg> Today's agenda</div>
+      <ul style="margin:0">
+        <li><strong>Agentic Workflows &amp; Conditional Logic</strong> &mdash; how agents run and make decisions</li>
+        <li><strong>The AI Agent Family</strong> &mdash; the orchestrator, specialists, and the optional executive layer</li>
+        <li><strong>Under the Hood</strong> &mdash; APIs, keys, costs, webhooks, HTTP, custom API &amp; MCP</li>
+        <li><strong>KeyCommand</strong> &mdash; what it is, how it remembers &amp; learns, briefing &amp; approving</li>
+        <li><strong>Being an EA in KeyCommand</strong> &mdash; your day, first week, and a live scenario drill</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Why This Matters</div>
+    <h1>You're Being Placed as an Executive Assistant</h1>
+    <p class="subtitle">Not a doer of tasks &mdash; a director of agents. The value you bring is judgment, context, and approval, not typing speed.</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">EA can now run the output of a whole team &mdash; by briefing and approving AI agents instead of doing every task by hand</div><div class="stat-src">KeyPlayers Command Center model</div></div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">kinds of agents in KeyCommand &mdash; the orchestrator that routes work, and the specialists that do it. The roster grows as the client's needs grow.</div><div class="stat-src">KeyCommand platform</div></div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Shift</div><p>The agents are faster than you at generating work. They are <strong>not</strong> better than you at knowing the client. Your job is to point them at the right goal, set the guardrails, and approve what's good. That's what an executive assistant does &mdash; with people or with agents.</p></div>
+  </div></section>
+
+  <!-- ============ S1: AGENTIC WORKFLOWS & CONDITIONAL LOGIC ============ -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 1</div>
+    <h1>What Is an Agentic Workflow?</h1>
+    <p class="subtitle">The difference between a chatbot that answers once and an agent that works a goal until it's done.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-msg"/></svg> A plain chatbot</div>
+        You ask one question, it gives one answer. If the answer's incomplete, <strong>you</strong> ask again. It doesn't act, check, or follow up.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-refresh"/></svg> An AI agent</div>
+        You give it a <strong>goal</strong>. It plans the steps, uses tools to act, checks its own results, and loops until the goal is met &mdash; then hands you the result.
+      </div>
+    </div>
+    <p>An <em>agentic workflow</em> is that loop: <strong>Goal &rarr; Plan &rarr; Act (use tools) &rarr; Check &rarr; repeat or finish.</strong> The agent decides what to do next based on what it finds along the way.</p>
+    <div class="n8n-canvas">
+      <div class="n8n-node n8n-active" style="--d:.1s"><div class="n8n-node-head"><div class="n8n-node-ico" style="background:#22c55e"><svg><use href="#i-target"/></svg></div><div><div class="n8n-node-title">Goal</div><div class="n8n-node-sub">You set it + guardrails</div></div></div></div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.3s"><div class="n8n-node-head"><div class="n8n-node-ico" style="background:#d97706"><svg><use href="#i-align"/></svg></div><div><div class="n8n-node-title">Plan &amp; Act</div><div class="n8n-node-sub">Steps + tools</div></div></div></div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.4s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.5s"><div class="n8n-node-head"><div class="n8n-node-ico" style="background:#5da9f4"><svg><use href="#i-refresh"/></svg></div><div><div class="n8n-node-title">Check &amp; Loop</div><div class="n8n-node-sub">Fix, retry, or finish</div></div></div></div>
+      <div class="n8n-arrow"><div class="n8n-arrow-line"><div class="n8n-arrow-pulse" style="--pd:.8s"></div></div><div class="n8n-arrow-head"></div></div>
+      <div class="n8n-node" style="--d:.7s"><div class="n8n-node-head"><div class="n8n-node-ico" style="background:#eab308"><svg><use href="#i-check"/></svg></div><div><div class="n8n-node-title">You Approve</div><div class="n8n-node-sub">The human gate</div></div></div></div>
+    </div>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>You never sit inside the loop typing. You define the goal and the guardrails at the start, and you approve the result at the end. The agent owns the middle.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Agentic Workflows · Conditional Logic</div>
+    <h1>How Agents Make Decisions</h1>
+    <p class="subtitle">Inside every agentic workflow is conditional logic &mdash; the branching rules that decide what happens when the real world doesn't follow the script.</p>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> The core idea</div>
+      <p style="margin-bottom:10px">If X is true, do A. If Y is true, do B. If nothing matches, run the fallback.</p>
+      <p style="margin:0">Every workflow hits edge cases &mdash; inputs that don't fit the main path. Conditional logic is how an agent handles them without breaking or going silent.</p>
+    </div>
+    <h2>What it looks like in a real EA workflow</h2>
+    <table>
+      <thead><tr><th>If this happens&hellip;</th><th>Then the agent&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td>An email is marked urgent</td><td>Skips the nurture path &rarr; flags it for you + alerts the account manager</td></tr>
+        <tr><td>An invoice is unpaid after 7 days</td><td>Branches to the overdue path &rarr; sends a reminder + flags it internally</td></tr>
+        <tr><td>A new lead comes from Instagram</td><td>Routes to the Instagram follow-up (not the LinkedIn one)</td></tr>
+        <tr><td><strong>No condition matches</strong></td><td><strong>Runs the fallback</strong> &rarr; tags it &ldquo;Needs review&rdquo; + notifies you</td></tr>
+      </tbody>
+    </table>
+    <h2>The 5 terms you'll see in every tool</h2>
+    <table>
+      <thead><tr><th>Term</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Trigger</strong></td><td>The event that starts the workflow</td></tr>
+        <tr><td><strong>Condition</strong></td><td>The rule that gets checked (Is it urgent? Is it overdue?) &mdash; the &ldquo;if&rdquo;</td></tr>
+        <tr><td><strong>Path</strong></td><td>What happens when a condition is true</td></tr>
+        <tr><td><strong>Fallback</strong></td><td>The route taken when <em>nothing</em> matches &mdash; the safety net</td></tr>
+        <tr><td><strong>Log</strong></td><td>The record of what happened in each run &mdash; how you diagnose problems</td></tr>
+      </tbody>
+    </table>
+  </div></section>
+
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Conditional Logic · The Trap + Drill</div>
+    <h1>Why an Agent Sometimes &ldquo;Does Nothing&rdquo;</h1>
+    <p class="subtitle">Nine times out of ten it's not broken &mdash; it fell to the fallback because a condition didn't match.</p>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Fallback is non-negotiable</div>
+      <p style="margin:0">Every branch needs an &ldquo;if nothing matches&rdquo; path. Without one, unmatched items disappear silently &mdash; no error, no notification &mdash; and you only find out when a client asks why nothing happened.</p>
+    </div>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> The #1 silent killer &mdash; case sensitivity</div>
+      <p style="margin-bottom:8px"><strong>&ldquo;VIP&rdquo; is not the same as &ldquo;vip&rdquo;</strong> in an exact-match rule. If the form sends lowercase and the filter checks capitalized, the condition sees no match &mdash; and the item goes to fallback instead of the path you expected.</p>
+      <p style="margin:0">You won't fix this in code, but when an agent &ldquo;ignores&rdquo; something, this is the first thing to suspect.</p>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Scenario</div>
+      <div class="quiz-q">You set up a rule: if a contact's tag contains &ldquo;VIP&rdquo;, book a same-day call. You test it on a contact tagged &ldquo;vip&rdquo; (lowercase). Nothing happens. Why?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The workflow doesn't support tags &mdash; it needs a custom field</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>The rule checks for &ldquo;VIP&rdquo; but the tag is &ldquo;vip&rdquo; &mdash; they don't match, so the contact fell to the fallback path</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The contact has to re-enter the workflow for it to run</button>
+      </div>
+      <div class="quiz-fb">Case sensitivity. &ldquo;VIP&rdquo; &ne; &ldquo;vip&rdquo; in an exact-match rule, so no condition matched and the item routed to fallback &mdash; silently. The fix is to standardize the tag's case, or normalize the text before the check. As the EA, your move is to spot it and flag it.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- ============ S2: THE AI AGENT FAMILY ============ -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 2</div>
+    <h1>The AI Agent Family</h1>
+    <p class="subtitle">Not all agents do the same job. Knowing the types is how you point work at the right one.</p>
+    <table>
+      <thead><tr><th>Type</th><th>What it does</th><th>Think of it as&hellip;</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Orchestrator (KeyPlayer)</strong></td><td>Receives the goal and routes it to the right specialist(s); coordinates the whole job</td><td>The manager who assigns the work</td></tr>
+        <tr><td><strong>Org Chart / executive agents</strong></td><td>Optional layer some clients turn on &mdash; AI CEO, COO, CMO and the rest of the C-suite, owning strategy and oversight</td><td>The AI CEO / COO / CMO</td></tr>
+        <tr><td><strong>Specialist agent</strong></td><td>Does exactly one job extremely well (research, content, outreach, QA&hellip;)</td><td>The expert on the team</td></tr>
+      </tbody>
+    </table>
+    <h2>How they're organized &mdash; the real Agents page</h2>
+    <figure class="kc-shot">
+      <img src="assets/kc-agents-grid.png" alt="The real KeyCommand Agents page: KeyPlayer orchestrator card at top, Specialists grid below">
+      <figcaption>Live from KeyCommand: <strong>KeyPlayer</strong> (orchestrator) gets the top card; every specialist sits in the grid below. Official docs: &ldquo;two kinds&rdquo; of agent &mdash; not a formal tier system, and there's no separate &ldquo;sub-agent&rdquo; type.</figcaption>
+    </figure>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>You brief the orchestrator directly, or the right specialist. If the client has an executive layer turned on, direction-setting questions go there first.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">The AI Agent Family</div>
+    <h1>How They Work Together</h1>
+    <p class="subtitle">One goal can pass through several agents before it comes back to you. Here's the relay.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>You brief the orchestrator</strong><p>You hand over the goal, the client context, and the guardrails.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>The orchestrator routes it</strong><p>It picks the specialist (or executive agent) best suited to the job.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>The specialist does the work</strong><p>It drafts the content, research, or outreach &mdash; using its own tools and skills.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Results roll back up</strong><p>The orchestrator assembles the pieces into one finished draft.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>It lands in your queue for approval</strong><p>Nothing ships until you say so. You're the final step, every time.</p></div></div>
+    </div>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-bolt"/></svg> Why this matters to you</div><p style="margin:0">You don't need to know how the specialist split its work internally. You need a clean goal going in and a careful review coming out. Garbage brief in, garbage draft out &mdash; no matter how many agents touched it.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">The AI Agent Family · Drill</div>
+    <h1>Point It at the Right Agent</h1>
+    <p class="subtitle">Match the task to the tier. When in doubt, brief the orchestrator and let it route.</p>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Which agent?</div>
+      <div class="quiz-q">The client wants a recommendation on whether to pivot their whole content strategy to short-form video. Who handles it?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>An Executive / strategy agent &mdash; this is a direction-setting decision</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>A single content Specialist &mdash; it makes videos</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The orchestrator &mdash; it makes every decision itself</button>
+      </div>
+      <div class="quiz-fb">Strategy and direction go to the <strong>executive layer</strong> (when a client has one turned on). Specialists execute a defined task; they don't set business direction. The orchestrator routes work &mdash; it doesn't personally decide strategy.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Which agent?</div>
+      <div class="quiz-q">There are 35 unread messages in the client's inbox that need draft replies by end of day. Who handles it?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>An Executive agent &mdash; it's important</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>A Specialist (inbox / triage) &mdash; one clear, repeatable task</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>You, by hand &mdash; agents can't touch email</button>
+      </div>
+      <div class="quiz-fb">A defined, repeatable task is Specialist work. You brief it, it drafts the replies, and they land in your queue &mdash; you approve before anything sends.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <!-- ============ S3: UNDER THE HOOD ============ -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 3</div>
+    <h1>Under the Hood: APIs &amp; API Keys</h1>
+    <p class="subtitle">You won't write code. But you'll connect tools, paste keys, and explain costs &mdash; so you need to know what these words mean.</p>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-tool"/></svg> What an API is</div><p style="margin:0">An <strong>API</strong> is how two apps talk to each other. Simple rule from Day 7: <em>an API is you asking &mdash; you send a request, it sends an answer back.</em> When an agent pulls a lead from a CRM or posts to a scheduler, it's using that tool's API.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-lock"/></svg> An API key is a password &mdash; treat it like one</div>
+      <p style="margin-bottom:8px">An <strong>API key</strong> is the secret code that proves a request is allowed. It identifies <em>whose</em> account is being used and unlocks access.</p>
+      <p style="margin:0">Never post a key in Slack, a screenshot, or a shared doc. A leaked key = someone else spending on the client's account. If a key is ever exposed, it must be rotated (replaced) immediately.</p>
+    </div>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>Part of onboarding a client is collecting and safely storing their keys. You're the guardian of those credentials &mdash; handle them the way you'd handle the client's bank login.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Under the Hood</div>
+    <h1>API Costs &amp; BYOK</h1>
+    <p class="subtitle">AI usage isn't free. Understanding the meter is how you keep a client's bill sane.</p>
+    <div class="card"><div class="card-head"><svg><use href="#i-activity"/></svg> How AI usage is billed</div>
+      <p>Most AI tools charge by <strong>usage</strong> &mdash; measured in <em>tokens</em> (chunks of text in and out). Longer prompts, longer answers, and more re-runs all cost more. A single request is cheap; thousands of sloppy re-runs add up.</p>
+      <p style="margin:0"><strong>BYOK</strong> = <em>Bring Your Own Key</em>. The client connects their own AI account, so their usage is billed directly to them &mdash; not bundled into a flat platform fee. You may be the one who sets this up.</p>
+    </div>
+    <div class="card card-gold"><div class="card-head"><svg><use href="#i-alert"/></svg> The EA cost-control move</div><p style="margin:0">A <strong>good brief is a cost-control tool.</strong> When your brief is complete, the agent gets it right the first time &mdash; one run. When it's vague, the agent guesses, you reject, it re-runs. Every re-run is billable. Tight briefs save the client money.</p></div>
+    <div class="quiz">
+      <div class="quiz-tag"><svg><use href="#i-flask"/></svg> Quick check</div>
+      <div class="quiz-q">A client asks why their AI bill jumped this month. Which is the most likely EA-controllable cause?</div>
+      <div class="quiz-opts">
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The AI got more expensive on its own</button>
+        <button class="quiz-opt" onclick="qCheck(this,true)" data-correct="true"><span class="qmark"></span>Lots of vague briefs caused repeated re-runs of the same task</button>
+        <button class="quiz-opt" onclick="qCheck(this,false)"><span class="qmark"></span>The client logged in too many times</button>
+      </div>
+      <div class="quiz-fb">Usage is driven by requests. Re-runs from weak briefs are the most common EA-controllable cost. Tighten the briefs, cut the re-runs, drop the bill.</div>
+      <button class="quiz-reset" onclick="qReset(this)">Try again</button>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Under the Hood</div>
+    <h1>API vs Webhook &mdash; and HTTP Requests</h1>
+    <p class="subtitle">Two ways systems talk. Knowing which is which helps you describe what a workflow needs.</p>
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-arrow"/></svg> API &mdash; you ask (pull)</div>
+        Your side reaches out: &ldquo;Give me today's new leads.&rdquo; You get an answer back. <strong>You start the conversation.</strong>
+      </div>
+      <div class="col" style="background:rgba(93,169,244,.06);border:1px solid rgba(93,169,244,.2)">
+        <div class="col-label" style="color:var(--secure)"><svg><use href="#i-bolt"/></svg> Webhook &mdash; it tells you (push)</div>
+        The other side reaches out the instant something happens: &ldquo;A new lead just came in!&rdquo; <strong>The event starts the conversation.</strong>
+      </div>
+    </div>
+    <div class="card"><div class="card-head"><svg><use href="#i-align"/></svg> What's an HTTP request?</div><p style="margin:0">It's the actual message format apps use to talk over the web. Two you'll hear: <strong>GET</strong> (fetch me something) and <strong>POST</strong> (here's some data, do something with it). An API call and a webhook are both HTTP requests under the hood &mdash; you don't write them, but that's the envelope the message travels in.</p></div>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>When you say &ldquo;notify me the moment a lead comes in,&rdquo; you're describing a <strong>webhook</strong>. When you say &ldquo;pull me the latest report,&rdquo; you're describing an <strong>API call</strong>. Naming it right helps whoever builds it.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Under the Hood</div>
+    <h1>Custom API &amp; Custom MCP</h1>
+    <p class="subtitle">When a tool isn't connected out of the box, these are how it gets connected.</p>
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th><th>When you'll hear it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Custom API</strong></td><td>A developer builds a connection to a tool that has no ready-made integration, using that tool's API</td><td>&ldquo;The client's booking system isn't supported &mdash; we need a custom API to pull appointments.&rdquo;</td></tr>
+        <tr><td><strong>MCP</strong></td><td>The <em>bridge</em> that lets an AI (like Claude) work directly inside a tool &mdash; reading and acting, not just chatting</td><td>Recap from Day 8: &ldquo;MCP is the bridge that lets the agent work inside the tool.&rdquo;</td></tr>
+        <tr><td><strong>Custom MCP</strong></td><td>A purpose-built bridge for one specific client system, so an agent can operate it directly</td><td>&ldquo;We built a custom MCP so the agent can read the client's private CRM.&rdquo;</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> The whole point</div><p style="margin:0">A custom API or custom MCP <strong>expands what your agents can reach.</strong> The more of a client's real tools your agents can touch (safely), the more of the client's work they can actually do.</p></div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">You Don't Build &mdash; You Request</div><p>You will never code one of these. But you're the person who notices &ldquo;the agent can't see the client's scheduler&rdquo; and requests the connection. Knowing the words means you can ask for exactly the right thing.</p></div>
+  </div></section>
+
+  <!-- ============ S4: WHAT IS KEYCOMMAND ============ -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 4</div>
+    <h1>Your Job, Just Bigger</h1>
+    <p class="subtitle">KeyCommand isn't a new skill to learn from scratch &mdash; it's where your EA skills go to work. Here are six things you already do, and where each one lives inside it.</p>
+    <table>
+      <thead><tr><th>What You Do As an EA</th><th>Where It Lives in KeyCommand</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sort the inbox</strong></td><td>Engagement tab &mdash; sorts emails, comments, and texts, and drafts replies for anything that needs one</td></tr>
+        <tr><td><strong>Run the calendar</strong></td><td>Connects straight to Google Calendar &amp; Meet, plus daily reminders you can set up once</td></tr>
+        <tr><td><strong>Handle comms</strong></td><td>One place for email, texting, and follow-ups &mdash; drafted for you, sent after you say go</td></tr>
+        <tr><td><strong>Protect their time</strong></td><td>You decide how much runs on its own vs. waits for you &mdash; nothing costly happens without asking first</td></tr>
+        <tr><td><strong>Track every to-do</strong></td><td>One queue holds everything waiting on a decision &mdash; nothing quietly falls through the cracks</td></tr>
+        <tr><td><strong>Manage projects</strong></td><td>Goals break into projects, projects break into tasks, and a board shows what's moving and what's stuck</td></tr>
+      </tbody>
+    </table>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">The Real Goal Today</div><p>You don't need to master every button by the end of Day 9. You need to recognize this ecosystem and know where each job lives. Deeper, hands-on training happens once you're placed with a real client.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">What Is KeyCommand</div>
+    <h1>What Is KeyCommand?</h1>
+    <p class="subtitle">Everything you just learned &mdash; agents, workflows, connections &mdash; assembled into one place you run as an EA.</p>
+    <div class="kc-converge-wrap">
+      <div class="kc-converge">
+        <div class="kc-pill" style="--d:.1s"><svg><use href="#i-users"/></svg> Agents</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot"></div></div>
+        <div class="kc-pill" style="--d:.3s"><svg><use href="#i-refresh"/></svg> Workflows</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.3s"></div></div>
+        <div class="kc-pill" style="--d:.5s"><svg><use href="#i-layers"/></svg> Memory</div>
+        <div class="kc-flow-line"><div class="kc-flow-dot" style="--pd:.6s"></div></div>
+        <div class="kc-kc-badge"><svg><use href="#i-grid"/></svg> KeyCommand</div>
+      </div>
+      <div class="kc-converge-label">One command center for the whole team</div>
+    </div>
+    <p>KeyCommand is KeyPlayers' proprietary <strong>AI command center</strong> &mdash; a platform where AI agents draft every client deliverable, and <strong>a VA approves every output</strong> before it goes anywhere near the client. It runs on <strong>a growing roster of orchestrator and specialist agents</strong>, sized to what each client needs.</p>
+    <div class="principle"><div class="badge"><svg><use href="#i-lock"/></svg></div><div class="pl">The One Rule That Never Changes</div><p>No agent sends, posts, publishes, or reaches a client without your approval first. Not once. Not ever. <strong>You are the gate.</strong></p></div>
+  </div></section>
+
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">What Is KeyCommand</div>
+    <h1>The Core Flow &amp; Your Dashboard</h1>
+    <p class="subtitle">Every piece of work moves through the same five steps &mdash; and you own two of them.</p>
+    <table>
+      <thead><tr><th>Step</th><th>Who</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>1. Brief</td><td><strong>You (VA)</strong></td><td>You write a brief and send it to the right agent via the Boardroom</td></tr>
+        <tr><td>2. Draft</td><td>Agent</td><td>The agent produces a draft &mdash; it goes to the Operator Queue, not the client</td></tr>
+        <tr><td>3. VA Review</td><td><strong>You (VA)</strong></td><td>You review it in the Operator Queue: approve, revise, or reject</td></tr>
+        <tr><td>4. Client Review</td><td>Client</td><td>Approved work goes to the client for final sign-off</td></tr>
+        <tr><td>5. Publish</td><td>VA / system</td><td>After client approval, the deliverable goes live</td></tr>
+      </tbody>
+    </table>
+    <p>Your <strong>dashboard</strong> is the live view: what's active, what's waiting for your approval, and what's in progress across the client's workspace.</p>
+    <div class="card"><div class="card-head"><svg><use href="#i-shield"/></svg> The Bigger the Job, the More It Checks In</div><p style="margin:0">For small, everyday tasks, the flow above is all that happens. But for something BIG &mdash; a full research push, or the system calling in extra help for a large job &mdash; it pauses first and asks you right in the chat, &ldquo;okay to go ahead?&rdquo; (when your workspace has this turned on). Nothing expensive runs on autopilot.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-alert"/></svg> Know Your Permission Level</div><p style="margin:0">By default, <strong>the client owns Approvals</strong>. Step 3 only belongs to you if the client's account has granted you approval rights (Settings &rarr; Access: Read / Limited Write / Write / Write+Approve). Confirm your permission level on Day 1 &mdash; don't assume you have a review gate.</p></div>
+    <figure class="kc-shot">
+      <img src="assets/kc-overview-dashboard.png" alt="The real KeyCommand Overview dashboard: lens tabs, status strip, goals, hero agent cards, Operator Queue, Knowledge map">
+      <figcaption>The actual KeyCommand Overview &mdash; lens tabs at top, hero agent cards with live heartbeats, the Operator Queue in the Workbench row, and the Knowledge map further down. This is the UI you need to recognize on sight in week one.</figcaption>
+    </figure>
+  </div></section>
+
+    <!-- ============ S5: SECURITY & COMPLIANCE ============ -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 5</div>
+    <h1>Your Client's Stuff Stays Locked Up</h1>
+    <p class="subtitle">You'll be trusted with real client accounts and real client data. Here's how KeyCommand keeps that safe &mdash; and your part in it.</p>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-grid"/></svg> Separate Lockers, Not One Shared Drawer</div><p style="margin:0">Every client gets their own private space. Nothing from one client's workspace is ever visible in another's &mdash; not their leads, not their drafts, not their history. You'll never accidentally see, or send, the wrong client's information.</p></div>
+    <div class="card"><div class="card-head"><svg><use href="#i-shield"/></svg> The Client's Own Key, Not a Shared One</div><p style="margin:0">The client connects their <strong>own</strong> AI account &mdash; like using their own credit card instead of a shared company card. Their data has never sat on someone else's account. Until they connect it, their agents simply stay paused &mdash; nothing runs.</p></div>
+    <div class="card"><div class="card-head"><svg><use href="#i-lock"/></svg> Passwords Go in a Locked Box</div><p style="margin:0">Every password and API key the client connects is locked up tight the moment it's saved &mdash; nobody, including you, can pull it back up in plain text afterward. You'll help clients connect things; you won't be reading their passwords back to them.</p></div>
+    <h2>Not Everyone Gets the Same Key</h2>
+    <table>
+      <thead><tr><th>Access Level</th><th>What It Lets You Do</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Read</strong></td><td>Look around only &mdash; no changes</td></tr>
+        <tr><td><strong>Limited Write</strong></td><td>Draft content, update basic records</td></tr>
+        <tr><td><strong>Write</strong></td><td>Create and submit full tasks</td></tr>
+        <tr><td><strong>Write + Approve</strong></td><td>All of the above, plus the final sign-off</td></tr>
+      </tbody>
+    </table>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Habit</div><p>On Day 1 with a new client, find out which of these four you actually have. Don't assume &mdash; ask.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Compliance</div>
+    <h1>If Someone Leaves, and Who Owns What</h1>
+    <p class="subtitle">Two things every EA should know cold: how access gets cut off, and who actually owns the work.</p>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-alert"/></svg> Changing the Locks</div><p style="margin:0">If a VA is let go, access can be cut off in minutes &mdash; like changing the locks the moment a badge gets handed back. This is done through KeyPlayers support, never by the client clicking around themselves (one wrong click there can accidentally wipe out real work).</p></div>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> It's the Client's Data, Full Stop</div><p style="margin:0">Everything KeyCommand ever created for a client &mdash; documents, custom agents, automations, CRM records, history, all of it &mdash; can be downloaded in one click, anytime, no questions asked. Downloading a copy doesn't delete or change anything left in the workspace. KeyPlayers keeps the platform running; the client owns what's inside it.</p></div>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>You'll be handling real passwords, real client details, and real conversations every day. Treat all of it like you'd treat someone's house keys &mdash; carefully, and only for what it's meant for.</p></div>
+  </div></section>
+
+<!-- ============ S6: REMEMBERS & LEARNS ============ -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 6</div>
+    <h1>How KeyCommand Remembers</h1>
+    <p class="subtitle">Two memory systems, two very different jobs. Most VAs confuse them &mdash; you won't.</p>
+    <div class="compare">
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-layers"/></svg> Knowledge Map &mdash; the WHAT</div>
+        The long-term client file. Past outputs, decisions, files, and context &mdash; stored automatically by agents every time a task completes. The reference library.
+      </div>
+      <div class="col" style="background:rgba(234,179,8,.06);border:1px solid rgba(234,179,8,.22)">
+        <div class="col-label" style="color:var(--gold)"><svg><use href="#i-spark"/></svg> Genes &mdash; the HOW</div>
+        Learned rules built from <em>your approvals</em>. This client prefers short sentences; this tone always passes; this format never does. The behavioral layer.
+      </div>
+    </div>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-book"/></svg> The difference in one line</div><p style="margin:0">The <strong>Knowledge Map</strong> remembers what the client needed. <strong>Genes</strong> remember how <em>you</em> respond &mdash; and bend the agents to match. One is facts; the other is taste. <em>(You'll hear both &ldquo;Knowledge Map&rdquo; and &ldquo;Knowledge Graph&rdquo; &mdash; even KeyCommand's own screens use both. Same thing either way.)</em></p></div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Remembers &amp; Learns</div>
+    <h1>How Agents Learn &amp; Get Scored</h1>
+    <p class="subtitle">Every approval you make is a training signal. That's not a metaphor &mdash; it's how the system gets sharper.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>The agent drafts; you judge</strong><p>Approve, revise, or reject &mdash; each is a score on that output.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>The score becomes a Gene</strong><p>What you approved (and what you fixed) turns into a learned rule for that client.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>The next draft starts smarter</strong><p>The agent applies the pattern &mdash; the on-brief rate climbs, and your revisions drop.</p></div></div>
+    </div>
+    <div class="card card-gold"><div class="card-head"><svg><use href="#i-alert"/></svg> The Consistency Rule</div><p style="margin:0"><strong>Inconsistent approvals = inconsistent output.</strong> If you approve a bullet-point format one day and revise it out the next, Genes can't learn a stable pattern. The system only gets smarter if <em>you</em> are consistent. Expect more corrections in weeks 1&ndash;3; by weeks 4&ndash;6, a well-trained set of agents hits the brief with far less editing.</p></div>
+    <div class="standard"><div class="badge"><svg><use href="#i-check"/></svg></div><div class="pl">EA Habit</div><p>After each approved output, add one Gene in plain language: &ldquo;Always include the client's phone number in Instagram CTAs.&rdquo; One entry per approval session. This is how you get faster over 30 days &mdash; on purpose, not by accident.</p></div>
+  </div></section>
+
+    <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Remembers &amp; Learns</div>
+    <h1>How the Report Card Works</h1>
+    <p class="subtitle">Every finished task gets graded on three things. Those grades add up into a running score for each agent.</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Did you approve it? This counts the most &mdash; your yes or no is the loudest signal the system has.</div><div class="stat-src">The grading</div></div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Did it actually work? A post that published, or a goal that moved forward, earns extra credit.</div><div class="stat-src">The grading</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Did it run clean? No errors, no do-overs, finished in one pass.</div><div class="stat-src">The grading</div></div>
+    </div>
+    <div class="card"><div class="card-head"><svg><use href="#i-activity"/></svg> One Running Score, Per Agent</div><p style="margin:0">All three grades blend into one running score you can watch improve over time &mdash; tracked separately for each agent, since a researcher and a content writer are graded on different things. You never grade by hand. Approving and rejecting drafts <strong>is</strong> the grading.</p></div>
+    <div class="standard"><div class="badge"><svg><use href="#i-clock"/></svg></div><div class="pl">Give It Time</div><p>Early scores bounce around &mdash; an agent needs a handful of finished tasks before its score means anything. Don't judge a brand-new agent off its first run.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Remembers &amp; Learns</div>
+    <h1>Follow One Request, Start to Finish</h1>
+    <p class="subtitle">One ask to the orchestrator doesn't just make one output &mdash; it also teaches the system something. Here's the whole loop.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>You ask</strong><p>&ldquo;Draft 3 Instagram captions for the fall promo, confident tone, CTA to call.&rdquo;</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>The right agent handles it</strong><p>The orchestrator sends it to the content specialist &mdash; or for something bigger, may check in with you first.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>It lands in your queue</strong><p>You approve it, fix it, or reject it.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>That decision becomes its grade</strong><p>Your approve, fix, or reject is the strongest input into that task's score.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Good patterns turn into a lesson</strong><p>If a way of doing things keeps scoring well, it gets suggested as a Gene &mdash; still just a suggestion at this point.</p></div></div>
+      <div class="step-item"><div class="step-dot">6</div><div class="step-content"><strong>You approve the lesson</strong><p>Now it's baked into that agent's instructions &mdash; every future ask benefits from what this one ask taught it.</p></div></div>
+    </div>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-spark"/></svg> The Big Idea</div><p style="margin:0">One request never just makes one output. It also nudges the whole system to get a little sharper for next time.</p></div>
+  </div></section>
+
+<!-- ============ S7: BRIEFING & APPROVING ============ -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 7</div>
+    <h1>Writing a Brief That Works</h1>
+    <p class="subtitle">The 6-part checklist that separates useful output from a generic guess. Skip a part, and the agent fills it in for you.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Client Name</strong><p>Which client? Agents keep separate context per client &mdash; always specify.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Platform + Format</strong><p>Where it's going and what shape it takes (IG Reel script, email subject + body, LinkedIn post).</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Topic or Input</strong><p>What it's about, and the raw material you're handing the agent.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Tone or Voice</strong><p>How it should sound &mdash; reference the client's content or the Agent Soul profile.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Constraints</strong><p>What to avoid (word count, no emojis, no competitor names).</p></div></div>
+      <div class="step-item"><div class="step-dot">6</div><div class="step-content"><strong>CTA or Goal</strong><p>What the reader should do or feel (book a call, reply, click).</p></div></div>
+    </div>
+    <div class="compare">
+      <div class="col col-weak"><div class="col-label"><svg><use href="#i-x"/></svg> Bad brief</div><em>&ldquo;Write a LinkedIn post for the client about their new service.&rdquo;</em> No client, no service, no audience, no tone, no CTA. The agent guesses &mdash; and the guess is generic.</div>
+      <div class="col col-strong"><div class="col-label"><svg><use href="#i-check"/></svg> Good brief</div><em>&ldquo;Client: Marcus Reyes Consulting. LinkedIn post. New fractional-CFO service for early-stage startups. Tone: confident, peer-level, not salesy. No bullet points. CTA: reply to start a conversation.&rdquo;</em></div>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Briefing &amp; Approving</div>
+    <h1>The Operator Queue &amp; Your Review Habit</h1>
+    <p class="subtitle">The queue is your workspace. A clean two-step habit is how quality reaches the client &mdash; when your account has the rights to run it.</p>
+    <p>The <strong>Operator Queue</strong> is where every agent output lands before it goes anywhere. Empty queue = nothing waiting. Items in the queue = your job before end of shift. (Complex agent decisions often run on Claude Opus 4.8 &mdash; each agent's model is configurable, from fast-and-cheap up to the most capable.)</p>
+    <table>
+      <thead><tr><th>Step</th><th>Reviewer</th><th>What you're checking</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Your review</strong> (if granted)</td><td>You</td><td>Does it match the brief? Right tone? Any errors? Would you send this yourself?</td></tr>
+        <tr><td><strong>Client review</strong></td><td>Client</td><td>Final sign-off. By default this is the <em>only</em> approval step &mdash; yours exists only if the client granted it.</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> The 9-question gut check before you approve</div>
+      <p style="margin:0">Match the brief? · On-voice? · Facts accurate? · Respects constraints? · CTA clear? · Platform formatting right? · Spelling/grammar clean? · Comfortable sending it now? · Anything the client told us to avoid? &mdash; If any answer is &ldquo;no,&rdquo; revise, don't approve.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Briefing &amp; Approving · Drill</div>
+    <h1>The 5 Mistakes VAs Make</h1>
+    <p class="subtitle">Every one of these trains the system in the wrong direction or breaks the client's trust. Know them so you never make them.</p>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-x"/></svg> 1 · Rubber-stamping</div><p style="margin:0">Approving without reading. It trains Genes the wrong way and destroys trust fast. If you approved it, you own it.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-x"/></svg> 2 · Briefing the wrong agent</div><p style="margin:0">A strategy brief to a Specialist, or a task to the executive layer, produces misaligned output. Check who you're briefing first.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-x"/></svg> 3 · Vague briefs</div><p style="margin:0">Missing tone, constraints, or CTA. The agent guesses, you revise, you lose time &mdash; and the client pays for the re-run.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-x"/></svg> 4 · Ignoring the queue</div><p style="margin:0">Items in the Operator Queue aren't &ldquo;in progress&rdquo; &mdash; they're waiting for <em>you</em>. An uncleared queue delays the client.</p></div>
+    <div class="card card-danger"><div class="card-head"><svg><use href="#i-x"/></svg> 5 · Skipping the strategy layer</div><p style="margin:0">If an Executive agent set a direction, your Specialist briefs must align with it. Read the strategy before you brief the task.</p></div>
+    <div class="exercise"><div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> Drill</div><div class="ex-title">Write the brief</div></div>
+      <p>A client voice memo (transcribed): <em>&ldquo;Put together something for Instagram about our fall cleanup offer &mdash; homeowners, $299 flat rate, every October. Keep it simple, not too salesy. Include our phone number at the end.&rdquo;</em></p>
+      <p style="margin:0">Write the full 6-part brief for a content specialist. Leave <strong>no</strong> field blank. Then name one thing you'd check in the Operator Queue before approving the draft.</p>
+    </div>
+  </div></section>
+
+  <!-- ============ S8: EA IN KEYCOMMAND ============ -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 8</div>
+    <h1>Your Day in KeyCommand</h1>
+    <p class="subtitle">A real shift, start to close. This is the rhythm of an executive assistant running the command center.</p>
+    <div class="kc-timeline">
+      <div class="kc-tl-header"><svg><use href="#i-clock"/></svg> One shift, three phases</div>
+      <div class="kc-tl-track"><div class="kc-tl-fill"></div></div>
+      <div class="kc-tl-phases">
+        <div class="kc-tl-phase" style="--tpd:.2s"><div class="kc-tl-dot"></div><div class="kc-tl-phase-label">Start of Shift</div><div class="kc-tl-phase-body">Check the dashboard &amp; North Star Goal. Clear overnight items in the Operator Queue. Read any Executive-agent direction updates. Brief your first agents.</div></div>
+        <div class="kc-tl-phase" style="--tpd:.7s"><div class="kc-tl-dot"></div><div class="kc-tl-phase-label">During Shift</div><div class="kc-tl-phase-body">One brief per task, one agent per brief. Return to the queue as drafts arrive &mdash; run the 9-question check, approve / revise / reject with a note. Don't let it pile up.</div></div>
+        <div class="kc-tl-phase" style="--tpd:1.2s"><div class="kc-tl-dot"></div><div class="kc-tl-phase-label">End of Shift</div><div class="kc-tl-phase-body">Clear the queue completely. Check Scheduled Jobs for overnight tasks. Add your Gene entries for the day. Send the client an EOD: done / in review / need from you.</div></div>
+      </div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-target"/></svg></div><div class="pl">The Pilot's Checklist</div><p>The command center is the cockpit. The EA is the pilot. Pilots don't skip pre-flight checks because they're busy. Your start- and end-of-shift routines are how you catch errors before the client does.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">EA in KeyCommand</div>
+    <h1>Your First Week Checklist</h1>
+    <p class="subtitle">Getting access doesn't mean you're ready to brief. Do this on Day 1 with a new client &mdash; before a single brief.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Confirm your KeyCommand access</strong><p>Login active and scoped to the correct client workspace &mdash; verify with your team lead.</p></div></div>
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Locate the North Star Goal</strong><p>Find it on the dashboard and read it. If it's missing or unclear, ask the client before anything else.</p></div></div>
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Review the Agent Soul profiles for your top 3 agents</strong><p>Know each agent's voice and behavior before you brief it.</p></div></div>
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Ask the client 3 onboarding questions</strong><p>What format performs best? · What must we always avoid? · What existing content should we match in tone?</p></div></div>
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Write your first Gene before briefing anything</strong><p>Turn the onboarding answers into at least one rule. Start the learning layer on purpose.</p></div></div>
+      <div class="step-item"><div class="step-dot"><svg style="width:15px;height:15px"><use href="#i-check"/></svg></div><div class="step-content"><strong>Run one low-stakes brief through the Boardroom</strong><p>A single post, not a campaign. Treat it as a test and review it against all 9 questions.</p></div></div>
+    </div>
+  </div></section>
+
+    <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">EA in KeyCommand</div>
+    <h1>Executive Support Is More Than Clearing the Queue</h1>
+    <p class="subtitle">Approving drafts keeps things moving. Real executive support means the client barely has to think about any of this.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Reacting</div>
+        You wait for the queue to fill, clear it when you get to it, and only speak up once something's already gone wrong.
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Supporting</div>
+        You notice patterns before they're pointed out, keep the client's time protected, and flag things while they're still small.
+      </div>
+    </div>
+    <h2>What this looks like day to day</h2>
+    <table>
+      <thead><tr><th>Instead of&hellip;</th><th>Do this</th></tr></thead>
+      <tbody>
+        <tr><td>Approving items in whatever order they land</td><td>Batch and prioritize the queue so the client's review time goes to what actually needs their judgment</td></tr>
+        <tr><td>Waiting for the client to notice a recurring issue</td><td>Spot the pattern yourself &mdash; a comment theme, a stalled lead, a slipping metric &mdash; and raise it first</td></tr>
+        <tr><td>Sending a status update only when asked</td><td>Keep them briefed on your own schedule &mdash; see the next slide</td></tr>
+        <tr><td>Treating the North Star as background info</td><td>Check every brief against it &mdash; does this actually move the goal, or just fill the queue?</td></tr>
+      </tbody>
+    </table>
+    <div class="standard"><div class="badge"><svg><use href="#i-compass"/></svg></div><div class="pl">EA Lens</div><p>The client hired an operator, not a queue-clearer. Anticipating is the difference between the two.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">EA in KeyCommand</div>
+    <h1>Read the Room, Then Act</h1>
+    <p class="subtitle">Not everything belongs in the same pile. Knowing what to escalate, what to batch, and what to just handle is what earns you more rope.</p>
+    <table>
+      <thead><tr><th>Situation</th><th>What you do</th></tr></thead>
+      <tbody>
+        <tr><td>Something urgent, sensitive, or off-brand</td><td>Flag it to the client immediately &mdash; don't let it sit in the queue until your next pass</td></tr>
+        <tr><td>Routine, on-brief, low-stakes work</td><td>Batch it into your normal review rhythm &mdash; no need to interrupt anyone</td></tr>
+        <tr><td>You're genuinely unsure</td><td>Ask. A quick question costs a minute; a wrong guess costs trust</td></tr>
+      </tbody>
+    </table>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-spark"/></svg> Trust Is Earned, Then Spent</div><p style="margin:0">Early on, clients keep autonomy low and want more in front of them &mdash; that's normal, not a lack of confidence in you. Every consistent, well-judged week is what gets your access (and the agents' autonomy level) raised. Rushing this usually backfires.</p></div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Real Job</div><p>Anyone can click Approve. An executive assistant knows <em>when</em> to click it, when to wait, and when to pick up the phone instead.</p></div>
+  </div></section>
+
+<!-- ============ S9: SCENARIO DRILL & WRAP-UP ============ -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Session 9</div>
+    <h1>Live Scenario Drill</h1>
+    <p class="subtitle">For each one: name the agent (tier + specialist), write the full 6-part brief, and describe what you'd check before approving.</p>
+    <div class="exercise"><div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> A</div><div class="ex-title">The Voice Memo</div></div>
+      <p style="margin:0"><em>&ldquo;We need a reel about our fall promotion &mdash; 20% off roofing inspections, October 1&ndash;31. Under 30 seconds, urgent but not pushy. Reels that open with a question do well for us. Use our usual tone &mdash; you know what we like.&rdquo;</em></p>
+      <p style="margin:8px 0 0"><strong>Trap:</strong> &ldquo;you know what we like&rdquo; is not a valid tone brief. What do you do?</p>
+    </div>
+    <div class="exercise"><div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> B</div><div class="ex-title">The Strategic Pivot</div></div>
+      <p style="margin:0"><em>&ldquo;Engagement's been flat for 6 weeks. I think we should move from educational content to more storytelling. Can you get us a recommendation?&rdquo;</em></p>
+      <p style="margin:8px 0 0"><strong>Think:</strong> which tier handles a direction decision &mdash; and why not a Specialist?</p>
+    </div>
+    <div class="exercise"><div class="ex-head"><div class="ex-badge"><svg><use href="#i-flask"/></svg> C</div><div class="ex-title">The Stale Queue</div></div>
+      <p style="margin:0">Tuesday morning: 8 items waiting from Monday's Scheduled Jobs. Two look off &mdash; Item 4 is a 420-word LinkedIn post (client posts 80&ndash;120), Item 7 references a promo that ended last month.</p>
+      <p style="margin:8px 0 0"><strong>Do:</strong> what happens to Item 4 and Item 7, and what note do you leave when you reject each?</p>
+    </div>
+  </div></section>
+
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Wrap-Up</div>
+    <h1>Day 9 &mdash; Key Takeaways</h1>
+    <p class="subtitle">Lock these in before the assessment.</p>
+    <div class="card card-accent"><div class="card-head"><svg><use href="#i-check"/></svg> The seven that matter</div>
+      <ul style="margin:0">
+        <li><strong>An agentic workflow</strong> is a loop: goal &rarr; plan &rarr; act &rarr; check &rarr; repeat. You set the goal and approve the result.</li>
+        <li><strong>Conditional logic</strong> is how agents branch &mdash; and every branch needs a fallback, or work vanishes silently.</li>
+        <li><strong>Agents come in types</strong> &mdash; orchestrator, optional executive layer, specialist. Brief the right one.</li>
+        <li><strong>APIs, keys, webhooks, HTTP, MCP</strong> are the plumbing. You guard the keys, watch the costs, and request the connections.</li>
+        <li><strong>KeyCommand</strong> assembles it all &mdash; agents draft, you approve, nothing reaches the client without you.</li>
+        <li><strong>Knowledge Map stores the what; Genes learn the how.</strong> Your consistent approvals are the training signal.</li>
+        <li><strong>Your brief is the leverage point.</strong> Tight briefs = on-brief drafts = fewer re-runs = lower cost and a cleaner queue.</li>
+      </ul>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Final Word</div><p>The command center is the cockpit. The EA is the pilot. Learn the instruments, trust them, and fly with precision &mdash; that's the job.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Day 9 · Big Picture</div>
+    <h1>How All 9 Days Fit Together</h1>
+    <p class="subtitle">You didn't learn nine separate topics. You learned the pieces that all show up inside KeyCommand.</p>
+    <div class="step-flow">
+      <div class="step-item"><div class="step-dot">1</div><div class="step-content"><strong>Days 1&ndash;2, AI Foundations</strong><p>Every brief you write to the orchestrator is a prompt. Good prompting is what makes a brief actually work.</p></div></div>
+      <div class="step-item"><div class="step-dot">2</div><div class="step-content"><strong>Day 3, Claude Deep Dive</strong><p>KeyCommand's agents run on Claude models &mdash; the same fast-vs-smart tradeoff from Day 3 is how you pick a model in Agent Studio.</p></div></div>
+      <div class="step-item"><div class="step-dot">3</div><div class="step-content"><strong>Days 4&ndash;5, Automation</strong><p>Missions, Cron Jobs, and the agentic loop are automation &mdash; just running through an AI chat instead of a flowchart tool.</p></div></div>
+      <div class="step-item"><div class="step-dot">4</div><div class="step-content"><strong>Days 6&ndash;7, GoHighLevel</strong><p>The CRM and Outreach tabs mirror GHL &mdash; tags, follow-up sequences, lead stages. Same ideas, different platform.</p></div></div>
+      <div class="step-item"><div class="step-dot">5</div><div class="step-content"><strong>Day 8, Meetings &amp; PM</strong><p>The Tasks Board and Operator Queue are your project-management and messaging layer, right inside KeyCommand.</p></div></div>
+      <div class="step-item"><div class="step-dot">6</div><div class="step-content"><strong>Day 9, today</strong><p>The agents, the security, and the learning loop that ties everything above into one place you run.</p></div></div>
+    </div>
+    <div class="principle"><div class="badge"><svg><use href="#i-bolt"/></svg></div><div class="pl">The Point of All Ten Days</div><p>Nine days of separate skills. One command center where they all come together. That's the leverage.</p></div>
+  </div></section>
+
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Day 9 Complete &mdash; One Step to Go</div>
+      <p style="margin:0">You've gone from using AI tools to commanding an AI workforce as an executive assistant &mdash; agentic workflows, the agent family, the plumbing underneath, and the KeyCommand center where you run it all. <strong>Day 10 is your final assessment.</strong> Click below when you're ready.</p>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Opener</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 33</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script src="./class-schedule.js"></script>
+<script>
+const CONFIG={SUBMIT_URL:'https://script.google.com/macros/s/AKfycbwcqZAVbe4WcNsW4vgedG-aLp2Wn2mNWGhyyawqY8yMBs-z_ezOGpVK976isSDHGvTq/exec',DAY:'Day 9',DAY_INDEX:9,PREV_DAY_KEY:''};
+const NEXT_DECK='https://day-10-assessment-v1.vercel.app/';
+const TRACK={URL:CONFIG.SUBMIT_URL,DAY:CONFIG.DAY,NEXT:'Day 10',TOKEN:'',BEACON_ON_OPEN:true};
+let attendeeName=(new URLSearchParams(location.search).get('name'))||localStorage.getItem('kp_name')||localStorage.getItem('kp_name_'+TRACK.DAY)||'';
+attendeeName=(attendeeName||'').trim();
+if(attendeeName)localStorage.setItem('kp_name',attendeeName);
+function kpTrack(eventType,extra){if(!TRACK.URL||!TRACK.URL.startsWith('http')){console.log('[track]',eventType,Object.assign({name:attendeeName},extra||{}));return;}const payload=Object.assign({formType:eventType,day:TRACK.DAY,token:TRACK.TOKEN,name:attendeeName,userAgent:navigator.userAgent,ts:new Date().toISOString()},extra||{});kpSend(payload);}
+function kpSend(payload){fetch(TRACK.URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>kpQueue(payload));}
+function kpQueue(payload){try{const q=JSON.parse(localStorage.getItem('kp_queue')||'[]');q.push(payload);localStorage.setItem('kp_queue',JSON.stringify(q.slice(-50)));}catch(e){}}
+function kpFlush(){let q;try{q=JSON.parse(localStorage.getItem('kp_queue')||'[]');}catch(e){q=[];}if(!q.length)return;localStorage.removeItem('kp_queue');q.forEach(kpSend);}
+function kpOnce(key){if(localStorage.getItem(key))return false;localStorage.setItem(key,'1');return true;}
+kpFlush();
+function kpSetName(n){n=(n||'').trim();if(!n)return false;attendeeName=n;localStorage.setItem('kp_name',n);localStorage.setItem('kp_name_'+TRACK.DAY,n);return true;}
+function kpRecordPresence(){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});if(kpOnce('kp_att_'+TRACK.DAY))kpTrack('attendance',{firstName:localStorage.getItem('kp_fname')||'',lastName:localStorage.getItem('kp_lname')||''});var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';}
+function kpGateClose(){var g=document.getElementById('kpGate');if(g&&g.parentNode)g.parentNode.removeChild(g);}
+function kpGateOpen(){if(document.getElementById('kpGate'))return;var g=document.createElement('div');g.id='kpGate';g.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.93);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';g.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)"><div style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#22C55E;font-weight:700;margin-bottom:10px">'+TRACK.DAY+' check-in</div><h2 style="margin:0 0 8px;font-size:23px;color:#fff;font-weight:700">Enter your name to begin</h2><p style="margin:0 0 18px;font-size:14px;line-height:1.5;color:#9fb0a4">This checks you in for today. One per person.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><input id="kpGateFname" placeholder="First name" autocomplete="given-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"><input id="kpGateLname" placeholder="Last name" autocomplete="family-name" style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#08100c;color:#fff;font-size:15px;outline:none"></div><div id="kpGateErr" style="display:none;color:#F87171;font-size:13px;margin-top:10px"></div><button id="kpGateBtn" style="width:100%;margin-top:16px;padding:13px;border:none;border-radius:10px;background:#22C55E;color:#04150B;font-weight:700;font-size:15px;cursor:pointer">Mark me present &amp; start</button></div>';document.body.appendChild(g);var fn=g.querySelector('#kpGateFname'),ln=g.querySelector('#kpGateLname'),btn=g.querySelector('#kpGateBtn'),er=g.querySelector('#kpGateErr');function go(){var f=(fn.value||'').trim(),l=(ln.value||'').trim();if(!f||!l){er.textContent='Please enter both your first and last name.';er.style.display='block';(f?ln:fn).focus();return;}er.style.display='none';localStorage.setItem('kp_fname',f);localStorage.setItem('kp_lname',l);kpSetName(f+' '+l);kpTrack('attendance',{firstName:f,lastName:l});localStorage.setItem('kp_gate_'+CONFIG.DAY,'1');kpGateClose();}btn.onclick=go;[fn,ln].forEach(function(i){i.addEventListener('keydown',function(e){if(e.key==='Enter')go();});});setTimeout(function(){try{fn.focus();}catch(e){}},50);}
+function kpShowLocked(badge,heading,body){if(document.getElementById('kpLocked'))return;var el=document.createElement('div');el.id='kpLocked';el.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,10,7,.96);display:flex;align-items:center;justify-content:center;padding:24px;font-family:Inter,system-ui,sans-serif';el.innerHTML='<div style="max-width:420px;width:100%;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center"><div style="font-size:42px;margin-bottom:14px">&#x1F512;</div><div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px">'+badge+'</div><h2 style="margin:0 0 12px;font-size:22px;color:#fff;font-weight:700;line-height:1.3">'+heading+'</h2><p style="margin:0;font-size:14px;line-height:1.6;color:#9fb0a4">'+body+'</p></div>';document.body.appendChild(el);}
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},{day:'Day 9',label:'KeyCommand',url:'Day09_KeyCommand.html'},{day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<a href="index.html" style="display:flex;align-items:center;gap:7px;padding:8px 10px;margin-bottom:10px;border-radius:8px;text-decoration:none;color:#9fb0a4;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)">&#8592; Course Home</a><div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#F59E0B;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var isCur=(s.day===CONFIG.DAY);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(isCur?'rgba(245,158,11,.25)':done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){if(!isCur)this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=isCur?'rgba(245,158,11,.1)':done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(isCur?'#F59E0B':done?'#6ee7a0':'#6b8079')+'">'+(isCur?'&#9654;':done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(isCur?'#F59E0B':done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#F59E0B;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+function kpCheckAccess(){var _p=new URLSearchParams(window.location.search);if(_p.has('admin')){kpShowAdminBadge();return;}if(_p.has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});var fn=function(){kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn();return;}if(CONFIG.PREV_DAY_KEY&&!localStorage.getItem(CONFIG.PREV_DAY_KEY)){var prev='Day '+(parseInt(TRACK.DAY.replace('Day ',''))-1);var fn2=function(){kpShowLocked('complete '+prev+' first','Finish '+prev+' before continuing','It looks like '+prev+' is not marked complete on this device. Go back and click through to the end of '+prev+', then return here.');};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn2):fn2();return;}if(localStorage.getItem('kp_gate_'+CONFIG.DAY)){if(TRACK.BEACON_ON_OPEN&&kpOnce('kp_open_'+TRACK.DAY+'_'+new Date().toDateString()))kpTrack('opened',{});var hf=function(){var f=document.getElementById('attForm'),d=document.getElementById('attDone');if(f)f.style.display='none';if(d)d.style.display='block';};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hf):hf();}else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',kpGateOpen);}else{kpGateOpen();}}
+kpCheckAccess();
+function proceedNext(){if(kpOnce('kp_done_'+TRACK.DAY))kpTrack('completed',{nextDay:TRACK.NEXT});setTimeout(function(){window.open(NEXT_DECK,'_blank');},250);}
+const sesNames=['Opener','Agentic Workflows','The AI Agent Family','Under the Hood','What Is KeyCommand','Security & Compliance','Remembers & Learns','Briefing & Approving','EA in KeyCommand','Scenario & Wrap-Up'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur===0;if(cur===slides.length-1){nextBtn.innerHTML='Day 10 <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=proceedNext;}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function savePos(){try{localStorage.setItem('kp_slide_Day9',cur);}catch(e){}}
+function next(){if(cur<slides.length-1){cur++;savePos();render();}}
+function prev(){if(cur>0){cur--;savePos();render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;savePos();render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function qCheck(btn,correct){
+  const quiz=btn.closest('.quiz');
+  if(quiz.dataset.answered)return;
+  quiz.dataset.answered='1';
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>o.disabled=true);
+  btn.classList.add(correct?'correct':'wrong');
+  if(!correct)quiz.querySelectorAll('[data-correct="true"]').forEach(o=>o.classList.add('correct'));
+  quiz.querySelector('.quiz-fb').classList.add('show');
+  const r=quiz.querySelector('.quiz-reset');
+  if(r)r.style.display='block';
+}
+function qReset(btn){
+  const quiz=btn.closest('.quiz');
+  delete quiz.dataset.answered;
+  quiz.querySelectorAll('.quiz-opt').forEach(o=>{o.classList.remove('correct','wrong');o.disabled=false;});
+  quiz.querySelector('.quiz-fb').classList.remove('show');
+  btn.style.display='none';
+}
+(function(){try{var s=parseInt(localStorage.getItem('kp_slide_Day9')||'0');if(s>0&&s<slides.length)cur=s;}catch(e){}})();
+render();
+</script>
+</body>
+</html>
+

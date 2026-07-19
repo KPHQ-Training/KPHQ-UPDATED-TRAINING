@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers VA Academy | Security & Privacy Reference</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#070B09;--bg-2:#0A100D;--sidebar:#090E0B;--panel:#0E1512;--panel-2:#121A15;--surface:#101813;--border:#1A2620;--border-2:#24332C;--ink:#EAF0EC;--muted:#94A49B;--dim:#5C6B62;--accent:#22C55E;--accent-2:#34D399;--accent-soft:rgba(34,197,94,0.10);--gold:#EAB308;--gold-soft:rgba(234,179,8,0.10);--danger:#F87171;--danger-soft:rgba(248,113,113,0.09);--secure:#5DA9F4;--secure-soft:rgba(93,169,244,0.09);--sidebar-w:268px;--maxw:860px;--r:14px;--font-d:'Inter',system-ui,-apple-system,sans-serif;--font-b:'Inter',system-ui,-apple-system,sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--muted);line-height:1.7;font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  .sprite{position:absolute;width:0;height:0;overflow:hidden}
+  .sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;background:linear-gradient(180deg,var(--sidebar) 0%,#070C0A 100%);border-right:1px solid var(--border);overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+  .sidebar::-webkit-scrollbar{width:6px}.sidebar::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+  .brand{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+  .brand-mark{font-family:var(--font-d);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-0.4px}
+  .brand-mark span{color:var(--accent)}
+  .brand-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-top:4px}
+  .day-chip{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--secure-soft);border:1px solid rgba(93,169,244,0.22);color:var(--secure);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px}
+  .day-chip svg{width:13px;height:13px}
+  .nav{flex:1;padding:14px 12px}
+  .nav-label{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--dim);padding:6px 10px 10px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:2px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;border-radius:10px;border:1px solid transparent;transition:all .16s ease;cursor:pointer}
+  .nav a:hover{color:var(--ink);background:rgba(255,255,255,0.025)}
+  .nav a.active{color:var(--ink);background:var(--secure-soft);border-color:rgba(93,169,244,0.22)}
+  .nav a .ico{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--dim);transition:all .16s}
+  .nav a .ico svg{width:16px;height:16px}
+  .nav a.active .ico{background:var(--secure);border-color:var(--secure);color:#04150B}
+  .nav a.done .ico{color:var(--accent)}
+  .progress{padding:14px 20px;border-top:1px solid var(--border)}
+  .progress-track{height:5px;background:var(--panel);border-radius:3px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--secure),var(--accent-2));border-radius:3px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .progress-text{font-size:11px;color:var(--dim);margin-top:8px}
+  .course{padding:14px 16px;border-top:1px solid var(--border);background:rgba(34,197,94,0.02)}
+  .course-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .course a{display:flex;align-items:center;gap:8px;padding:5px 0;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;transition:color .15s}
+  .course a:hover{color:var(--ink)}.course a.current{color:var(--secure);font-weight:600}
+  .course a .cn{font-size:10px;color:var(--dim);min-width:34px;font-weight:600}
+  .course a.current .cn{color:var(--secure)}
+  .course .ref{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+  .confid{padding:14px 20px 22px;font-size:10px;color:var(--dim);letter-spacing:0.3px;display:flex;gap:7px;align-items:flex-start}
+  .confid svg{width:13px;height:13px;flex-shrink:0;margin-top:1px}
+  .main{margin-left:var(--sidebar-w);height:100vh;box-sizing:border-box;display:flex;flex-direction:column;background:radial-gradient(1100px 600px at 50% -10%,rgba(93,169,244,0.05),transparent 60%),var(--bg)}
+  .deck{flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:50px 44px 44px;display:none}
+  .slide.active{display:block;animation:fade .35s ease}
+  .slide::-webkit-scrollbar{width:8px}.slide::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px}
+  .slide-inner{max-width:var(--maxw);margin:0 auto}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .deckbar{flex-shrink:0;height:66px;border-top:1px solid var(--border);background:var(--sidebar);display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:14px}
+  .db-label{font-size:12.5px;color:var(--muted);font-weight:500;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .db-count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums;min-width:52px;text-align:right}
+  .db-count strong{color:var(--secure)}
+  .nav-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;font-family:var(--font-b);font-size:13.5px;font-weight:600;border:1px solid var(--border);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s}
+  .nav-btn:hover:not(:disabled){border-color:var(--secure);color:var(--secure)}
+  .nav-btn:disabled{opacity:.35;cursor:not-allowed}
+  .nav-btn svg{width:15px;height:15px}
+  .nav-next{background:linear-gradient(135deg,var(--secure),#3b82f6);color:#fff;border-color:transparent}
+  .nav-next:hover:not(:disabled){transform:translateY(-1px);color:#fff}
+  h1{font-family:var(--font-d);font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-0.6px;line-height:1.15;margin-bottom:10px}
+  .subtitle{font-size:15.5px;color:var(--muted);margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+  h2{font-family:var(--font-d);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-0.3px;margin:0 0 16px}
+  h3{font-size:16px;font-weight:600;color:var(--ink);margin:24px 0 8px}
+  p{margin-bottom:14px}
+  strong{color:var(--ink);font-weight:600}
+  em{color:var(--accent);font-style:normal;font-weight:500}
+  ul,ol{margin:10px 0 16px 4px;padding-left:20px}
+  li{margin-bottom:8px;padding-left:4px}
+  li::marker{color:var(--accent)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--secure);margin-bottom:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin:18px 0}
+  .card-accent{border-left:3px solid var(--accent)}.card-gold{border-left:3px solid var(--gold)}
+  .card-danger{border-left:3px solid var(--danger)}.card-secure{border-left:3px solid var(--secure)}
+  .card-head{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--accent);margin-bottom:10px}
+  .card-head svg{width:15px;height:15px}
+  .card-gold .card-head{color:var(--gold)}.card-danger .card-head{color:var(--danger)}.card-secure .card-head{color:var(--secure)}
+  .card>*:last-child{margin-bottom:0}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .col{padding:16px;border-radius:12px;font-size:13.5px;line-height:1.6}
+  .col-weak{background:var(--danger-soft);border:1px solid rgba(248,113,113,0.2)}
+  .col-strong{background:var(--accent-soft);border:1px solid rgba(34,197,94,0.22)}
+  .col-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:9px}
+  .col-weak .col-label{color:var(--danger)}.col-strong .col-label{color:var(--accent)}
+  .col-label svg{width:14px;height:14px}
+  .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);border-bottom:1px solid var(--border);padding:9px 14px;z-index:101;align-items:center;justify-content:space-between;height:54px}
+  .hamb{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--ink);width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .hamb svg{width:20px;height:20px}
+  .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99}
+  .scrim.show{display:block}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th{text-align:left;padding:11px 15px;background:var(--panel-2);color:var(--accent);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;border-bottom:1px solid var(--border)}
+  td{padding:11px 15px;border-bottom:1px solid var(--border);vertical-align:top}
+  td strong{color:var(--ink)}
+  tr:hover td{background:rgba(34,197,94,0.025)}
+  .lv{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .lv-pub{background:rgba(34,197,94,0.1);color:var(--accent);border:1px solid rgba(34,197,94,0.25)}
+  .lv-int{background:rgba(93,169,244,0.1);color:var(--secure);border:1px solid rgba(93,169,244,0.25)}
+  .lv-conf{background:rgba(234,179,8,0.1);color:var(--gold);border:1px solid rgba(234,179,8,0.25)}
+  .lv-rest{background:rgba(248,113,113,0.1);color:var(--danger);border:1px solid rgba(248,113,113,0.25)}
+  .step-list{list-style:none;padding-left:0;margin:16px 0}
+  .step-list>li{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+  .step-num{flex-shrink:0;width:28px;height:28px;background:var(--accent);color:#04150B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px}
+  .step-content{flex:1;line-height:1.7}
+  .comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .comp-card{background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .comp-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:0.5px;padding:3px 10px;border-radius:6px;margin-bottom:10px}
+  .b-danger{background:rgba(248,113,113,0.12);color:var(--danger)}
+  .b-secure{background:rgba(93,169,244,0.12);color:var(--secure)}
+  .b-gold{background:rgba(234,179,8,0.12);color:var(--gold)}
+  .b-muted{background:rgba(148,164,155,0.12);color:var(--muted)}
+  .comp-name{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px}
+  .comp-desc{font-size:12.5px;color:var(--muted);line-height:1.55}
+  .comp-rule{font-size:12px;margin-top:9px;padding:8px 12px;border-radius:6px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.15);color:#fca5a5}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);transition:transform .3s ease}.sidebar.open{transform:translateX(0)}.mobile-bar{display:flex}.scrim.show{display:block}.main{margin-left:0;padding-top:54px}.slide{padding:24px 18px 30px}.deckbar{height:60px;padding:0 12px}.nav-btn{padding:9px 13px;font-size:13px}.compare{grid-template-columns:1fr}.comp-grid{grid-template-columns:1fr}h1{font-size:25px}h2{font-size:21px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
+  <symbol id="i-fish" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c.94-3.46 4.94-6 10.5-6-3 3.5-3 8.5 0 12-5.56 0-9.56-2.54-10.5-6z"/><path d="M18 12h.01"/><path d="M6.5 12C3 12 .5 13 2 18c1-2 2.5-3 3.5-3-1 3.5 1.5 6 6 6C7 17.5 6.5 14.5 6.5 12z"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+</svg>
+
+<div class="mobile-bar">
+  <span class="brand-mark">Key<span>Players</span></span>
+  <button class="hamb" onclick="toggleNav()" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+</div>
+<div class="scrim" id="scrim" onclick="toggleNav()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-mark">Key<span>Players</span></div>
+    <div class="brand-sub">VA Academy</div>
+    <div class="day-chip"><svg><use href="#i-shield"/></svg> Security &amp; Privacy</div>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-label">Sections</div>
+    <a class="active" onclick="goSession(0)"><span class="ico"><svg><use href="#i-book"/></svg></span>Introduction</a>
+    <a onclick="goSession(1)"><span class="ico"><svg><use href="#i-alert"/></svg></span>The Golden Rule</a>
+    <a onclick="goSession(2)"><span class="ico"><svg><use href="#i-grid"/></svg></span>Data Classification</a>
+    <a onclick="goSession(3)"><span class="ico"><svg><use href="#i-eye"/></svg></span>The AI Boundary</a>
+    <a onclick="goSession(4)"><span class="ico"><svg><use href="#i-book"/></svg></span>Key Terms</a>
+    <a onclick="goSession(5)"><span class="ico"><svg><use href="#i-shield"/></svg></span>Regulations</a>
+    <a onclick="goSession(6)"><span class="ico"><svg><use href="#i-key"/></svg></span>Passwords &amp; Keys</a>
+    <a onclick="goSession(7)"><span class="ico"><svg><use href="#i-folder"/></svg></span>File Sharing</a>
+    <a onclick="goSession(8)"><span class="ico"><svg><use href="#i-check"/></svg></span>Verification</a>
+    <a onclick="goSession(9)"><span class="ico"><svg><use href="#i-fish"/></svg></span>Phishing &amp; Breach</a>
+  </div>
+  <div class="progress">
+    <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    <div class="progress-text" id="ptext">Slide 1</div>
+  </div>
+  <div class="course">
+    <div class="course-label">Course Map</div>
+    <a href="https://kphq-updated-training.vercel.app/Day01_AI_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 1</span> AI Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day02_AI_Foundations_Tools.html" target="_blank" rel="noopener"><span class="cn">Day 2</span> Foundations II</a>
+    <a href="https://kphq-updated-training.vercel.app/Day03_Claude.html" target="_blank" rel="noopener"><span class="cn">Day 3</span> Claude Deep Dive</a>
+    <a href="https://kphq-updated-training.vercel.app/Day04_Automation_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 4</span> Automation Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day05_Building_Automations.html" target="_blank" rel="noopener"><span class="cn">Day 5</span> Building Automations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day06_GoHighLevel_Foundations.html" target="_blank" rel="noopener"><span class="cn">Day 6</span> GHL Foundations</a>
+    <a href="https://kphq-updated-training.vercel.app/Day07_GHL_Automation_Workflows.html" target="_blank" rel="noopener"><span class="cn">Day 7</span> GHL Automation</a>
+    <a href="https://kphq-updated-training.vercel.app/Day08_AI_Meetings_PM_Messaging.html" target="_blank" rel="noopener"><span class="cn">Day 8</span> PM &amp; Meetings</a>
+    <a href="https://kphq-updated-training.vercel.app/Day09_KeyCommand.html" target="_blank" rel="noopener"><span class="cn">Day 9</span> KeyCommand</a>
+    <a href="https://kphq-updated-training.vercel.app/Day10_Assessment.html" target="_blank" rel="noopener"><span class="cn">Day 10</span> Final Assessment</a>
+    <div class="ref">
+      <a class="current"><span class="cn">Ref</span> Security &amp; Privacy</a>
+      <a href="https://kphq-updated-training.vercel.app/AI_Tools_Reference.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Tools Reference</a>
+      <a href="https://kphq-updated-training.vercel.app/Tools_by_Niche.html" target="_blank" rel="noopener"><span class="cn">Ref</span> Tools by Niche</a>
+      <a href="https://kphq-updated-training.vercel.app/KP_AI_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> AI Glossary</a>
+      <a href="https://kphq-updated-training.vercel.app/GHL_Glossary.html" target="_blank" rel="noopener"><span class="cn">Ref</span> GHL Glossary</a>
+    </div>
+  </div>
+  <div class="confid"><svg><use href="#i-lock"/></svg> Internal use only. Confidential. Do not share outside KeyPlayers.</div>
+</nav>
+
+<div class="main">
+  <div class="deck" id="deck">
+
+  <!-- S0: INTRODUCTION -->
+  <section class="slide active" data-ses="0"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Reference</div>
+    <h1>Data Security, Handling &amp; Privacy</h1>
+    <p class="subtitle">A complete reference for how to handle client data, what can go into AI tools, how regulations apply by industry, and what to do when something goes wrong.</p>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> What this covers</div>
+      <ul style="margin:0">
+        <li><strong>The Golden Rule</strong> &mdash; why AI tools are not private environments</li>
+        <li><strong>Data Classification</strong> &mdash; the 4 levels and what each one allows</li>
+        <li><strong>The AI Boundary</strong> &mdash; exactly what can and cannot go into AI tools, plus how to anonymise</li>
+        <li><strong>Key Terms</strong> &mdash; PII, PHI, PCI-DSS, GDPR defined simply</li>
+        <li><strong>Regulations by Industry</strong> &mdash; HIPAA, legal privilege, finance, email/SMS</li>
+        <li><strong>Passwords &amp; API Keys</strong> &mdash; credential security standards</li>
+        <li><strong>File Sharing &amp; Storage</strong> &mdash; Drive, email, Slack rules</li>
+        <li><strong>Verification</strong> &mdash; the 7-point checklist before anything leaves your hands</li>
+        <li><strong>Phishing &amp; Social Engineering</strong> &mdash; red flags and how to respond</li>
+        <li><strong>Breach Protocol</strong> &mdash; the 5 steps if something goes wrong</li>
+      </ul>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> This is not optional reading</div>
+      <p style="margin:0">Data security is part of your job, not a bonus skill. As a VA with access to client accounts, CRMs, and automations, you handle sensitive data every day. A single mistake &mdash; a wrong recipient, a pasted API key, PHI in a prompt &mdash; can have real consequences for the client and for KeyPlayers. This reference exists so you never have to guess.</p>
+    </div>
+  </div></section>
+
+  <!-- S1: THE GOLDEN RULE -->
+  <section class="slide" data-ses="1"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 1</div>
+    <h1>The Golden Rule</h1>
+    <p class="subtitle">The single most important principle before you open any AI tool.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> AI tools are not private</div>
+      <p>When you type something into Claude, ChatGPT, Gemini, or any public AI tool, that information leaves your device and is processed on external servers. Most major AI providers state they may use inputs to improve their models. Even if they don't, the information has left your control.</p>
+      <p style="margin:0"><strong>Treat every AI tool like a public space.</strong> If you wouldn't say it out loud in a coffee shop in front of strangers, don't type it into an AI tool.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-eye"/></svg> You are the decision layer</div>
+      <p style="margin:0">Every piece of AI output is a draft. It is your job to review, correct, and approve before anything goes to a client, lead, or the public. Catching fluff, errors, and hallucinations is not optional &mdash; it is the core part of your role. AI thinks fast. You think right.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> When in doubt, don't</div>
+      <p style="margin:0">If you are uncertain whether something is safe to include in a prompt, stop and ask your team lead or client before proceeding. It is always better to pause for 5 minutes than to expose information that cannot be taken back.</p>
+    </div>
+  </div></section>
+
+  <!-- S2: DATA CLASSIFICATION -->
+  <section class="slide" data-ses="2"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 2</div>
+    <h1>Data Classification Levels</h1>
+    <p class="subtitle">Before using any information in a prompt or sharing it anywhere, classify it. The level tells you what you can and cannot do with it.</p>
+    <table>
+      <thead><tr><th>Level</th><th>What it means</th><th>Examples</th><th>Can it go in AI?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="lv lv-pub">Public</span></td>
+          <td>Already publicly available. No restrictions.</td>
+          <td>Website copy, published pricing, public social posts</td>
+          <td><strong style="color:var(--accent)">Yes</strong></td>
+        </tr>
+        <tr>
+          <td><span class="lv lv-int">Internal</span></td>
+          <td>Not public but not sensitive. General operations.</td>
+          <td>Meeting agendas, team processes, generic SOPs, tone guides</td>
+          <td><strong style="color:var(--secure)">Yes, with care</strong></td>
+        </tr>
+        <tr>
+          <td><span class="lv lv-conf">Confidential</span></td>
+          <td>Sensitive business or client data. Limited access.</td>
+          <td>Unreleased campaigns, pricing strategy, client names, employee info</td>
+          <td><strong style="color:var(--gold)">Anonymise first</strong></td>
+        </tr>
+        <tr>
+          <td><span class="lv lv-rest">Restricted</span></td>
+          <td>Legally protected or highly sensitive. Zero tolerance.</td>
+          <td>PHI, PII, financial records, legal case files, API keys, passwords</td>
+          <td><strong style="color:var(--danger)">Never</strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-book"/></svg> How to apply this</div>
+      <p style="margin:0">Before writing a prompt, classify every piece of information you plan to include. If anything is Confidential, anonymise it first. If anything is Restricted, remove it entirely and substitute a placeholder. The AI doesn't need real details to help you &mdash; it needs the structure of the problem.</p>
+    </div>
+  </div></section>
+
+  <!-- S3-0: THE AI BOUNDARY -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 3</div>
+    <h1>The AI Boundary</h1>
+    <p class="subtitle">Apply this every time you build a prompt. No exceptions.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Never Put These In</div>
+        <ul style="margin:0;padding-left:16px">
+          <li>Full names and contact details of real clients or leads</li>
+          <li>Financial account numbers, balances, or transactions</li>
+          <li>Medical information of any kind</li>
+          <li>Legal case specifics or privileged communications</li>
+          <li>Passwords, API keys, or authentication tokens</li>
+          <li>Social security numbers, tax IDs, passport numbers</li>
+          <li>Confidential business strategy or unreleased products</li>
+          <li>Employee salaries, HR records, or performance data</li>
+          <li>Credit card numbers or payment information</li>
+          <li>Any data your client has marked confidential</li>
+        </ul>
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Safe to Use</div>
+        <ul style="margin:0;padding-left:16px">
+          <li>General business context &mdash; industry, service type, tone</li>
+          <li>Anonymised examples with placeholders ("Client A", "a homeowner")</li>
+          <li>Template structures, frameworks, and SOP drafts</li>
+          <li>Published public information about a business</li>
+          <li>Your own writing for review or improvement</li>
+          <li>Marketing copy, campaign ideas, content briefs</li>
+          <li>Internal meeting notes with no PHI or PII</li>
+          <li>Generic workflow logic and process documentation</li>
+          <li>Fictional or hypothetical examples</li>
+          <li>Publicly available product descriptions or FAQ content</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- S3-1: ANONYMISING -->
+  <section class="slide" data-ses="3"><div class="slide-inner">
+    <h2>Anonymising Before You Prompt</h2>
+    <p>You can still use AI for sensitive tasks &mdash; you just need to strip or replace identifying details before typing. This takes less than 30 seconds and eliminates most of the risk.</p>
+    <div class="card card-danger" style="margin-bottom:8px">
+      <div class="card-head"><svg><use href="#i-x"/></svg> Before &mdash; don't do this</div>
+      <p style="margin:0;font-family:monospace;font-size:13px;color:var(--ink);line-height:1.8">"Write a follow-up email for <strong>John Smith at Sunrise Dental in Austin, TX</strong> who called about an unpaid <strong>$47,500 invoice</strong> from <strong>March 2026</strong>."</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> After &mdash; safe version</div>
+      <p style="margin:0;font-family:monospace;font-size:13px;color:var(--ink);line-height:1.8">"Write a follow-up email for <strong>a dental clinic client</strong> who called about an <strong>overdue invoice</strong>. Professional and friendly tone. Include an offer to discuss payment options."</p>
+    </div>
+    <div class="card card-secure" style="margin-top:8px">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> The replacement rule</div>
+      <ul style="margin:0">
+        <li>Replace <strong>names</strong> with roles: "John Smith" &rarr; "a client", "Dr. Patel" &rarr; "a healthcare provider"</li>
+        <li>Replace <strong>specific amounts</strong> with ranges: "$47,500" &rarr; "a large invoice"</li>
+        <li>Replace <strong>exact dates</strong> with relative times: "March 14, 2026" &rarr; "last month"</li>
+        <li>Replace <strong>company names</strong> with industries: "Sunrise Dental" &rarr; "a dental clinic"</li>
+        <li>Replace <strong>locations</strong> with regions: "Austin, TX" &rarr; "a Texas client"</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S4-0: KEY TERMS PII + PHI -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 4</div>
+    <h1>Key Terms</h1>
+    <p class="subtitle">Definitions every VA must know before working with client data.</p>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-eye"/></svg> PII &mdash; Personally Identifiable Information</div>
+      <p>Any information that can identify a specific person, alone or in combination with other data. Full name, email address, phone number, home or work address, date of birth, IP address, SSN, passport number, driver's license, biometric data, or device identifiers. Even a combination of harmless-looking details &mdash; job title + city + employer &mdash; can constitute PII.</p>
+      <ul style="margin:0">
+        <li>Never input PII into public AI tools or unauthorised systems</li>
+        <li>Use placeholders in prompts: "a 45-year-old client in Texas" &mdash; not their real details</li>
+        <li>Store files containing PII in approved, access-controlled locations only</li>
+      </ul>
+    </div>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> PHI &mdash; Protected Health Information (HIPAA)</div>
+      <p>Any health information linked or potentially linked to an identifiable individual. Covered under HIPAA in the United States. Includes: diagnoses, treatment plans, prescriptions, test results, appointment times, insurance information, billing details, mental health records, and clinical notes.</p>
+      <ul style="margin:0">
+        <li>PHI must never be entered into AI tools &mdash; not even with names removed if the condition + date + location could still identify someone</li>
+        <li>AI note-takers (Fathom, Granola) must never be used on patient calls or clinical meetings</li>
+        <li>Violations can result in fines of $100 to $50,000 per violation. The client and the agency can both be held liable</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S4-1: KEY TERMS PCI + GDPR -->
+  <section class="slide" data-ses="4"><div class="slide-inner">
+    <h2>Key Terms (continued)</h2>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-key"/></svg> PCI-DSS &mdash; Payment Card Industry Data Security Standard</div>
+      <p>A set of security standards governing how payment card information is stored, processed, and transmitted. As a VA, you will likely never process payments directly &mdash; but you may encounter card data in CRM notes, email threads, or spreadsheets.</p>
+      <ul style="margin:0">
+        <li>Never type, copy, or forward credit card numbers &mdash; not in Slack, email, AI tools, or documents</li>
+        <li>If you find card data in a client's CRM or files, notify your team lead immediately. Do not move or copy it</li>
+        <li>Card numbers should never be stored in plain text by anyone</li>
+      </ul>
+    </div>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-shield"/></svg> GDPR &mdash; General Data Protection Regulation</div>
+      <p>EU regulation governing the collection, storage, and use of personal data for EU residents. Applies to any business that serves EU customers, regardless of where the business is based. Key principles: data collected with consent, used only for stated purpose, stored only as long as needed, and individuals have the right to request deletion.</p>
+      <ul style="margin:0">
+        <li>If your client has EU-based contacts in their CRM, GDPR applies to how that data is handled</li>
+        <li>Do not add EU contacts to campaigns without confirmed consent on file</li>
+        <li>If a contact requests deletion of their data, escalate to your client or team lead immediately</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S5: REGULATIONS BY INDUSTRY -->
+  <section class="slide" data-ses="5"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 5</div>
+    <h1>Regulations by Industry</h1>
+    <p class="subtitle">Different client industries are governed by different rules. Know the rules before you start working in a niche. Ignorance is not a defence.</p>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-badge b-danger">HIPAA</div>
+        <div class="comp-name">Healthcare</div>
+        <p class="comp-desc">Protects patient health information. Applies to clinics, hospitals, therapists, dentists, and any business that handles health records.</p>
+        <div class="comp-rule">Never input patient data into AI. No PHI in prompts, spreadsheets, or Slack. AI note-takers for staff meetings only &mdash; never patient calls.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-badge b-secure">ABA / Privilege</div>
+        <div class="comp-name">Legal</div>
+        <p class="comp-desc">Attorney-client privilege protects confidential communications. Sharing privileged information can waive that protection permanently and expose the firm to liability.</p>
+        <div class="comp-rule">No case-specific details, client names, or legal strategy in AI tools. Templates only &mdash; never case content or actual communications.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-badge b-gold">SEC / FINRA</div>
+        <div class="comp-name">Finance &amp; Investments</div>
+        <p class="comp-desc">Financial advisors and brokers operate under strict rules on communication, record-keeping, and advice. Client financial data is highly regulated and subject to compliance review at any time.</p>
+        <div class="comp-rule">No account numbers, portfolio data, SSNs, or investment details in AI tools. All communications may be audited.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-badge b-muted">CAN-SPAM / GDPR</div>
+        <div class="comp-name">Email &amp; SMS (All Industries)</div>
+        <p class="comp-desc">Any business sending marketing emails or SMS must comply with consent and opt-out laws. Applies globally &mdash; not just in the EU or US. Violations can result in significant fines.</p>
+        <div class="comp-rule">Never send to contacts without confirmed consent. Always include unsubscribe options. Honour opt-outs within 10 business days.</div>
+      </div>
+    </div>
+    <div class="card card-gold" style="margin-top:4px">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Contractors &amp; Home Service</div>
+      <p style="margin:0">Lower regulatory exposure than healthcare or legal, but still requires care. Verify all pricing language before sending, never share a client's home address beyond those who need it for the job, and confirm any financing or warranty terms are accurate before automating them into messages.</p>
+    </div>
+  </div></section>
+
+  <!-- S6: PASSWORDS & API KEYS -->
+  <section class="slide" data-ses="6"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 6</div>
+    <h1>Passwords &amp; API Keys</h1>
+    <p class="subtitle">API keys are passwords. A leaked API key gives someone full access to whatever service it belongs to &mdash; billing, data, automations, everything. This has caused businesses to lose thousands overnight.</p>
+    <div class="compare">
+      <div class="col col-weak">
+        <div class="col-label"><svg><use href="#i-x"/></svg> Never Do These</div>
+        <ul style="margin:0;padding-left:16px">
+          <li>Paste an API key or password into an AI chat tool</li>
+          <li>Share credentials in Slack, WhatsApp, or email</li>
+          <li>Store passwords in a shared Google Doc or spreadsheet</li>
+          <li>Use the same password across multiple platforms</li>
+          <li>Screenshot a credentials page and send it to someone</li>
+          <li>Write API keys in plain text in any code or automation you build</li>
+          <li>Leave credentials in a chat thread after the task is done</li>
+        </ul>
+      </div>
+      <div class="col col-strong">
+        <div class="col-label"><svg><use href="#i-check"/></svg> Always Do These</div>
+        <ul style="margin:0;padding-left:16px">
+          <li>Use a password manager (1Password, Bitwarden, LastPass) for all credentials</li>
+          <li>Enable two-factor authentication (2FA) on every platform you access</li>
+          <li>Store API keys in the secrets manager or environment variables of your automation tool</li>
+          <li>Use a separate API key per integration so a single leak doesn't compromise everything</li>
+          <li>Rotate a key immediately if you suspect it was exposed</li>
+          <li>When a project ends, request that all shared credentials are changed</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Day 7 reminder</div>
+      <p style="margin:0">You covered this in Day 7: <strong>API keys = passwords.</strong> This principle applies everywhere, not just GHL. Every service you connect in Make.com, Zapier, or any automation has an API key. If a key is stored somewhere anyone with the link can read it, it's already compromised &mdash; even if no one has used it yet.</p>
+    </div>
+  </div></section>
+
+  <!-- S7: FILE SHARING & STORAGE -->
+  <section class="slide" data-ses="7"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 7</div>
+    <h1>File Sharing &amp; Storage</h1>
+    <p class="subtitle">Where data lives matters as much as what the data is. A confidential file in the wrong folder is already exposed.</p>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-folder"/></svg> Google Drive</div>
+      <p>Always verify sharing settings before uploading sensitive files. <strong>"Anyone with the link"</strong> means anyone on the internet &mdash; including search engines that index public Drive content. Use <strong>"Restricted"</strong> for confidential files and share only with named individuals. Never put credentials, PHI, or PII in a shared drive that isn't strictly access-controlled.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Email Attachments</div>
+      <p>Verify the recipient's email address before sending any file containing client data. One wrong character &mdash; one transposed letter &mdash; can send confidential information to a stranger. If a client sends you sensitive files by email, do not forward them or store them outside the agreed system.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-bolt"/></svg> Slack &amp; Messaging Apps</div>
+      <p>Slack messages are logged and searchable by workspace admins. Do not share passwords, client PII, or sensitive files in Slack channels. Use direct messages only for sensitive one-time communication, never for storing anything long-term.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><svg><use href="#i-check"/></svg> The clean-up rule</div>
+      <p style="margin:0">When a project ends or a client offboards, remove their data from all personal storage locations &mdash; Downloads, Desktop, local folders. Sensitive files should only exist in the approved client-specific location, not scattered across your personal device.</p>
+    </div>
+  </div></section>
+
+  <!-- S8: VERIFICATION HABIT -->
+  <section class="slide" data-ses="8"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 8</div>
+    <h1>The Verification Habit</h1>
+    <p class="subtitle">AI tools are confident by design. They state incorrect facts, invent names, hallucinate statistics, and produce content that sounds authoritative but is wrong. Your review is the last line of defence before a client sees it.</p>
+    <div class="card card-secure">
+      <div class="card-head"><svg><use href="#i-check"/></svg> 7-Point Checklist &mdash; Before Any Output Leaves Your Hands</div>
+      <ul style="margin:0">
+        <li><strong>Correct names and details?</strong> Re-read every proper noun. The AI may have used the wrong client name or brand.</li>
+        <li><strong>No hallucinated facts or statistics?</strong> Any number, date, or claim not in your prompt needs verification. AI invents plausible-sounding data.</li>
+        <li><strong>No pricing or scope errors?</strong> AI sometimes invents numbers. Never send a price without confirming it with the client first.</li>
+        <li><strong>Tone matches the brand?</strong> Does it sound like the client, or does it sound like a generic AI template?</li>
+        <li><strong>No overconfident language?</strong> Phrases like "studies show" or "research confirms" without a source are hallucination red flags.</li>
+        <li><strong>Not outdated?</strong> AI knowledge has a cutoff date. Time-sensitive content must be checked against current sources.</li>
+        <li><strong>No legal, medical, or financial claims?</strong> Never let AI-generated legal, medical, or financial advice reach a client without professional review.</li>
+      </ul>
+    </div>
+    <div class="card card-gold">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> The edit is the job</div>
+      <p style="margin:0">Checking AI output is not a bonus step &mdash; it is the primary skill that separates a VA who delivers trusted work from one who forwards AI drafts unchanged. The client pays for judgment, not throughput. Your review is what makes the AI useful. Without it, the output is a liability.</p>
+    </div>
+  </div></section>
+
+  <!-- S9-0: PHISHING -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <div class="eyebrow">Security &amp; Privacy &middot; Section 9</div>
+    <h1>Phishing &amp; Social Engineering</h1>
+    <p class="subtitle">The most common security threat is a convincing message. As a VA with access to client accounts, CRMs, and automations, you are a high-value target.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Red flags in emails and messages</div>
+      <ul style="margin:0">
+        <li><strong>Urgency:</strong> "Your account will be suspended in 24 hours" or "Act immediately"</li>
+        <li><strong>Login requests:</strong> "Click here to verify your account" or "Re-enter your credentials"</li>
+        <li><strong>Suspicious sender:</strong> the email domain doesn't match the company (e.g. support@g00gle.com)</li>
+        <li><strong>Unexpected security alerts:</strong> password reset emails or login verification requests you didn't initiate</li>
+        <li><strong>Unusual payment requests:</strong> a "client" asking you to purchase gift cards, wire money, or change payment details</li>
+        <li><strong>Credential requests via SMS or WhatsApp:</strong> no legitimate platform asks for your password through a chat app</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <div class="card-head"><svg><use href="#i-check"/></svg> What to do if you're unsure</div>
+      <ul style="margin:0">
+        <li>Do not click links in suspicious emails &mdash; go directly to the website by typing the URL manually in a new tab</li>
+        <li>Verify any unusual request by calling the person on a known number &mdash; not one provided in the suspicious message</li>
+        <li>Report suspicious emails to your team lead before taking any action</li>
+        <li>If you clicked something suspicious, change your passwords immediately and notify your team lead</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- S9-1: BREACH PROTOCOL -->
+  <section class="slide" data-ses="9"><div class="slide-inner">
+    <h2>If Something Goes Wrong</h2>
+    <p>Mistakes happen. What matters is how fast and honestly they're handled. Trying to cover up a data incident makes it significantly worse &mdash; legally and operationally.</p>
+    <div class="card card-danger">
+      <div class="card-head"><svg><use href="#i-alert"/></svg> Stop and report immediately</div>
+      <p style="margin:0">If you believe client data has been exposed or a breach has occurred, stop what you're doing and report it. Do not try to fix it yourself first. Every hour of delay increases the risk and the damage. Your job is to report, not resolve it alone.</p>
+    </div>
+    <ol class="step-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-content"><strong>Document what happened.</strong> Write down what you did, what was exposed, when it happened, and what systems were involved. Do this immediately while details are fresh. A clear incident record is critical.</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-content"><strong>Notify your team lead now.</strong> Do not wait until the end of the day. Call or message right away regardless of severity. They need to assess the situation and may need to notify the client promptly.</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-content"><strong>Contain the exposure if possible.</strong> If a file was shared with the wrong person, revoke access. If a credential was exposed, rotate it. If an automation sent to the wrong contact, stop the workflow now.</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-content"><strong>Do not delete evidence.</strong> Do not delete emails, messages, or files related to the incident. These may be needed for investigation. Preserve everything as-is until your team lead advises otherwise.</div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div class="step-content"><strong>Cooperate fully and learn from it.</strong> Support the response. Once resolved, review what happened and identify how to prevent it in the future. A well-handled incident is a learning moment. A covered-up one is a liability.</div>
+      </li>
+    </ol>
+    <div class="card card-accent" style="margin-top:8px">
+      <div class="card-head"><svg><use href="#i-check"/></svg> Reference complete</div>
+      <p style="margin:0">You've covered the full Security &amp; Privacy reference. Revisit any section using the sidebar whenever you need a reminder. When you handle client data, these aren't just guidelines &mdash; they're the standard.</p>
+    </div>
+  </div></section>
+
+  </div><!-- deck -->
+
+  <div class="deckbar">
+    <button class="nav-btn" id="prevBtn" onclick="prev()"><svg><use href="#i-arrow-l"/></svg> Prev</button>
+    <div class="db-label" id="dbLabel">Introduction</div>
+    <div class="db-count" id="dbCount"><strong>1</strong> / 13</div>
+    <button class="nav-btn nav-next" id="nextBtn" onclick="next()">Next <svg><use href="#i-arrow"/></svg></button>
+  </div>
+</div>
+
+<script>
+const CONFIG={DAY:'Security & Privacy'};
+const KP_SESSIONS=[{day:'Day 1',label:'AI Foundations',url:'Day01_AI_Foundations.html'},{day:'Day 2',label:'Tools & Prompting',url:'Day02_AI_Foundations_Tools.html'},{day:'Day 3',label:'Claude Deep Dive',url:'Day03_Claude.html'},{day:'Day 4',label:'Automation Foundations',url:'Day04_Automation_Foundations.html'},{day:'Day 5',label:'Building Automations',url:'Day05_Building_Automations.html'},{day:'Day 6',label:'GHL Foundations',url:'Day06_GoHighLevel_Foundations.html'},{day:'Day 7',label:'GHL Automation',url:'Day07_GHL_Automation_Workflows.html'},{day:'Day 8',label:'Meetings & Messaging',url:'Day08_AI_Meetings_PM_Messaging.html'},{day:'Day 9',label:'Conditional Logic',url:'Day09_Automation_Week_Review.html'},{day:'Day 10',label:'Final Assessment',url:'Day10_Assessment.html'}];
+function kpNavBuild(){var base='https://kphq-updated-training.vercel.app/';var panel=document.createElement('div');panel.id='kpNavPanel';panel.style.cssText='display:none;position:fixed;bottom:56px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:Inter,system-ui,sans-serif';panel.innerHTML='<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5DA9F4;font-weight:700;margin-bottom:10px;padding:0 4px">Sessions</div>';KP_SESSIONS.forEach(function(s){var done=!!localStorage.getItem('kp_done_'+s.day);var a=document.createElement('a');a.href=base+s.url;a.style.cssText='display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;text-decoration:none;margin-bottom:3px;background:'+(done?'rgba(163,230,184,.06)':'transparent')+';border:1px solid '+(done?'rgba(163,230,184,.1)':'rgba(255,255,255,.05)')+';transition:background .15s';a.onmouseenter=function(){this.style.background='rgba(255,255,255,.05)';};a.onmouseleave=function(){this.style.background=done?'rgba(163,230,184,.06)':'transparent';};a.innerHTML='<span style="font-size:14px;width:16px;text-align:center;color:'+(done?'#6ee7a0':'#6b8079')+'">'+(done?'&#10003;':'&middot;')+'</span><div><div style="font-size:12px;font-weight:600;color:'+(done?'#d1fae5':'#e2e8e4')+'">'+s.day+'</div><div style="font-size:10px;color:#6b8079;margin-top:1px">'+s.label+'</div></div>';panel.appendChild(a);});document.body.appendChild(panel);var btn=document.createElement('div');btn.id='kpNavBtn';btn.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99997;background:#0c1410;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.05em;color:#9fb0a4;cursor:pointer;font-family:Inter,system-ui,sans-serif;user-select:none;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(0,0,0,.4)';btn.innerHTML='&#9776; Sessions';btn.onclick=function(){var p=document.getElementById('kpNavPanel');p.style.display=p.style.display==='none'?'block':'none';};document.body.appendChild(btn);document.addEventListener('click',function(e){var p=document.getElementById('kpNavPanel');var b=document.getElementById('kpNavBtn');if(p&&b&&!p.contains(e.target)&&!b.contains(e.target))p.style.display='none';});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',kpNavBuild):kpNavBuild();
+function kpShowAdminBadge(){function _b(){if(document.getElementById('kpAdminBadge'))return;var b=document.createElement('div');b.id='kpAdminBadge';b.style.cssText='position:fixed;top:12px;right:12px;z-index:99999;background:#5DA9F4;color:#000;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px;font-family:Inter,system-ui,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)';b.textContent='ADMIN';document.body.appendChild(b);}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',_b):_b();}
+(function(){var isAdmin=new URLSearchParams(window.location.search).has('admin')||localStorage.getItem('kp_admin')==='1';if(isAdmin)kpShowAdminBadge();})();
+const sesNames=['Introduction','The Golden Rule','Data Classification','The AI Boundary','Key Terms','Regulations','Passwords & Keys','File Sharing','Verification','Phishing & Breach'];
+const slides=[...document.querySelectorAll('.slide')];
+const navLinks=[...document.querySelectorAll('#nav a')];
+const pfill=document.getElementById('pfill'),ptext=document.getElementById('ptext');
+const dbLabel=document.getElementById('dbLabel'),dbCount=document.getElementById('dbCount');
+const prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn');
+let cur=0;
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const ses=+slides[cur].dataset.ses;navLinks.forEach((a,i)=>{a.classList.toggle('active',i===ses);a.classList.toggle('done',i<ses);});pfill.style.width=Math.round(((cur+1)/slides.length)*100)+'%';ptext.textContent='Slide '+(cur+1)+' of '+slides.length;dbLabel.textContent=sesNames[ses];dbCount.innerHTML='<strong>'+(cur+1)+'</strong> / '+slides.length;prevBtn.disabled=cur<=1;if(cur===slides.length-1){nextBtn.innerHTML='Back to Start <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=()=>{cur=0;render();};}else{nextBtn.innerHTML='Next <svg><use href="#i-arrow"/></svg>';nextBtn.onclick=next;}slides[cur].scrollTop=0;}
+function next(){if(cur<slides.length-1){cur++;render();}}
+function prev(){if(cur>0){cur--;render();}}
+function goSession(s){const i=slides.findIndex(sl=>+sl.dataset.ses===s);if(i>=0){cur=i;render();}closeNav();}
+document.addEventListener('keydown',e=>{const t=document.activeElement.tagName;if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}});
+function toggleNav(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show');}
+function closeNav(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyPlayers HQ | Day 2: Prompting Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #010D07;
+    --bg-glow: #062817;
+    --accent: #22C55E;
+    --accent-hover: #16a34a;
+    --white: #FFFFFF;
+    --silver: #A1A1AA;
+    --gold: #EAB308;
+    --charcoal: #18181B;
+    --pill-bg: #166534;
+    --card-bg: #0f1a14;
+    --border: #1e2e26;
+    --red: #ef4444;
+    --sidebar-w: 260px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--silver);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed; top: 0; left: 0;
+    width: var(--sidebar-w); height: 100vh;
+    background: var(--charcoal);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; z-index: 100;
+    display: flex; flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo {
+    font-size: 17px; font-weight: 800;
+    color: var(--white); letter-spacing: -0.3px;
+  }
+  .sidebar-logo span { color: var(--accent); }
+  .sidebar-day {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--accent); margin-top: 6px;
+  }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .sidebar-nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; color: var(--silver);
+    text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
+  }
+  .sidebar-nav a:hover { color: var(--white); background: rgba(34,197,94,0.06); }
+  .sidebar-nav a.active {
+    color: var(--accent);
+    background: rgba(34,197,94,0.08);
+    border-left-color: var(--accent);
+  }
+  .sidebar-nav a .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--bg-deep); color: var(--silver);
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .sidebar-nav a.active .num { background: var(--pill-bg); color: var(--accent); }
+  .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--border); }
+  .progress-bar {
+    width: 100%; height: 4px;
+    background: var(--bg-deep); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: var(--accent); border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label { font-size: 11px; color: var(--silver); margin-top: 6px; }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: var(--sidebar-w); min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-glow) 0%, var(--bg-deep) 60%);
+  }
+  .content { max-width: 780px; margin: 0 auto; padding: 48px 40px 80px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h1 { font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.2; }
+  .section-subtitle { font-size: 15px; color: var(--silver); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 21px; font-weight: 700; color: var(--white); margin-top: 40px; margin-bottom: 14px; letter-spacing: -0.3px; }
+  h3 { font-size: 16px; font-weight: 600; color: var(--white); margin-top: 28px; margin-bottom: 8px; }
+  p { margin-bottom: 14px; }
+  strong { color: var(--white); font-weight: 600; }
+  em { color: var(--accent); font-style: normal; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 22px; margin: 18px 0;
+  }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-gold { border-left: 3px solid var(--gold); }
+  .card-red { border-left: 3px solid var(--red); }
+  .card-title {
+    font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .card-gold .card-title { color: var(--gold); }
+  .card-red .card-title { color: var(--red); }
+
+  /* ── REVIEW CARD ── */
+  .review-card {
+    background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(234,179,8,0.04));
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 12px; padding: 24px; margin: 20px 0;
+  }
+  .review-card h3 { color: var(--gold); margin-top: 0; }
+
+  /* ── LISTS ── */
+  ul, ol { margin: 10px 0 14px 20px; }
+  li { margin-bottom: 7px; padding-left: 4px; }
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--accent); font-weight: 600; }
+
+  /* ── PROMPT BLOCKS ── */
+  .prompt-block {
+    background: #0c0c0e;
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px;
+    margin: 14px 0;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px; color: #d4d4d8;
+    line-height: 1.7; overflow-x: auto;
+    white-space: pre-wrap; position: relative;
+  }
+  .prompt-label {
+    position: absolute; top: 8px; right: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    color: var(--accent); background: var(--pill-bg);
+    padding: 2px 8px; border-radius: 4px;
+  }
+
+  /* ── TABLES ── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th {
+    text-align: left; padding: 10px 14px;
+    background: var(--charcoal); color: var(--accent);
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--silver); vertical-align: top; }
+  tr:hover td { background: rgba(34,197,94,0.03); }
+
+  /* ── EXERCISES ── */
+  .exercise {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px; margin: 22px 0;
+  }
+  .exercise-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .exercise-badge {
+    background: var(--pill-bg); color: var(--accent);
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 4px 10px; border-radius: 6px; flex-shrink: 0;
+  }
+  .exercise-title { font-size: 15px; font-weight: 600; color: var(--white); }
+
+  /* ── COMPARISON ── */
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .comparison-weak, .comparison-strong { padding: 14px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+  .comparison-weak { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
+  .comparison-strong { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
+  .comparison-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .comparison-weak .comparison-label { color: var(--red); }
+  .comparison-strong .comparison-label { color: var(--accent); }
+
+  /* ── PILLS ── */
+  .pill {
+    display: inline-block;
+    background: var(--pill-bg); color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    margin: 2px 4px 2px 0;
+  }
+
+  /* ── NAV BUTTONS ── */
+  .section-nav {
+    display: flex; justify-content: space-between;
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    padding: 10px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    border: none; cursor: pointer;
+    transition: all 0.15s ease; text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg-deep); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--charcoal); color: var(--silver); border: 1px solid var(--border); }
+  .btn-secondary:hover { color: var(--white); }
+
+  /* ── DETAILS/SUMMARY ── */
+  details {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px; margin: 14px 0; overflow: hidden;
+  }
+  summary {
+    padding: 12px 16px; color: var(--accent);
+    font-weight: 600; cursor: pointer; font-size: 14px;
+  }
+  summary:hover { background: rgba(34,197,94,0.04); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  details > div { padding: 16px; }
+
+  /* ── TIMER ── */
+  .timer-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(234,179,8,0.1);
+    border: 1px solid rgba(234,179,8,0.3);
+    color: var(--gold); font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 20px;
+  }
+
+  /* ── BLOCK ITEM (Building Blocks) ── */
+  .block-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .block-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .block-num {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--pill-bg);
+    color: var(--accent);
+    font-size: 15px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .block-name { font-size: 17px; font-weight: 700; color: var(--white); }
+  .block-body { padding: 16px 20px; }
+  .block-body p { margin-bottom: 10px; }
+  .block-skip {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(239,68,68,0.07);
+    border: 1px solid rgba(239,68,68,0.18);
+    border-radius: 7px; padding: 10px 14px;
+    font-size: 13px; color: #fca5a5;
+    margin-top: 10px;
+  }
+  .block-skip::before { content: "✗"; color: var(--red); font-weight: 700; flex-shrink: 0; }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; margin: 14px 0; padding: 0; }
+  .step-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: var(--pill-bg); color: var(--accent);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(34,197,94,0.06);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 9px; padding: 14px 16px; margin: 16px 0;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { font-size: 14px; line-height: 1.6; }
+  .callout-body strong { color: var(--white); }
+
+  /* ── DIAGNOSIS GRID ── */
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .diag-cell {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 16px;
+  }
+  .diag-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--accent); margin-bottom: 6px; }
+  .diag-cell p { margin: 0; font-size: 13px; }
+
+  /* ── MOBILE HEADER ── */
+  .mobile-header {
+    display: none; position: fixed; top: 0; left: 0; right: 0;
+    background: var(--charcoal); border-bottom: 1px solid var(--border);
+    padding: 12px 16px; z-index: 101;
+    align-items: center; justify-content: space-between;
+  }
+  .hamburger { background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+  .overlay.show { display: block; }
+
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .mobile-header { display: flex; }
+    .main { margin-left: 0; padding-top: 56px; }
+    .content { padding: 24px 16px 60px; }
+    .comparison { grid-template-columns: 1fr; }
+    .diag-grid { grid-template-columns: 1fr; }
+  }
+  .course-nav { padding: 12px 20px; border-top: 1px solid var(--border); background: rgba(34,197,94,0.04); }
+  .course-nav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 8px; }
+  .course-nav a { display: block; padding: 6px 0; color: var(--silver); text-decoration: none; font-size: 12px; font-weight: 500; transition: color 0.15s; }
+  .course-nav a:hover { color: var(--white); }
+  .course-nav a.current { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="mobile-header">
+  <span style="font-weight:700;color:var(--white);">Key<span style="color:var(--accent);">Players</span> HQ</span>
+  <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Key<span>Players</span> HQ</div>
+    <div class="sidebar-day">Day 2 &nbsp;|&nbsp; Prompting Mastery</div>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#" onclick="goTo(0);return false;" data-section="0" class="active"><span class="num">1</span>Day 1 Review</a>
+    <a href="#" onclick="goTo(1);return false;" data-section="1"><span class="num">2</span>The 5 Building Blocks</a>
+    <a href="#" onclick="goTo(2);return false;" data-section="2"><span class="num">3</span>Prompt Formulas</a>
+    <a href="#" onclick="goTo(3);return false;" data-section="3"><span class="num">4</span>Advanced Techniques</a>
+    <a href="#" onclick="goTo(4);return false;" data-section="4"><span class="num">5</span>Debugging Bad Output</a>
+    <a href="#" onclick="goTo(5);return false;" data-section="5"><span class="num">6</span>Practice Lab</a>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 of 6 completed</div>
+  </div>
+  <div class="course-nav">
+    <div class="course-nav-label">Course Navigation</div>
+    <a href="Day01_AI_Fundamentals.html">Day 1 &mdash; AI Fundamentals</a>
+    <a href="#" class="current">Day 2 &mdash; Prompting Mastery</a>
+    <a href="Day03_Tool_Selection.html">Day 3 &mdash; Tool Selection</a>
+    <a href="Day04_Claude_Deep_Dive.html">Day 4 &mdash; Claude Deep Dive</a>
+    <a href="Day05_Cowork_Agentic_AI.html">Day 5 &mdash; Cowork &amp; Agentic AI</a>
+    <a href="Day06_GoHighLevel_Foundations.html">Day 6 &mdash; GoHighLevel Foundations</a>
+    <a href="Day07_GHL_Automation_Workflows.html">Day 7 &mdash; GHL Automation &amp; API</a>
+    <a href="Day08_AI_Meetings_PM_Messaging.html">Day 8 &mdash; AI Meetings &amp; Integrations</a>
+  </div>
+</nav>
+
+<div class="main"><div class="content">
+
+<!-- S0: DAY 1 REVIEW -->
+<section class="section active" id="s0">
+  <h1>Day 1 Review</h1>
+  <p class="section-subtitle">Quick recap before we go deep on the most important skill in this entire course: writing prompts that actually work.</p>
+  <div class="timer-badge">&#9201; 10 min</div>
+
+  <div class="review-card">
+    <h3>Yesterday's Key Points</h3>
+    <p><strong>AI is a prediction engine, not a thinking machine.</strong> It reads what you write and predicts what should come next, based on patterns learned from billions of examples. It doesn't understand. It predicts.</p>
+    <p><strong>Hallucinations are real and dangerous.</strong> AI will state incorrect information with complete confidence. It doesn't know it's wrong. Dates, numbers, names, and facts are the most common failure points.</p>
+    <p><strong>The Trust Scale:</strong> Use AI freely for brainstorming and first drafts. Use it carefully for emails and summaries. Never trust it blindly for published facts, legal info, or anything with a client's name on it.</p>
+    <p><strong>AI does three things:</strong> Generate new content, summarize existing content, and transform content from one format to another.</p>
+    <p style="margin:0;"><strong>Your role never changes:</strong> AI drafts. You decide. You are the operator. AI is the tool.</p>
+  </div>
+
+  <div class="card" style="border-color:var(--accent);margin-top:8px;">
+    <div class="card-title" style="color:var(--accent);">&#128172; Open Discussion — Let's Hear From You</div>
+    <p style="margin-bottom:14px;color:var(--silver);">No right or wrong answers. Just share what came to mind.</p>
+    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;">
+      <li style="padding:10px 14px;background:var(--bg-deep);border-radius:8px;border-left:3px solid var(--accent);">Did anything from Day 1 surprise you — or confirm something you already suspected?</li>
+      <li style="padding:10px 14px;background:var(--bg-deep);border-radius:8px;border-left:3px solid var(--accent);">Have you tried using AI for anything since the last session? What happened?</li>
+      <li style="padding:10px 14px;background:var(--bg-deep);border-radius:8px;border-left:3px solid var(--accent);">What's one task you kept doing manually that you now think AI might help with?</li>
+      <li style="padding:10px 14px;background:var(--bg-deep);border-radius:8px;border-left:3px solid var(--accent);">Any concerns or questions left over from last time?</li>
+    </ul>
+  </div>
+
+  <div class="section-nav">
+    <span></span>
+    <button class="btn btn-primary" onclick="goTo(1)">The 5 Building Blocks &rarr;</button>
+  </div>
+</section>
+
+<!-- S1: THE 5 BUILDING BLOCKS -->
+<section class="section" id="s1">
+  <h1>The 5 Building Blocks of a Great Prompt</h1>
+  <p class="section-subtitle">The single most important lesson in this course. Prompting is a learnable skill — and these five elements are its foundation. Master these and your AI output will be unrecognisable from what most people get.</p>
+  <div class="timer-badge">&#9201; 30 min</div>
+
+  <div class="card card-accent">
+    <div class="card-title">The golden rule</div>
+    <p style="color:var(--white);font-size:17px;font-weight:600;margin-bottom:6px;">Treat AI like a smart new hire on their very first day.</p>
+    <p style="margin:0;">They are intelligent, eager, and capable — but they don't know your company, your client, your tone, or what "good" looks like. The more context and direction you give them, the better they perform. Leave them to figure it out alone, and you'll be disappointed.</p>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">1</div>
+      <div class="block-name">Role</div>
+    </div>
+    <div class="block-body">
+      <p>Tell the AI <strong>who it should be</strong>. This sets its tone, vocabulary, level of formality, and professional perspective. It's the fastest way to get output that sounds like it comes from the right place.</p>
+      <div class="comparison">
+        <div class="comparison-weak"><div class="comparison-label">Without Role</div>"Write a social media post."<br><br><span style="color:var(--silver);font-size:12px;">AI picks a random voice — could be anything.</span></div>
+        <div class="comparison-strong"><div class="comparison-label">With Role</div>"You are a social media manager for a virtual staffing company that places trained VAs with busy business owners."<br><br><span style="color:var(--accent);font-size:12px;">AI now writes for the right audience in the right voice.</span></div>
+      </div>
+      <div class="block-skip">If you skip the role, AI defaults to a generic "helpful assistant" voice that often sounds corporate, bland, and off-brand.</div>
+    </div>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">2</div>
+      <div class="block-name">Task</div>
+    </div>
+    <div class="block-body">
+      <p>Tell the AI <strong>exactly what you want done</strong>. Be specific about the format, the length, the deliverable. Vague tasks produce vague results — every time.</p>
+      <div class="comparison">
+        <div class="comparison-weak"><div class="comparison-label">Vague Task</div>"Help me with emails."<br><br><span style="color:var(--silver);font-size:12px;">AI doesn't know what "help" means here. Write? Review? Summarize? You'll get a generic response.</span></div>
+        <div class="comparison-strong"><div class="comparison-label">Specific Task</div>"Write a follow-up email to a client who hasn't responded in 5 days. Under 100 words. Friendly but professional. End with a soft call to action."<br><br><span style="color:var(--accent);font-size:12px;">AI now knows the output, the length, the tone, and the goal.</span></div>
+      </div>
+      <div class="block-skip">Without a clear task, AI will guess — and its guess may be the opposite of what you need.</div>
+    </div>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">3</div>
+      <div class="block-name">Context</div>
+    </div>
+    <div class="block-body">
+      <p>Give the AI the <strong>background it needs</strong> — the same information you'd give a new team member starting a task. Who is this for? What are they like? What's the situation? What has happened before?</p>
+      <div class="comparison">
+        <div class="comparison-weak"><div class="comparison-label">No Context</div>"Write a post about our service."<br><br><span style="color:var(--silver);font-size:12px;">AI invents context. The result could be anything.</span></div>
+        <div class="comparison-strong"><div class="comparison-label">Rich Context</div>"We're KeyPlayers HQ. We place trained virtual assistants with overwhelmed entrepreneurs who are doing everything alone. Our clients are typically coaches, consultants, and agency owners. The post is for LinkedIn."<br><br><span style="color:var(--accent);font-size:12px;">AI now knows the company, the client, and the channel.</span></div>
+      </div>
+      <div class="block-skip">Missing context is the #1 reason AI gives you something that's technically correct but completely wrong for your situation.</div>
+    </div>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">4</div>
+      <div class="block-name">Constraints</div>
+    </div>
+    <div class="block-body">
+      <p>Tell the AI what to <strong>avoid, stay within, or not cross</strong>. Constraints are the guardrails that keep output usable without heavy editing.</p>
+      <p>Common constraints to always consider:</p>
+      <ul>
+        <li>"Keep it under 150 words."</li>
+        <li>"Do not use emojis."</li>
+        <li>"Write at a 9th-grade reading level — simple words, short sentences."</li>
+        <li>"No bullet points — write in paragraphs."</li>
+        <li>"Do not mention competitors by name."</li>
+        <li>"Do not invent facts, stats, or quotes."</li>
+        <li>"Do not start the email with 'I hope this email finds you well.'"</li>
+      </ul>
+      <div class="block-skip">Without constraints, AI adds what it thinks will be helpful — emojis, corporate phrases, extra paragraphs — that you then have to strip out manually.</div>
+    </div>
+  </div>
+
+  <div class="block-item">
+    <div class="block-header">
+      <div class="block-num">5</div>
+      <div class="block-name">Examples</div>
+    </div>
+    <div class="block-body">
+      <p>Show the AI what <strong>good looks like</strong> by pasting a real example. This is the most underused technique and one of the most powerful. When words fail to describe what you want, an example shows it instantly.</p>
+      <div class="prompt-block"><span class="prompt-label">With Example</span>Write a LinkedIn caption in this exact style:
+
+[paste your best-performing LinkedIn post here]
+
+Topic: Why business owners should hire a VA before they think they're ready.</div>
+      <p>Examples work for: writing style, email tone, content format, caption length, vocabulary level — anything where "sound like this" is easier than describing it in words.</p>
+      <div class="block-skip">Without examples, AI guesses your style. It might be close. It won't be exact. Examples eliminate the gap.</div>
+    </div>
+  </div>
+
+  <h2>Putting It All Together</h2>
+  <p>A great prompt uses most or all five blocks. Here's what a full prompt looks like in practice:</p>
+  <div class="prompt-block"><span class="prompt-label">Full Prompt</span>You are an executive assistant at KeyPlayers HQ, a virtual staffing company.
+
+Task: Write a follow-up email to Marcus, a real estate broker who expressed interest in hiring a VA last week but hasn't replied since our initial call.
+
+Context: Marcus runs a 6-person brokerage. He said his biggest pain point is managing his inbox and missing leads. Our last call was Tuesday.
+
+Constraints:
+- Under 120 words
+- Warm and professional — not pushy
+- One clear next step at the end (suggest a short 15-min call)
+- No buzzwords or corporate filler
+
+Example tone: [paste a previous email you want to match]</div>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><strong>You don't always need all five.</strong> A quick task ("summarize this paragraph in 2 sentences") doesn't need a full role or example. But any time you need quality, professional output — use all five.</div>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(0)">&larr; Review</button>
+    <button class="btn btn-primary" onclick="goTo(2)">Prompt Formulas &rarr;</button>
+  </div>
+</section>
+
+<!-- S2: PROMPT FORMULAS -->
+<section class="section" id="s2">
+  <h1>Prompt Formulas</h1>
+  <p class="section-subtitle">Ready-to-use templates for the tasks VAs do most often. Copy, fill in the brackets, and run. These are your starting points — always customise before sending to AI.</p>
+  <div class="timer-badge">&#9201; 25 min</div>
+
+  <h2>The All-Purpose VA Prompt</h2>
+  <p>Use this when you're not sure which template fits. It works for almost anything.</p>
+  <div class="prompt-block"><span class="prompt-label">Template</span>You are a [role — e.g., executive assistant / social media manager] working for [client name and a brief description of their business].
+
+Task: [specific thing you need done — be precise about the deliverable]
+
+Context: [relevant background — who this is for, what has happened, what they care about]
+
+Constraints:
+- [word count, format, length]
+- [tone — e.g., professional / warm / casual]
+- [what to avoid]
+- [anything else AI must not do]
+
+Output format: [how you want the result — e.g., one email, a bulleted list, a table with 3 columns]</div>
+
+  <h2>The Email Draft Prompt</h2>
+  <div class="prompt-block"><span class="prompt-label">Template</span>Write a [type: follow-up / introduction / re-engagement / reply / cold outreach] email.
+
+Sender: [who is sending it — name and role]
+Recipient: [who they are and your relationship with them]
+Purpose: [what you want to achieve — the one thing this email must do]
+Tone: [professional / warm / casual / direct / urgent]
+Length: [short = under 80 words / medium = 100-150 words / detailed = 200+ words]
+
+Key points to include:
+- [point 1]
+- [point 2]
+- [point 3]
+
+Avoid: [anything off-limits — overused phrases, jargon, pushy language]
+
+Sign-off style: [e.g., "Best, Sarah" / "Thanks, Marcus"]</div>
+
+  <h2>The Content Creation Prompt</h2>
+  <div class="prompt-block"><span class="prompt-label">Template</span>Write a [format: post / caption / newsletter intro / video script] for [platform: LinkedIn / Instagram / Facebook / email].
+
+Brand: [company name and what they do in one sentence]
+Audience: [who will read this — be specific about who they are and what they care about]
+Topic: [subject matter]
+Goal: [inform / entertain / build trust / drive action]
+Tone: [describe the voice — e.g., "confident, warm, no jargon, speaks to busy business owners"]
+Length: [word count, or time if it's a script]
+
+Hook requirement: Start with a line that stops the scroll. Do not start with the brand name.
+
+Reference style: [paste an example post if you have one]</div>
+
+  <h2>The SOP Creation Prompt</h2>
+  <p>Use this when a client asks you to document a process so others can follow it.</p>
+  <div class="prompt-block"><span class="prompt-label">Template</span>Create a Standard Operating Procedure (SOP) for the following task.
+
+Task: [name of the process — e.g., "How to triage a client's inbox every morning"]
+
+Audience: [who will follow this SOP — e.g., new VA starting their first week]
+
+Included steps I know:
+- [step 1]
+- [step 2]
+- [step 3 — add as many as you know]
+
+Format: Numbered steps. Each step should be one clear action. Add a brief explanation of WHY after any step that's not obvious. End with a "Common Mistakes" section listing 3 things people get wrong.
+
+Tone: Clear, direct, friendly. Write as if explaining to someone doing this for the first time.</div>
+
+  <h2>The Research Briefing Prompt</h2>
+  <p>Use when a client asks you to research a topic and summarize what you find.</p>
+  <div class="prompt-block"><span class="prompt-label">Template</span>You are a research assistant preparing a briefing for [client name/role].
+
+Research topic: [what you need to know about]
+
+Purpose of this briefing: [what the client will use this for — e.g., preparing for a sales call, evaluating a competitor, making a hiring decision]
+
+Format:
+- Executive Summary (3-4 sentences — what they need to know, bottom line first)
+- Key Findings (5-7 bullet points, most important first)
+- Questions This Raises (2-3 things worth investigating further)
+
+Constraints:
+- Use plain language — no academic jargon
+- Do not include information you're not confident about. If something is unclear, say so.
+- Keep the Executive Summary under 80 words</div>
+
+  <h2>The Meeting Recap Prompt</h2>
+  <div class="prompt-block"><span class="prompt-label">Template</span>You are an executive assistant. Create a meeting recap from the notes below.
+
+Meeting: [meeting name / date]
+Attendees: [list of people]
+Raw notes: [paste your rough notes or transcript]
+
+Recap format:
+1. Meeting Purpose (1 sentence)
+2. Key Decisions Made (bullet points)
+3. Action Items (table: Who | What | By When)
+4. Open Questions (items that weren't resolved and need follow-up)
+
+Tone: Professional and concise. Busy people will read this. Lead with the most important information.</div>
+
+  <div class="callout">
+    <div class="callout-icon">📌</div>
+    <div class="callout-body"><strong>Save your best prompts.</strong> Every time you build a prompt that produces great output, save it in a doc called "Prompt Library." Over time, this becomes one of your most valuable professional assets.</div>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(1)">&larr; Building Blocks</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Advanced Techniques &rarr;</button>
+  </div>
+</section>
+
+<!-- S3: ADVANCED TECHNIQUES -->
+<section class="section" id="s3">
+  <h1>Advanced Prompting Techniques</h1>
+  <p class="section-subtitle">These techniques separate good prompters from great ones. Each takes 5 minutes to learn and pays back in hours saved.</p>
+  <div class="timer-badge">&#9201; 25 min</div>
+
+  <h2>1. Chain of Thought — Make AI Think Out Loud</h2>
+  <p>Most people ask AI for an answer. Chain of Thought asks AI to show its reasoning first. This leads to better, more reliable answers — especially for decisions, comparisons, or anything with multiple factors.</p>
+  <p><strong>How to trigger it:</strong> Add "Think step by step" or "Walk me through your reasoning before giving a final answer."</p>
+  <div class="prompt-block"><span class="prompt-label">Example</span>A client wants to know whether to hire a full-time VA or use a VA agency. Their team is 4 people, they have a $2,000/month budget, and their biggest needs are inbox management and content scheduling.
+
+Think step by step through the trade-offs, then give a clear recommendation.</div>
+  <p>When AI shows its work, you can also catch it reasoning incorrectly — and correct it mid-way. That's impossible if you only see the final answer.</p>
+
+  <h2>2. Few-Shot Prompting — Teach by Example</h2>
+  <p>Instead of describing the output you want, you show 2–3 examples and ask AI to match the pattern. This is the fastest way to get consistent style, format, or tone across multiple outputs.</p>
+  <div class="prompt-block"><span class="prompt-label">Example</span>Convert these rough client notes into clean, professional task descriptions.
+
+Example 1:
+Notes: "need someone to handle IG 3x a week"
+Task: Manage Instagram content calendar — create and schedule 3 posts per week, including caption, hashtags, and optimal posting time.
+
+Example 2:
+Notes: "inbox is out of control"
+Task: Perform daily email triage — sort by priority, flag urgent items, archive completed threads, draft responses for items flagged by client.
+
+Example 3:
+Notes: "website hasn't been touched in 2 years"
+Task: Audit website for outdated content, broken links, and missing CTAs. Prepare a prioritised update list with estimated effort for each item.
+
+Now convert this:
+Notes: "client onboarding is a mess, takes forever"</div>
+  <p>The more precise your examples, the more precisely AI matches them. Use your own best work as examples — it learns your standard.</p>
+
+  <h2>3. Iterative Prompting — Refine in Rounds</h2>
+  <p>Don't try to get everything perfect in one prompt. Start broad, evaluate the output, then give specific feedback. Each round gets you closer. Most experienced prompters use 2–4 rounds for high-quality output.</p>
+  <div class="card">
+    <p><strong>Round 1 (Generate):</strong> "Give me 10 subject line options for a cold email to real estate agents about hiring a VA."</p>
+    <p><strong>Round 2 (Narrow):</strong> "Options 3 and 7 are the closest to what I want. Keep the urgency from 3 and the curiosity angle from 7. Give me 5 more that blend both."</p>
+    <p><strong>Round 3 (Polish):</strong> "Good. Use option 2 from that list. Now write the full email body — 120 words, professional but not stiff, end with a clear CTA to book a 15-min call."</p>
+    <p style="margin:0;"><strong>Round 4 (Refine):</strong> "The third paragraph is too salesy. Soften it. Keep the rest."</p>
+  </div>
+
+  <h2>4. Prompt Chaining — Output Feeds the Next Prompt</h2>
+  <p>For complex deliverables, break the work into a chain where each prompt builds on the last. This keeps AI focused and gives you checkpoints to review before moving forward.</p>
+  <div class="card">
+    <p><strong>Chain for a Content Strategy:</strong></p>
+    <ol>
+      <li>Prompt 1: "Based on this client's business, generate 5 content pillars for their LinkedIn." → <em>Review the pillars</em></li>
+      <li>Prompt 2: "Using Pillar 2 (Social Proof), give me 8 post ideas." → <em>Choose 3</em></li>
+      <li>Prompt 3: "Write full posts for ideas 1, 4, and 6 using these brand guidelines: [paste]" → <em>Review and edit</em></li>
+    </ol>
+    <p style="margin:0;">Each step is reviewable. You catch problems early instead of getting one big output that has problems buried inside.</p>
+  </div>
+
+  <h2>5. The "Act As" Extension</h2>
+  <p>Extending the Role block: instead of just naming the role, describe how that role thinks and behaves. This pushes AI into a more specific and useful persona.</p>
+  <div class="prompt-block"><span class="prompt-label">Example</span>Act as a senior executive assistant who has worked with a Type-A CEO for 10 years. You are proactive, not reactive. You anticipate problems before they happen. You communicate in short, direct sentences. You do not pad responses with unnecessary pleasantries.
+
+Task: Review this meeting agenda and flag any items that could turn into a longer discussion than scheduled. Suggest how to tighten it.</div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(2)">&larr; Formulas</button>
+    <button class="btn btn-primary" onclick="goTo(4)">Debugging Bad Output &rarr;</button>
+  </div>
+</section>
+
+<!-- S4: DEBUGGING BAD OUTPUT -->
+<section class="section" id="s4">
+  <h1>Debugging Bad Output</h1>
+  <p class="section-subtitle">AI gave you something unusable. Before you start over, diagnose why. There are five root causes — and each has a specific fix.</p>
+  <div class="timer-badge">&#9201; 15 min</div>
+
+  <div class="card card-accent">
+    <div class="card-title">The most important mindset shift</div>
+    <p style="margin:0;color:var(--white);">When AI gives you bad output, your instinct might be to try again with the same prompt. Resist that. <strong>Bad output is diagnostic information.</strong> It tells you what was missing from your prompt. The fix almost always lives in the prompt — not in AI.</p>
+  </div>
+
+  <h2>The 5 Root Causes of Bad Output</h2>
+
+  <table>
+    <thead>
+      <tr><th>What Went Wrong</th><th>Signs</th><th>Fix</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--white);font-weight:600;">No Role</td>
+        <td>Output sounds generic, bland, or wrong for the brand</td>
+        <td>Add: "You are a [specific role] working for [specific business]."</td>
+      </tr>
+      <tr>
+        <td style="color:var(--white);font-weight:600;">Vague Task</td>
+        <td>Output is technically an answer but not what you needed</td>
+        <td>Rewrite the task to specify format, length, and exact deliverable</td>
+      </tr>
+      <tr>
+        <td style="color:var(--white);font-weight:600;">Missing Context</td>
+        <td>Output is generic — could apply to any client or any situation</td>
+        <td>Add the who, what, when, and why before the task</td>
+      </tr>
+      <tr>
+        <td style="color:var(--white);font-weight:600;">No Constraints</td>
+        <td>Output is too long, too formal, full of jargon, or missing key restrictions</td>
+        <td>Add a bulleted list of constraints: length, tone, what to avoid</td>
+      </tr>
+      <tr>
+        <td style="color:var(--white);font-weight:600;">Task Too Big</td>
+        <td>Output is shallow, incomplete, or jumps between ideas without depth</td>
+        <td>Break into smaller prompts. Chain them. Do one thing at a time.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>The 5 Diagnostic Questions</h2>
+  <p>When output misses the mark, ask yourself these questions in order. The first question that reveals a gap is your fix.</p>
+
+  <div class="diag-grid">
+    <div class="diag-cell">
+      <div class="diag-label">Question 1</div>
+      <p><strong>Did I tell AI who it should be?</strong><br>If not → Add the Role.</p>
+    </div>
+    <div class="diag-cell">
+      <div class="diag-label">Question 2</div>
+      <p><strong>Was my task specific enough?</strong><br>If not → Rewrite the Task with a precise deliverable.</p>
+    </div>
+    <div class="diag-cell">
+      <div class="diag-label">Question 3</div>
+      <p><strong>Did AI have enough background?</strong><br>If not → Add Context before the task.</p>
+    </div>
+    <div class="diag-cell">
+      <div class="diag-label">Question 4</div>
+      <p><strong>Did I set limits on what it can/can't do?</strong><br>If not → Add Constraints.</p>
+    </div>
+    <div class="diag-cell">
+      <div class="diag-label">Question 5</div>
+      <p><strong>Did I show it an example?</strong><br>If not → Paste a reference example.</p>
+    </div>
+    <div class="diag-cell">
+      <div class="diag-label">Question 6</div>
+      <p><strong>Was the task too big for one prompt?</strong><br>If so → Break it into a chain.</p>
+    </div>
+  </div>
+
+  <h2>When to Start Over vs. When to Iterate</h2>
+  <div class="comparison">
+    <div class="comparison-weak">
+      <div class="comparison-label">Start Over When...</div>
+      <ul style="margin:6px 0 0 14px;padding:0;">
+        <li>The output is completely off-topic</li>
+        <li>The tone is completely wrong</li>
+        <li>You realise your prompt was structurally missing a block</li>
+        <li>You gave AI the wrong context</li>
+      </ul>
+    </div>
+    <div class="comparison-strong">
+      <div class="comparison-label">Iterate When...</div>
+      <ul style="margin:6px 0 0 14px;padding:0;">
+        <li>The output is close but needs a specific adjustment</li>
+        <li>One section is wrong but the rest is good</li>
+        <li>The structure is right but the tone needs tuning</li>
+        <li>You want to build on what's there</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">🔁</div>
+    <div class="callout-body"><strong>Iterating is not failing.</strong> Every professional who uses AI iterates. The goal isn't a perfect first prompt — it's a great final output. Two or three rounds is completely normal for anything important.</div>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(3)">&larr; Advanced Techniques</button>
+    <button class="btn btn-primary" onclick="goTo(5)">Practice Lab &rarr;</button>
+  </div>
+</section>
+
+<!-- S5: PRACTICE LAB -->
+<section class="section" id="s5">
+  <h1>Practice Lab</h1>
+  <p class="section-subtitle">The only way to get better at prompting is to practise it. These exercises give you real scenarios from VA work — not textbook examples.</p>
+  <div class="timer-badge">&#9201; 30 min</div>
+
+  <h2>Common Mistakes — Quick Reference</h2>
+  <table>
+    <thead><tr><th>Mistake</th><th>Why It Happens</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Being too vague</td><td>We know what we want — AI doesn't</td><td>Use all 5 blocks: Role, Task, Context, Constraints, Examples</td></tr>
+      <tr><td>Asking for too much at once</td><td>AI does everything shallowly instead of one thing well</td><td>Break into steps. Strategy → outline → draft → polish</td></tr>
+      <tr><td>Skipping examples</td><td>Seems faster to describe it in words</td><td>Paste 2–3 real examples. Saves more time than it costs</td></tr>
+      <tr><td>Accepting first output</td><td>It looks "good enough"</td><td>Always read and iterate. One pass is never the best version</td></tr>
+      <tr><td>No constraints</td><td>We assume AI knows what we want</td><td>State limits explicitly: length, tone, what to avoid</td></tr>
+      <tr><td>Not saving good prompts</td><td>Feels like extra work</td><td>Start a Prompt Library doc. Each saved prompt is a future time-saver</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Exercises</h2>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 1</span><span class="exercise-title">The Before / After Test</span></div>
+    <p>Run both prompts in Claude. Compare the outputs side by side. Write down 3 specific differences between what you get.</p>
+    <div class="prompt-block"><span class="prompt-label">Weak</span>Write a welcome email.</div>
+    <div class="prompt-block"><span class="prompt-label">Strong</span>You are an executive assistant at KeyPlayers HQ, a virtual staffing company that places trained VAs with business owners.
+
+Write a welcome email to a new client named Sarah who just signed up for our VA services. Sarah runs a real estate brokerage with 12 agents. She's been overwhelmed managing her inbox and missing leads.
+
+Tone: Warm, professional, confident. Not overly formal. Not salesy.
+Length: Under 150 words.
+Include: What happens next (onboarding call within 48 hours), who to contact with questions (her VA's name, to be filled in), one sentence of reassurance that she made the right call.
+Avoid: Jargon, emojis, generic filler like "We're excited to have you on board."</div>
+    <p style="margin:0;">The quality gap between these two outputs is the value of your prompting skill.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 2</span><span class="exercise-title">Build From Scratch</span></div>
+    <p>Pick a real task you do regularly as a VA (inbox management, scheduling, content, research — anything real). Write a complete prompt using the All-Purpose template. Fill in every bracket. Run it. Then ask yourself:</p>
+    <ul>
+      <li>Did the output match what I was picturing?</li>
+      <li>What was missing or wrong?</li>
+      <li>Which of the 5 blocks would have improved it?</li>
+    </ul>
+    <p style="margin:0;">Iterate at least once based on your diagnosis.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 3</span><span class="exercise-title">The Iteration Drill</span></div>
+    <p>Start with this bare prompt: <em>"Write a short bio for a virtual assistant."</em></p>
+    <p>Run it. Then do four rounds of iteration:</p>
+    <ol>
+      <li>Add who the VA works for and what type of clients they support</li>
+      <li>Add which platform the bio is for (LinkedIn, website, email signature)</li>
+      <li>Add tone and length constraints</li>
+      <li>Paste an example bio you like and ask AI to match that style</li>
+    </ol>
+    <p style="margin:0;">Compare your Round 1 output with your Round 4 output. That gap is what prompting mastery produces.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 4</span><span class="exercise-title">Real Scenario — Email Triage</span></div>
+    <p>You're a VA for a busy real estate coach. She's been away for 3 days and has 47 unread emails. She needs you to prepare a summary before her return.</p>
+    <p>Write a prompt that asks Claude to help you triage the email backlog. Include:</p>
+    <ul>
+      <li>Role (who Claude is acting as)</li>
+      <li>Task (what it should do with the email list)</li>
+      <li>Context (who the client is, what matters to her)</li>
+      <li>Constraints (format of output, what to prioritise)</li>
+    </ul>
+    <p style="margin:0;">Then run your prompt and evaluate the output. Adjust one element and run it again.</p>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-badge">Exercise 5</span><span class="exercise-title">Prompt Audit — Fix What's Broken</span></div>
+    <p>Here is a bad prompt. Identify what's wrong and rewrite it so it would produce a great output:</p>
+    <div class="prompt-block"><span class="prompt-label">Broken Prompt</span>Write something for Instagram about our business. Make it good.</div>
+    <p>Diagnose it using the 5 blocks: What's missing? What's vague? Then write the improved version.</p>
+    <p style="margin:0;font-size:13px;color:var(--silver);">There's no single right answer — there are many good prompts for this task. The goal is to practice adding the missing elements.</p>
+  </div>
+
+  <div class="card card-accent">
+    <div class="card-title">Homework Before Day 3</div>
+    <p><strong>Task 1:</strong> Write 3 prompts for tasks you do regularly. Use the All-Purpose template for each. Save them in a doc labelled "Prompt Library."</p>
+    <p style="margin:0;"><strong>Task 2:</strong> Take one of those prompts and run it 3 times with small changes each round. Bring the original and the best version to Day 3.</p>
+  </div>
+
+  <div class="card card-gold">
+    <div class="card-title">Day 2 Complete</div>
+    <p style="margin:0;">Prompting is a skill, not a talent — and you've now got the framework. The 5 blocks, the templates, the advanced techniques, and the ability to debug bad output. Tomorrow: <strong>choosing the right AI tool for the right task.</strong></p>
+  </div>
+
+  <div class="section-nav">
+    <button class="btn btn-secondary" onclick="goTo(4)">&larr; Debugging</button>
+    <span style="color:var(--silver);font-size:13px;padding:10px;">End of Day 2</span>
+  </div>
+</section>
+
+</div></div>
+
+<script>
+let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const totalSections = sections.length;
+const completed = new Set();
+
+function goTo(n) {
+  completed.add(currentSection);
+  currentSection = n;
+  sections.forEach((el, i) => el.classList.toggle('active', i === n));
+  navLinks.forEach(el => el.classList.toggle('active', parseInt(el.dataset.section) === n));
+  const pct = Math.round((completed.size / totalSections) * 100);
+  const fill = document.getElementById('progressFill');
+  const label = document.getElementById('progressLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = completed.size + ' of ' + totalSections + ' completed';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('overlay')?.classList.remove('show');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar')?.classList.toggle('open');
+  document.getElementById('overlay')?.classList.toggle('show');
+}
+</script>
+</body>
+</html>
