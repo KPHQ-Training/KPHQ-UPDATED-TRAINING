@@ -5,7 +5,7 @@
 // weekend in between (Day 1 Mon ... Day 5 Fri, Day 6 Mon ... Day 10 Fri).
 // That's the only edit needed — every Day page computes its own unlock date
 // from this automatically via DAY_INDEX in its CONFIG.
-window.CLASS_START_DATE = '2026-07-20';
+window.CLASS_START_DATE = '2026-08-24';
 
 // Returns the unlock Date (midnight Eastern) for a given day index
 // (1 = Day 1 ... 10 = Day 10), counting weekdays only.
