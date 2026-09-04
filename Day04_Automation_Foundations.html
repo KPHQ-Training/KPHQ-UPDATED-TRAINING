@@ -1277,9 +1277,8 @@ function kpShowAdminBadge(){
 }
 function kpCheckAccess(){
   if(new URLSearchParams(window.location.search).has('admin')){ kpShowAdminBadge(); return; }
-  if(new URLSearchParams(window.location.search).has('go')){localStorage.setItem('kp_go_'+CONFIG.DAY,'1');}
   var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);
-  if(new Date()<unlock&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
+  if(new Date()<unlock){
     var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     var fn=function(){ kpShowLocked('session not yet open',TRACK.DAY+' opens on '+d,'Check back on '+d+'. Your instructor will share the link when the session goes live.'); };
     document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn):fn(); return;
