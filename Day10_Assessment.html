@@ -1469,10 +1469,10 @@ function next(){
     const curSes=+slides[cur].dataset.ses;
     const nxtSes=+slides[cur+1].dataset.ses;
     if(curSes===0&&nxtSes===1&&!isAdminMode&&!localStorage.getItem('kp_go_'+CONFIG.DAY)){
-      var unlock=window.kpUnlockDateForDay(CONFIG.DAY_INDEX);
+      var unlock=new Date('2026-09-18T07:30:00-04:00'); // Day 10 override: locked until 7:30am ET (Jervis, 2026-09-17)
       if(new Date()<unlock){
         var d=unlock.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'America/New_York'});
-        kpShowLocked('assessment not yet open',TRACK.DAY+' questions open '+d,'You can keep reviewing this material any time before then. The graded questions themselves unlock at 12:00 AM Eastern on '+d+'.',true);
+        kpShowLocked('assessment not yet open',TRACK.DAY+' questions open '+d,'You can keep reviewing this material any time before then. The graded questions themselves unlock at 7:30 AM Eastern on '+d+'.',true);
         return;
       }
     }
